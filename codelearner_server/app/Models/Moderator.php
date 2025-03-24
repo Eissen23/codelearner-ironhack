@@ -4,8 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\Pivot;
 
-class Moderator extends Model
+class Moderator extends Pivot
 {
     /** @use HasFactory<\Database\Factories\ModeratorFactory> */
     use HasFactory;
@@ -13,17 +14,10 @@ class Moderator extends Model
     protected $connection = 'mysql'; // This is the connection name in database.php
 
     protected $fillable = [
-        'account_name',
-        'email',
-        'password',
-        'fullname',
+        'user_id',
+        'org_id',
+        'role'
     ];
-
-    protected $hidden = [
-        'password',
-        'remember_token',
-    ];
-
 
     /**
      * Get the attributes that should be cast.
@@ -34,7 +28,19 @@ class Moderator extends Model
     {
         return [
             'created_at' => 'datetime',
-            'password' => 'hashed',
         ];
+    }
+
+    public function updatedAtColumn()
+    {
+        return null;
+    }
+
+    public function user(){
+        return $this->belongsTo(User::class);
+    }
+
+    public function organizations(){
+        return $this->belongsTo(Organization::class);
     }
 }

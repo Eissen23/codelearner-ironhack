@@ -21,4 +21,9 @@ class Organization extends Model
     protected $casts = [
         "created_at" => "datetime",
     ];
+
+    public function user(){
+        return $this->belongsToMany(User::class)
+                    ->use(Moderator::class);
+    }
 }

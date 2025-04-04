@@ -18,6 +18,11 @@ class OrganizationFactory extends Factory
     {
         return [
             //
+            "org_name" => $this->faker->company(),
+            "contact_email" => $this->faker->email(),
+            "website" => $this->faker->domainName(),
+            "description" => $this->faker->text(200),
+            "logo" => $this->faker->imageUrl($width = 640, $height = 480),
         ];
     }
 }

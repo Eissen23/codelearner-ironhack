@@ -10,6 +10,7 @@ class Organization extends Model
     /** @use HasFactory<\Database\Factories\OrganizationFactory> */
     use HasFactory;
 
+    protected $connection = "mysql";
     protected $fillable = [
         "org_name",
         "contact_email",
@@ -25,5 +26,9 @@ class Organization extends Model
     public function user(){
         return $this->belongsToMany(User::class)
                     ->use(Moderator::class);
+    }
+
+    public function course(){
+        return $this->hasMany(Course::class);
     }
 }

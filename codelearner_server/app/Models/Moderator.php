@@ -14,6 +14,8 @@ class Moderator extends Pivot
 
     protected $table = 'moderators';
     protected $fillable = [
+        'user_id',
+        'org_id',
         'role'
     ];
 

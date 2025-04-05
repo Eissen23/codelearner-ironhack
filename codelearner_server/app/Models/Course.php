@@ -16,14 +16,13 @@ class Course extends Model
         'name',
         'description',
         'short_description',
-        'duration'
+        'duration',
+        'org_id'
     ];
-    /**
-     * Get the name of the "updated at" column.
-     *
-     * @return null
-     */
 
+    protected $casts = [
+        'created_at'=> 'datetime',
+    ];
     public function organizations(){
         return $this->belongs_to(Organization::class);
     }

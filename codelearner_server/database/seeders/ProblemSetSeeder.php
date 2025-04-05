@@ -2,11 +2,11 @@
 
 namespace Database\Seeders;
 
-use App\Models\Moderator;
+use App\Models\ProblemSet;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class ModeratorSeeder extends Seeder
+class ProblemSetSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -14,6 +14,6 @@ class ModeratorSeeder extends Seeder
     public function run(): void
     {
         //
-        Moderator::factory()->count(3)->create();
+        ProblemSet::factory()->count(3)->create();
     }
 }

@@ -16,6 +16,7 @@ const Code = () => {
         direction="horizontal"
         cursor="col-resize"
       >
+        Ok
         <Problem />
         <Codespace />
       </Split>

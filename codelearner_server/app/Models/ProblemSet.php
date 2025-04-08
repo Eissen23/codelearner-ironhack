@@ -18,4 +18,8 @@ class ProblemSet extends Model
         'expired_at',
         'org_id',
     ];
+
+    public function organization(){
+        return $this->belongsTo(Organization::class);
+    }
 }

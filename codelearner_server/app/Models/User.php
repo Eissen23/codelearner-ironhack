@@ -3,6 +3,7 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Database\Factories\UserCourseFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -20,9 +21,9 @@ class User extends Authenticatable
      * @var list<string>
      */
     protected $fillable = [
-        'name',
+        'full_name',
+        'account_name',
         'email',
-        'fullname',
         'password',
     ];
 
@@ -54,5 +55,10 @@ class User extends Authenticatable
     public function organizations(){
         return $this->belongsToMany(Organization::class)
         ->using(Moderator::class);
+    }
+
+    public function courses(){
+        return $this->belongsToMany(Course::class)
+        ->using(UserCourse::class);
     }
 }

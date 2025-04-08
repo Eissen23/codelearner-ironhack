@@ -11,14 +11,14 @@ class AuthController extends Controller
     //
     public function register(Request $request){
         $fields = $request->validate([
-            'name' => 'required|string',
-            'email' => 'required|email|unique:users',
+            'account_name' => 'required|string',
             'full_name'=>'required|string',
+            'email' => 'required|email|unique:users',
             'password' => 'required|string|confirmed'
         ]);
 
         $user = User::create($fields); 
-        $token = $user->createToken(request('name')); 
+        $token = $user->createToken(request('account_name')); 
         
         return [
             'token'=> $token->plainTextToken,
@@ -39,7 +39,7 @@ class AuthController extends Controller
             ];
         }
 
-        $token = $user->createToken($user->name);
+        $token = $user->createToken($user->account_name);
         return [
             'token'=> $token->plainTextToken,
             'user'=> $user

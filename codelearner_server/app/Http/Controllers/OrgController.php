@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
+use App\Models\Organization;
 use Illuminate\Http\Request;
 
-class UserController extends Controller
+class OrgController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -13,11 +13,9 @@ class UserController extends Controller
     public function index()
     {
         //
-
-        $users = User::all();
-
+        $orgs = Organization::all();
         return [
-            "users"=> $users,
+            "org" => $orgs
         ];
     }
 
@@ -32,19 +30,20 @@ class UserController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(User $user)
+    public function show(string $id)
     {
-        //
+        // 
+        $organization = Organization::where('org_id', $id)->first();
 
         return [
-            "user"=> $user,
+            "data" => $organization,
         ];
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, User $user)
+    public function update(Request $request, string $id)
     {
         //
     }
@@ -52,7 +51,7 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(User $user)
+    public function destroy(string $id)
     {
         //
     }

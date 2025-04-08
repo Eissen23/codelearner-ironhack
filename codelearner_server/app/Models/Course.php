@@ -17,13 +17,13 @@ class Course extends Model
         'description',
         'short_description',
         'duration',
-        'org_id'
+        'org_id',
     ];
 
     protected $casts = [
         'created_at'=> 'datetime',
     ];
     public function organizations(){
-        return $this->belongs_to(Organization::class);
+        return $this->belongsTo(Organization::class);
     }
 }

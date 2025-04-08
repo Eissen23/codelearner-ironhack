@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 
 class Moderator extends Pivot
@@ -16,7 +17,7 @@ class Moderator extends Pivot
     protected $fillable = [
         'user_id',
         'org_id',
-        'role'
+        'role',
     ];
 
     /**
@@ -39,4 +40,15 @@ class Moderator extends Pivot
     public function organizations(){
         return $this->belongsTo(Organization::class);
     }
+
+    public function articles(){
+        return new HasMany(
+            app(Article::class)->newQuery(),
+            $this,
+            'mod_id',
+            'mod_id'
+        );
+    }
+
+
 }

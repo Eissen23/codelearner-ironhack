@@ -23,7 +23,7 @@ class CourseFactory extends Factory
             "description" => $this->faker->paragraph(3,true),
             "short_description"=> $this->faker->sentence(7,true),
             "duration" => $this->faker->numberBetween(1000,9000),
-            "org_id"=> Organization::inRandomOrder()->first()->org_id
+            "org_id"=> Organization::inRandomOrder()->first()->id
         ];
     }
 }

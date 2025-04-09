@@ -22,7 +22,7 @@ class ProblemSetFactory extends Factory
             "name" => $this->faker->sentence(3, true),
             "description" => $this->faker->sentence(10, true),
             "expired_at" => $this->faker->dateTime(),
-            "org_id" => Organization::inRandomOrder()->first()->org_id,
+            "org_id" => Organization::inRandomOrder()->first()->id,
         ];
     }
 }

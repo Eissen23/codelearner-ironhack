@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('description');
             $table->dateTime('expired_at')->nullable();
             $table->timestamp('created_at');
-            $table->foreignId('org_id')->constrained('organizations', 'org_id')->onDelete('cascade');
+            $table->foreignId('org_id')->constrained('organizations')->onDelete('cascade');
         });
     }
 

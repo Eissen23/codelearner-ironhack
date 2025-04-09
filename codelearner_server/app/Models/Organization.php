@@ -11,6 +11,7 @@ class Organization extends Model
     use HasFactory;
 
     protected $connection = "mysql";
+
     protected $fillable = [
         "org_name",
         "contact_email",

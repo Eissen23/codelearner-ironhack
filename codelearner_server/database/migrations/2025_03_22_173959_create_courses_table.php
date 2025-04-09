@@ -16,11 +16,10 @@ return new class extends Migration
             $table->string('name');
             $table->text('description');
             $table->string('short_description');
-            $table->dateTime('from')->nullable();
-            $table->dateTime('expired_at')->nullable();
+            $table->integer('duration')->default(20);
             $table->timestamp('created_at')->nullable();
 
-            $table->foreignId('org_id')->constrained('organizations', 'org_id')->onDelete('cascade');
+            $table->foreignId('org_id')->constrained('organizations')->onDelete('cascade');
         });
     }
 

@@ -22,7 +22,7 @@ class ModeratorFactory extends Factory
     public function definition(): array
     {   
         do {
-            $orgId = Organization::inRandomOrder()->first()->org_id;
+            $orgId = Organization::inRandomOrder()->first()->id;
             $userId = User::inRandomOrder()->first()->id;
             
             $exists = Moderator::where('org_id', $orgId)

@@ -20,10 +20,17 @@ class ModController extends Controller implements HasMiddleware
         ];
     }
 
-    public function  getModerators(Organization $organization){
-        $moderators = Moderator::where("org_id", $organization->id)
+    public function  getModerators(String $org_id){
+        $moderators = Moderator::where("org_id", $org_id)
             ->all();
         return $moderators;
+    }
+
+    public function  getModerator(String $org_id, String $user_id){
+        $moderator = Moderator::where("org_id", $org_id)
+            ->where("user_id", $user_id)
+            ->first();
+        return $moderator;
     }
 
     /**
@@ -34,10 +41,11 @@ class ModController extends Controller implements HasMiddleware
         //show the moderator in user chosen organization
         // Log::info('OrgPolicy modify method called', ['org'=>$org, 'user' => $request->user()]);
 
-        Gate::authorize("listing", $org);
+        Gate::authorize("moderator", $org);
         
         $users = $org->users()
             ->select(
+                'users.id',
                 'users.full_name',
                 'users.email',
                 'users.account_name',
@@ -52,7 +60,73 @@ class ModController extends Controller implements HasMiddleware
         ];
     }
 
-    public function addModerator(Request $request, Organization $org){
-        
+    // TODO: This section is untested
+
+    public function joinOrg(Request $request, Organization $org){
+        $user = $request->user();
+        //  Log::info('Join Org Called', ['org'=>$org, 'user' => $user]);
+        if (!$user || !$org){
+            return [
+                'message' => 'Fail to register user.id or org.id'
+            ];
+        }
+
+        $mod = Moderator::create(['user_id' =>$user->id, 'org_id' => $org->id,'role' => 'Pending']);
+
+        return [
+            'message' => 'Your submission is pending',
+            'submission' => $mod 
+        ];
     }
+
+
+    public function showMod(Request $request, Organization $org, String $id){
+        Gate::authorize("moderator", $org);
+
+        $mod = $this->getModerator($org->id, $id);
+        $user = $mod->user()->select('full_name', 'account_name', 'email')->get;
+        return [
+            'moderator' => $mod,
+            'user'=> $user,
+        ];
+    }
+
+    public function changeMod(Request $request, Organization $org, String $id){
+        Gate::authorize('orgHead', $org);
+        $mod = $this->getModerator($org->id, $id);
+
+        $status = $request->validate([
+            'role' => 'required|string',
+        ]);
+        switch ($request->input('role')) {
+            case 'OrgHead':
+                break;
+            case 'Moderator':
+                break;
+            default:{
+                $mod->delete();
+                return [
+                    'message'=> 'Request denied'
+                ];      
+            }
+        }
+
+        $mod->update($status);
+        return [
+            'message'=> 'Update success',
+            'role'=> $mod,
+        ];
+    }
+    public function leaveOrg(Request $request, Organization $org) {
+        Gate::authorize('moderator', $org);
+        $user = $request->user();
+
+        $mod = $this->getModerator($org->id, $user->id);
+        $mod->delete();
+
+        return [
+            'message' => 'Leave successfull'  
+        ];
+    }
+
 }

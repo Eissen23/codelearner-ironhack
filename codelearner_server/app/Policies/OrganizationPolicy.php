@@ -20,7 +20,7 @@ class OrganizationPolicy
     }
 
 
-    public function modify(User $user, Organization $organization)
+    public function orgHead(User $user, Organization $organization)
     {   
         $moderator = $this->getMod($organization, $user);
 
@@ -34,12 +34,12 @@ class OrganizationPolicy
         return Response::allow();
     }
 
-    public function listing(User $user, Organization $organization){
+    public function moderator(User $user, Organization $organization){
         // Log::info('OrgPolicy modify method called', ['user_id' => $user->id, 'org_id' => $organization->id]);
         
         $moderator = $this->getMod($organization, $user);
 
-        if (!$moderator) {
+        if (!$moderator && $moderator->role === 'Pending') {
             return Response::deny('You dont have authority to this.', 403);
         }
 

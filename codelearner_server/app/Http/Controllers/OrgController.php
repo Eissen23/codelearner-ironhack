@@ -75,14 +75,12 @@ class OrgController extends Controller implements HasMiddleware
         ];
     }
 
-    // TODO: Test these two method      
-
     /**
      * Update the specified resource in storage.
      */
     public function update(Request $request, Organization $org)
     {
-        Gate::authorize('modify', $org);
+        Gate::authorize('orgHead', $org);
 
         $fields = $request->validate([
             'org_name' => 'string|max:50',
@@ -108,7 +106,7 @@ class OrgController extends Controller implements HasMiddleware
     {
         //
 
-        Gate::authorize('modify', $org);
+        Gate::authorize('orgHead', $org);
 
         Moderator::where('org_id', $org->id)->delete();
 

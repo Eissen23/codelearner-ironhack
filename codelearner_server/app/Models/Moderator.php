@@ -12,8 +12,9 @@ class Moderator extends Pivot
     use HasFactory;
     const UPDATED_AT = null;
     protected $connection = 'mysql'; // This is the connection name in database.php
-
+   
     protected $table = 'moderators';
+
     protected $fillable = [
         'user_id',
         'org_id',
@@ -37,7 +38,7 @@ class Moderator extends Pivot
         return $this->belongsTo(User::class);
     }
 
-    public function organizations(){
+    public function organization(){
         return $this->belongsTo(Organization::class);
     }
 

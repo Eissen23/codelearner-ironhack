@@ -25,7 +25,8 @@ class Article extends Model
             app(Moderator::class)->newQuery(),
             $this->id,
             'mod_id',
-            'mod_id'
+            'mod_id',
+            Moderator::class
         );
     }
 }

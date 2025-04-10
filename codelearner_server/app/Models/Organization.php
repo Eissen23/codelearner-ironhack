@@ -24,9 +24,10 @@ class Organization extends Model
         "created_at" => "datetime",
     ];
 
-    public function user(){
-        return $this->belongsTo(User::class)
-                    ->use(Moderator::class);
+    public function users(){
+        return $this->belongsToMany(User::class, 'moderators', 'org_id', 'user_id')
+                    ->using(Moderator::class)
+                    ->withPivot('role');
     }
 
     public function course(){

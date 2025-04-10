@@ -10,6 +10,28 @@ return Application::configure(basePath: dirname(__DIR__))
         api: __DIR__.'/../routes/api.php',
         commands: __DIR__.'/../routes/console.php',
         health: '/up',
+        then: function () {
+            Route::middleware('api')
+                ->prefix('admin_api')
+                ->group( function () {
+                    Route::prefix('account')
+                        ->group([
+                            __DIR__.'/../routes/admin_api/user.php',
+                    ]);
+                    Route::prefix('orgs')
+                        ->group([
+                            __DIR__.'/../routes/admin_api/orgs.php',
+                    ]);
+                });
+            Route::middleware('web')
+                ->prefix('admin')
+                ->group(function () {
+                    Route::middleware(['auth:sanctum'])
+                        ->group([
+                            __DIR__.'/../routes/admin/admin.php',
+                    ]);
+                });
+        }
     )
     ->withMiddleware(function (Middleware $middleware) {
         //

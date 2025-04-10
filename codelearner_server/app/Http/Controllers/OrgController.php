@@ -16,9 +16,7 @@ use Illuminate\Support\Facades\Gate;
 
 class OrgController extends Controller implements HasMiddleware
 {
-    /**
-     * Display a listing of the resource.
-     */
+
     public static function middleware(){
         return [
             new Middleware('auth:sanctum', except :['index', 'show']),
@@ -59,7 +57,7 @@ class OrgController extends Controller implements HasMiddleware
 
         return [
             'organization' => $organization,
-            'admin' => $moderator,
+            'head' => $moderator,
         ];
 
     }

@@ -11,11 +11,19 @@ use Illuminate\Support\Facades\Log;
 
 class OrganizationPolicy 
 {
+
+    public function  getMod(Organization $organization, User $user){
+        $moderator = Moderator::where("org_id", $organization->id)
+            ->where("user_id", $user->id)
+            ->first();
+        return $moderator;
+    }
+
+
     public function modify(User $user, Organization $organization)
     {   
-        $moderator = Moderator::where('user_id', '=',$user->id)
-            -> where('org_id','=', $organization->id)
-            ->first();
+        $moderator = $this->getMod($organization, $user);
+
         if (!$moderator) {
             return Response::deny('You dont have authority to this.', 403);
         }
@@ -24,7 +32,18 @@ class OrganizationPolicy
         }
 
         return Response::allow();
+    }
+
+    public function listing(User $user, Organization $organization){
+        // Log::info('OrgPolicy modify method called', ['user_id' => $user->id, 'org_id' => $organization->id]);
         
+        $moderator = $this->getMod($organization, $user);
+
+        if (!$moderator) {
+            return Response::deny('You dont have authority to this.', 403);
+        }
+
+        return Response::allow();
     }
 
 }

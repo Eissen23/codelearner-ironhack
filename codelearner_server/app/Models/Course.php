@@ -23,7 +23,7 @@ class Course extends Model
     protected $casts = [
         'created_at'=> 'datetime',
     ];
-    public function organizations(){
-        return $this->belongsTo(Organization::class);
+    public function organization(){
+        return $this->belongsTo(Organization::class, 'org_id');
     }
 }

@@ -22,6 +22,12 @@ class OrganizationPolicy
 
     public function orgHead(User $user, Organization $organization)
     {   
+        // Log::info('OrgPolicy orghead method called', ['user_id' => $user->id, 'org_id' => $organization->id]);
+
+        if(!$user || !$organization) {
+            return Response::deny('Either user or org is null');
+        }
+
         $moderator = $this->getMod($organization, $user);
 
         if (!$moderator) {
@@ -36,7 +42,10 @@ class OrganizationPolicy
 
     public function moderator(User $user, Organization $organization){
         // Log::info('OrgPolicy modify method called', ['user_id' => $user->id, 'org_id' => $organization->id]);
-        
+        if(!$user || !$organization) {
+            return Response::deny('Either user or org is null');
+        }
+
         $moderator = $this->getMod($organization, $user);
 
         if (!$moderator && $moderator->role === 'Pending') {

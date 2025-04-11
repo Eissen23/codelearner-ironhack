@@ -30,8 +30,8 @@ class Organization extends Model
                     ->withPivot('role');
     }
 
-    public function course(){
-        return $this->hasMany(Course::class);
+    public function courses(){
+        return $this->hasMany(Course::class, 'org_id');
     }
 
     public function problemSet(){

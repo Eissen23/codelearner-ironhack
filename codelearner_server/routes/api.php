@@ -9,7 +9,7 @@ Route::controller(AuthController::class)->group(function () {
     Route::delete('/logout', 'logout')->middleware('auth:sanctum');
 });
 
-
 // ORG
 Route::prefix('orgs')->group(base_path('routes/api/org.php'));
 Route::prefix('articles')->group(base_path('routes/api/articles.php'));
+Route::prefix('courses')->group(base_path('routes/api/course.php'));

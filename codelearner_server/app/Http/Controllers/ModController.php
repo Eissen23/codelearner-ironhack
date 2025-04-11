@@ -66,13 +66,12 @@ class ModController extends Controller implements HasMiddleware
         $user = $request->user();
         //  Log::info('Join Org Called', ['org'=>$org, 'user' => $user]);
         if (!$user || !$org){
-            return [
+            return response()->json( [
                 'message' => 'Fail to register user.id or org.id'
-            ];
+            ], 400);
         }
 
         $mod = Moderator::create(['user_id' =>$user->id, 'org_id' => $org->id,'role' => 'Pending']);
-
         return [
             'message' => 'Your submission is pending',
             'submission' => $mod 

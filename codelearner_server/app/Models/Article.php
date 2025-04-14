@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use MongoDB\Laravel\Eloquent\HybridRelations;
 use MongoDB\Laravel\Eloquent\Model;
 
 
 class Article extends Model
-{
+{   
+    
     //
     protected $connection = "mongodb";
 
@@ -20,13 +21,11 @@ class Article extends Model
         "mod_id",
     ];
 
-    public function moderators(){
-        return new BelongsTo(
-            app(Moderator::class)->newQuery(),
-            $this->id,
-            'mod_id',
-            'mod_id',
-            Moderator::class
-        );
+    public function moderator(){
+        return $this->belongsTo(Moderator::class, 'mod_id');
+    }
+
+    public function course(){
+        return $this->belongsTo(Course::class);
     }
 }

@@ -13,3 +13,4 @@ Route::controller(AuthController::class)->group(function () {
 Route::prefix('orgs')->group(base_path('routes/api/org.php'));
 Route::prefix('articles')->group(base_path('routes/api/articles.php'));
 Route::prefix('courses')->group(base_path('routes/api/course.php'));
+Route::prefix('problem-sets')->group(base_path('routes/api/problemset.php'));

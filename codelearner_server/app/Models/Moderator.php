@@ -5,11 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\Pivot;
+use MongoDB\Laravel\Eloquent\HybridRelations;
 
 class Moderator extends Pivot
 {
     /** @use HasFactory<\Database\Factories\ModeratorFactory> */
-    use HasFactory;
+    use HasFactory, HybridRelations;
     const UPDATED_AT = null;
     protected $connection = 'mysql'; // This is the connection name in database.php
    
@@ -43,12 +44,7 @@ class Moderator extends Pivot
     }
 
     public function articles(){
-        return new HasMany(
-            app(Article::class)->newQuery(),
-            $this,
-            'mod_id',
-            'mod_id'
-        );
+        return $this->hasMany(Article::class);
     }
 
 

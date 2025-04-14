@@ -1,10 +1,15 @@
 <?php
 
+use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\CourseController;
 
 // API That available to the public 
 
 Route::apiResource('/',CourseController::class)
     ->parameter('','course')
-    ->except('store', 'update');
+    ->except('store');
 
+Route::controller(ArticleController::class)->group(function(){
+    Route::post("{course}/add-article", 'store');
+    Route::get('{course}/list-articles', 'index');
+});

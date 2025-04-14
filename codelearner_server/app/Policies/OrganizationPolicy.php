@@ -6,8 +6,6 @@ use App\Models\Moderator;
 use App\Models\Organization;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
-use Illuminate\Support\Facades\Log;
-
 
 class OrganizationPolicy 
 {

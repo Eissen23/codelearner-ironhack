@@ -2,4 +2,6 @@
 use App\Http\Controllers\ArticleController;
 
 
-Route::apiResource('/', ArticleController::class)->parameter('', 'article'); 
+Route::apiResource('/', ArticleController::class)
+    ->except('store')
+    ->parameter('', 'article'); 

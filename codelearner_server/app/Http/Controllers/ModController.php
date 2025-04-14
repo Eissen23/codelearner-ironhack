@@ -2,15 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\ControllerHelper\ModeratorHelper;
 use App\Models\Organization;
-use App\Models\User;
-use App\Models\Moderator
-;
+use App\Models\Moderator;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Log;
+
+use App\Http\ControllerHelper;
 
 class ModController extends Controller implements HasMiddleware
 {   
@@ -60,7 +61,6 @@ class ModController extends Controller implements HasMiddleware
         ];
     }
 
-    // TODO: This section is untested
 
     public function joinOrg(Request $request, Organization $org){
         $user = $request->user();
@@ -82,8 +82,8 @@ class ModController extends Controller implements HasMiddleware
     public function showMod(Request $request, Organization $org, String $id){
         Gate::authorize("moderator", $org);
 
-        $mod = $this->getModerator($org->id, $id);
-        $user = $mod->user()->select('full_name', 'account_name', 'email')->get;
+        $mod = ModeratorHelper::getModerator($org->id, $id);
+        $user = $mod->user()->select('full_name', 'account_name', 'email')->get();
         return [
             'moderator' => $mod,
             'user'=> $user,
@@ -92,7 +92,7 @@ class ModController extends Controller implements HasMiddleware
 
     public function changeMod(Request $request, Organization $org, String $id){
         Gate::authorize('orgHead', $org);
-        $mod = $this->getModerator($org->id, $id);
+        $mod = ModeratorHelper::getModerator($org->id, $id);
 
         $status = $request->validate([
             'role' => 'required|string',
@@ -120,7 +120,7 @@ class ModController extends Controller implements HasMiddleware
         Gate::authorize('moderator', $org);
         $user = $request->user();
 
-        $mod = $this->getModerator($org->id, $user->id);
+        $mod = ModeratorHelper::getModerator($org->id, $user->id);
         $mod->delete();
 
         return [

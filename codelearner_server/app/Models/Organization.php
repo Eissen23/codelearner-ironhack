@@ -35,6 +35,6 @@ class Organization extends Model
     }
 
     public function problemSet(){
-        return $this->belongsTo(ProblemSet::class);
+        return $this->hasMany(ProblemSet::class, 'org_id');
     }
 }

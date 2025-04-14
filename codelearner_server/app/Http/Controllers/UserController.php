@@ -12,8 +12,10 @@ class UserController extends Controller implements HasMiddleware
     public static function middleware(){
         return  [
             new Middleware('auth:sanctum', except: ['index', 'show']),
-        ] ;
+        ];
     }
+
+    //need a policy for each and every of these user
 
     /**
      * Display a listing of the resource.

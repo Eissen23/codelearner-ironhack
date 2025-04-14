@@ -3,9 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Models\Article;
+use App\Models\Course;
+use App\Models\Moderator;
+
+use App\Http\ControllerHelper\ModeratorHelper;
+
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
+use Illuminate\Support\Facades\Gate;
 
 class ArticleController extends Controller implements HasMiddleware
 {   
@@ -18,28 +24,46 @@ class ArticleController extends Controller implements HasMiddleware
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(?Course $course=null)
     {
         //
-        
-        $articles = Article::all();
+        if(!$course){
+            $articles = Article::all();
+        }else{
+            $articles = $course->articles()->get();
+        }
 
         return [
             "articles"=> $articles,
-
         ];
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
-    {
-        //
+    public function store(Request $request, Course $course)
+    {   
+        Gate::authorize('modify', $course);
+
         $fields = $request->validate([
-            'name' => 'required|max:255',
-            'content' => 'required',
+            'name' => 'required|max:100',
+            'description' => 'required|string|max:255',
+            'content' => 'nullable',
+            'type' => "required|string", 
         ]);
+
+        $org_id =  $course->organization()->first()->id;
+        $user_id = $request->user()->id;
+        $mod_id = ModeratorHelper::getModerator($org_id, $user_id)->id;
+
+        $fields['course_id'] = $course->id;
+        $fields['mod_id'] = $mod_id;
+
+        $article = Article::create($fields);
+
+        return [
+            'article' => $article
+        ];
     }
 
     /**
@@ -60,6 +84,21 @@ class ArticleController extends Controller implements HasMiddleware
     public function update(Request $request, Article $article)
     {
         //
+        Gate::authorize('modify', $article);
+        $fields =  $request->validate([
+            'name' => 'string|max:100',
+            'description' => 'string|max:255',
+            'content' => 'nullable',
+            'type' => "string", 
+        ]);
+
+        $article->update($fields);
+
+        return [
+            'message' => "Update success",
+            'article' => $article,
+        ];
+
     }
 
     /**
@@ -68,5 +107,12 @@ class ArticleController extends Controller implements HasMiddleware
     public function destroy(Article $article)
     {
         //
+        Gate::authorize('modify', $article);
+
+        $article->delete();
+
+        return [
+            'message' => "Article deleted"
+        ];
     }
 }

@@ -14,12 +14,13 @@ class ProblemSet extends Model
 
     protected $fillable = [
         'name',
+        'short_description',
         'description',
         'expired_at',
         'org_id',
     ];
 
     public function organization(){
-        return $this->belongsTo(Organization::class);
+        return $this->belongsTo(Organization::class, 'org_id');
     }
 }

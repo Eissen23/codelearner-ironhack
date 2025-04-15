@@ -24,6 +24,7 @@ class User extends Authenticatable
         'account_name',
         'email',
         'password',
+        'about'
     ];
 
     /**
@@ -34,7 +35,7 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
-        'pivot',
+        'is_super_admin'
     ];
 
     protected $connection = 'mysql';
@@ -48,7 +49,9 @@ class User extends Authenticatable
     {
         return [
             'email_verified_at' => 'datetime',
+            'created_at' => 'datetime',
             'password' => 'hashed',
+            'is_super_admin' => 'boolean'
         ];
     }
 

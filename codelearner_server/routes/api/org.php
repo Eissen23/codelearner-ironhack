@@ -30,7 +30,7 @@ Route::prefix('/{org}')->controller(ModController::class)->group(function () {
  */
  
 Route::prefix('/{org}')->controller(CourseController::class)->group( function () {
-    Route::get('/courses-in-org','indexFromOrg');
+    Route::get('/courses-in-org','index');
     Route::post('/add-course','store');
 });
 

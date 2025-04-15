@@ -13,36 +13,23 @@ class CourseController extends Controller implements HasMiddleware
 {   
     public static function middleware(){
         return [
-            new Middleware('auth:sanctum', except: ['index', 'show','indexFromOrg'])
+            new Middleware('auth:sanctum', except: ['index', 'show'])
         ] ;
     }
 
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(?Organization $org)
     {
         //
-        $course = Course::all();
-
-        return [
-            'courses' => $course 
-        ];
-    }
-
-    /**
-     * Display a listing of the resource.
-     */
-    public function indexFromOrg(Organization $org)
-    {
-        //
-        $courses = $org->courses()->get();
+        $courses = $org? ($org->courses()->get()):(Course::all());
 
         return [
             'courses' => $courses 
         ];
     }
-
+    
     /**
      * Store a newly created resource in storage.
      */
@@ -94,7 +81,7 @@ class CourseController extends Controller implements HasMiddleware
             'duration' => 'integer'
         ]);
 
-        $course->update($field);
+        $course->update( $field);
 
         return [
             'message' => 'Course updated',

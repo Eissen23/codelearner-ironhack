@@ -22,4 +22,7 @@ class PolicyHelper
         return $user->id == $moderator->user_id;
     }
 
+    public static function isSuperAdmin(User $user){
+        return $user->is_super_admin;
+    }
 }

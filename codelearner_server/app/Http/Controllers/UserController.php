@@ -23,7 +23,6 @@ class UserController extends Controller implements HasMiddleware
     public function index()
     {
         //
-
         $users = User::all();
 
         return [
@@ -36,27 +35,32 @@ class UserController extends Controller implements HasMiddleware
      */
     public function store(Request $request)
     {
-        //
+        // No need to use it
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(User $user)
+    public function show(?User $user=null, Request $request)
     {
         //
 
+        $data = $user ? $user : $request->user();
+
         return [
-            "user"=> $user,
+            "user"=> $data,
         ];
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, User $user)
+    public function update(Request $request, ?User $user): void
     {
         //
+        // $updated_user =$user ? $user:$request->user();
+        // $fields = $request->validate([
+        // ]);
     }
 
     /**

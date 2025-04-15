@@ -6,12 +6,8 @@ use App\Http\Controllers\UserController;
 
 Route::controller(UserController::class)->group(function () {
     Route::get('/','index');
-    Route::put('/update','update');
-    Route::get('/{user}/info','show');
-    Route::delete('/{user}/del','destroy');
-});
-
-
-Route::get('/info', function (){
-    return 'user';
+    Route::put('/update','update'); //Update self
+    Route::get('/info', 'show');
+    Route::get('/info/{user}','show');
+    Route::delete('/del/{user}','destroy');
 });

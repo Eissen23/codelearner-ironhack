@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Content;
 
+use App\Http\Controllers\Controller;
 use App\Http\ControllerHelper\ProblemSetHelper;
 use App\Models\Problem;
 use App\Models\ProblemSet;

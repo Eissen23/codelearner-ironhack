@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\ProblemController;
+use App\Http\Controllers\Content\ProblemController;
 
 Route::controller(ProblemController::class)->group(function () {
     Route::get('/', 'index');

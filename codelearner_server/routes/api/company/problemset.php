@@ -1,7 +1,7 @@
 <?php
 
-use App\Http\Controllers\ProblemController;
-use App\Http\Controllers\ProblemSetController;
+use App\Http\Controllers\Content\ProblemController;
+use App\Http\Controllers\Organization\ProblemSetController;
 
 
 Route::apiResource('/',ProblemSetController::class)

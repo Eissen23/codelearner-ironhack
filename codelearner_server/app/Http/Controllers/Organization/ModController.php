@@ -1,16 +1,19 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Organization;
+
+use App\Http\Controllers\Controller;
 
 use App\Http\ControllerHelper\AssetHelper;
 use App\Http\ControllerHelper\ModeratorHelper;
+
 use App\Models\Organization;
 use App\Models\Moderator;
+
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Support\Facades\Gate;
-use Illuminate\Support\Facades\Log;
 
 use App\Http\ControllerHelper;
 

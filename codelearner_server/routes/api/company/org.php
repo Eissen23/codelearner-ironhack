@@ -1,8 +1,8 @@
 <?php
-use App\Http\Controllers\CourseController;
-use App\Http\Controllers\ModController;
-use App\Http\Controllers\OrgController;
-use App\Http\Controllers\ProblemSetController;
+use App\Http\Controllers\Organization\CourseController;
+use App\Http\Controllers\Organization\ModController;
+use App\Http\Controllers\Organization\OrgController;
+use App\Http\Controllers\Organization\ProblemSetController;
 
 // Asume all of these method got middleware() in them
 

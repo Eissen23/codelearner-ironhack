@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Content;
 
+
+use App\Http\Controllers\Controller;
 use App\Http\ControllerHelper\CourseHelper;
 use App\Models\Article;
 use App\Models\Course;
-use App\Models\Moderator;
 
 use App\Http\ControllerHelper\ModeratorHelper;
 

@@ -1,10 +1,14 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Organization;
+
+use App\Http\Controllers\Controller;
 
 use App\Http\ControllerHelper\AssetHelper;
+
 use App\Models\Course;
 use App\Models\Organization;
+
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;

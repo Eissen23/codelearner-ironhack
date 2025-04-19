@@ -1,7 +1,7 @@
 <?php
 
-use App\Http\Controllers\ArticleController;
-use App\Http\Controllers\CourseController;
+use App\Http\Controllers\Content\ArticleController;
+use App\Http\Controllers\Organization\CourseController;
 
 // API That available to the public 
 

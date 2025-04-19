@@ -8,7 +8,6 @@ class Problem extends Model
 {
     //
     protected $connection = 'mongodb';
-    protected $collection = 'problems';
 
     protected $fillable = [
         'name',

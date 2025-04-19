@@ -48,7 +48,6 @@ class AssetHelper {
         $perPage = $request->input('per_page', 10);
 
         $users = $org->users()
-            ->without('pivot')
             ->select(
                 'users.id',
                 'users.full_name',

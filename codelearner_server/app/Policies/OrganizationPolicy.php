@@ -10,13 +10,7 @@ use Illuminate\Auth\Access\Response;
 class OrganizationPolicy 
 {
 
-    public function  getMod(Organization $organization, User $user){
-        $moderator = Moderator::where("org_id", $organization->id)
-            ->where("user_id", $user->id)
-            ->first();
-        return $moderator;
-    }
-
+    
 
     public function orgHead(User $user, Organization $organization)
     {   
@@ -26,7 +20,7 @@ class OrganizationPolicy
             return Response::deny('Either user or org is null');
         }
 
-        $moderator = $this->getMod($organization, $user);
+        $moderator = PolicyHelper::getMod($organization, $user);
 
         if (!$moderator) {
             return Response::deny('You dont have authority to this.', 403);
@@ -44,7 +38,7 @@ class OrganizationPolicy
             return Response::deny('Either user or org is null');
         }
 
-        $moderator = $this->getMod($organization, $user);
+        $moderator = PolicyHelper::getMod($organization, $user);
 
         if (!$moderator && $moderator->role === 'Pending') {
             return Response::deny('You dont have authority to this.', 403);

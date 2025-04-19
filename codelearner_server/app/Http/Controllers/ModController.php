@@ -22,19 +22,6 @@ class ModController extends Controller implements HasMiddleware
         ];
     }
 
-    public function  getModerators(String $org_id){
-        $moderators = Moderator::where("org_id", $org_id)
-            ->all();
-        return $moderators;
-    }
-
-    public function  getModerator(String $org_id, String $user_id){
-        $moderator = Moderator::where("org_id", $org_id)
-            ->where("user_id", $user_id)
-            ->first();
-        return $moderator;
-    }
-
     /**
      * Display a listing of moderator from choosen org.
      */
@@ -42,7 +29,6 @@ class ModController extends Controller implements HasMiddleware
     {   
         //show the moderator in user chosen organization
         // Log::info('OrgPolicy modify method called', ['org'=>$org, 'user' => $request->user()]);
-        // TODO: check if the user is a moderator of the org
         Gate::authorize("moderator", $org);
         
         $users = AssetHelper::getOrgModeratorPaginator($request, $org);

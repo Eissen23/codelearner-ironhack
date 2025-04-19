@@ -4,11 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use MongoDB\Laravel\Eloquent\HybridRelations;
 
 class ProblemSet extends Model
 {
     /** @use HasFactory<\Database\Factories\ProblemSetFactory> */
-    use HasFactory;
+    use HasFactory, HybridRelations;
     const UPDATED_AT = null;
     protected $connection = "mysql";
 
@@ -22,5 +23,9 @@ class ProblemSet extends Model
 
     public function organization(){
         return $this->belongsTo(Organization::class, 'org_id');
+    }
+
+    public function problems(){
+        return $this->hasMany(Problem::class, 'problem_set');
     }
 }

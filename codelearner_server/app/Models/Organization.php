@@ -34,7 +34,7 @@ class Organization extends Model
         return $this->hasMany(Course::class, 'org_id');
     }
 
-    public function problemSet(){
+    public function problemSets(){
         return $this->hasMany(ProblemSet::class, 'org_id');
     }
 }

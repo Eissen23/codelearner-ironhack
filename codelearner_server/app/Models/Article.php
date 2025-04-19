@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use MongoDB\Laravel\Eloquent\HybridRelations;
 use MongoDB\Laravel\Eloquent\Model;
 
 

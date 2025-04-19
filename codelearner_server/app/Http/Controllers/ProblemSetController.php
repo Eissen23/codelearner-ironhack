@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\ControllerHelper\AssetHelper;
 use App\Models\Organization;
 use App\Models\ProblemSet;
 use Illuminate\Http\Request;
@@ -20,10 +21,11 @@ class ProblemSetController extends Controller implements HasMiddleware
     /**
      * Display a listing of the resource.
      */
-    public function index()
-    {   
-        //
-        $problemSets = ProblemSet::all();     
+    public function index(?Organization $org=null)
+    {
+        //show the problem set in user chosen organization
+        // Log::info('OrgPolicy modify method called', ['org'=>$org, 'user' => $request->user()]);
+        $problemSets = AssetHelper::getOrgProblemSetPaginator(request(), $org);     
 
         return [
             'problem_sets' => $problemSets,

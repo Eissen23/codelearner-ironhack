@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\ControllerHelper\AssetHelper;
 use App\Models\Course;
 use App\Models\Organization;
 use Illuminate\Http\Request;
@@ -23,10 +24,10 @@ class CourseController extends Controller implements HasMiddleware
     public function index(?Organization $org)
     {
         //
-        $courses = $org? ($org->courses()->get()):(Course::all());
+        $courses = AssetHelper::getOrgCoursePaginator(request(),  $org);
 
         return [
-            'courses' => $courses 
+            'courses_page' => $courses,
         ];
     }
     

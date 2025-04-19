@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\ControllerHelper\CourseHelper;
 use App\Models\Article;
 use App\Models\Course;
 use App\Models\Moderator;
@@ -27,11 +28,7 @@ class ArticleController extends Controller implements HasMiddleware
     public function index(?Course $course=null)
     {
         //
-        if(!$course){
-            $articles = Article::all();
-        }else{
-            $articles = $course->articles()->get();
-        }
+        $articles =CourseHelper::getArticlePagination(request(), $course);
 
         return [
             "articles"=> $articles,

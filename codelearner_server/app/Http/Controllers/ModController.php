@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\ControllerHelper\AssetHelper;
 use App\Http\ControllerHelper\ModeratorHelper;
 use App\Models\Organization;
 use App\Models\Moderator;
@@ -41,20 +42,10 @@ class ModController extends Controller implements HasMiddleware
     {   
         //show the moderator in user chosen organization
         // Log::info('OrgPolicy modify method called', ['org'=>$org, 'user' => $request->user()]);
-
+        // TODO: check if the user is a moderator of the org
         Gate::authorize("moderator", $org);
         
-        $users = $org->users()
-            ->select(
-                'users.id',
-                'users.full_name',
-                'users.email',
-                'users.account_name',
-                'moderators.role',
-                'moderators.created_at as joined_at'
-            )
-            ->get()
-            ->toArray();
+        $users = AssetHelper::getOrgModeratorPaginator($request, $org);
         
         return [
             "moderators" => $users,
@@ -64,7 +55,6 @@ class ModController extends Controller implements HasMiddleware
 
     public function joinOrg(Request $request, Organization $org){
         $user = $request->user();
-        //  Log::info('Join Org Called', ['org'=>$org, 'user' => $user]);
         if (!$user || !$org){
             return response()->json( [
                 'message' => 'Fail to register user.id or org.id'
@@ -126,6 +116,6 @@ class ModController extends Controller implements HasMiddleware
         return [
             'message' => 'Leave successfull'  
         ];
-    }
+    } 
 
 }

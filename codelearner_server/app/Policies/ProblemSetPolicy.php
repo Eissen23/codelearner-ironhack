@@ -4,6 +4,7 @@ namespace App\Policies;
 
 use App\Models\ProblemSet;
 use App\Models\User;
+use App\Policies\PolicyHelper\OrgPolicyHelper;
 use Illuminate\Auth\Access\Response;
 
 class ProblemSetPolicy
@@ -18,7 +19,7 @@ class ProblemSetPolicy
 
     public function modify(User $user, ProblemSet $problemSet)
     {
-        if(PolicyHelper::userCanPost($user, $problemSet)){
+        if(OrgPolicyHelper::userCanPost($user, $problemSet)){
             return Response::allow();
         }
 

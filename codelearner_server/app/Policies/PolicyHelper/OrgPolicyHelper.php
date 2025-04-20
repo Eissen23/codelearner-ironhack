@@ -1,17 +1,14 @@
 <?php
 
-namespace App\Policies;
+namespace App\Policies\PolicyHelper;
 
-use App\Models\Article;
+use App\Models\Organization;
+use App\Models\User;
+use App\Models\Moderator;
 use App\Models\Course;
 use App\Models\ProblemSet;
-use App\Models\User;
-use App\Models\Organization;
-use App\Models\Moderator;
 
-//Seperate these helper later
-class PolicyHelper
-{   
+class OrgPolicyHelper{
     const OrgHead = 'OrgHead';
     const MODERATOR_ROLE = ['Moderator', 'OrgHead'];
     const UNAUTHORIZED_ROLE = ['Pending', 'Rejected'];
@@ -23,9 +20,7 @@ class PolicyHelper
             ->first();
         return $moderator;
     }
-
-
-    // TODO: Might bite me in the ass later but worth
+    
     public static function userCanPost(User $user, Course|ProblemSet $asset)
     {   
         $org = $asset->organization()->first();
@@ -35,12 +30,5 @@ class PolicyHelper
         return $moderator ? in_array($moderator->role, self::MODERATOR_ROLE) : false;
     }
 
-    public static function userCanModify(User $user, Article $article){
-        $moderator =  $article->moderator()->first();
-        return ($user->id == $moderator->user_id) && in_array($moderator->role, self::MODERATOR_ROLE);
-    }
-
-    public static function isSuperAdmin(User $user){
-        return $user->is_super_admin;
-    }
+    
 }

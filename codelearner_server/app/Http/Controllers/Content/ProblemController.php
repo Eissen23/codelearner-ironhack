@@ -26,7 +26,6 @@ class ProblemController extends Controller implements HasMiddleware
 
     //post, update, delete, get
 
-    // TODO: HANDLE LATER
     public function index(?ProblemSet $problemSet=null)
     {
         // return all problems

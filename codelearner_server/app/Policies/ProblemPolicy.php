@@ -4,6 +4,7 @@ namespace App\Policies;
 
 use App\Models\Problem;
 use App\Models\User;
+use App\Policies\PolicyHelper\OrgPolicyHelper;
 use Illuminate\Auth\Access\Response;
 
 class ProblemPolicy
@@ -12,7 +13,7 @@ class ProblemPolicy
     {
         // check if user belong in the organzation that the problem belongs to
         $problemSet = $problem->problemSet()->first();
-        if(PolicyHelper::userCanPost($user, $problemSet)){
+        if(OrgPolicyHelper::userCanPost($user, $problemSet)){
             return Response::allow();
         }
         return Response::deny('You do not have permission to modify this problem.');

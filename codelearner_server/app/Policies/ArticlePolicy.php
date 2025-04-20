@@ -4,8 +4,8 @@ namespace App\Policies;
 
 use App\Models\Article;
 use App\Models\User;
+use App\Policies\PolicyHelper\ContentPolicyHelper;
 use Illuminate\Auth\Access\Response;
-use App\Policies\PolicyHelper;
 
 class ArticlePolicy
 {
@@ -18,7 +18,7 @@ class ArticlePolicy
     }
 
     public function modify(User $user, Article $article) {
-        if(PolicyHelper::userCanModify($user, $article)){
+        if(ContentPolicyHelper::userCanModify($user, $article)){
             return Response::allow();
         }
 

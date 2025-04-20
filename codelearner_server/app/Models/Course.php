@@ -28,6 +28,11 @@ class Course extends Model
         return $this->belongsTo(Organization::class, 'org_id');
     }
 
+    public function users(){
+        return $this->belongsToMany(User::class, 'user_courses', 'course_id', 'user_id')
+        ->using(UserCourse::class);
+    }
+
     public function articles(){
         return $this->hasMany(Article::class);
     }

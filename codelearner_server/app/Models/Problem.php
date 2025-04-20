@@ -31,6 +31,15 @@ class Problem extends Model
         return $this->belongsTo(ProblemSet::class, 'problem_set');
     }
 
-    
+    public function solutionArticles()
+    {
+        return $this->hasMany(SolutionArticle::class, 'problem_id')
+            ->with('article');
+    }
+
+    public function userSubmissions()
+    {
+        return $this->hasMany(UserSubmission::class, 'problem_id');
+    }
 
 }

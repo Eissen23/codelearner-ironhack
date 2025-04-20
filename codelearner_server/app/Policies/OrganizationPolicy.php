@@ -2,9 +2,9 @@
 
 namespace App\Policies;
 
-use App\Models\Moderator;
 use App\Models\Organization;
 use App\Models\User;
+use App\Policies\PolicyHelper\OrgPolicyHelper;
 use Illuminate\Auth\Access\Response;
 
 class OrganizationPolicy 
@@ -20,7 +20,7 @@ class OrganizationPolicy
             return Response::deny('Either user or org is null');
         }
 
-        $moderator = PolicyHelper::getMod($organization, $user);
+        $moderator = OrgPolicyHelper::getMod($organization, $user);
 
         if (!$moderator) {
             return Response::deny('You dont have authority to this.', 403);
@@ -38,7 +38,7 @@ class OrganizationPolicy
             return Response::deny('Either user or org is null');
         }
 
-        $moderator = PolicyHelper::getMod($organization, $user);
+        $moderator = OrgPolicyHelper::getMod($organization, $user);
 
         if (!$moderator && $moderator->role === 'Pending') {
             return Response::deny('You dont have authority to this.', 403);

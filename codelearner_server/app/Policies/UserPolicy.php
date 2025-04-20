@@ -4,6 +4,7 @@ namespace App\Policies;
 
 use App\Models\User;
 use App\Policies\PolicyHelper;
+use App\Policies\PolicyHelper\UserPolicyHelper;
 use Illuminate\Auth\Access\Response;
 
 class UserPolicy
@@ -17,7 +18,7 @@ class UserPolicy
     }
 
     public function admin(User $user){
-        if (PolicyHelper::isSuperAdmin($user)){
+        if (UserPolicyHelper::isSuperAdmin($user)){
             return Response::allow();
         }
 

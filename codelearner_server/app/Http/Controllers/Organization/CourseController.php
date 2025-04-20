@@ -25,7 +25,7 @@ class CourseController extends Controller implements HasMiddleware
     /**
      * Display a listing of the resource.
      */
-    public function index(?Organization $org)
+    public function index(?Organization $org = null)
     {
         //
         $courses = AssetHelper::getOrgCoursePaginator(request(),  $org);

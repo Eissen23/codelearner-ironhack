@@ -67,7 +67,7 @@ class User extends Authenticatable
         ->using(UserCourse::class);
     }
 
-    public function submissions(){
+    public function userSubmissions(){
         return $this->hasMany(UserSubmission::class);
     }
 }

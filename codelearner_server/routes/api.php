@@ -22,3 +22,6 @@ Route::prefix('articles')->group(base_path('routes/api/content/articles.php'));
 
 // Problem 
 Route::prefix('problems')->group(base_path('routes/api/content/problem.php'));
+
+// Solution
+Route::prefix('solutions')->group(base_path('routes/api/content/solution.php'));

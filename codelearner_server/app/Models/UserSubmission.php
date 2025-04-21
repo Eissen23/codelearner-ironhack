@@ -32,4 +32,9 @@ class UserSubmission extends Model
     {
         return $this->belongsTo(Problem::class);
     }
+
+    public function userSolution()
+    {
+        return $this->hasOne(UserSolution::class, 'submission_id');
+    }
 }

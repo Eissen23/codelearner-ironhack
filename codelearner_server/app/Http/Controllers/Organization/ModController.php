@@ -76,7 +76,7 @@ class ModController extends Controller implements HasMiddleware
         $status = $request->validate([
             'role' => 'required|string',
         ]);
-        switch ($request->input('role')) {
+        switch ($status['role']) {
             case 'OrgHead':
                 break;
             case 'Moderator':

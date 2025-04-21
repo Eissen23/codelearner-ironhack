@@ -29,7 +29,7 @@ class ProblemController extends Controller implements HasMiddleware
     public function index(?ProblemSet $problemSet=null)
     {
         // return all problems
-        $problems = ProblemSetHelper::getOrgProblemSetPaginator(request(), $problemSet);
+        $problems = ProblemSetHelper::getOrgProblemPaginator(request(), $problemSet);
         return [
             'problems' => $problems,
         ];

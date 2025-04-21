@@ -4,63 +4,40 @@ namespace App\Policies;
 
 use App\Models\User;
 use App\Models\UserSubmission;
+use App\Policies\PolicyHelper\OrgPolicyHelper;
 use Illuminate\Auth\Access\Response;
 
 class UserSubmissionPolicy
 {
-    /**
-     * Determine whether the user can view any models.
-     */
-    public function viewAny(User $user): bool
-    {
-        return false;
+    public function view(User $user, UserSubmission $submission)
+    {   
+        // if user is the owner of the submission
+        if($submission->user_id === $user->id) {
+            return Response::allow();
+        }
+        // if they are the moderator of the problem
+        elseif(OrgPolicyHelper::userCanPost($user, $submission->problem()->first())) {
+            return Response::allow();
+        }
+        return Response::deny('You do not own this submission.');
     }
 
-    /**
-     * Determine whether the user can view the model.
-     */
-    public function view(User $user, UserSubmission $userSubmission): bool
+    public function modify(User $user, UserSubmission $submission)
     {
-        return false;
+        if($submission->user_id === $user->id) {
+            return Response::allow();
+        }elseif(OrgPolicyHelper::userCanPost($user, $submission->problem()->first())) {
+            return Response::allow();
+        }
+        return Response::deny('You do not own this submission.');
     }
 
-    /**
-     * Determine whether the user can create models.
-     */
-    public function create(User $user): bool
+    public function create_solution(User $user, UserSubmission $submission)
     {
-        return false;
+        if($submission->user_id === $user->id) {
+            return Response::allow();
+        }
+        return Response::deny('You do not own this submission.');
     }
 
-    /**
-     * Determine whether the user can update the model.
-     */
-    public function update(User $user, UserSubmission $userSubmission): bool
-    {
-        return false;
-    }
-
-    /**
-     * Determine whether the user can delete the model.
-     */
-    public function delete(User $user, UserSubmission $userSubmission): bool
-    {
-        return false;
-    }
-
-    /**
-     * Determine whether the user can restore the model.
-     */
-    public function restore(User $user, UserSubmission $userSubmission): bool
-    {
-        return false;
-    }
-
-    /**
-     * Determine whether the user can permanently delete the model.
-     */
-    public function forceDelete(User $user, UserSubmission $userSubmission): bool
-    {
-        return false;
-    }
 }

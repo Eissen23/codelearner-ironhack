@@ -21,6 +21,12 @@ class OrgPolicyHelper{
         return $moderator;
     }
     
+    /**
+     * check if the user is indeed a moderator of the organization
+     * @param Course|ProblemSet $asset
+     * @param User $user
+     */
+
     public static function userCanPost(User $user, Course|ProblemSet $asset)
     {   
         $org = $asset->organization()->first();

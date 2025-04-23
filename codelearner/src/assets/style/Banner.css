@@ -1,0 +1,10 @@
+.banner {
+  height: 100vh;
+}
+
+.banner > * {
+}
+
+.banner h1 {
+  inset: 0;
+}

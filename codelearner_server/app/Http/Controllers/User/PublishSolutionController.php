@@ -19,7 +19,7 @@ class PublishSolutionController extends Controller implements HasMiddleware{
     // The mod need to own the user problem solution
     public function publish(UserSolution $userSolution)
     {   
-        Gate::authorize('publish-solution', $userSolution);
+        Gate::authorize('publish', $userSolution);
         $userSolution->update([
             'status' => 'published',
         ]);
@@ -31,14 +31,14 @@ class PublishSolutionController extends Controller implements HasMiddleware{
 
     public function reject(UserSolution $userSolution)
     {   
-        Gate::authorize('publish-solution', $userSolution);
+        Gate::authorize('publish', $userSolution);
         
         $userSolution->update([
             'status' => 'rejected',
         ]);
     
         return [
-            'message' => 'Solution published successfully'
+            'message' => 'Solution rejected'
         ];
     }
 

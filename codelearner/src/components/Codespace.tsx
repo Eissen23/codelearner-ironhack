@@ -1,5 +1,5 @@
 function Codespace() {
-  return <div></div>;
+  return <div>Codespace</div>;
 }
 
 export default Codespace;

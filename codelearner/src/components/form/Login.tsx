@@ -1,17 +1,39 @@
-import "../assets/style/Login.css";
-import { Form, Button } from "react-bootstrap";
-import React from "react";
+import { Form, Button, Alert } from "react-bootstrap";
+import React, { useState } from "react";
+import { useAuth } from "../../context/auth/AuthContext";
 
-function login(formData: any) {
-  console.log(formData);
-}
+
 interface LoginProps {
   onSwitchToSignUp: () => void;
 }
 
+
 const Login: React.FC<LoginProps> = ({ onSwitchToSignUp }) => {
+  const { login } = useAuth();
+  const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState<string | null>(null);
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setError(null);
+    
+    const formData = new FormData(e.currentTarget);
+    const email = formData.get('email') as string;
+    const password = formData.get('password') as string;
+
+    try {
+      await login(email, password);
+      setSuccess('Login successful');
+      // Redirect or show success message
+    } catch (error) {
+      setError('Login failed. Please check your credentials.');
+    }
+  };
+
   return (
-    <Form action={login}>
+    <Form onSubmit={handleSubmit}>
+      {error && <Alert dismissible variant="danger">{error}</Alert>}
+      {success && <Alert dismissible variant="success">{success}</Alert>}
       <h3 className="text-dark text-center">LOGIN</h3>
       <Form.Group className="mb-3" controlId="email">
         <Form.Label>Email address</Form.Label>
@@ -22,6 +44,7 @@ const Login: React.FC<LoginProps> = ({ onSwitchToSignUp }) => {
         <Form.Label>Password</Form.Label>
         <Form.Control name="password" type="password" placeholder="Password" />
       </Form.Group>
+
       <Form.Group className="d-flex justify-content-center mb-3">
         <Button variant="primary" type="submit">
           Login
@@ -39,7 +62,7 @@ const Login: React.FC<LoginProps> = ({ onSwitchToSignUp }) => {
           </a>
         </div>
       </Form.Group>
-    </Form>
+  </Form>
   );
 };
 

@@ -1,8 +1,6 @@
-import React from "react";
 import { Button, Modal } from "react-bootstrap";
-import Login from "./Login";
-import "./auth.css";
-import SignUp from "./SignUp";
+import Login from "../form/Login";
+import SignUp from "../form/SignUp";
 import { useState } from "react";
 
 function Auth() {
@@ -25,7 +23,7 @@ function Auth() {
         className="text-white px-5 py-2 rounded"
         onClick={handleShow}
       >
-        {isLogin ? "Sign Up" : "Login"}
+        {isLogin ?  "Login": "Sign Up"}
       </Button>
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton className="border-0"></Modal.Header>

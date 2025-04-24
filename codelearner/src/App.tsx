@@ -1,16 +1,19 @@
 import "./App.css";
-import Home from "./pages/Home";
+import { AuthProvider } from "./context/auth/AuthContext";
+import { createBrowserRouter, RouterProvider } from "react-router";
+import routes_map from "./config/sitemap-config";
 
 function App() {
   // const [count, setCount] = useState(0);
+  const router = createBrowserRouter(routes_map);
 
   return (
     <>
-      <>
-        <Home></Home>
-      </>
+    <AuthProvider>
+      <RouterProvider router={router} />
+    </AuthProvider>
     </>
-  );
+    );
 }
 
 export default App;

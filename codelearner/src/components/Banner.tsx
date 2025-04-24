@@ -1,22 +1,65 @@
-import "./assets/style/Banner.css";
-import "/assets/images/Gradient_builder_2.jpg";
+import React, { ReactNode } from "react";
 
-function Banner() {
+// Define the props interface for the Banner component
+interface BannerProps {
+  title: string;
+  variant?:
+    | "primary"
+    | "secondary"
+    | "success"
+    | "danger"
+    | "warning"
+    | "info"
+    | "light"
+    | "dark";
+  icon?: ReactNode;
+  dismissible?: boolean;
+  onClose?: () => void;
+  children?: ReactNode;
+}
+
+/**
+ * Banner Component
+ *
+ * A flexible Bootstrap-styled banner component that can be used to display messages,
+ * notifications, or promotional content.
+ *
+ * @param props BannerProps - Configuration options for the banner
+ */
+const Banner: React.FC<BannerProps> = ({
+  title,
+  variant = "primary",
+  icon,
+  dismissible = false,
+  onClose,
+  children,
+}) => {
   return (
     <div
-      className="banner"
-      style={{
-        height: "70vh",
-        backgroundImage: "url(../assets/images/Gradient_builder_2.jpg)",
-        backgroundSize: "cover",
-      }}
+      className={`alert alert-${variant} ${
+        dismissible ? "alert-dismissible fade show" : ""
+      }`}
+      role="alert"
     >
-      <div className="d-flex text-center justify-content-center flex-column">
-        <h1>Welcome to Codelearner</h1>
-        <p>Your journey to coding expertise starts here</p>
+      <div className="d-flex align-items-center justify-content-center">
+        {icon && <div className="me-2">{icon}</div>}
+        <div>
+          <strong className="text-center">{title}</strong>
+          {children && <div className="mt-2">{children}</div>}
+        </div>
       </div>
+
+      {dismissible && onClose && (
+        <button
+          type="button"
+          className="btn-close"
+          data-bs-dismiss="alert"
+          aria-label="Close"
+          onClick={onClose}
+        ></button>
+      )}
     </div>
   );
-}
+};
 
 export default Banner;

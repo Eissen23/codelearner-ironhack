@@ -1,7 +1,7 @@
 import { Container } from "react-bootstrap";
-import Auth from "./modal/Auth";
+import Auth from "./auth/Auth";
 import logo from "/assets/logo/codelearner.svg";
-import "./style/Navbar.css";
+import "../assets/style/Navbar.css";
 
 function HeadNav() {
   return (

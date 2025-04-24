@@ -31,10 +31,10 @@ class AuthController extends Controller
             'email' => 'required|email|exists:users',
             'password' => 'required'
         ]);
-
         $user = User::where('email', '=',$request->email)->first();
-
-        if (!$user || Hash::check($request->passowrd , $user->password)) {
+        
+        // If user dont exist and password is not correct
+        if (!$user || !Hash::check($request->password  , $user->password)) {
             
             return response()->json([
                 'message' => 'The provided credentials are incorrect.'

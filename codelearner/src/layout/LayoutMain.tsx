@@ -1,24 +1,38 @@
 import React, { ReactNode } from "react";
 import HeadNav from "../components/HeadNav";
+import Footer from "../components/Footer";
 import { Col, Container, Row } from "react-bootstrap";
 
+
+
+
 interface LayoutHomeProps {
+  header?: ReactNode;
   children: ReactNode;
+  footer?: ReactNode;
 }
 
-const LayoutHome: React.FC<LayoutHomeProps> = ({ children }) => {
+const LayoutHome: React.FC<LayoutHomeProps> = ({ children, header, footer }) => {
   return (
     <div>
       <header>
-        <HeadNav></HeadNav>
+        {header || <HeadNav></HeadNav>}
       </header>
-      <main>{children}</main>
-      <footer>
+      <main>
         <Container>
           <Row>
-            <Col md={12} lg={12}></Col>
+            <Col md={12} lg={12}>
+              {children}
+            </Col>
           </Row>
         </Container>
+      </main>
+      <footer>
+          <Row className="text-white bg-dark">
+            <Col md={{span: 10, offset: 1}} lg={{span: 10, offset: 1}} >
+              {footer || <Footer></Footer>}
+            </Col>
+          </Row>
       </footer>
     </div>
   );

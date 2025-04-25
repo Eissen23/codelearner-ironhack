@@ -1,5 +1,3 @@
-
-import HeadNav from "../components/HeadNav";
 import Banner from "../features/main/Banner";
 import SwiperCustom from "../features/main/custom-swiper/SwiperCustom";
 import LayoutHome from "../layout/LayoutMain";

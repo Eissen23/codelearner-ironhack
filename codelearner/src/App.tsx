@@ -1,11 +1,11 @@
 import "./App.css";
 import { AuthProvider } from "./context/auth/AuthContext";
-import { createBrowserRouter, RouterProvider } from "react-router";
+import { createBrowserRouter, RouteObject, RouterProvider } from "react-router";
 import routes_map from "./config/sitemap-config";
 
 function App() {
   // const [count, setCount] = useState(0);
-  const router = createBrowserRouter(routes_map);
+  const router = createBrowserRouter(routes_map as RouteObject[]);
 
   return (
     <>

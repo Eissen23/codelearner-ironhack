@@ -16,6 +16,7 @@ interface BannerProps {
   dismissible?: boolean;
   onClose?: () => void;
   children?: ReactNode;
+  className?: string;
 }
 
 /**
@@ -44,7 +45,7 @@ const Banner: React.FC<BannerProps> = ({
       <div className="d-flex align-items-center justify-content-center">
         {icon && <div className="me-2">{icon}</div>}
         <div>
-          <strong className="text-center">{title}</strong>
+          <h3 className="text-center">{title}</h3>
           {children && <div className="mt-2">{children}</div>}
         </div>
       </div>

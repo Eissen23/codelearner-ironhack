@@ -1,20 +1,18 @@
 import { Button, Modal } from "react-bootstrap";
-import Login from "../form/Login";
-import SignUp from "../form/SignUp";
+import LoginForm from "../form/LoginForm";
+import SignUpForm from "../form/SignUpForm";
 import { useState } from "react";
-
+import { useNavigate } from "react-router-dom";
 function Auth() {
-  const [isLogin, setIsLogin] = useState(true);
-  const toggleAuthMode = () => {
-    setIsLogin((prev) => !prev);
-  };
-
+  const navigate = useNavigate();
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  //   which form is used
+  const switchToSignUp = () => {
+    navigate("/signup");
+  };
 
   return (
     <>
@@ -23,16 +21,12 @@ function Auth() {
         className="text-white px-5 py-2 rounded"
         onClick={handleShow}
       >
-        {isLogin ?  "Login": "Sign Up"}
+        Login
       </Button>
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton className="border-0"></Modal.Header>
         <Modal.Body>
-          {isLogin ? (
-            <Login onSwitchToSignUp={toggleAuthMode} />
-          ) : (
-            <SignUp onSwitchToLogin={toggleAuthMode} />
-          )}
+            <LoginForm onSwitchToSignUp={switchToSignUp} />
         </Modal.Body>
       </Modal>
     </>

@@ -7,7 +7,7 @@ interface SignUpProps {
   onSwitchToLogin: () => void;
 }
 
-const SignUp: React.FC<SignUpProps> = ({ onSwitchToLogin }) => {
+const SignUpForm: React.FC<SignUpProps> = ({ onSwitchToLogin }) => {
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
   const { register } = useAuth();
@@ -85,7 +85,7 @@ const SignUp: React.FC<SignUpProps> = ({ onSwitchToLogin }) => {
           </a>
         </div>
         <div className="sign-up">
-          <a href="#" onClick={onSwitchToLogin} className="text-muted">
+          <a href="javascript:void(0)" onClick={onSwitchToLogin} className="text-muted">
             Have an account?
           </a>
         </div>
@@ -94,4 +94,4 @@ const SignUp: React.FC<SignUpProps> = ({ onSwitchToLogin }) => {
   );
 };
 
-export default SignUp;
+export default SignUpForm;

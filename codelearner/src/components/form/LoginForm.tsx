@@ -7,8 +7,7 @@ interface LoginProps {
   onSwitchToSignUp: () => void;
 }
 
-
-const Login: React.FC<LoginProps> = ({ onSwitchToSignUp }) => {
+const LoginForm: React.FC<LoginProps> = ({ onSwitchToSignUp }) => {
   const { login } = useAuth();
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
@@ -34,6 +33,8 @@ const Login: React.FC<LoginProps> = ({ onSwitchToSignUp }) => {
     <Form onSubmit={handleSubmit}>
       {error && <Alert dismissible variant="danger">{error}</Alert>}
       {success && <Alert dismissible variant="success">{success}</Alert>}
+
+      
       <h3 className="text-dark text-center">LOGIN</h3>
       <Form.Group className="mb-3" controlId="email">
         <Form.Label>Email address</Form.Label>
@@ -57,7 +58,7 @@ const Login: React.FC<LoginProps> = ({ onSwitchToSignUp }) => {
           </a>
         </div>
         <div className="sign-up">
-          <a href="#" onClick={onSwitchToSignUp} className="text-muted">
+          <a href="javascript:void(0)" onClick={onSwitchToSignUp} className="text-muted">
             Don't have an account?
           </a>
         </div>
@@ -66,4 +67,4 @@ const Login: React.FC<LoginProps> = ({ onSwitchToSignUp }) => {
   );
 };
 
-export default Login;
+export default LoginForm;

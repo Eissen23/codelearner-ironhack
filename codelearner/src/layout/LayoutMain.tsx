@@ -27,8 +27,8 @@ const LayoutHome: React.FC<LayoutHomeProps> = ({ children, header, footer }) => 
           </Row>
         </Container>
       </main>
-      <footer>
-          <Row className="text-white bg-dark">
+      <footer className="text-white bg-dark">
+          <Row>
             <Col md={{span: 10, offset: 1}} lg={{span: 10, offset: 1}} >
               {footer || <Footer></Footer>}
             </Col>

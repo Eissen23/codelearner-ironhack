@@ -6,6 +6,8 @@ Route::controller(AuthController::class)->group(function () {
     Route::post('/register', 'register');
     Route::post('/login', 'login');
     Route::delete('/logout', 'logout')->middleware('auth:sanctum');
+    Route::get('/user', 'getUser')->middleware('auth:sanctum');
+    Route::get('/info-detail', 'getInfoDetail')->middleware('auth:sanctum');
 });
 
 // ORG

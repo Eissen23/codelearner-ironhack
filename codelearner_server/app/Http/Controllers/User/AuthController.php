@@ -44,7 +44,6 @@ class AuthController extends Controller
         $token = $user->createToken($user->account_name);
         return [
             'token'=> $token->plainTextToken,
-            'user'=> $user
         ];
 
     }
@@ -52,6 +51,19 @@ class AuthController extends Controller
         $request->user()->tokens()->delete();
         return [
             'message' => 'You have logged out'
+        ];
+    }
+
+    public function getUser(Request $request){
+        return $request->user();
+    }
+
+    public function getInfoDetail(Request $request){
+        $user = $request->user()->load('organizations', 'courses');
+
+        $user->submissions = $user->userSubmissions()->get();
+        return [
+            'data' => $user
         ];
     }
 }

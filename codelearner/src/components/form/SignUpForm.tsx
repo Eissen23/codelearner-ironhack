@@ -2,6 +2,7 @@ import "../../assets/style/Login.css";
 import { Alert, Button, Form } from "react-bootstrap";
 import React, { useState } from "react";
 import { useAuth } from "../../context/auth/AuthContext";
+import Logo from "../../features/footer/Logo";
 
 interface SignUpProps {
   onSwitchToLogin: () => void;
@@ -23,19 +24,39 @@ const SignUpForm: React.FC<SignUpProps> = ({ onSwitchToLogin }) => {
     const password_confirmation = formData.get("confirm-password") as string;
 
     try {
-      await register(account_name, name, email, password, password_confirmation);
-      setSuccess('Sign up successful');
+      await register(
+        account_name,
+        name,
+        email,
+        password,
+        password_confirmation
+      );
+      setSuccess("Sign up successful");
       // Redirect or show success message
     } catch (error) {
       setSuccess(null);
-      setError('Sign up failed. Please check your credentials.');
+      setError("Sign up failed. Please check your credentials.");
     }
   };
 
   return (
-    <Form onSubmit={handleSubmit}>
-      {error && <Alert dismissible variant="danger">{error}</Alert>}
-      {success && <Alert dismissible variant="success">Sign up successful</Alert>}
+    <Form
+      className="bg-light p-5 bg-body-secondary rounded-4"
+      onSubmit={handleSubmit}
+    >
+      {error && (
+        <Alert dismissible variant="danger">
+          {error}
+        </Alert>
+      )}
+      {success && (
+        <Alert dismissible variant="success">
+          Sign up successful
+        </Alert>
+      )}
+      <div className="mx-auto d-flex justify-content-center mb-3">
+        <Logo size="sm" imageUrl="/assets/logo/codelearner.svg"></Logo>
+      </div>
       <h3 className="text-dark text-center">SIGN UP</h3>
       <Form.Group className="mb-3" controlId="email">
         <Form.Label>Email address</Form.Label>
@@ -44,11 +65,7 @@ const SignUpForm: React.FC<SignUpProps> = ({ onSwitchToLogin }) => {
 
       <Form.Group className="mb-3" controlId="name">
         <Form.Label>Display name</Form.Label>
-        <Form.Control
-          name="name"
-          type="name"
-          placeholder="Enter name"
-        />
+        <Form.Control name="name" type="name" placeholder="Enter name" />
       </Form.Group>
 
       <Form.Group className="mb-3" controlId="accountName">
@@ -59,7 +76,7 @@ const SignUpForm: React.FC<SignUpProps> = ({ onSwitchToLogin }) => {
           placeholder="Enter name"
         />
       </Form.Group>
-      
+
       <Form.Group className="mb-3" controlId="password">
         <Form.Label>Password</Form.Label>
         <Form.Control name="password" type="password" placeholder="Password" />
@@ -85,7 +102,11 @@ const SignUpForm: React.FC<SignUpProps> = ({ onSwitchToLogin }) => {
           </a>
         </div>
         <div className="sign-up">
-          <a href="javascript:void(0)" onClick={onSwitchToLogin} className="text-muted">
+          <a
+            href="javascript:void(0)"
+            onClick={onSwitchToLogin}
+            className="text-muted"
+          >
             Have an account?
           </a>
         </div>

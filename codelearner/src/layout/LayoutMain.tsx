@@ -10,9 +10,10 @@ interface LayoutHomeProps {
   header?: ReactNode;
   children: ReactNode;
   footer?: ReactNode;
+  noGutter?: boolean;
 }
 
-const LayoutHome: React.FC<LayoutHomeProps> = ({ children, header, footer }) => {
+const LayoutHome: React.FC<LayoutHomeProps> = ({ children, header, footer, noGutter }) => {
   return (
     <div>
       <header>
@@ -20,7 +21,7 @@ const LayoutHome: React.FC<LayoutHomeProps> = ({ children, header, footer }) => 
       </header>
       <main>
         <Container>
-          <Row>
+          <Row className={noGutter ? "no-gutter" : ""}>
             <Col md={12} lg={12}>
               {children}
             </Col>

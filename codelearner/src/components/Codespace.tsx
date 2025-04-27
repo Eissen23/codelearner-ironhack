@@ -1,5 +1,7 @@
-function Codespace() {
-  return <div>Codespace</div>;
-}
+import { Editor } from '../features/main/code/Editor';
+
+const Codespace = () => {
+  return <Editor />;
+};
 
 export default Codespace;

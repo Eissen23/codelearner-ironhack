@@ -2,8 +2,11 @@ import { Container } from "react-bootstrap";
 import Auth from "./auth/Auth";
 import logo from "/assets/logo/codelearner.svg";
 import "../assets/style/Navbar.css";
+import { useAuth } from "../context/auth/AuthContext";
+import Logout from "./auth/Logout";
 
 function HeadNav() {
+  const { isAuthenticated } = useAuth();
   return (
     <div className="bg-dark py-3">
       <Container>
@@ -19,7 +22,7 @@ function HeadNav() {
 
           <div className="d-flex align-items-center">
             <div className="d-block">
-              <Auth></Auth>
+              {isAuthenticated ? <Logout /> : <Auth />}
             </div>
           </div>
         </div>

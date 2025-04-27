@@ -32,7 +32,7 @@ const options = {
 const Home = () => {
   return (
     <LayoutHome>
-        <Banner title="Welcome to Codelearner" variant="info">
+      <Banner title="Welcome to Codelearner" variant="info">
         <h1>Welcome to codelearner</h1>
       </Banner>
       <SwiperCustom slides={slideInfo} options={options} />

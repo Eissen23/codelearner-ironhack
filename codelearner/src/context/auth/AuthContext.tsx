@@ -1,13 +1,12 @@
-import React, { createContext, useContext, useState, ReactNode } from 'react';
-import { User } from '../../types/auth.types.ts';
+import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
 import { loginService } from '../../service/user-service/login';
 import { logoutService } from '../../service/user-service/logout.tsx';
 import { registerService } from '../../service/user-service/register.tsx';
 
 interface AuthState {
   isAuthenticated: boolean;
-  user: User | null;
   token: string | null;
+  isLoading: boolean;
   login: (email: string, password: string) => Promise<void>;
   logout: () => void;
   register: (email: string, password: string, account_name: string, full_name: string, password_confirmation: string) => Promise<void>;
@@ -16,17 +15,23 @@ interface AuthState {
 const AuthContext = createContext<AuthState | undefined>(undefined);
 
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const [user, setUser] = useState<User | null>(null);
-  const [token, setToken] = useState<string | null>(null);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [token, setToken] = useState<string | null>(localStorage.getItem('auth_token'));
+  const [isAuthenticated, setIsAuthenticated] = useState(!!localStorage.getItem('auth_token'));
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const storedToken = localStorage.getItem('auth_token');
+    if (storedToken) {
+      setToken(storedToken);
+      setIsAuthenticated(true);
+    }
+    setIsLoading(false);
+  }, []);
 
   const login = async (email: string, password: string) => {
     try {
       const response = await loginService({ email, password });
-      // Store token in localStorage for persistence
       localStorage.setItem('auth_token', response.token);
-      // Store user data
-      setUser(response.user);
       setToken(response.token);
       setIsAuthenticated(true);
     } catch (error) {
@@ -39,10 +44,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     try {
       const response = await registerService({ account_name, full_name, email, password, password_confirmation });
       
-      // Store token in localStorage for persistence
       localStorage.setItem('auth_token', response.token);
-      // Store user data
-      setUser(response.user);
       setToken(response.token);
       setIsAuthenticated(true);
       
@@ -59,15 +61,14 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       console.log(response);
     }
     localStorage.removeItem('auth_token');
-    setUser(null);
     setToken(null);
     setIsAuthenticated(false);
   };
 
   const value = {
     isAuthenticated,
-    user,
     token,
+    isLoading,
     login,
     logout,
     register

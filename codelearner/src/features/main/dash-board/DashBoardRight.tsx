@@ -1,23 +1,19 @@
 import React from 'react';
 import { Card, Row, Col } from 'react-bootstrap';
+import { User } from "../../../types/auth.types";
 
-interface UserInfo {
-    email: string;
-    name: string;
-    accountName: string;
-    createdAt: Date;
-    about: string;
-}
 
 interface DashBoardRightProps {
-    userInfo?: UserInfo;
+    userInfo?: User;
 }
 
-const defaultUserInfo: UserInfo = {
-    email: 'user@example.com',
-    name: 'John Doe',
-    accountName: 'johndoe',
-    createdAt: new Date('2023-01-01'),
+const defaultUserInfo: User = {
+    id: 1,
+    email: 'email here ',
+    full_name: 'name here',
+    account_name: 'account name here',
+    created_at: new Date('2023-01-01'),
+    updated_at: new Date('2023-01-01'),
     about: 'Software developer passionate about creating great user experiences.'
 };
 
@@ -31,7 +27,7 @@ const DashBoardRight: React.FC<DashBoardRightProps> = ({ userInfo = defaultUserI
                         <strong>Name:</strong>
                     </Col>
                     <Col sm={8}>
-                        {userInfo.name}
+                        {userInfo.full_name}
                     </Col>
                 </Row>
                 <Row className="mb-3">
@@ -47,7 +43,7 @@ const DashBoardRight: React.FC<DashBoardRightProps> = ({ userInfo = defaultUserI
                         <strong>Account Name:</strong>
                     </Col>
                     <Col sm={8}>
-                        {userInfo.accountName}
+                        {userInfo.account_name}
                     </Col>
                 </Row>
                 <Row className="mb-3">
@@ -55,7 +51,7 @@ const DashBoardRight: React.FC<DashBoardRightProps> = ({ userInfo = defaultUserI
                         <strong>Created Date:</strong>
                     </Col>
                     <Col sm={8}>
-                        {userInfo.createdAt.toLocaleDateString()}
+                        {new Date(userInfo.created_at).toLocaleDateString()}
                     </Col>
                 </Row>
                 <Row className="mb-3">

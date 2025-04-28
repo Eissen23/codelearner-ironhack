@@ -3,39 +3,49 @@ import HeadNav from "../components/HeadNav";
 import Footer from "../components/Footer";
 import { Col, Container, Row } from "react-bootstrap";
 
-
-
-
 interface LayoutHomeProps {
   header?: ReactNode;
   children: ReactNode;
   footer?: ReactNode;
   noGutter?: boolean;
+  className?: string;
 }
 
-const LayoutHome: React.FC<LayoutHomeProps> = ({ children, header, footer, noGutter }) => {
+const LayoutHome: React.FC<LayoutHomeProps> = ({
+  children,
+  header,
+  footer,
+  noGutter,
+  className,
+}) => {
   return (
-    <div>
-      <header>
-        {header || <HeadNav></HeadNav>}
-      </header>
-      <main>
-        <Container>
-          <Row className={noGutter ? "no-gutter" : ""}>
+    <>
+      <header>{header || <HeadNav></HeadNav>}</header>
+      <main className={className}>
+        {!noGutter ? (
+          <Container>
+            <Row>
+              <Col md={12} lg={12}>
+                {children}
+              </Col>
+            </Row>
+          </Container>
+        ) : (
+          <Row className="g-0">
             <Col md={12} lg={12}>
               {children}
             </Col>
           </Row>
-        </Container>
+        )}
       </main>
       <footer className="text-white bg-dark">
-          <Row>
-            <Col md={{span: 10, offset: 1}} lg={{span: 10, offset: 1}} >
-              {footer || <Footer></Footer>}
-            </Col>
-          </Row>
+        <Row>
+          <Col md={{ span: 10, offset: 1 }} lg={{ span: 10, offset: 1 }}>
+            {footer || <Footer></Footer>}
+          </Col>
+        </Row>
       </footer>
-    </div>
+    </>
   );
 };
 

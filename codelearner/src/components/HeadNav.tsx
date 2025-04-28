@@ -4,6 +4,13 @@ import logo from "/assets/logo/codelearner.svg";
 import "../assets/style/Navbar.css";
 import { useAuth } from "../context/auth/AuthContext";
 import Logout from "./auth/Logout";
+import MenuNav from "../features/main/nav-tab/MenuNav";
+
+const menuItems = [
+  { label: "Home", link: "/" },
+  { label: "About", link: "/about" },
+  { label: "Contact", link: "/contact" },
+];
 
 function HeadNav() {
   const { isAuthenticated } = useAuth();
@@ -21,6 +28,9 @@ function HeadNav() {
           </div>
 
           <div className="d-flex align-items-center">
+            <div>
+              <MenuNav items={menuItems} />
+            </div>
             <div className="d-block">
               {isAuthenticated ? <Logout /> : <Auth />}
             </div>

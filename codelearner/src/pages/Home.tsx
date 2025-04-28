@@ -1,41 +1,48 @@
 import Banner from "../features/main/Banner";
 import SwiperCustom from "../features/main/custom-swiper/SwiperCustom";
 import LayoutHome from "../layout/LayoutMain";
+import "../assets/style/Home.css";
+import ProblemList from "../features/main/problems/ProblemList";
+
 const slideInfo = [
   {
     title: "Welcome to Codelearner",
     description: "Welcome to Codelearner",
-    image: "https://placehold.co/300x400",
+    image: "/assets/images/Frontpage/code.png",
   },
   {
     title: "New Course",
     description: "New Course",
-    image: "https://placehold.co/300x400",
+    image: "/assets/images/Frontpage/online-learning.png",
   },
   {
     title: "Programming",
     description: "Programming",
-    image: "https://placehold.co/300x400",
+    image: "/assets/images/Frontpage/programing.png",
   },
   {
     title: "Learn with community",
     description: "Learn with community",
-    image: "https://placehold.co/300x400",
+    image: "/assets/images/Frontpage/stakeholder.png",
   },
 ];
 
 const options = {
   slidesPerView: 3,
-  spaceBetween: 30,
+  spaceBetween: 15,
 };
 
 const Home = () => {
   return (
-    <LayoutHome>
+    <LayoutHome className="home">
       <Banner title="Welcome to Codelearner" variant="info">
         <h1>Welcome to codelearner</h1>
       </Banner>
-      <SwiperCustom slides={slideInfo} options={options} />
+      <div className="py-5">
+        <SwiperCustom slides={slideInfo} options={options} />
+      </div>
+
+      <ProblemList></ProblemList>
     </LayoutHome>
   );
 };

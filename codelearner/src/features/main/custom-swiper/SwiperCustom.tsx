@@ -25,9 +25,13 @@ export default ({slides, options = {}, className}: SwiperCustomProps) => {
       {/* slides */}
       {slides.map((slide, index) => (
         <SwiperSlide key={index}>
-          <img src={slide.image} alt={slide.title} />
-          <h3>{slide.title}</h3>
-          <p>{slide.description}</p>
+          <div className="inner-image d-inline-block align-bottom">
+            <img className="img-fluid" src={slide.image} alt={slide.title} />
+          </div>
+          <div className="d-inline-block">
+            <h3>{slide.title}</h3>
+            <p>{slide.description}</p>
+          </div>
         </SwiperSlide>
       ))}
     </Swiper>

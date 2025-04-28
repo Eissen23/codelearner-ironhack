@@ -1,7 +1,7 @@
-import { Editor } from '../features/main/code/Editor';
+import CodeEditor from '../features/main/code/CodeEditor';
 
 const Codespace = () => {
-  return <Editor />;
+  return <CodeEditor />;
 };
 
 export default Codespace;

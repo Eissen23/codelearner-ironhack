@@ -30,9 +30,7 @@ class ProblemController extends Controller implements HasMiddleware
     {
         // return all problems
         $problems = ProblemSetHelper::getOrgProblemPaginator(request(), $problemSet);
-        return [
-            'problems' => $problems,
-        ];
+        return $problems;
     }
 
     public function show(Problem $problem)
@@ -65,9 +63,7 @@ class ProblemController extends Controller implements HasMiddleware
         // create a new problem
         $problem = Problem::create($fields);
 
-        return [
-            'problem' => $problem,
-        ];
+        return $problem;
     }
     
     public function update(Request $request, Problem $problem)

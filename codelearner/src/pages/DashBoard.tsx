@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import LayoutMain from "../layout/LayoutMain";
 import DashBoardLeft from "../features/main/dash-board/DashBoardLeft";
@@ -11,10 +11,16 @@ const DashBoard: React.FC = () => {
 	const { token } = useAuth();
 
   const [userDetail, setUserDetail] = useState<User | undefined>(undefined);
+  const requestInProgress = useRef(false);
 
   useEffect(() => {
-    if (token) {
-      getUserInfo({ token }).then(setUserDetail);
+    if (token && !requestInProgress.current) {
+      requestInProgress.current = true;
+      getUserInfo({ token })
+        .then(setUserDetail)
+        .finally(() => {
+          requestInProgress.current = false;
+        });
     }
   }, [token]);
   
@@ -26,7 +32,7 @@ const DashBoard: React.FC = () => {
             <DashBoardLeft />
           </Col>
           <Col md={9}>
-            <DashBoardRight userInfo={userDetail} />
+            {!userDetail ? <div>Loading...</div> : <DashBoardRight userInfo={userDetail} />}
           </Col>
         </Row>
       </Container>

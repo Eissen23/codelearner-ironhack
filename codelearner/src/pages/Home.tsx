@@ -41,8 +41,9 @@ const Home = () => {
       <div className="py-5">
         <SwiperCustom slides={slideInfo} options={options} />
       </div>
-
-      <ProblemList></ProblemList>
+      <div className="py-5">
+        <ProblemList></ProblemList>
+      </div>
     </LayoutHome>
   );
 };

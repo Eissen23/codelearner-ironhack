@@ -5,11 +5,17 @@ import "../assets/style/Navbar.css";
 import { useAuth } from "../context/auth/AuthContext";
 import Logout from "./auth/Logout";
 import MenuNav from "../features/main/nav-tab/MenuNav";
-
+import { Link } from "react-router-dom";
 const menuItems = [
   { label: "Home", link: "/" },
   { label: "About", link: "/about" },
   { label: "Contact", link: "/contact" },
+];
+
+const userItems = [
+  { label: "Home", link: "/" },
+  { label: "Dashboard", link: "/dashboard" },
+  { label: "Sandbox", link: "/code" },
 ];
 
 function HeadNav() {
@@ -19,9 +25,11 @@ function HeadNav() {
       <Container>
         <div className="d-flex justify-content-between align-items-center">
           <div className="logo-img d-flex">
+            <Link to="/">
             <div className="ratio-16-9">
               <img className="img-fluid" src={logo} alt="Ironhack logo" />
             </div>
+            </Link>
             <span className="text-white align-content-center ms-3 font-monospace">
               Ironhack
             </span>
@@ -29,7 +37,7 @@ function HeadNav() {
 
           <div className="d-flex align-items-center">
             <div>
-              <MenuNav items={menuItems} />
+              <MenuNav items={isAuthenticated ? userItems : menuItems} />
             </div>
             <div className="d-block">
               {isAuthenticated ? <Logout /> : <Auth />}

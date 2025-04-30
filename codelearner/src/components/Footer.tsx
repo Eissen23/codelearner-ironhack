@@ -18,7 +18,7 @@ const Footer: React.FC = () => {
     <div className="py-4 text-white">
       <Row >
         <Col md={4} >
-          <Logo imageUrl="https://placehold.co/100x100" />
+          <Logo size="sm" imageUrl="/assets/logo/codelearner.svg" />
           {addresses.map((line, index) => (
             <div key={index}>{line}</div>
           ))}

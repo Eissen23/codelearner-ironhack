@@ -1,13 +1,13 @@
-import axios from "axios";
 import { ProblemResponse } from "../../../types/problem.type";
-const API_URL = import.meta.env.VITE_API_URL;
+import { CODELEARNER_API } from "../clients/codelearner";
 
 
+// TODO: rewrite this function to use CODELEARNER_API
 export const getProblemList = async (
 ): Promise<ProblemResponse> => {
   try {
-    const response = await axios.get<ProblemResponse>(
-      `${API_URL}/problems`,
+    const response = await CODELEARNER_API.get<ProblemResponse>(
+      `/problems`,
       {
         headers: {
           "Content-Type": "application/json",

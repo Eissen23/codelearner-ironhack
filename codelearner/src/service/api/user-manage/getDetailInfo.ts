@@ -1,21 +1,19 @@
-import axios from "axios";
 import { UserDetail } from "../../../types/user.type";
-const API_URL = import.meta.env.VITE_API_URL;
+import { CODELEARNER_API } from "../clients/codelearner";
 
 interface getUserCredential {
   token: string;
 }
 
+// TODO: rewrite this function to use CODELEARNER_API
 export const getDetailInfo = async (
   credentials: getUserCredential
 ): Promise<UserDetail> => {
   try {
-    const response = await axios.get<UserDetail>(
-      `${API_URL}/info-detail`,
+    const response = await CODELEARNER_API.get<UserDetail>(
+      `/info-detail`,
       {
         headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
           Authorization: `Bearer ${credentials.token}`,
         },
       }

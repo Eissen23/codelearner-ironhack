@@ -1,6 +1,10 @@
 import { useEffect, useState } from "react";
 import { getProblemList } from "../../../service/api/problem-manage/getProblemList";
 import { ProblemResponse } from "../../../types/problem.type";
+import Accordion from "react-bootstrap/Accordion";
+import Button from "react-bootstrap/Button";
+import Spinner from "react-bootstrap/Spinner";
+import { parseEscapeSequences } from "../../../utils/parseEscapeSequence";
 
 const ProblemList = () => {
   const [problems, setProblems] = useState<ProblemResponse | null>(null);
@@ -25,21 +29,30 @@ const ProblemList = () => {
   }
 
   if (!problems) {
-    return <div>Loading...</div>;
+    return <Spinner animation="border" variant="primary"></Spinner>;
   }
-  console.log(problems);
-
 
   return (
     <div className="problem-list">
-      {problems.data.map((problem, index) => (
-        <div key={index} className="problem-item">
-          <h3>{problem.name}</h3>
-          <p>{problem.description}</p>
-          <p>Difficulty: {problem.difficulty}</p>
-        </div>
-      ))}
-      
+      <Accordion>
+        {problems.data.map((problem, index) => (
+          <Accordion.Item key={index} eventKey={index.toString()}>
+            <Accordion.Header>
+              <div className="d-flex w-100">
+                <span>{problem.name}</span>
+                <span className="ms-3">Difficulty: {problem.difficulty}</span>
+              </div>
+            </Accordion.Header>
+            <Accordion.Body>
+              <p style={{ whiteSpace: "pre-wrap" }}>
+                {parseEscapeSequences(problem.description)}
+              </p>
+              <Button variant="primary">View Problem</Button>
+            </Accordion.Body>
+          </Accordion.Item>
+        ))}
+      </Accordion>
+
       {/* {problems.links && (
         <div className="pagination">
           {problems.links.map((link, index) => (

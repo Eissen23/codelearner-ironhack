@@ -14,7 +14,7 @@ const Logo: React.FC<LogoProps> = ({
   alt = 'Logo' 
 }) => {
   const sizeClasses = {
-    sm: 'w-25 h-25',
+    sm: 'w-25',
     md: 'w-50 h-50',
     lg: 'w-100 h-100'
   };

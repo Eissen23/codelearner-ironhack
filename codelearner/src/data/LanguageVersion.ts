@@ -9,7 +9,4 @@ export const LANGUAGE_VERSION = {
     typescript: "5.6.2",
     kotlin: "2.1.10",
     php: "8.3.11",
-    dart: "2.19.2",
-    clojure: "1.10.1",
-    r: "4.4.1",
 };

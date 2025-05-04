@@ -3,7 +3,7 @@ import Split from "react-split";
 import Problem from "../components/Problem";
 import CodeEditor from "../features/main/code/CodeEditor";
 import "../assets/style/Code.css";
-import LayoutHome from "../layout/LayoutMain";
+import LayoutHome from "../layout/LayoutHome";
 import Output from "../features/main/code/Output";
 
 const Code: React.FC = () => {

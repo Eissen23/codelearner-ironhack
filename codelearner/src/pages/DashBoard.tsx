@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import { Container, Row, Col } from "react-bootstrap";
-import LayoutMain from "../layout/LayoutMain";
+import LayoutHome from "../layout/LayoutHome";
 import DashBoardLeft from "../features/main/dash-board/DashBoardLeft";
 import DashBoardRight from "../features/main/dash-board/DashBoardRight";
 import { getUserInfo } from "../service/api/user-manage/getUserInfo";
@@ -25,7 +25,7 @@ const DashBoard: React.FC = () => {
   }, [token]);
   
 	return (
-    <LayoutMain>
+    <LayoutHome>
       <Container fluid className="my-5">
         <Row>
           <Col md={3}>
@@ -36,7 +36,7 @@ const DashBoard: React.FC = () => {
           </Col>
         </Row>
       </Container>
-    </LayoutMain>
+    </LayoutHome>
   );
 };
 

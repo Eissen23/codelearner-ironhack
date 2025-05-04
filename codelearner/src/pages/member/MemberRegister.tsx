@@ -2,7 +2,7 @@ import { Col, Container, Row } from "react-bootstrap";
 import SignUpForm from "../../components/form/SignUpForm";
 import "../../assets/style/Login.css";
 import { useNavigate } from "react-router-dom";
-import LayoutHome from "../../layout/LayoutMain";
+import LayoutHome from "../../layout/LayoutHome";
 import banner from "/assets/images/Gradient_builder_3.jpeg";
 
 

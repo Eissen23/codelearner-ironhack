@@ -1,6 +1,6 @@
 import Banner from "../features/main/Banner";
 import SwiperCustom from "../features/main/custom-swiper/SwiperCustom";
-import LayoutHome from "../layout/LayoutMain";
+import LayoutHome from "../layout/LayoutHome";
 import "../assets/style/Home.css";
 import ProblemList from "../features/main/problems/ProblemList";
 

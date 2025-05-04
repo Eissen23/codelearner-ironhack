@@ -2,7 +2,7 @@ import { Container } from "react-bootstrap";
 import LoginForm from "../../components/form/LoginForm";
 import "../../assets/style/Login.css";
 import { useNavigate } from "react-router-dom";
-import LayoutHome from "../../layout/LayoutMain";
+import LayoutHome from "../../layout/LayoutHome";
 const MemberLogin = () => {
   const navigate = useNavigate();
   

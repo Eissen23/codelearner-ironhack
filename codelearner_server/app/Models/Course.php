@@ -19,6 +19,7 @@ class Course extends Model
         'short_description',
         'duration',
         'org_id',
+        'fee',
     ];
 
     protected $casts = [

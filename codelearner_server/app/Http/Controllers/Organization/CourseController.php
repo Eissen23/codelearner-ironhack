@@ -47,6 +47,7 @@ class CourseController extends Controller implements HasMiddleware
             'description' => 'required',
             'short_description'=> 'required|string',
             'duration' => 'integer',
+            'fee' => 'nullable|numeric',
         ]);
 
         $fields['org_id'] = $org->id;

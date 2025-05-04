@@ -3,14 +3,13 @@ import { JUDGE0_API } from "../clients/judge0";
 import axios from "axios";
 
 
-
 export const createSubmission = async (params: SubmissionParams) => {
   try {
     const response = await JUDGE0_API.post("/submissions", {
       source_code: params.source_code,
       language_id: params.language_id,
       stdin: params.stdin,
-      expected_output: params.expected_output
+      expected_output: params.expected_output,
     }, {
       signal: params.signal
     });

@@ -4,4 +4,4 @@ export const parseEscapeSequences = (text: string): string => {
       .replace(/\\"/g, '"')
       .replace(/\\t/g, '\t')
       .replace(/\\r/g, '\r');
-  };
+};

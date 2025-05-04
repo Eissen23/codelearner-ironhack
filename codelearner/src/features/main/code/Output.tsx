@@ -2,8 +2,43 @@ import React from "react";
 import { Stack } from "react-bootstrap";
 import { FaCirclePlay } from "react-icons/fa6";
 import { IoSend } from "react-icons/io5";
+import { LANGUAGE_MAPPING } from "../../../data/LanguageMapping";
+import { createSubmission } from "../../../service/api/judge0-code/createSubmission";
 
-const Output = () => {
+interface OutputProps {
+  editorRef: React.RefObject<any>;
+  language: string;
+}
+
+
+
+const Output: React.FC<OutputProps> = ({ editorRef, language }) => {
+  
+  const runCode = async () => {
+    if (!editorRef.current) {
+      return;
+    }
+    const code = editorRef.current.getValue();
+    const languageCode = LANGUAGE_MAPPING[language];
+    if (!languageCode) {
+      console.error(`Language code not found for ${language}`);
+      return;
+    }
+
+    try{
+      const {} = await createSubmission({
+        source_code: code,
+        language_id: languageCode,
+      });
+
+
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  
+
   return (
     <div className="Output">
       <Stack
@@ -14,6 +49,7 @@ const Output = () => {
         <button
           className="text-white px-3 py-2 rounded-pill border-0 btn btn-secondary"
           type="submit"
+          onClick={runCode}
         >
           <FaCirclePlay className="mb-1 me-2" />
           Run

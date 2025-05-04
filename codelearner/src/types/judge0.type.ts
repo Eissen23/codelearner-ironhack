@@ -5,4 +5,5 @@ export interface SubmissionParams {
     stdin?: string;
     expected_output?: string;
     signal?: AbortSignal;
+    wait?: boolean;
 }

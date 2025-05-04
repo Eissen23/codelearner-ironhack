@@ -1,11 +1,15 @@
+import React, { useRef, useState } from 'react';
 import Split from "react-split";
 import Problem from "../components/Problem";
-import Codespace from "../components/Codespace";
+import CodeEditor from "../features/main/code/CodeEditor";
 import "../assets/style/Code.css";
 import LayoutHome from "../layout/LayoutMain";
-import Output from "../components/Output";
+import Output from "../features/main/code/Output";
 
-const Code = () => {
+const Code: React.FC = () => {
+  const editorRef = useRef<any>(null);
+  const [language, setLanguage] = useState("javascript");
+
   return (
     <div>
       <LayoutHome noGutter>
@@ -19,8 +23,8 @@ const Code = () => {
             gutterSize={5}
             gutterAlign="end"
           >
-            <Codespace />
-            <Output />
+            <CodeEditor editorRef={editorRef} language={language} onLanguageChange={setLanguage} />
+            <Output editorRef={editorRef} language={language} />
           </Split>
         </Split>
       </LayoutHome>

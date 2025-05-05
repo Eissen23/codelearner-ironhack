@@ -5,49 +5,48 @@ import ProtectedRoutes from "../context/routes/ProtectedRoute";
 import MemberLogin from "../pages/member/MemberLogin";
 import MemberRegister from "../pages/member/MemberRegister";
 import Org from "../pages/Org/Org";
-import CourseList from "../features/main/course/CourseList";
-import ProblemSetList from "../features/main/problems/ProblemSetList";
-
+import CoursePage from "../pages/Org/CoursesPage";
+import ProblemSetPage from "../pages/Org/ProblemSetPage";
 
 const routes_map = [
-    { 
-        path: '/', 
-        Component: Home
-    },
-    {
-        path: '/login',
-        Component: MemberLogin
-    },
-    {
-        path: '/signup',
-        Component: MemberRegister
-    },
-    {
-        path: '/orgs',
-        Component: Org
-    },
-    {
-        path: '/courses',
-        Component: CourseList
-    },
-    {
-        path: '/problem-sets',
-        Component: ProblemSetList
-    },
-    {   
-        path: '/', 
-        Component: ProtectedRoutes,
-        children: [
-            { 
-                path: '/code', 
-                Component: Code
-            },
-            { 
-                path: '/dashboard', 
-                Component: DashBoard
-            }
-        ]
-    },
-]
+  {
+    path: "/",
+    Component: Home,
+  },
+  {
+    path: "/login",
+    Component: MemberLogin,
+  },
+  {
+    path: "/signup",
+    Component: MemberRegister,
+  },
+  {
+    path: "/orgs",
+    Component: Org,
+  },
+  {
+    path: "/courses",
+    Component: CoursePage,
+  },
+  {
+    path: "/problem-sets",
+    Component: ProblemSetPage,
+  },
+  {
+    path: "/",
+    Component: ProtectedRoutes,
+    children: [
+      {
+        path: "/code",
+        Component: Code,
+      },
+      {
+        path: "/dashboard",
+        Component: DashBoard,
+      },
+    ],
+  },
+];
 
 export default routes_map;

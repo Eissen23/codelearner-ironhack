@@ -7,8 +7,9 @@ import MemberRegister from "../pages/member/MemberRegister";
 import Org from "../pages/Org/Org";
 import CoursePage from "../pages/Org/CoursesPage";
 import ProblemSetPage from "../pages/Org/ProblemSetPage";
-import { Component } from "react";
 import TestView from "../components/TestView";
+import { getOrgsDetail } from "../service/api/org-manage/getOrgDetail";
+import OrgDetail from "../pages/DetailPage/OrgDetail";
 
 const routes_map = [
   {
@@ -23,10 +24,16 @@ const routes_map = [
     path: "/signup",
     Component: MemberRegister,
   },
+  // Org
   {
     path: "/orgs",
     Component: Org,
   },
+  {
+    path: "/orgs/:id",
+    Component: OrgDetail,
+  },
+
   {
     path: "/courses",
     Component: CoursePage,

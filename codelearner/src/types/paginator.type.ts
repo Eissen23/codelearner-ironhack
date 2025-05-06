@@ -1,5 +1,5 @@
-export interface Link{
-    url: string|null;
-    label: string;
-    active: boolean;
-}
+export type Link = {
+  url: string | null;
+  label: string;
+  active: boolean;
+};

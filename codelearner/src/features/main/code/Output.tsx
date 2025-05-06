@@ -10,10 +10,10 @@ interface OutputProps {
   language: string;
 }
 
-
-
 const Output: React.FC<OutputProps> = ({ editorRef, language }) => {
-  
+  const [isRunning, setIsRunning] = React.useState(false);
+  const [output, setOutput] = React.useState<String>();
+  const [er, setError] = React.useState(false);
   const runCode = async () => {
     if (!editorRef.current) {
       return;
@@ -25,19 +25,23 @@ const Output: React.FC<OutputProps> = ({ editorRef, language }) => {
       return;
     }
 
-    try{
-      const {} = await createSubmission({
+    try {
+      setIsRunning(true);
+
+      const result = await createSubmission({
         source_code: code,
         language_id: languageCode,
       });
-
-
+      setOutput(result.stdout);
+      result.stderr ? setError(true) : setError(false);
     } catch (error) {
+      setOutput("An error occurred while running the code");
+      alert("Failed to run code");
       console.error(error);
+    } finally {
+      setIsRunning(false);
     }
-  }
-
-  
+  };
 
   return (
     <div className="Output">
@@ -51,18 +55,34 @@ const Output: React.FC<OutputProps> = ({ editorRef, language }) => {
           type="submit"
           onClick={runCode}
         >
-          <FaCirclePlay className="mb-1 me-2" />
+          {isRunning ? (
+            <span
+              className="spinner-border spinner-border-sm me-2"
+              role="status"
+              aria-hidden="true"
+            ></span>
+          ) : (
+            <FaCirclePlay className="mb-1 me-2" />
+          )}
           Run
         </button>
         <button
           className="ms-auto btn btn-success text-white px-3 py-2 rounded-pill"
           type="submit"
         >
-          <IoSend className="mb-1 me-2"/>
+          <IoSend className="mb-1 me-2" />
           Submit
         </button>
       </Stack>
-      Output will appear here...
+      <div className={er ? "text-danger" : "text-success"}>
+        {output && !er ? (
+          output
+        ) : (
+          <div className="text-secondary">
+            Click runcode to see the the output
+          </div>
+        )}
+      </div>
     </div>
   );
 };

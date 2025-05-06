@@ -24,7 +24,7 @@ const LayoutHome: React.FC<LayoutHomeProps> = ({
       <main className={className}>
         {!noGutter ? (
           <Container>
-            <Row>
+            <Row className="my-3">
               <Col md={12} lg={12}>
                 {children}
               </Col>

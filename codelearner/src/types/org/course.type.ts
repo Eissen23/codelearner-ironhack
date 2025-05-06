@@ -1,6 +1,6 @@
 import { Link } from "../paginator.type";
 
-export interface Course {
+export type Course = {
   id: number;
   name: string;
   description?: string;
@@ -10,10 +10,10 @@ export interface Course {
   currency?: string;
   created_at: Date;
   org_id: number;
-}
+};
 
 // Main response interface
-export interface CoursePageResponse {
+export type CoursePageResponse = {
   current_page: number;
   data: Course[];
   first_page_url: string;
@@ -27,9 +27,9 @@ export interface CoursePageResponse {
   prev_page_url: string | null;
   to: number;
   total: number;
-}
+};
 
 // Wrapper for the entire response
-export interface CourseResponse {
+export type CourseResponse = {
   courses_page: CoursePageResponse;
-}
+};

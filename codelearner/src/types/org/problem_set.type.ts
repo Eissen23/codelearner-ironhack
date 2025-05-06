@@ -1,6 +1,6 @@
 import { Link } from "../paginator.type";
 
-export interface ProblemSet {
+export type ProblemSet = {
   id: number;
   name: string;
   description?: string;
@@ -8,9 +8,9 @@ export interface ProblemSet {
   expired_at: Date;
   created_at: Date;
   org_id: number;
-}
+};
 
-export interface ProblemSetResponse {
+export type ProblemSetResponse = {
   problem_sets: {
     current_page: number;
     data: ProblemSet[];
@@ -26,4 +26,4 @@ export interface ProblemSetResponse {
     to: number;
     total: number;
   };
-}
+};

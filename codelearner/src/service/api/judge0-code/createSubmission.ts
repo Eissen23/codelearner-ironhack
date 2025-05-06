@@ -1,8 +1,11 @@
-import { SubmissionParams } from "../../../types/judge0.type";
+import { SubmissionParams } from "../../../types/code/judge0.type";
 import { JUDGE0_API } from "../clients/judge0";
 import axios from "axios";
+import { SubmissionResponse } from "../../../types/code/judge0.type";
 
-export const createSubmission = async (params: SubmissionParams) => {
+export const createSubmission = async (
+  params: SubmissionParams
+): Promise<SubmissionResponse> => {
   try {
     const response = await JUDGE0_API.post(
       "/submissions?wait=true",

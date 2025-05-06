@@ -26,7 +26,7 @@ function Auth() {
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton className="border-0"></Modal.Header>
         <Modal.Body>
-            <LoginForm onSwitchToSignUp={switchToSignUp} />
+          <LoginForm onSwitchToSignUp={switchToSignUp} />
         </Modal.Body>
       </Modal>
     </>

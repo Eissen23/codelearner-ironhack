@@ -5,10 +5,10 @@ import DashBoardLeft from "../features/main/dash-board/DashBoardLeft";
 import DashBoardRight from "../features/main/dash-board/DashBoardRight";
 import { getUserInfo } from "../service/api/user-manage/getUserInfo";
 import { useAuth } from "../context/auth/AuthContext";
-import { User } from "../types/auth.types";
+import { User } from "../types/feature-data/auth.types";
 
 const DashBoard: React.FC = () => {
-	const { token } = useAuth();
+  const { token } = useAuth();
 
   const [userDetail, setUserDetail] = useState<User | undefined>(undefined);
   const requestInProgress = useRef(false);
@@ -23,8 +23,8 @@ const DashBoard: React.FC = () => {
         });
     }
   }, [token]);
-  
-	return (
+
+  return (
     <LayoutHome>
       <Container fluid className="my-5">
         <Row>
@@ -32,7 +32,11 @@ const DashBoard: React.FC = () => {
             <DashBoardLeft />
           </Col>
           <Col md={9}>
-            {!userDetail ? <div>Loading...</div> : <DashBoardRight userInfo={userDetail} />}
+            {!userDetail ? (
+              <div>Loading...</div>
+            ) : (
+              <DashBoardRight userInfo={userDetail} />
+            )}
           </Col>
         </Row>
       </Container>

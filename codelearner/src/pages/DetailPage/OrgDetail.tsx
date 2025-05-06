@@ -20,13 +20,13 @@ const OrgDetail = () => {
         </Col>
         <Col xs={12} md={9}>
           <h2>Properties of Organization</h2>
-          <section id="course">
+          <section id="course" className="mb-3 bg-light rounded-3 p-3">
             <CourseInOrg org_id={id ? id : ""} />
           </section>
-          <section id="problem-set">
-            <ProblemSetInOrg />
+          <section id="problem-set" className="mb-3 bg-light rounded-3 p-3">
+            <ProblemSetInOrg org_id={id ? id : ""} />
           </section>
-          <section id="moderator">
+          <section id="moderator" className="mb-3 bg-light rounded-3 p-3">
             <ModeratorOrg />
           </section>
         </Col>

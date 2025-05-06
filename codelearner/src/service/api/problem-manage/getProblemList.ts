@@ -1,4 +1,4 @@
-import { ProblemResponse } from "../../../types/problem.type";
+import { ProblemResponse } from "../../../types/content/problem.type";
 import { CODELEARNER_API } from "../clients/codelearner";
 
 // TODO: rewrite this function to use CODELEARNER_API

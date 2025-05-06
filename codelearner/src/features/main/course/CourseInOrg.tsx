@@ -28,31 +28,36 @@ const CourseInOrg: React.FC<{ org_id: string }> = ({ org_id }) => {
 
   return (
     <div className="moderator-org">
-      <h2>Course In Org</h2>
-      <Row>
-        {courses.map((course) => (
-          <Col key={course.id} md={4} xs={12} className="mb-3">
-            <Card className="h-100 shadow-sm">
-              <Card.Body>
-                <Card.Title>
-                  <a
-                    href={`/courses/${course.id}`}
-                    className="text-decoration-none text-dark"
-                  >
-                    {course.name}
-                  </a>
-                </Card.Title>
-                <Card.Text>{course.description}</Card.Text>
-                <div className="text-muted small">
-                  <p className="mb-1">
-                    Created: {new Date(course.created_at).toLocaleDateString()}
-                  </p>
-                </div>
-              </Card.Body>
-            </Card>
-          </Col>
-        ))}
-      </Row>
+      <h4>Course In Org</h4>
+      {courses.length ? (
+        <Row>
+          {courses.map((course) => (
+            <Col key={course.id} md={4} xs={12} className="mb-3">
+              <Card className="h-100 shadow-sm">
+                <Card.Body>
+                  <Card.Title>
+                    <a
+                      href={`/courses/${course.id}`}
+                      className="text-decoration-none text-dark"
+                    >
+                      {course.name}
+                    </a>
+                  </Card.Title>
+                  <Card.Text>{course.description}</Card.Text>
+                  <div className="text-muted small">
+                    <p className="mb-1">
+                      Created:{" "}
+                      {new Date(course.created_at).toLocaleDateString()}
+                    </p>
+                  </div>
+                </Card.Body>
+              </Card>
+            </Col>
+          ))}
+        </Row>
+      ) : (
+        <div className="text-info">No course available</div>
+      )}
     </div>
   );
 };

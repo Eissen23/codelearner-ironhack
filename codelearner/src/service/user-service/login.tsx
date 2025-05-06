@@ -1,5 +1,5 @@
 import axios from "axios";
-import { LoginResponse } from "../../types/feature-data/auth.types";
+import { LoginResponse } from "../../types/auth.types";
 const API_URL = import.meta.env.VITE_API_URL;
 
 interface LoginCredentials {

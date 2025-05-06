@@ -1,5 +1,5 @@
 import axios from "axios";
-import { LogoutResponse } from "../../types/feature-data/auth.types";
+import { LogoutResponse } from "../../types/auth.types";
 const API_URL = import.meta.env.VITE_API_URL;
 
 interface LogoutCredentials {

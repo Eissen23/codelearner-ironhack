@@ -1,6 +1,6 @@
 import React from "react";
 import { Card, Row, Col } from "react-bootstrap";
-import { User } from "../../../types/feature-data/auth.types";
+import { User } from "../../../types/auth.types";
 
 interface DashBoardRightProps {
   userInfo?: User;

@@ -1,4 +1,4 @@
-import { User } from "../../../types/feature-data/auth.types";
+import { User } from "../../../types/auth.types";
 import { CODELEARNER_API } from "../clients/codelearner";
 import axios from "axios";
 

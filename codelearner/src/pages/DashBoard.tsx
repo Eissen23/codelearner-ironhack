@@ -5,7 +5,7 @@ import DashBoardLeft from "../features/main/dash-board/DashBoardLeft";
 import DashBoardRight from "../features/main/dash-board/DashBoardRight";
 import { getUserInfo } from "../service/api/user-manage/getUserInfo";
 import { useAuth } from "../context/auth/AuthContext";
-import { User } from "../types/feature-data/auth.types";
+import { User } from "../types/auth.types";
 
 const DashBoard: React.FC = () => {
   const { token } = useAuth();

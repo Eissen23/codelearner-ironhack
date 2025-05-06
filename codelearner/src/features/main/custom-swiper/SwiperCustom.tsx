@@ -1,27 +1,22 @@
 // Import Swiper React components
-import { Swiper, SwiperSlide } from 'swiper/react';
+import { Swiper, SwiperSlide } from "swiper/react";
 
 // Import Swiper styles
-import 'swiper/css';
-import { SwiperOptions } from 'swiper/types';
-import { SwiperCustomProps } from '../../../types/swiper.type';
-
+import "swiper/css";
+import { SwiperOptions } from "swiper/types";
+import { SwiperCustomProps } from "../../../types/feature-data/swiper.type";
 
 const defaultOptions = {
-    spaceBetween: 30,
-    slidesPerView: 1,
-    navigation: true,
-    pagination: { clickable: true },
+  spaceBetween: 30,
+  slidesPerView: 1,
+  navigation: true,
+  pagination: { clickable: true },
 };
 
-
-export default ({slides, options = {}, className}: SwiperCustomProps) => {
-    const mergedOptions: SwiperOptions = { ...defaultOptions, ...options };
-    return (
-    <Swiper
-      {...mergedOptions}
-      className={className}
-    >
+export default ({ slides, options = {}, className }: SwiperCustomProps) => {
+  const mergedOptions: SwiperOptions = { ...defaultOptions, ...options };
+  return (
+    <Swiper {...mergedOptions} className={className}>
       {/* slides */}
       {slides.map((slide, index) => (
         <SwiperSlide key={index}>

@@ -1,5 +1,5 @@
 import axios from "axios";
-import { RegisterResponse } from "../../types/feature-data/auth.types";
+import { RegisterResponse } from "../../types/auth.types";
 const API_URL = import.meta.env.VITE_API_URL;
 
 interface RegisterCredentials {

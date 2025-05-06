@@ -3,7 +3,7 @@ import { Link } from "../paginator.type";
 export interface ProblemSet {
   id: number;
   name: string;
-  description: string | null;
+  description?: string;
   short_description: string;
   expired_at: Date;
   created_at: Date;

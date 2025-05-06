@@ -7,6 +7,8 @@ import MemberRegister from "../pages/member/MemberRegister";
 import Org from "../pages/Org/Org";
 import CoursePage from "../pages/Org/CoursesPage";
 import ProblemSetPage from "../pages/Org/ProblemSetPage";
+import { Component } from "react";
+import TestView from "../components/TestView";
 
 const routes_map = [
   {
@@ -32,6 +34,10 @@ const routes_map = [
   {
     path: "/problem-sets",
     Component: ProblemSetPage,
+  },
+  {
+    path: "/test-view",
+    Component: TestView,
   },
   {
     path: "/",

@@ -46,7 +46,14 @@ const CourseList = () => {
           <Col key={course.id}>
             <Card className="h-100 shadow-sm">
               <Card.Body>
-                <Card.Title>{course.name}</Card.Title>
+                <Card.Title>
+                  <a
+                    href={`/courses/${course.id}`}
+                    className="text-decoration-none text-dark"
+                  >
+                    {course.name}
+                  </a>
+                </Card.Title>
                 <Card.Text>{course.description}</Card.Text>
                 <div className="text-muted small">
                   <p className="mb-1">

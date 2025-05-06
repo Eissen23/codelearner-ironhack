@@ -58,7 +58,14 @@ const OrgList = () => {
                 />
               )}
               <Card.Body>
-                <Card.Title>{organizations.org_name}</Card.Title>
+                <Card.Title>
+                  <a
+                    href={`/orgs/${organizations.id}`}
+                    className="text-decoration-none text-dark"
+                  >
+                    {organizations.org_name}
+                  </a>
+                </Card.Title>
                 <Card.Text>{organizations.description}</Card.Text>
                 <div className="text-muted">
                   <p className="mb-1">Contact: {organizations.contact_email}</p>

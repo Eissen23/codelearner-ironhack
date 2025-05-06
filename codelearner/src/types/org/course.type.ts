@@ -1,14 +1,15 @@
 import { Link } from "../paginator.type";
 
 export interface Course {
-    id: number;
-    name: string;
-    description: string;
-    short_description: string;
-    fee: number;
-    duration: number;
-    org_id: number;
-    created_at: string;
+  id: number;
+  name: string;
+  description?: string;
+  short_description: string;
+  fee: number | 0.0;
+  duration: number | 0;
+  currency?: string;
+  created_at: Date;
+  org_id: number;
 }
 
 // Main response interface

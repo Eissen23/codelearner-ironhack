@@ -46,7 +46,14 @@ const ProblemSetList = () => {
           <Col key={problemSet.id}>
             <Card className="h-100 shadow-sm">
               <Card.Body>
-                <Card.Title>{problemSet.name}</Card.Title>
+                <Card.Title>
+                  <a
+                    href={`/problem-sets/${problemSet.id}`}
+                    className="text-decoration-none text-dark"
+                  >
+                    {problemSet.name}
+                  </a>
+                </Card.Title>
                 <Card.Text>{problemSet.short_description}</Card.Text>
                 <div className="text-muted small">
                   <p className="mb-1">

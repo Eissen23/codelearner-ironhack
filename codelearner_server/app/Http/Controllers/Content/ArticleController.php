@@ -45,7 +45,7 @@ class ArticleController extends Controller implements HasMiddleware
 
         $fields = $request->validate([
             'name' => 'required|max:100',
-            'description' => 'required|stringww|max:255',
+            'description' => 'required|string|max:255',
             'content' => 'nullable',
             'chapter' => 'nullable',
             'type' => "required|string", 

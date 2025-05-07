@@ -23,37 +23,43 @@ const OrgInfo = ({ id }: { id: string }) => {
     getOrgData();
   }, [id]);
 
+  if (loading) {
+    return (
+      <div className="d-flex justify-content-center p-3">
+        <Spinner animation="border" role="status">
+          <span className="visually-hidden">Loading...</span>
+        </Spinner>
+      </div>
+    );
+  }
+
+  if (!data) {
+    return (
+      <Card.Body>
+        <Card.Text>No organization data available.</Card.Text>
+      </Card.Body>
+    );
+  }
+
   return (
     <Card className="OrgInfo">
-      {loading ? (
-        <div className="d-flex justify-content-center p-3">
-          <Spinner animation="border" role="status">
-            <span className="visually-hidden">Loading...</span>
-          </Spinner>
-        </div>
-      ) : data ? (
-        <Card.Body className="org-details">
-          <Card.Title>{data.org_name || ""}</Card.Title>
-          <Card.Text>{data.description}</Card.Text>
+      <Card.Header as={"h5"}>{data.org_name || ""}</Card.Header>
+      <Card.Body className="org-details">
+        <Card.Text>{data.description}</Card.Text>
+        <Card.Text>
+          <strong>Email:</strong> {data.contact_email}
+        </Card.Text>
+        {data.website && (
           <Card.Text>
-            <strong>Email:</strong> {data.contact_email}
+            <strong>Website:</strong>
+            {data.website}
           </Card.Text>
-          {data.website && (
-            <Card.Text>
-              <strong>Website:</strong>
-              {data.website}
-            </Card.Text>
-          )}
-          <Card.Text>
-            <strong>Created in:</strong>{" "}
-            {new Date(data.created_at).toLocaleDateString()}
-          </Card.Text>
-        </Card.Body>
-      ) : (
-        <Card.Body>
-          <Card.Text>No organization data available.</Card.Text>
-        </Card.Body>
-      )}
+        )}
+        <Card.Text>
+          <strong>Created in:</strong>{" "}
+          {new Date(data.created_at).toLocaleDateString()}
+        </Card.Text>
+      </Card.Body>
     </Card>
   );
 };

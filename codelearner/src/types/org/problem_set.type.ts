@@ -10,6 +10,10 @@ export type ProblemSet = {
   org_id: number;
 };
 
+export type ProblemSetInfoResponse = {
+  data: ProblemSet;
+};
+
 export type ProblemSetResponse = {
   problem_sets: {
     current_page: number;

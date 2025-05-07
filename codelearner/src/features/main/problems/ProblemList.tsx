@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
 import { getProblemList } from "../../../service/api/problem-manage/getProblemList";
-import { ProblemResponse } from "../../../types/problem.type";
+import { ProblemResponse } from "../../../types/content/problem.type";
 import Accordion from "react-bootstrap/Accordion";
 import Button from "react-bootstrap/Button";
 import Spinner from "react-bootstrap/Spinner";
 import { parseEscapeSequences } from "../../../utils/parseEscapeSequence";
+import { Link } from "react-router";
+import { GrLinkNext } from "react-icons/gr";
 
 const ProblemList = () => {
   const [problems, setProblems] = useState<ProblemResponse | null>(null);
@@ -34,6 +36,14 @@ const ProblemList = () => {
 
   return (
     <div className="problem-list">
+      <div className="d-flex justify-content-between mb-4">
+        <h3>View our problems</h3>
+        <Button variant="primary">
+          <Link className="text-white text-decoration-none" to={"/problems"}>
+            View more <GrLinkNext />
+          </Link>
+        </Button>
+      </div>
       <Accordion>
         {problems.data.map((problem, index) => (
           <Accordion.Item key={index} eventKey={index.toString()}>
@@ -44,10 +54,22 @@ const ProblemList = () => {
               </div>
             </Accordion.Header>
             <Accordion.Body>
-              <p style={{ whiteSpace: "pre-wrap" }}>
-                {parseEscapeSequences(problem.description)}
-              </p>
-              <Button variant="primary">View Problem</Button>
+              <div
+                className="overflow-scroll bg-light p-3 mb-4"
+                style={{ height: 240 }}
+              >
+                <p style={{ whiteSpace: "pre-wrap" }}>
+                  {parseEscapeSequences(problem.description)}
+                </p>
+              </div>
+              <Button variant="primary">
+                <Link
+                  className="text-white text-decoration-none"
+                  to={`/problems/${problem.id}`}
+                >
+                  Try problem
+                </Link>
+              </Button>
             </Accordion.Body>
           </Accordion.Item>
         ))}

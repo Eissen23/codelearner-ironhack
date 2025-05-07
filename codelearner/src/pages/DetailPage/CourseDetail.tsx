@@ -15,7 +15,7 @@ const CourseDetail = () => {
             <CourseInfo courseId={course_id} />
           </Col>
           <Col xs={12} md={8}>
-            <ArticleList course_id={course_id ? course_id : ""}></ArticleList>
+            <ArticleList course_id={course_id ? course_id : ""} />
           </Col>
         </Row>
       </div>

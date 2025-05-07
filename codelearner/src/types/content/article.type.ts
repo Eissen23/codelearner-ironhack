@@ -4,6 +4,7 @@ export type Article = {
   id: string;
   name: string;
   description: string;
+  chapter?: string;
   content?: string;
   type: string;
   course_id: number;

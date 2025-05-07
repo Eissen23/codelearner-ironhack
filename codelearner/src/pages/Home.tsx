@@ -39,6 +39,7 @@ const Home = () => {
         <h1>Welcome to codelearner</h1>
       </Banner>
       <div className="py-5">
+        <h3 className="mb-4 text-center">Why us</h3>
         <SwiperCustom slides={slideInfo} options={options} />
       </div>
       <div className="py-5">

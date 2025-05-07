@@ -8,10 +8,9 @@ import Org from "../pages/Org/Org";
 import CoursePage from "../pages/Org/CoursesPage";
 import ProblemSetPage from "../pages/Org/ProblemSetPage";
 import TestView from "../components/TestView";
-import { getOrgsDetail } from "../service/api/org-manage/getOrgDetail";
 import OrgDetail from "../pages/DetailPage/OrgDetail";
-import { Component } from "react";
 import CourseDetail from "../pages/DetailPage/CourseDetail";
+import ProblemSetDetail from "../pages/DetailPage/ProblemSetDetail";
 
 const routes_map = [
   {
@@ -47,6 +46,10 @@ const routes_map = [
   {
     path: "/problem-sets",
     Component: ProblemSetPage,
+  },
+  {
+    path: "/problem-sets/:problem_set",
+    Component: ProblemSetDetail,
   },
   {
     path: "/test-view",

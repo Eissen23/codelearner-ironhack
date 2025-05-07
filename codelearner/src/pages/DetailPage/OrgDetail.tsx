@@ -13,7 +13,7 @@ const OrgDetail = () => {
     <LayoutHome>
       <Row>
         <Col xs={12} md={3}>
-          <div className="OrgDetail">
+          <div className="mt-5">
             {/* Add more details about the organization here */}
             {id && <OrgInfo id={id} />}
           </div>

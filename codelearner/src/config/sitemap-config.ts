@@ -10,6 +10,8 @@ import ProblemSetPage from "../pages/Org/ProblemSetPage";
 import TestView from "../components/TestView";
 import { getOrgsDetail } from "../service/api/org-manage/getOrgDetail";
 import OrgDetail from "../pages/DetailPage/OrgDetail";
+import { Component } from "react";
+import CourseDetail from "../pages/DetailPage/CourseDetail";
 
 const routes_map = [
   {
@@ -37,6 +39,10 @@ const routes_map = [
   {
     path: "/courses",
     Component: CoursePage,
+  },
+  {
+    path: "/courses/:course_id",
+    Component: CourseDetail,
   },
   {
     path: "/problem-sets",

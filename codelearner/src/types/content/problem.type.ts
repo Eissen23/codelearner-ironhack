@@ -1,4 +1,4 @@
-import { Link } from "./paginator.type";
+import { Link } from "../paginator.type";
 
 export type TestCase = {
   input: string[];

@@ -11,6 +11,9 @@ export type Course = {
   created_at: Date;
   org_id: number;
 };
+export type CourseInfoResponse = {
+  data: Course;
+};
 
 // Main response interface
 export type CoursePageResponse = {

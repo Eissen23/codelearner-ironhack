@@ -45,20 +45,24 @@ class ArticleController extends Controller implements HasMiddleware
 
         $fields = $request->validate([
             'name' => 'required|max:100',
-            'description' => 'required|string|max:255',
+            'description' => 'required|stringww|max:255',
             'content' => 'nullable',
+            'chapter' => 'nullable',
             'type' => "required|string", 
         ]);
 
         $org_id =  $course->organization()->first()->id;
         $user_id = $request->user()->id;
-        $mod_id = ModeratorHelper::getModerator($org_id, $user_id)->id;
-
         $fields['course_id'] = $course->id;
-        $fields['mod_id'] = $mod_id;
+        
+        if($fields['type'] != "chapter"){
+            $mod_id = ModeratorHelper::getModerator($org_id, $user_id)->id;
+            $fields['mod_id'] = $mod_id;
+        }else{
+            $fields['mod_id'] = 0;
+        }
 
         $article = Article::create($fields);
-
         return [
             'article' => $article
         ];

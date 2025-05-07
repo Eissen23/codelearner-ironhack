@@ -24,4 +24,12 @@ class ArticlePolicy
 
         return Response::deny('User dont have authority for this');
     }
+
+    public function chapter(User $user, Article $article) {
+        if($article->type == "chapter"){
+            return Response::allow();
+        }
+
+        return Response::deny('Only chapter articles can be modified');
+    }
 }

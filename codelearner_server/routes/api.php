@@ -21,6 +21,7 @@ Route::prefix('problem-sets')->group(base_path('routes/api/company/problemset.ph
 
 // Article
 Route::prefix('articles')->group(base_path('routes/api/content/articles.php'));
+Route::prefix('sub_articles')->group(base_path('routes/api/content/sub_article.php'));
 
 // Problem 
 Route::prefix('problems')->group(base_path('routes/api/content/problem.php'));

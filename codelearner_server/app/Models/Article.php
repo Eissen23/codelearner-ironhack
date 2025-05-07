@@ -16,6 +16,7 @@ class Article extends Model
         "description",
         "content",
         "type",
+        "chapter",
         "course_id",
         "mod_id",
     ];
@@ -26,5 +27,9 @@ class Article extends Model
 
     public function course(){
         return $this->belongsTo(Course::class);
+    }
+
+    public function subArticle() {
+        return $this->hasMany(SubArticle::class, 'article_id');
     }
 }

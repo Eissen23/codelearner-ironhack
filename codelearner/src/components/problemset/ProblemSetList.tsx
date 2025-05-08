@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { getProblemSet } from "../../../service/api/problem-set-manage/getProblemSet";
-import { ProblemSet } from "../../../types/org/problem_set.type";
+import { getProblemSet } from "../../service/api/problem-set-manage/getProblemSet";
+import { ProblemSet } from "../../types/org/problem_set.type";
 import { Container, Row, Col, Card, Spinner, Alert } from "react-bootstrap";
 
 const ProblemSetList = () => {

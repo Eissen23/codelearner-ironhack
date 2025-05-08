@@ -1,5 +1,5 @@
 import FilterBar from "../../features/main/filter/FilterBar";
-import OrgList from "../../features/main/org/OrgList";
+import OrgList from "../../components/org/org/OrgList";
 import LayoutHome from "../../layout/LayoutHome";
 import { Tab, Tabs } from "react-bootstrap";
 import { useState } from "react";

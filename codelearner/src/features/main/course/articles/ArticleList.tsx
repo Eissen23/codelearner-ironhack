@@ -30,9 +30,13 @@ const ArticleList: React.FC<{ course_id: string }> = ({ course_id }) => {
   return (
     <div className="article_list">
       <h4>Chapter in course</h4>
-      <Accordion defaultActiveKey="0">
+      <Accordion defaultActiveKey="0" flush>
         {articles?.map((article) => (
-          <Accordion.Item key={article.id} eventKey={article.id}>
+          <Accordion.Item
+            key={article.id}
+            eventKey={article.id}
+            className="mb-3"
+          >
             <Accordion.Header>{article.name}</Accordion.Header>
             <Accordion.Body>
               <p>{article.description}</p>

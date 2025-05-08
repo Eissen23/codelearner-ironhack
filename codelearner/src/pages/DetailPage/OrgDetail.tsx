@@ -1,10 +1,10 @@
 import { useParams } from "react-router";
-import OrgInfo from "../../features/main/org/OrgInfo";
+import OrgInfo from "../../components/org/org/OrgInfo";
 import LayoutHome from "../../layout/LayoutHome";
 import { Row, Col } from "react-bootstrap";
 import CourseInOrg from "../../features/main/course/CourseInOrg";
-import ProblemSetInOrg from "../../features/main/org/ProblemSetInOrg";
-import ModeratorOrg from "../../features/main/org/ModeratorOrg";
+import ProblemSetInOrg from "../../components/org/org/ProblemSetInOrg";
+import ModeratorOrg from "../../components/org/moderator/ModeratorOrg";
 
 const OrgDetail = () => {
   const { id } = useParams<{ id: string }>();

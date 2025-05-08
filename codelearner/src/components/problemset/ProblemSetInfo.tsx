@@ -1,6 +1,6 @@
 import React from "react";
-import { getProblemSetInfo } from "../../../service/api/problem-set-manage/getProblemSetInfo";
-import { ProblemSet } from "../../../types/org/problem_set.type";
+import { getProblemSetInfo } from "../../service/api/problem-set-manage/getProblemSetInfo";
+import { ProblemSet } from "../../types/org/problem_set.type";
 import { Card, Alert } from "react-bootstrap";
 
 const ProblemSetInfo: React.FC<{ problem_set_id: string }> = ({

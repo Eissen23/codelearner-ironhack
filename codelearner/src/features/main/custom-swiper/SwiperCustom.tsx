@@ -1,10 +1,9 @@
-// Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
-
-// Import Swiper styles
 import "swiper/css";
 import { SwiperOptions } from "swiper/types";
 import { SwiperCustomProps } from "../../../types/feature-data/swiper.type";
+import { BasicSlide } from "./slide-view/BasicSlide";
+import PillSlide from "./slide-view/PillSlide";
 
 const defaultOptions = {
   spaceBetween: 30,
@@ -13,20 +12,31 @@ const defaultOptions = {
   pagination: { clickable: true },
 };
 
-export default ({ slides, options = {}, className }: SwiperCustomProps) => {
+export default ({
+  slides,
+  slider_view,
+  options = {},
+  className,
+}: SwiperCustomProps) => {
   const mergedOptions: SwiperOptions = { ...defaultOptions, ...options };
+
+  const renderOption = (slider_view = "basic") => {
+    switch (slider_view) {
+      case "pill":
+        return PillSlide;
+      default:
+        return BasicSlide;
+    }
+  };
+
+  const SlideView = renderOption(slider_view);
+
   return (
     <Swiper {...mergedOptions} className={className}>
       {/* slides */}
       {slides.map((slide, index) => (
         <SwiperSlide key={index}>
-          <div className="inner-image d-inline-block align-bottom">
-            <img className="img-fluid" src={slide.image} alt={slide.title} />
-          </div>
-          <div className="d-inline-block">
-            <h3>{slide.title}</h3>
-            <p>{slide.description}</p>
-          </div>
+          <SlideView {...slide} />
         </SwiperSlide>
       ))}
     </Swiper>

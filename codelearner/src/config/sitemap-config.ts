@@ -11,6 +11,7 @@ import TestView from "../components/TestView";
 import OrgDetail from "../pages/DetailPage/OrgDetail";
 import CourseDetail from "../pages/DetailPage/CourseDetail";
 import ProblemSetDetail from "../pages/DetailPage/ProblemSetDetail";
+import ProblemsPage from "../pages/ListPage/ProblemsPage";
 
 const routes_map = [
   {
@@ -50,6 +51,10 @@ const routes_map = [
   {
     path: "/problem-sets/:problem_set",
     Component: ProblemSetDetail,
+  },
+  {
+    path: "/problems",
+    Component: ProblemsPage,
   },
   {
     path: "/test-view",

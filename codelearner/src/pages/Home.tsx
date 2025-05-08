@@ -2,7 +2,7 @@ import Banner from "../features/main/Banner";
 import SwiperCustom from "../features/main/custom-swiper/SwiperCustom";
 import LayoutHome from "../layout/LayoutHome";
 import "../assets/style/Home.css";
-import ProblemList from "../features/main/problems/ProblemList";
+import ProblemAccordionList from "../features/main/problems/ProblemsAccordion";
 
 const slideInfo = [
   {
@@ -43,7 +43,7 @@ const Home = () => {
         <SwiperCustom slides={slideInfo} options={options} />
       </div>
       <div className="py-5">
-        <ProblemList></ProblemList>
+        <ProblemAccordionList />
       </div>
     </LayoutHome>
   );

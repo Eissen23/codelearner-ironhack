@@ -1,5 +1,5 @@
 import LayoutHome from "../../layout/LayoutHome";
-import ProblemSetList from "../../features/main/problems/ProblemSetList";
+import ProblemSetList from "../../components/problemset/ProblemSetList";
 import FilterBar from "../../features/main/filter/FilterBar";
 import { Tab, Tabs } from "react-bootstrap";
 import { useState } from "react";

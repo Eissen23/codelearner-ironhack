@@ -58,7 +58,7 @@ class ProblemSetController extends Controller implements HasMiddleware
             'name' => 'required|string',
             'short_description' => 'required|string',
             'description' =>'nullable',
-            'expired_at' => 'date|after:created_at',
+            'expired_at' => 'date|after:created_at|nullable',
         ]);
 
         $fields['org_id'] = $org->id;

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { getArticleFromCourse } from "../../../../service/api/article-manage/getArticle";
 import { Article } from "../../../../types/content/article.type";
-import { Accordion } from "react-bootstrap";
+import { Accordion, Alert } from "react-bootstrap";
 
 const ArticleList: React.FC<{ course_id: string }> = ({ course_id }) => {
   const [articles, setArticle] = useState<Article[]>();
@@ -25,6 +25,10 @@ const ArticleList: React.FC<{ course_id: string }> = ({ course_id }) => {
 
   if (loading) {
     return <div>Is loading ...</div>;
+  }
+
+  if (articles?.length === 0) {
+    return <Alert variant="info"> No article for this course</Alert>;
   }
 
   return (

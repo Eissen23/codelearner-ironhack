@@ -43,7 +43,7 @@ const OrgInfo = ({ id }: { id: string }) => {
 
   return (
     <Card className="OrgInfo">
-      <Card.Header as={"h5"}>{data.org_name || ""}</Card.Header>
+      <Card.Header as={"h5"}>{data.name || ""}</Card.Header>
       <Card.Body className="org-details">
         <Card.Text>{data.description}</Card.Text>
         <Card.Text>

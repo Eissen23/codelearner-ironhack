@@ -1,6 +1,6 @@
 export type Org = {
   id: number;
-  org_name: string;
+  name: string;
   contact_email: string;
   description: string;
   website?: string;

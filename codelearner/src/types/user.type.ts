@@ -6,7 +6,7 @@ export interface Moderator {
 
 export interface Organization {
   id: number;
-  org_name: string;
+  name: string;
   contact_email: string;
   website: string | null;
   description: string | null;

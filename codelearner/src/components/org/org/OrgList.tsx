@@ -49,7 +49,7 @@ const OrgList = () => {
                 <Card.Img
                   variant="top"
                   src={organizations.logo}
-                  alt={`${organizations.org_name} logo`}
+                  alt={`${organizations.name} logo`}
                   style={{
                     height: "200px",
                     objectFit: "contain",
@@ -63,7 +63,7 @@ const OrgList = () => {
                     href={`/orgs/${organizations.id}`}
                     className="text-decoration-none text-dark"
                   >
-                    {organizations.org_name}
+                    {organizations.name}
                   </a>
                 </Card.Title>
                 <Card.Text>{organizations.description}</Card.Text>

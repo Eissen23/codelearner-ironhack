@@ -1,23 +1,25 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { getProblemList } from "../../../service/api/problem-manage/getProblemList";
 import { ProblemResponse } from "../../../types/content/problem.type";
 import { ListGroup, Button, Spinner, Badge } from "react-bootstrap";
 import { parseEscapeSequences } from "../../../utils/parseEscapeSequence";
 import { Link } from "react-router";
-import { GrLinkNext } from "react-icons/gr";
+import { Link as page } from "../../../types/paginator.type";
 import CustomPagination from "../../mislancenous/CustomPagination";
 
 const ProblemList: React.FC<{ page?: string }> = ({ page }) => {
   const [problems, setProblems] = useState<ProblemResponse | null>(null);
   const [selectedProblem, setSelectedProblem] = useState<number | null>(null);
   const [loading, isLoading] = useState(false);
+  const [paginations, setPaginations] = useState<page[]>();
 
-  useEffect(() => {
+  React.useEffect(() => {
     const fetchProblems = async () => {
       try {
         isLoading(true);
         const response = await getProblemList(page);
         setProblems(response);
+        setPaginations(response.links);
       } catch (err) {
         console.log("An error has occured while fetching problem:", err);
       } finally {
@@ -26,7 +28,7 @@ const ProblemList: React.FC<{ page?: string }> = ({ page }) => {
     };
 
     fetchProblems();
-  }, []);
+  }, [page]);
 
   if (loading) {
     return (
@@ -92,7 +94,7 @@ const ProblemList: React.FC<{ page?: string }> = ({ page }) => {
           </ListGroup.Item>
         ))}
       </ListGroup>
-      <CustomPagination links={problems.links} />
+      {paginations && <CustomPagination links={paginations} />}
     </div>
   );
 };

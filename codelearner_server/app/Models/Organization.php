@@ -2,9 +2,13 @@
 
 namespace App\Models;
 
+use App\Models\Scopes\SortAndFilterScope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Attributes\ScopedBy;
 
+
+#[ScopedBy([SortAndFilterScope::class])]
 class Organization extends Model
 {
     /** @use HasFactory<\Database\Factories\OrganizationFactory> */
@@ -13,7 +17,7 @@ class Organization extends Model
     protected $connection = "mysql";
 
     protected $fillable = [
-        "org_name",
+        "name",
         "contact_email",
         "website",
         "description",

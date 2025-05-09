@@ -3,7 +3,10 @@
 namespace App\Models;
 
 use MongoDB\Laravel\Eloquent\Model;
+use App\Models\Scopes\DocSortAndFilterScope;
+use Illuminate\Database\Eloquent\Attributes\ScopedBy;
 
+#[ScopedBy([DocSortAndFilterScope::class])]
 class Problem extends Model
 {
     //

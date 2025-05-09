@@ -18,7 +18,7 @@ class OrganizationFactory extends Factory
     {
         return [
             //
-            "org_name" => $this->faker->company(),
+            "name" => $this->faker->company(),
             "contact_email" => $this->faker->email(),
             "website" => $this->faker->domainName(),
             "description" => $this->faker->text(200),

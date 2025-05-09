@@ -38,7 +38,7 @@ class OrgController extends Controller implements HasMiddleware
     {
         //
         $fields = $request->validate([
-            'org_name' => 'required|string|max:50',
+            'name' => 'required|string|max:50',
             'contact_email' => 'required|string|email',
             'description' => 'required|max:255',
             'website' => 'nullable|url:http,https',
@@ -81,7 +81,7 @@ class OrgController extends Controller implements HasMiddleware
         Gate::authorize('orgHead', $org);
 
         $fields = $request->validate([
-            'org_name' => 'string|max:50',
+            'name' => 'string|max:50',
             'contact_email' => 'string|email',
             'description' => 'max:255',
             'website' => 'nullable|url:http,https',

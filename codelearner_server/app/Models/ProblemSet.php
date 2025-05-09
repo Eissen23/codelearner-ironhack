@@ -6,6 +6,10 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use MongoDB\Laravel\Eloquent\HybridRelations;
 
+use App\Models\Scopes\SortAndFilterScope;
+use Illuminate\Database\Eloquent\Attributes\ScopedBy;
+
+#[ScopedBy([SortAndFilterScope::class])]
 class ProblemSet extends Model
 {
     /** @use HasFactory<\Database\Factories\ProblemSetFactory> */

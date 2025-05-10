@@ -1,10 +1,10 @@
 import LayoutHome from "../../layout/LayoutHome";
 import ProblemSetList from "../../components/problemset/ProblemSetList";
-import FilterBar from "../../features/main/filter/FilterBar";
 import { Tab, Tabs } from "react-bootstrap";
 import { useState } from "react";
 import { useAuth } from "../../context/auth/AuthContext";
 import CreateProblemSet from "../../components/form/CreateProblemSet";
+import Filter from "../../features/main/filter/Filter";
 
 const ProblemSetPage = () => {
   const [key, setKey] = useState("home");
@@ -18,7 +18,7 @@ const ProblemSetPage = () => {
         className="mb-3 mt-4"
       >
         <Tab eventKey="home" title="Home">
-          <FilterBar />
+          <Filter />
           <ProblemSetList />
         </Tab>
         {isAuthenticated && (

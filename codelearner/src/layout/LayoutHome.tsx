@@ -2,7 +2,7 @@ import React, { ReactNode } from "react";
 import HeadNav from "../components/HeadNav";
 import Footer from "../components/Footer";
 import { Col, Container, Row } from "react-bootstrap";
-
+import "../assets/style/Layout.css";
 interface LayoutHomeProps {
   header?: ReactNode;
   children: ReactNode;
@@ -39,7 +39,7 @@ const LayoutHome: React.FC<LayoutHomeProps> = ({
         )}
       </main>
       <footer className="text-white bg-dark">
-        <Row>
+        <Row className="g-0">
           <Col md={{ span: 10, offset: 1 }} lg={{ span: 10, offset: 1 }}>
             {footer || <Footer></Footer>}
           </Col>

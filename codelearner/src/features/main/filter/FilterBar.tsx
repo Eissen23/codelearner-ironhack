@@ -1,5 +1,5 @@
 import React, { useState, useEffect, FormEvent } from "react";
-import { Form, Button, Row, Col } from "react-bootstrap";
+import { Form, Button, Row } from "react-bootstrap";
 import { useNavigate, useLocation } from "react-router-dom";
 import * as qs from "qs";
 
@@ -73,56 +73,54 @@ const FilterBar: React.FC = () => {
   return (
     <Form
       onSubmit={handleSubmit}
-      className="py-2 bg-body-secondary rounded-4 mx-3 px-3 my-3"
+      className="py-1 bg-body-secondary rounded-3 mx-2 px-2 my-2"
     >
-      <Row className="align-items-end">
-        <Col md={3}>
-          <Form.Group controlId="perPage">
-            <Form.Label>Items per page</Form.Label>
-            <Form.Select
-              name="perPage"
-              value={filters.perPage}
-              onChange={handleChange}
-            >
-              <option value="10">10</option>
-              <option value="20">20</option>
-              <option value="50">50</option>
-            </Form.Select>
-          </Form.Group>
-        </Col>
-        <Col md={3}>
-          <Form.Group controlId="name">
-            <Form.Label>Name Filter</Form.Label>
-            <Form.Control
-              type="text"
-              name="name"
-              value={filters.name}
-              onChange={handleChange}
-              placeholder="Enter name..."
-            />
-          </Form.Group>
-        </Col>
-        <Col md={3}>
-          <Form.Group controlId="sort">
-            <Form.Label>Sort by Name</Form.Label>
-            <Form.Select
-              name="sort"
-              value={filters.sort}
-              onChange={handleChange}
-            >
-              <option value="asc">Ascending</option>
-              <option value="desc">Descending</option>
-            </Form.Select>
-          </Form.Group>
-        </Col>
-        <Col md={3}>
-          <Button variant="primary" type="submit" className="me-2">
-            Apply Filters
-          </Button>
-          <Button variant="secondary" onClick={handleClear}>
-            Clear
-          </Button>
-        </Col>
+      <Row className="align-items-end g-2 d-flex flex-wrap">
+        <Form.Group controlId="perPage" className="d-flex w-25">
+          <Form.Label className="small">Items per page</Form.Label>
+          <Form.Select
+            name="perPage"
+            value={filters.perPage}
+            onChange={handleChange}
+            size="sm"
+            className="w-50"
+          >
+            <option value="10">10</option>
+            <option value="20">20</option>
+            <option value="50">50</option>
+          </Form.Select>
+        </Form.Group>
+        <Form.Group controlId="name" className="d-flex w-25">
+          <Form.Label className="small">Name Filter</Form.Label>
+          <Form.Control
+            type="text"
+            name="name"
+            value={filters.name}
+            onChange={handleChange}
+            placeholder="Enter name..."
+            size="sm"
+            className="w-50"
+          />
+        </Form.Group>
+        <Form.Group controlId="sort" className="d-flex w-25">
+          <Form.Label className="small">Sort by Name</Form.Label>
+          <Form.Select
+            name="sort"
+            value={filters.sort}
+            onChange={handleChange}
+            size="sm"
+            className="w-50"
+          >
+            <option value="asc">Ascending</option>
+            <option value="desc">Descending</option>
+          </Form.Select>
+        </Form.Group>
+        <Button variant="primary" type="submit" size="sm" className="me-1">
+          Apply
+        </Button>
+        <Button variant="secondary" onClick={handleClear} size="sm">
+          Clear
+        </Button>
       </Row>
     </Form>
   );

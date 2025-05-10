@@ -1,17 +1,19 @@
 import React, { useState } from "react";
 import { Org } from "../../types/org/org.type";
-import { Form, Button, Row, Col } from "react-bootstrap";
+import { Form, Button, Row, Col, Alert } from "react-bootstrap";
+import { createOrg } from "../../service/api/org-manage/createOrg";
+import { useAuth } from "../../context/auth/AuthContext";
 
 const CreateOrganizationForm: React.FC = () => {
-  const [formData, setFormData] = useState<Org>({
-    id: 0,
-    org_name: "",
+  const { isAuthenticated, token } = useAuth();
+  const [formData, setFormData] = useState<
+    Omit<Org, "id" | "created_at" | "updated_at">
+  >({
+    name: "",
     contact_email: "",
     description: "",
     website: "",
     logo: "",
-    created_at: new Date(),
-    updated_at: new Date(),
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -22,11 +24,16 @@ const CreateOrganizationForm: React.FC = () => {
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     console.log("Organization Created:", formData);
     // Add your API call or logic to handle form submission here
+    await createOrg(token, formData);
   };
+
+  if (!isAuthenticated) {
+    return <Alert variant="danger">Login to use feature</Alert>;
+  }
 
   return (
     <div className="container-fluid align-items-center justify-content-center bg-light">
@@ -40,12 +47,12 @@ const CreateOrganizationForm: React.FC = () => {
         <Row>
           <Col md={6} xs={12}>
             <Form.Group className="mb-3">
-              <Form.Label htmlFor="org_name">Organization Name</Form.Label>
+              <Form.Label htmlFor="bane">Organization Name</Form.Label>
               <Form.Control
                 type="text"
-                id="org_name"
-                name="org_name"
-                value={formData.org_name}
+                id="name"
+                name="name"
+                value={formData.name}
                 onChange={handleChange}
                 required
               />
@@ -87,22 +94,10 @@ const CreateOrganizationForm: React.FC = () => {
           </Col>
           <Col md={6} xs={12}>
             <Form.Group className="mb-3">
-              <Form.Label htmlFor="contact_email">Contact Email</Form.Label>
-              <Form.Control
-                type="email"
-                id="contact_email"
-                name="contact_email"
-                value={formData.contact_email}
-                onChange={handleChange}
-                required
-              />
-            </Form.Group>
-
-            <Form.Group className="mb-3">
               <Form.Label htmlFor="description">Description</Form.Label>
               <Form.Control
                 as="textarea"
-                rows={8}
+                rows={11}
                 id="description"
                 name="description"
                 value={formData.description}

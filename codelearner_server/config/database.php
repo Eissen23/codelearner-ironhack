@@ -121,6 +121,10 @@ return [
             'password' => env('DB_PASSWORD_MONGO', ''),
             'options' => [
                 'database' => 'admin', // Default authentication database
+                'connectTimeoutMS' => 30000, // 30 seconds for connection
+                'socketTimeoutMS' => 60000,  // 60 seconds for operations
+                'serverSelectionTimeoutMS' => 30000, // 30 seconds for server selection
+                'maxTimeMS' => 60000, // 60 seconds max query time
             ],
     ],
 

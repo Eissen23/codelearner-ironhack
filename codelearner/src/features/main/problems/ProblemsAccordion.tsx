@@ -88,20 +88,6 @@ const ProblemAccordionList = () => {
           </Accordion.Body>
         </Accordion.Item>
       </Accordion>
-
-      {/* {problems.links && (
-        <div className="pagination">
-          {problems.links.map((link, index) => (
-            <button 
-              key={index}
-              className={`page-link ${link.active ? 'active' : ''}`}
-              disabled={!link.url}
-            >
-              {link.label}
-            </button>
-          ))}
-        </div>
-      )} */}
     </div>
   );
 };

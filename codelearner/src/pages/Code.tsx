@@ -1,10 +1,10 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState } from "react";
 import Split from "react-split";
 import Problem from "../components/Problem";
 import CodeEditor from "../features/main/code/CodeEditor";
 import "../assets/style/Code.css";
 import LayoutHome from "../layout/LayoutHome";
-import Output from "../features/main/code/Output";
+import SandboxOutput from "../features/main/code/SandboxOutput";
 
 const Code: React.FC = () => {
   const editorRef = useRef<any>(null);
@@ -23,8 +23,12 @@ const Code: React.FC = () => {
             gutterSize={5}
             gutterAlign="end"
           >
-            <CodeEditor editorRef={editorRef} language={language} onLanguageChange={setLanguage} />
-            <Output editorRef={editorRef} language={language} />
+            <CodeEditor
+              editorRef={editorRef}
+              language={language}
+              onLanguageChange={setLanguage}
+            />
+            <SandboxOutput editorRef={editorRef} language={language} />
           </Split>
         </Split>
       </LayoutHome>

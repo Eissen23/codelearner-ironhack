@@ -2,10 +2,13 @@ import React, { useRef, useState } from "react";
 import Editor from "@monaco-editor/react";
 import styles from "./Editor.module.css";
 import LanguageSelector from "./LanguageSelector";
+import { TestCase } from "../../../types/content/problem.type";
+import ViewTestCase from "./ViewTestCase";
 
 interface CodeEditorProps {
   value?: string;
   language: string;
+  testCase?: TestCase;
   onLanguageChange: (language: string) => void;
   onChange?: (value: string | undefined) => void;
   readOnly?: boolean;
@@ -19,11 +22,11 @@ const CodeEditor: React.FC<CodeEditorProps> = ({
   editorRef: externalRef,
   language,
   onLanguageChange,
+  testCase,
 }) => {
-
   const internalRef = useRef<any>(null);
   const editorRef = externalRef || internalRef;
-  
+
   const handleLanguageChange = (newLanguage: string) => {
     onLanguageChange(newLanguage);
   };
@@ -43,6 +46,7 @@ const CodeEditor: React.FC<CodeEditorProps> = ({
     <div className={styles.Editor}>
       <div className="d-flex justify-content-between py-2 px-3 bg-black">
         <LanguageSelector language={language} onChange={handleLanguageChange} />
+        <ViewTestCase testCase={testCase} />
       </div>
       <Editor
         theme="vs-dark"

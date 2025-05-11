@@ -15,7 +15,9 @@ import ProblemsPage from "../pages/ListPage/ProblemsPage";
 import DashBoardRight from "../components/dash-board/DashBoardRight";
 import DashBoardOrg from "../components/dash-board/DashBoardOrg";
 import DashBoardCourse from "../components/dash-board/DashBoardCourse";
-import { Children } from "react";
+import { Children, Component } from "react";
+import SimpleOutlet from "../components/SimpleOutlet";
+import ProblemDetail from "../pages/DetailPage/ProblemDetail";
 
 const routes_map = [
   {
@@ -50,15 +52,32 @@ const routes_map = [
   },
   {
     path: "/problem-sets",
-    Component: ProblemSetPage,
+    component: SimpleOutlet,
+    children: [
+      {
+        index: true,
+        Component: ProblemSetPage,
+      },
+      {
+        path: "/problem-sets/:problem_set",
+        Component: ProblemSetDetail,
+      },
+    ],
   },
-  {
-    path: "/problem-sets/:problem_set",
-    Component: ProblemSetDetail,
-  },
+
   {
     path: "/problems",
-    Component: ProblemsPage,
+    Component: SimpleOutlet,
+    children: [
+      {
+        index: true,
+        Component: ProblemsPage,
+      },
+      {
+        path: "/problems/:problem_id",
+        Component: ProblemDetail,
+      },
+    ],
   },
   {
     path: "/test-view",

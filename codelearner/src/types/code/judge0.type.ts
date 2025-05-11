@@ -8,7 +8,7 @@ export type SubmissionParams = {
 };
 
 export type SubmissionResponse = {
-  stdout: string;
+  stdout: string | null;
   time: number;
   memory: number;
   stderr: string | null;
@@ -33,3 +33,11 @@ export type SubmissionResponse = {
 		"description": "Accepted"
 	}
 } */
+
+export type BatchSubmission = {
+  submission: SubmissionParams[];
+};
+
+export type BatchToken = {
+  token: string;
+};

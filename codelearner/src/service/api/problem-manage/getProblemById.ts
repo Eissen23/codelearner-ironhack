@@ -2,7 +2,7 @@ import { CODELEARNER_API } from "../clients/codelearner";
 import { ProblemData } from "../../../types/content/problem.type";
 
 type Response = {
-  data: ProblemData;
+  problem: ProblemData;
 };
 
 export const getProblemByID = async (problem_id: string): Promise<Response> => {

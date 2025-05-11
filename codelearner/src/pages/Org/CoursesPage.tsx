@@ -2,7 +2,6 @@ import CourseList from "../../features/main/course/CourseList";
 import LayoutHome from "../../layout/LayoutHome";
 import { Tab, Tabs } from "react-bootstrap";
 import { useState } from "react";
-import CreateCourseForm from "../../components/form/CreateCourseForm";
 import { useAuth } from "../../context/auth/AuthContext";
 import Filter from "../../features/main/filter/Filter";
 const CoursePage = () => {
@@ -20,11 +19,6 @@ const CoursePage = () => {
           <Filter />
           <CourseList />
         </Tab>
-        {isAuthenticated && (
-          <Tab eventKey="Create" title="Create">
-            <CreateCourseForm />
-          </Tab>
-        )}
       </Tabs>
     </LayoutHome>
   );

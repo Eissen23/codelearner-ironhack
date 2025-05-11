@@ -12,6 +12,10 @@ import OrgDetail from "../pages/DetailPage/OrgDetail";
 import CourseDetail from "../pages/DetailPage/CourseDetail";
 import ProblemSetDetail from "../pages/DetailPage/ProblemSetDetail";
 import ProblemsPage from "../pages/ListPage/ProblemsPage";
+import DashBoardRight from "../components/dash-board/DashBoardRight";
+import DashBoardOrg from "../components/dash-board/DashBoardOrg";
+import DashBoardCourse from "../components/dash-board/DashBoardCourse";
+import { Children } from "react";
 
 const routes_map = [
   {
@@ -71,6 +75,29 @@ const routes_map = [
       {
         path: "/dashboard",
         Component: DashBoard,
+        children: [
+          {
+            index: true,
+            Component: DashBoardRight,
+          },
+          {
+            path: "/dashboard/org-manage",
+            children: [
+              {
+                index: true,
+                Component: DashBoardOrg,
+              },
+              {
+                path: "/dashboard/org-manage/:org",
+                Component: DashBoardOrg,
+              },
+            ],
+          },
+          {
+            path: "/dashboard/course",
+            Component: DashBoardCourse,
+          },
+        ],
       },
     ],
   },

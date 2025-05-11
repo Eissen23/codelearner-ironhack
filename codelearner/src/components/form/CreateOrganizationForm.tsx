@@ -3,6 +3,7 @@ import { Org } from "../../types/org/org.type";
 import { Form, Button, Row, Col, Alert } from "react-bootstrap";
 import { createOrg } from "../../service/api/org-manage/createOrg";
 import { useAuth } from "../../context/auth/AuthContext";
+import { ToastContainer, toast, Bounce } from "react-toastify";
 
 const CreateOrganizationForm: React.FC = () => {
   const { isAuthenticated, token } = useAuth();
@@ -15,6 +16,7 @@ const CreateOrganizationForm: React.FC = () => {
     website: "",
     logo: "",
   });
+  const [isLoading, setLoading] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -26,9 +28,29 @@ const CreateOrganizationForm: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Organization Created:", formData);
     // Add your API call or logic to handle form submission here
-    await createOrg(token, formData);
+    try {
+      setLoading(true);
+      await createOrg(token, formData);
+      toast("Organization created", {
+        position: "top-right",
+        autoClose: 5000,
+        closeOnClick: false,
+        theme: "light",
+        transition: Bounce,
+      });
+    } catch (error) {
+      toast.error("Failed to create Org!", {
+        position: "top-right",
+        closeOnClick: false,
+        theme: "light",
+        transition: Bounce,
+      });
+
+      throw error;
+    } finally {
+      setLoading(false);
+    }
   };
 
   if (!isAuthenticated) {
@@ -37,11 +59,29 @@ const CreateOrganizationForm: React.FC = () => {
 
   return (
     <div className="container-fluid align-items-center justify-content-center bg-light">
-      <Form onSubmit={handleSubmit} className="d-block">
+      <ToastContainer />
+      <Form onSubmit={handleSubmit} className="d-block p-2">
         <div className="d-flex justify-content-between mb-4 mt-3">
           <h2 className="text-center mb-0">Create Organization</h2>
-          <Button className="d-block" variant="primary" type="submit" size="sm">
-            Create Organization
+          <Button
+            className="d-block"
+            variant="primary"
+            type="submit"
+            size="sm"
+            disabled={isLoading}
+          >
+            {isLoading ? (
+              <>
+                <span
+                  className="spinner-border spinner-border-sm me-2"
+                  role="status"
+                  aria-hidden="true"
+                ></span>
+                Creating...
+              </>
+            ) : (
+              "Create Organization"
+            )}
           </Button>
         </div>
         <Row>

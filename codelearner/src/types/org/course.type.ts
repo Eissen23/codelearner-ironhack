@@ -8,6 +8,7 @@ export type Course = {
   fee: number | 0.0;
   duration: number | 0;
   currency?: string;
+  logo: string | null;
   created_at: Date;
   org_id: number;
 };

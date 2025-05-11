@@ -1,17 +1,23 @@
 import React, { useState } from "react";
-import { Form, Button, Row, Col } from "react-bootstrap";
+import { Form, Button, Row, Col, InputGroup } from "react-bootstrap";
+import { Organization } from "../../types/user.type";
 import { Course } from "../../types/org/course.type";
+import { addCourse } from "../../service/api/cours-manage/addCourse";
+import { useAuth } from "../../context/auth/AuthContext";
+import { toast, ToastContainer } from "react-toastify";
 
-const CreateOrganizationForm: React.FC = () => {
-  const [formData, setFormData] = useState<Course>({
-    id: 0,
+const CreateCourseForm: React.FC<{ orgs: Organization[] }> = ({ orgs }) => {
+  const { token } = useAuth();
+
+  const [Loading, setLoading] = useState(false);
+  const [formData, setFormData] = useState<Omit<Course, "id" | "created_at">>({
     name: "",
     description: "",
     short_description: "",
     fee: 0.0,
-    duration: 0,
-    created_at: new Date(),
     currency: "",
+    duration: 0,
+    logo: null,
     org_id: 0,
   });
 
@@ -23,29 +29,77 @@ const CreateOrganizationForm: React.FC = () => {
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Organization Created:", formData);
-    // Add your API call or logic to handle form submission here
+
+    try {
+      setLoading(true);
+      await addCourse(token, formData);
+      toast("Successfully added course");
+    } catch (error) {
+      toast.error("Failed to add course");
+      throw error;
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <div className="container-fluid align-items-center justify-content-center bg-light">
-      <Form onSubmit={handleSubmit} className="d-block">
+      <ToastContainer />
+      <Form onSubmit={handleSubmit} className="d-block p-3">
         <div className="d-flex justify-content-between mb-4 mt-3">
           <h2 className="text-center mb-0">Create Course</h2>
           <Button className="d-block" variant="primary" type="submit" size="sm">
-            Create Course
+            {Loading ? (
+              <>
+                <span
+                  className="spinner-border spinner-border-sm me-2"
+                  role="status"
+                  aria-hidden="true"
+                ></span>
+                Creating...
+              </>
+            ) : (
+              "Add Course"
+            )}
           </Button>
         </div>
         <Row>
           <Col md={6} xs={12}>
             <Form.Group className="mb-3">
-              <Form.Label htmlFor="org_name">Course name</Form.Label>
+              <Form.Label htmlFor="name">Course's organization</Form.Label>
+              <Form.Select
+                id="org_id"
+                defaultValue={0}
+                name="org_id"
+                onChange={handleSelect}
+              >
+                <option value={0}>Organization select</option>
+                {orgs.map(
+                  (org) =>
+                    org.pivot.role === "OrgHead" && (
+                      <option key={org.id} value={org.id}>
+                        {org.name}
+                      </option>
+                    )
+                )}
+              </Form.Select>
+            </Form.Group>
+            <Form.Group className="mb-3">
+              <Form.Label htmlFor="name">Course name</Form.Label>
               <Form.Control
                 type="text"
-                id="org_name"
-                name="org_name"
+                id="name"
+                name="name"
                 value={formData.name}
                 onChange={handleChange}
                 required
@@ -53,40 +107,38 @@ const CreateOrganizationForm: React.FC = () => {
             </Form.Group>
 
             <Form.Group className="mb-3">
-              <Form.Label htmlFor="contact_email">Short Description</Form.Label>
-              <Form.Control
-                type="email"
-                id="contact_email"
-                name="contact_email"
-                value={formData.short_description}
-                onChange={handleChange}
-                required
-              />
+              <Form.Label htmlFor="fee">Fee</Form.Label>
+              <InputGroup>
+                <Form.Control
+                  type="number"
+                  id="fee"
+                  name="fee"
+                  value={formData.fee}
+                  onChange={handleChange}
+                ></Form.Control>
+
+                <Form.Select
+                  id="currency"
+                  name="currency"
+                  defaultValue="USD"
+                  onChange={handleSelect}
+                >
+                  <option value="USD">USD</option>
+                  <option value="VND">VND</option>
+                </Form.Select>
+              </InputGroup>
             </Form.Group>
 
             <Form.Group className="mb-3">
-              <Form.Label htmlFor="website">Fee</Form.Label>
+              <Form.Label htmlFor="logo">Logo</Form.Label>
               <Form.Control
-                type="url"
-                id="website"
-                name="website"
-                value={formData.fee}
-                onChange={handleChange}
-              />
-            </Form.Group>
-
-            <Form.Group className="mb-3">
-              <Form.Label htmlFor="logo">Currency</Form.Label>
-              <Form.Control
-                type=""
+                type="file"
                 id="logo"
                 name="logo"
-                value={formData.currency}
+                value={formData.logo || ""}
                 onChange={handleChange}
               />
             </Form.Group>
-          </Col>
-          <Col md={6} xs={12}>
             <Form.Group className="mb-3">
               <Form.Label htmlFor="duration">Duration</Form.Label>
               <Form.Control
@@ -97,7 +149,21 @@ const CreateOrganizationForm: React.FC = () => {
                 onChange={handleChange}
               />
             </Form.Group>
-
+          </Col>
+          <Col md={6} xs={12}>
+            <Form.Group className="mb-3">
+              <Form.Label htmlFor="short_description">
+                Short Description
+              </Form.Label>
+              <Form.Control
+                as="textarea"
+                id="short_description"
+                name="short_description"
+                value={formData.short_description}
+                onChange={handleChange}
+                required
+              />
+            </Form.Group>
             <Form.Group className="mb-3">
               <Form.Label htmlFor="description">Description</Form.Label>
               <Form.Control
@@ -105,13 +171,8 @@ const CreateOrganizationForm: React.FC = () => {
                 rows={8}
                 id="description"
                 name="description"
-                value={formData.description}
-                onChange={(e) =>
-                  setFormData((prev) => ({
-                    ...prev,
-                    description: e.target.value,
-                  }))
-                }
+                value={formData.description || ""}
+                onChange={handleChange}
                 required
               />
             </Form.Group>
@@ -122,4 +183,4 @@ const CreateOrganizationForm: React.FC = () => {
   );
 };
 
-export default CreateOrganizationForm;
+export default CreateCourseForm;

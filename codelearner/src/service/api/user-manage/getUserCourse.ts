@@ -1,9 +1,9 @@
 import { CODELEARNER_API } from "../clients/codelearner";
-import { Org } from "../../../types/org/org.type";
+import { Course } from "../../../types/org/course.type";
 
-export const getUserOrg = async (token: string): Promise<Org[]> => {
+export const getUserOrg = async (token: string): Promise<Course[]> => {
   try {
-    const response = await CODELEARNER_API.get<Org[]>("/member/enrolled", {
+    const response = await CODELEARNER_API.get<Course[]>("/member/enrolled", {
       headers: {
         Authorization: `Bearer ${token}`,
       },

@@ -19,9 +19,14 @@ const defaultMenuItems: MenuItem[] = [
     icon: "bi bi-house",
   },
   {
-    path: "/dashboard/profile",
-    label: "Profile",
-    icon: "bi bi-person",
+    path: "/dashboard/org-manage",
+    label: "Manage Organization",
+    icon: "bi bi-house-gear",
+  },
+  {
+    path: "/dashboard/course",
+    label: "Manage Course",
+    icon: "bi bi-book-half",
   },
   {
     path: "/dashboard/settings",
@@ -39,8 +44,8 @@ const DashBoardLeft: React.FC<DashBoardLeftProps> = ({
         <Nav.Item key={index}>
           <Nav.Link
             as={Link}
-            to={item.path}
-            className="d-flex align-items-center gap-2"
+            to={`${item.path}`}
+            className="d-flex align-items-center gap-2 text-dark nav-pills"
           >
             {item.icon && <i className={item.icon}></i>}
             {item.label}

@@ -1,28 +1,42 @@
 import React, { useEffect, useState, useRef } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import LayoutHome from "../layout/LayoutHome";
-import DashBoardLeft from "../features/main/dash-board/DashBoardLeft";
-import DashBoardRight from "../features/main/dash-board/DashBoardRight";
-import { getUserInfo } from "../service/api/user-manage/getUserInfo";
+import DashBoardLeft from "../components/dash-board/DashBoardLeft";
+import { getDetailInfo } from "../service/api/user-manage/getDetailInfo";
 import { useAuth } from "../context/auth/AuthContext";
-import { User } from "../types/auth.types";
+import { Outlet, useLoaderData } from "react-router";
+import { UserDetail } from "../types/user.type";
 
 const DashBoard: React.FC = () => {
-  const { token } = useAuth();
-
-  const [userDetail, setUserDetail] = useState<User | undefined>(undefined);
+  const [userDetail, setUserDetail] = useState<UserDetail | undefined>(
+    undefined
+  );
   const requestInProgress = useRef(false);
 
+  const { token } = useAuth();
+  const loaderData = useLoaderData() as UserDetail;
+
   useEffect(() => {
-    if (token && !requestInProgress.current) {
-      requestInProgress.current = true;
-      getUserInfo({ token })
-        .then(setUserDetail)
-        .finally(() => {
+    const fetchUserDetail = async () => {
+      if (token && !requestInProgress.current) {
+        requestInProgress.current = true;
+        try {
+          const data = await getDetailInfo(token);
+          setUserDetail(data);
+        } catch (error) {
+          console.error("Failed to fetch user details:", error);
+        } finally {
           requestInProgress.current = false;
-        });
+        }
+      }
+    };
+
+    if (loaderData) {
+      setUserDetail(loaderData);
+    } else {
+      fetchUserDetail();
     }
-  }, [token]);
+  }, [token, loaderData]);
 
   return (
     <LayoutHome>
@@ -32,11 +46,7 @@ const DashBoard: React.FC = () => {
             <DashBoardLeft />
           </Col>
           <Col md={9}>
-            {!userDetail ? (
-              <div>Loading...</div>
-            ) : (
-              <DashBoardRight userInfo={userDetail} />
-            )}
+            <Outlet context={userDetail} />
           </Col>
         </Row>
       </Container>

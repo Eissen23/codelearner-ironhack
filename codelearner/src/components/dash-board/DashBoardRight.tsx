@@ -1,24 +1,24 @@
 import React from "react";
 import { Card, Row, Col } from "react-bootstrap";
-import { User } from "../../../types/auth.types";
+import { User } from "../../types/auth.types";
+import { useOutletContext } from "react-router";
+import { UserDetail } from "../../types/user.type";
 
 interface DashBoardRightProps {
   userInfo?: User;
 }
 
-const defaultUserInfo: User = {
-  id: 1,
-  email: "email here ",
-  full_name: "name here",
-  account_name: "account name here",
-  created_at: new Date("2023-01-01"),
-  updated_at: new Date("2023-01-01"),
-  about: "Software developer passionate about creating great user experiences.",
-};
+const DashBoardRight: React.FC<DashBoardRightProps> = () => {
+  const userInfo = useOutletContext() as UserDetail | null;
 
-const DashBoardRight: React.FC<DashBoardRightProps> = ({
-  userInfo = defaultUserInfo,
-}) => {
+  if (!userInfo) {
+    return (
+      <Card className="shadow-sm">
+        <Card.Body>Loading...</Card.Body>
+      </Card>
+    );
+  }
+
   return (
     <Card className="shadow-sm">
       <Card.Body>

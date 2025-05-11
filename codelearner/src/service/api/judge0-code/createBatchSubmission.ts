@@ -14,12 +14,13 @@ export const createBatchSubmission = async (
   subs: SubmissionParams[]
 ): Promise<BatchToken[]> => {
   try {
-    const result = await JUDGE0_API.get<BatchToken[]>("submissions/batch", {
-      data: { submissions: subs },
+    const result = await JUDGE0_API.post<BatchToken[]>("submissions/batch", {
+      submissions: subs,
     });
 
     return result.data;
   } catch (error) {
+    console.log("error when create batch submission");
     throw error;
   }
 };

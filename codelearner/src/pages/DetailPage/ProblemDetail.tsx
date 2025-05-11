@@ -3,11 +3,11 @@ import Split from "react-split";
 import CodeEditor from "../../features/main/code/CodeEditor";
 import "../../assets/style/Code.css";
 import LayoutHome from "../../layout/LayoutHome";
-import Output from "../../features/main/code/SandboxOutput";
 import { useParams } from "react-router";
 import { getProblemByID } from "../../service/api/problem-manage/getProblemById";
 import { ProblemData } from "../../types/content/problem.type";
 import ProblemDescription from "../../components/problems/ProblemDescription";
+import ProblemOutput from "../../features/main/code/ProblemOutput";
 
 const ProblemDetail: React.FC = () => {
   const { problem_id } = useParams<{ problem_id: string }>();
@@ -50,7 +50,7 @@ const ProblemDetail: React.FC = () => {
               language={language}
               onLanguageChange={setLanguage}
             />
-            <Output
+            <ProblemOutput
               editorRef={editorRef}
               language={language}
               testCase={problemData?.test_case}

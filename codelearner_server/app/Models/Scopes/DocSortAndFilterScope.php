@@ -18,7 +18,7 @@ class DocSortAndFilterScope implements Scope
         $filter = Request::input('keyword', null);
         $sort = Request::input('sort', 'created-desc'); // Default to created-desc
 
-        $allowedSorts = ['_id', 'name', 'created_at', 'updated_at', 'difficulty'];
+        $allowedSorts = ['_id', 'name', 'created_at', 'difficulty'];
 
         // Parse sort parameter (e.g., name-asc, created-desc)
         $sortParts = explode('-', $sort);

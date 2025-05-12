@@ -23,14 +23,6 @@ return Application::configure(basePath: dirname(__DIR__))
                             __DIR__.'/../routes/admin_api/orgs.php',
                     ]);
                 });
-            Route::middleware('web')
-                ->prefix('admin')
-                ->group(function () {
-                    Route::middleware(['auth:sanctum'])
-                        ->group([
-                            __DIR__.'/../routes/admin/admin.php',
-                    ]);
-                });
         }
     )
     ->withMiddleware(function (Middleware $middleware) {

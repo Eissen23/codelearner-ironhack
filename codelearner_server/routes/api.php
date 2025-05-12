@@ -3,6 +3,7 @@ use App\Http\Controllers\User\AuthController;
 use App\Http\Controllers\User\OwnerController;
 use Illuminate\Support\Facades\Route;
 
+
 Route::controller(AuthController::class)->group(function () {
     Route::post('/register', 'register');
     Route::post('/login', 'login');
@@ -15,6 +16,7 @@ Route::controller(AuthController::class)->group(function () {
 Route::prefix('member')->controller(OwnerController::class)->group( function () {
     Route::get('/your-orgs', 'getYourOrg');
     Route::get('/enrolled', 'getYourCourseEnroll');
+    Route::get('/modrated-course', 'getYourCourseModerator');
     Route::get('/submission', 'getYourSubmission');
 });
 

@@ -24,6 +24,10 @@ class OwnerController extends Controller implements HasMiddleware{
         $course = $request->user()->courses()->get();
         return $course;
     }
+    public function getYourCourseModerator(Request $request) {
+        $course = $request->user()->managedOrganizations()->with('courses')->get()->pluck('courses')->flatten();
+        return $course;
+    }
     public function getYourSubmission(Request $request) {
         $submission = $request->user()->userSubmissions()->get();
         return $submission;

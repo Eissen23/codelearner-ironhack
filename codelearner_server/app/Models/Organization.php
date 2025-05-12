@@ -2,11 +2,10 @@
 
 namespace App\Models;
 
-use App\Models\Scopes\SortAndFilterScope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Scopes\SortAndFilterScope;
 use Illuminate\Database\Eloquent\Attributes\ScopedBy;
-
 
 #[ScopedBy([SortAndFilterScope::class])]
 class Organization extends Model

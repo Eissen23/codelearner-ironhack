@@ -62,8 +62,6 @@ class AuthController extends Controller
         $user = $request->user()->load('organizations', 'courses');
 
         $user->submissions = $user->userSubmissions()->get();
-        return [
-            'data' => $user
-        ];
+        return $user;
     }
 }

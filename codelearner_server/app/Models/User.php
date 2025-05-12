@@ -64,6 +64,12 @@ class User extends Authenticatable
         ->using(Moderator::class)
         ->withPivot('role');
     }
+    public function managedOrganizations(){
+        return $this->belongsToMany(Organization::class,'moderators', 'user_id', 'org_id')
+        ->using(Moderator::class)
+        ->withPivot('role')
+        ->wherePivot('role', 'OrgHead');
+    }
 
     public function courses(){
         return $this->belongsToMany(Course::class, 'user_courses', 'user_id', 'course_id')

@@ -1,6 +1,8 @@
 <?php
-Route::get('/info', function (){
-    return 'admin';
-});
+use App\Http\Controllers\User\AuthController;
+
 
 // Contain admin UI
+Route::get('/123', function () {
+    return "ok1";
+});

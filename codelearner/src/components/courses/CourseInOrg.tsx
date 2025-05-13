@@ -1,7 +1,7 @@
-import { getCourseInOrg } from "../../../service/api/cours-manage/getCourseInOrg";
+import { getCourseInOrg } from "../../service/api/cours-manage/getCourseInOrg";
 import React from "react";
-import { Course } from "../../../types/org/course.type";
-import { Col, Card, Row } from "react-bootstrap";
+import { Course } from "../../types/org/course.type";
+import { Row } from "react-bootstrap";
 import CourseCardItem from "./element/CourseCardItem";
 
 const CourseInOrg: React.FC<{ org_id: string }> = ({ org_id }) => {

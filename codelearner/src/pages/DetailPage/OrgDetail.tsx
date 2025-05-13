@@ -2,7 +2,7 @@ import { useParams } from "react-router";
 import OrgInfo from "../../components/org/org/OrgInfo";
 import LayoutHome from "../../layout/LayoutHome";
 import { Row, Col } from "react-bootstrap";
-import CourseInOrg from "../../features/main/course/CourseInOrg";
+import CourseInOrg from "../../components/courses/CourseInOrg";
 import ProblemSetInOrg from "../../components/org/org/ProblemSetInOrg";
 import ModeratorOrg from "../../components/org/moderator/ModeratorOrg";
 

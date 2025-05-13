@@ -1,4 +1,4 @@
-import { Course } from "../../../../types/org/course.type";
+import { Course } from "../../../types/org/course.type";
 import { Col, Card } from "react-bootstrap";
 
 const CourseCardItem: React.FC<{ course: Course }> = ({ course }) => {

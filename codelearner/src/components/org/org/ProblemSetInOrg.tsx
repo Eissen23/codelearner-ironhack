@@ -26,7 +26,6 @@ const ProblemSetInOrg: React.FC<{ org_id: string }> = ({ org_id }) => {
     return <div>Loading...</div>;
   }
 
-  console.log(problemSets);
   return (
     <div className="moderator-org">
       <h4>Problem Sets In Organization</h4>

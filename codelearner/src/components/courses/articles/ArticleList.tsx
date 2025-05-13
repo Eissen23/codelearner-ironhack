@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { getArticleFromCourse } from "../../../../service/api/article-manage/getArticle";
-import { Article } from "../../../../types/content/article.type";
+import { getArticleFromCourse } from "../../../service/api/article-manage/getArticle";
+import { Article } from "../../../types/content/article.type";
 import { Accordion, Alert } from "react-bootstrap";
 
 const ArticleList: React.FC<{ course_id: string }> = ({ course_id }) => {

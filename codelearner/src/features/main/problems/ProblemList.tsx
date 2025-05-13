@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import { getProblemList } from "../../../service/api/problem-manage/getProblemList";
 import { ProblemResponse } from "../../../types/content/problem.type";
 import { ListGroup, Button, Spinner, Badge } from "react-bootstrap";
 import { parseEscapeSequences } from "../../../utils/parseEscapeSequence";
 import { Link } from "react-router-dom";
 import { Link as page } from "../../../types/paginator.type";
 import CustomPagination from "../../mislancenous/CustomPagination";
+import { getProblems } from "../../../service/api/problem-manage/getProblems";
 
 const ProblemList: React.FC<{
   page?: string;
@@ -22,7 +22,12 @@ const ProblemList: React.FC<{
     const fetchProblems = async () => {
       try {
         isLoading(true);
-        const response = await getProblemList(page, per_page, name, sort);
+        const response = await getProblems({
+          page,
+          perPage: per_page,
+          keyword: name,
+          sort,
+        });
         setProblems(response);
         setPaginations(response.links);
       } catch (err) {

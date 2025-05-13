@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Card, Spinner, Alert } from "react-bootstrap";
-import { getCourseInfo } from "../../../service/api/cours-manage/getCourseInfo";
-import { Course } from "../../../types/org/course.type";
+import { getCourseInfo } from "../../service/api/cours-manage/getCourseInfo";
+import { Course } from "../../types/org/course.type";
 
 const CourseInfo: React.FC<{ courseId: string | undefined }> = ({
   courseId,

@@ -1,28 +1,8 @@
-import { useEffect, useState } from "react";
-import { getOrgsList } from "../../../service/api/org-manage/getOrgsList";
-import { Org } from "../../../types/org/org.type";
 import { Card, Container, Row, Col, Spinner, Alert } from "react-bootstrap";
+import { useOrgs } from "../../../features/hooks/orgs/useOrg";
 
 const OrgList = () => {
-  const [orgs, setOrgs] = useState<Org[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    const fetchOrgs = async () => {
-      try {
-        const response = await getOrgsList();
-        setOrgs(response.org);
-        // console.log(response);
-        setLoading(false);
-      } catch (err) {
-        setError("Failed to fetch organizations");
-        setLoading(false);
-      }
-    };
-
-    fetchOrgs();
-  }, []);
+  const { orgs, loading, error } = useOrgs();
 
   if (loading)
     return (

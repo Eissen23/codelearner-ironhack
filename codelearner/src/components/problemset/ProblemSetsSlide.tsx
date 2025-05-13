@@ -1,38 +1,19 @@
-import { useEffect, useState } from "react";
-import { ProblemSet } from "../../types/org/problem_set.type";
-import { getProblemSet } from "../../service/api/problem-set-manage/getProblemSet";
 import SwiperCustom from "../../features/main/custom-swiper/SwiperCustom";
 import type { SwiperOptions } from "swiper/types";
 import "../../assets/style/ProblemSetSlide.css";
 import { Navigation } from "swiper/modules";
+import { useProblemSets } from "../../features/hooks/problemsets/useProblemSets";
 
 const ProblemSetSlide = () => {
-  const [problemSets, setProblemSets] = useState<ProblemSet[] | null>(null);
-  const [loading, setLoading] = useState(false);
   const opt: SwiperOptions = {
     slidesPerView: "auto",
     spaceBetween: 15,
     navigation: true,
     modules: [Navigation],
   };
+  const { isLoading, problemSets } = useProblemSets();
 
-  useEffect(() => {
-    const fetchProblemSets = async () => {
-      try {
-        setLoading(true);
-        const response = await getProblemSet();
-        setProblemSets(response.problem_sets.data);
-      } catch (err) {
-        console.log("Error when fetch problem set");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchProblemSets();
-  }, []);
-
-  if (loading) {
+  if (isLoading) {
     return <div>is loading ....</div>;
   }
 

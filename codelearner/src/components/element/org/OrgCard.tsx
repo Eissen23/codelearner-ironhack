@@ -1,4 +1,4 @@
-import { Organization } from "../../types/user.type";
+import { Organization } from "../../../types/user.type";
 import { Col, Card, Badge } from "react-bootstrap";
 
 const OrgCard: React.FC<{ org: Organization }> = ({ org }) => {

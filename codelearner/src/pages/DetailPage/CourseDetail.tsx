@@ -1,8 +1,8 @@
 import { Col, Row } from "react-bootstrap";
 import { useParams } from "react-router";
-import CourseInfo from "../../features/main/course/CourseInfo";
+import CourseInfo from "../../components/courses/CourseInfo";
 import LayoutHome from "../../layout/LayoutHome";
-import ArticleList from "../../features/main/course/articles/ArticleList";
+import ArticleList from "../../components/courses/articles/ArticleList";
 
 const CourseDetail = () => {
   const { course_id } = useParams<{ course_id: string }>();

@@ -1,15 +1,17 @@
 import React from "react";
-import { getProblemInPS } from "../../../service/api/problem-manage/getProblemInPS";
 import { Alert, Badge, ListGroup, Spinner } from "react-bootstrap";
 import { Link } from "react-router";
 import { ProblemData } from "../../../types/content/problem.type";
 import CustomPagination from "../../mislancenous/CustomPagination";
 import { Link as page } from "../../../types/paginator.type";
+import { getProblems } from "../../../service/api/problem-manage/getProblems";
+import { getDefaultParam } from "../../../utils/getDefaultParam";
 
 const ProblemSetProblems: React.FC<{
   problemSetId: string;
-  this_page?: string;
-}> = ({ problemSetId, this_page }) => {
+}> = ({ problemSetId }) => {
+  const { page, per_page, sort, keyword } = getDefaultParam();
+
   const [problems, setProblems] = React.useState<ProblemData[]>([]);
   const [loading, setLoading] = React.useState(false);
   const [paginations, setPaginations] = React.useState<page[]>();
@@ -18,7 +20,13 @@ const ProblemSetProblems: React.FC<{
     const fetchProblems = async () => {
       try {
         setLoading(true);
-        const { data, links } = await getProblemInPS(problemSetId, this_page);
+        const { data, links } = await getProblems({
+          problemSetId,
+          page,
+          perPage: per_page,
+          keyword,
+          sort,
+        });
         setProblems(data);
         setPaginations(links);
       } catch (error) {
@@ -29,7 +37,7 @@ const ProblemSetProblems: React.FC<{
     };
 
     fetchProblems();
-  }, [problemSetId, this_page]);
+  }, [problemSetId, page, keyword, per_page, sort]);
 
   if (loading) {
     return (

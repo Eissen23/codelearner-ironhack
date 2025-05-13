@@ -1,10 +1,10 @@
 import React from "react";
-import { Card, Row, Col, Alert, Tabs, Tab } from "react-bootstrap";
+import { Card, Row, Alert, Tabs, Tab } from "react-bootstrap";
 import { UserDetail } from "../../types/user.type";
-import { Link, useOutletContext } from "react-router-dom";
+import { useOutletContext } from "react-router-dom";
 import CourseCard from "../element/org/CourseCard";
 import CreateCourseForm from "../form/CreateCourseForm";
-import OrgHeadCourse from "../../features/main/course/OrgHeadCourse";
+import OrgHeadCourse from "../courses/OrgHeadCourse";
 
 const DashBoardCourse: React.FC = () => {
   const [key, setKey] = React.useState("default");

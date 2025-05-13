@@ -9,6 +9,7 @@ interface MenuItem {
 }
 
 interface DashBoardLeftProps {
+  title?: string;
   menuItems?: MenuItem[];
 }
 
@@ -19,16 +20,6 @@ const defaultMenuItems: MenuItem[] = [
     icon: "bi bi-house",
   },
   {
-    path: "/dashboard/org-manage",
-    label: "Manage Organization",
-    icon: "bi bi-house-gear",
-  },
-  {
-    path: "/dashboard/course",
-    label: "Manage Course",
-    icon: "bi bi-book-half",
-  },
-  {
     path: "/dashboard/settings",
     label: "Settings",
     icon: "bi bi-gear",
@@ -36,23 +27,27 @@ const defaultMenuItems: MenuItem[] = [
 ];
 
 const DashBoardLeft: React.FC<DashBoardLeftProps> = ({
+  title,
   menuItems = defaultMenuItems,
 }) => {
   return (
-    <Nav className="flex-column">
-      {menuItems.map((item, index) => (
-        <Nav.Item key={index}>
-          <Nav.Link
-            as={Link}
-            to={`${item.path}`}
-            className="d-flex align-items-center gap-2 text-dark nav-pills"
-          >
-            {item.icon && <i className={item.icon}></i>}
-            {item.label}
-          </Nav.Link>
-        </Nav.Item>
-      ))}
-    </Nav>
+    <>
+      <h3 className="fs-6 text-secondary">{title}</h3>
+      <Nav className="flex-column">
+        {menuItems.map((item, index) => (
+          <Nav.Item key={index}>
+            <Nav.Link
+              as={Link}
+              to={`${item.path}`}
+              className="d-flex align-items-center gap-2 text-dark nav-pills"
+            >
+              {item.icon && <i className={item.icon}></i>}
+              {item.label}
+            </Nav.Link>
+          </Nav.Item>
+        ))}
+      </Nav>
+    </>
   );
 };
 

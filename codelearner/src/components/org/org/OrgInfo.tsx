@@ -1,27 +1,8 @@
-import { Org } from "../../../types/org/org.type";
-import { getOrgsDetail } from "../../../service/api/org-manage/getOrgDetail";
-import { useState, useEffect } from "react";
 import { Card, Spinner } from "react-bootstrap";
+import { useOrgDetail } from "../../../features/hooks/orgs/useOrgDetail";
 
 const OrgInfo = ({ id }: { id: string }) => {
-  const [data, setData] = useState<Org | null>(null);
-  const [loading, setLoading] = useState<boolean>(false);
-
-  useEffect(() => {
-    const getOrgData = async () => {
-      setLoading(true);
-      try {
-        const response = await getOrgsDetail(id);
-        setData(response);
-      } catch (error) {
-        console.error("Error fetching org data:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    getOrgData();
-  }, [id]);
+  const { loading, data } = useOrgDetail(id);
 
   if (loading) {
     return (

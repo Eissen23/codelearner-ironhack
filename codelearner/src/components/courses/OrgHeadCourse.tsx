@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import { useAuth } from "../../../context/auth/AuthContext";
-import { getCourseHead } from "../../../service/api/user-manage/getCourseHead";
-import { Course } from "../../../types/org/course.type";
+import { useAuth } from "../../context/auth/AuthContext";
+import { getCourseHead } from "../../service/api/user-manage/getCourseHead";
+import { Course } from "../../types/org/course.type";
 import CourseCardItem from "./element/CourseCardItem";
 import { Alert, Button, Row, Spinner } from "react-bootstrap";
 

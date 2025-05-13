@@ -3,12 +3,10 @@ import { useParams } from "react-router";
 import LayoutHome from "../../layout/LayoutHome";
 import ProblemSetInfo from "../../components/problemset/ProblemSetInfo";
 import ProblemSetProblems from "../../features/main/problems/ProblemSetProblems";
-import { getParamFromUrl } from "../../utils/getParamFromUrl";
+import Filter from "../../features/main/filter/Filter";
 
 const ProblemSetDetail = () => {
   const { problem_set } = useParams<{ problem_set: string }>();
-  const page = getParamFromUrl("page");
-
   if (problem_set === undefined) {
     return <Alert variant="info">No data</Alert>;
   }
@@ -21,10 +19,8 @@ const ProblemSetDetail = () => {
             <ProblemSetInfo problem_set_id={problem_set} />
           </Col>
           <Col xs={12} md={8}>
-            <ProblemSetProblems
-              problemSetId={problem_set}
-              this_page={page || ""}
-            />
+            <Filter problem_only />
+            <ProblemSetProblems problemSetId={problem_set} />
           </Col>
         </Row>
       </div>

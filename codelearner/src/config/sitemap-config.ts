@@ -15,7 +15,6 @@ import ProblemsPage from "../pages/ListPage/ProblemsPage";
 import DashBoardRight from "../components/dash-board/DashBoardRight";
 import DashBoardOrg from "../components/dash-board/DashBoardOrg";
 import DashBoardCourse from "../components/dash-board/DashBoardCourse";
-import { Children, Component } from "react";
 import SimpleOutlet from "../components/SimpleOutlet";
 import ProblemDetail from "../pages/DetailPage/ProblemDetail";
 

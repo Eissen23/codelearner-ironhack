@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import { getCourseList } from "../../../service/api/cours-manage/getCourseList";
-import { Course } from "../../../types/org/course.type";
-import { Container, Row, Col, Card, Spinner, Alert } from "react-bootstrap";
+import { getCourseList } from "../../service/api/cours-manage/getCourseList";
+import { Course } from "../../types/org/course.type";
+import { Container, Row, Spinner, Alert } from "react-bootstrap";
 import CourseCardItem from "./element/CourseCardItem";
 
 const CourseList = () => {

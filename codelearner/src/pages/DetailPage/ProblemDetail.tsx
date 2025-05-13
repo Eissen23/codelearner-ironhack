@@ -1,4 +1,4 @@
-import React, { use, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Split from "react-split";
 import CodeEditor from "../../features/main/code/CodeEditor";
 import "../../assets/style/Code.css";

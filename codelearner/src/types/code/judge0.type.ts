@@ -20,19 +20,25 @@ export type SubmissionResponse = {
     description: string;
   };
 };
-/* {
-	"stdout": "hello\n",
-	"time": "0.865",
-	"memory": 48160,
-	"stderr": null,
-	"token": "49efc352-3916-477f-80df-15a01d30726a",
-	"compile_output": null,
-	"message": null,
-	"status": {
-		"id": 3,
-		"description": "Accepted"
-	}
-} */
+
+export type ResultData = {
+  source_code: string;
+  language_id: number;
+  result: string;
+  points: number;
+  time: number;
+  memory: number;
+  //no need for adding
+  problem_id?: string;
+  updated_at?: Date;
+  created_at?: Date;
+  id?: string;
+};
+
+export type SubmitResponse = {
+  message: string;
+  submissions: ResultData;
+};
 
 export type BatchSubmission = {
   submission: SubmissionParams[];

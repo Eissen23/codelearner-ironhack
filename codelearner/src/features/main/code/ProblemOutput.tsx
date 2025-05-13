@@ -6,6 +6,7 @@ import { LANGUAGE_MAPPING } from "../../../data/LanguageMapping";
 import { TestCase } from "../../../types/content/problem.type";
 import { createBatchSubmission } from "../../../utils/code/createBatchSub";
 import { runTestCase } from "../../../service/api/judge0-code/RunTestCase";
+import { parseEscapeSequences } from "../../../utils/parseEscapeSequence";
 
 interface OutputProps {
   editorRef: React.RefObject<any>;
@@ -92,20 +93,31 @@ const ProblemOutput: React.FC<OutputProps> = ({
           Submit
         </button>
       </Stack>
-
+      {/* TODO: Tách rieng thành 1 element riêng, truyền submission vào, chỉ hiện thị accepted khi tất cả đều accept, nếu có 1 test case 0 dat
+            hiển thị tab đấy màu đỏ, với UserSubmission, trạng thái là Wrong answer khi 1 trong các element sai, (tham khảo ở hàm wait trong code
+            sevice)
+          */}
       <Tabs defaultActiveKey={"output-0"} className="mb-3">
         {status.map((stat, index) => (
           <Tab
+            className="bg-black"
             eventKey={`output-${index}`}
             title={`Output ${index + 1}`}
             key={index}
           >
-            <div className={stat ? "text-success" : "text-danger"}>
+            <div
+              className={stat ? "text-success" : "text-danger"}
+              style={{ height: "32vh" }}
+            >
               <h6 className="fw-semibold text-uppercase ms-3">
                 {stat ? "Output" : "Error"}
               </h6>
-              <div className="bg-secondary mx-3 mt-2 text-white rounded-2 pt-2 px-3">
-                {output[index] ? output[index] : "Click run to see the code"}
+              <div className="final_output">
+                <p style={{ whiteSpace: "pre-wrap" }}>
+                  {output[index]
+                    ? parseEscapeSequences(output[index])
+                    : "Click run to see the code"}
+                </p>
               </div>
             </div>
           </Tab>

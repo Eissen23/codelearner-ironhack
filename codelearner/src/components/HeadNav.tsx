@@ -18,7 +18,7 @@ const menuItems = [
 const userItems = [
   { label: "Home", link: "/" },
   { label: "Dashboard", link: "/dashboard" },
-  { label: "Sandbox", link: "/code" },
+  { label: "Problem", link: "/problems" },
   { label: "Courses", link: "/courses" },
   { label: "Problem Sets", link: "/problem-sets" },
   { label: "Org", link: "/orgs" },
@@ -32,9 +32,9 @@ function HeadNav() {
         <div className="d-flex justify-content-between align-items-center">
           <div className="logo-img d-flex">
             <Link to="/">
-            <div className="ratio-16-9">
-              <img className="img-fluid" src={logo} alt="Ironhack logo" />
-            </div>
+              <div className="ratio-16-9">
+                <img className="img-fluid" src={logo} alt="Ironhack logo" />
+              </div>
             </Link>
             <span className="text-white align-content-center ms-3 font-monospace">
               Ironhack

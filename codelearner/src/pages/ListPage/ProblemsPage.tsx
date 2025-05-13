@@ -1,21 +1,29 @@
-import { useParams } from "react-router";
 import ProblemSetSlide from "../../components/problemset/ProblemSetsSlide";
 import ProblemList from "../../features/main/problems/ProblemList";
 import LayoutHome from "../../layout/LayoutHome";
-import { getParamFromUrl } from "../../utils/getParamFromUrl";
+import Filter from "../../features/main/filter/Filter";
+import { getDefaultParam } from "../../utils/getDefaultParam";
 
 const ProblemsPage = () => {
-  useParams();
-  const page = getParamFromUrl("page");
+  const { page, per_page, keyword, sort } = getDefaultParam();
 
   return (
     <LayoutHome>
+      <section className="my-3">
+        <Filter problem_only={true} />
+      </section>
+
       <section className="my-3">
         <ProblemSetSlide />
       </section>
 
       <section className="my-3">
-        <ProblemList page={page || ""} />
+        <ProblemList
+          page={page}
+          per_page={per_page}
+          name={keyword}
+          sort={sort}
+        />
       </section>
     </LayoutHome>
   );

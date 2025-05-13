@@ -11,7 +11,7 @@ export const getProblemInPS = async (
     );
     return response.data;
   } catch (error) {
-    console.log("Errow while fetching problems data:", error);
+    console.log("Error while fetching problems data:", error);
     throw error;
   }
 };

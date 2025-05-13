@@ -83,7 +83,7 @@ const CreateCourseForm: React.FC<{ orgs: Organization[] }> = ({ orgs }) => {
                 name="org_id"
                 onChange={handleSelect}
               >
-                <option value={0}>Organization select</option>
+                <option value={0}>Organization select *</option>
                 {orgs.map(
                   (org) =>
                     org.pivot.role === "OrgHead" && (

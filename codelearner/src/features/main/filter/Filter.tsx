@@ -5,12 +5,16 @@ import * as qs from "qs";
 import { FaFilter } from "react-icons/fa";
 
 interface Filters {
-  perPage: string;
-  name: string;
+  per_page: string;
+  keyword: string;
   sort: string;
 }
 
-const Filter: React.FC = () => {
+interface FilterProps {
+  problem_only?: boolean;
+}
+
+const Filter: React.FC<FilterProps> = ({ problem_only }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const [show, setShow] = useState(false);
@@ -25,16 +29,16 @@ const Filter: React.FC = () => {
 
   // State for filters
   const [filters, setFilters] = useState<Filters>({
-    perPage: queryParams.perPage || "10",
-    name: queryParams.name || "",
-    sort: queryParams.sort || "asc",
+    per_page: queryParams.per_page || "",
+    keyword: queryParams.keyword || "",
+    sort: queryParams.sort || "",
   });
 
   useEffect(() => {
     setFilters({
-      perPage: queryParams.perPage || "10",
-      name: queryParams.name || "",
-      sort: queryParams.sort || "asc",
+      per_page: queryParams.per_page || "",
+      keyword: queryParams.keyword || "",
+      sort: queryParams.sort || "",
     });
   }, [location.search]);
 
@@ -51,8 +55,8 @@ const Filter: React.FC = () => {
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const newParams: Partial<Filters> = {};
-    if (filters.perPage) newParams.perPage = filters.perPage;
-    if (filters.name) newParams.name = filters.name;
+    if (filters.per_page) newParams.per_page = filters.per_page;
+    if (filters.keyword) newParams.keyword = filters.keyword;
     if (filters.sort) newParams.sort = filters.sort;
 
     const queryString = qs.stringify(newParams);
@@ -62,9 +66,9 @@ const Filter: React.FC = () => {
 
   const handleClear = () => {
     setFilters({
-      perPage: "10",
-      name: "",
-      sort: "asc",
+      per_page: "",
+      keyword: "",
+      sort: "",
     });
     navigate(location.pathname);
     handleClose();
@@ -87,39 +91,55 @@ const Filter: React.FC = () => {
         </Offcanvas.Header>
         <Offcanvas.Body>
           <Form onSubmit={handleSubmit}>
-            <Form.Group className="mb-3" controlId="perPage">
+            <Form.Group className="mb-3" controlId="per_page">
               <Form.Label>Items per page</Form.Label>
               <Form.Select
-                name="perPage"
-                value={filters.perPage}
+                name="per_page"
+                value={filters.per_page}
                 onChange={handleChange}
               >
+                <option value="">Select items per page</option>
                 <option value="10">10</option>
                 <option value="20">20</option>
                 <option value="50">50</option>
               </Form.Select>
             </Form.Group>
 
-            <Form.Group className="mb-3" controlId="name">
+            <Form.Group className="mb-3" controlId="keyword">
               <Form.Label>Name Filter</Form.Label>
               <Form.Control
                 type="text"
-                name="name"
-                value={filters.name}
+                name="keyword"
+                value={filters.keyword}
                 onChange={handleChange}
                 placeholder="Enter name..."
               />
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="sort">
-              <Form.Label>Sort by Name</Form.Label>
+              <Form.Label>Sort options</Form.Label>
               <Form.Select
                 name="sort"
                 value={filters.sort}
                 onChange={handleChange}
               >
-                <option value="asc">Ascending</option>
-                <option value="desc">Descending</option>
+                <option value="">Select order</option>
+                <option value="name-asc">Name (A-Z)</option>
+                <option value="name-desc">Name (Z-A)</option>
+                <option value="created_at-asc">
+                  Created At (Oldest First)
+                </option>
+                <option value="created_at-desc">
+                  Created At (Newest First)
+                </option>
+                {problem_only && [
+                  <option key="difficulty-asc" value="difficulty-asc">
+                    Difficulty (Easy to Hard)
+                  </option>,
+                  <option key="difficulty-desc" value="difficulty-desc">
+                    Difficulty (Hard to Easy)
+                  </option>,
+                ]}
               </Form.Select>
             </Form.Group>
 

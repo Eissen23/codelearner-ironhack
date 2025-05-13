@@ -1,11 +1,11 @@
 import React from "react";
 import { Alert, Badge, ListGroup, Spinner } from "react-bootstrap";
 import { Link } from "react-router";
-import { ProblemData } from "../../../types/content/problem.type";
-import CustomPagination from "../../mislancenous/CustomPagination";
-import { Link as page } from "../../../types/paginator.type";
-import { getProblems } from "../../../service/api/problem-manage/getProblems";
-import { getDefaultParam } from "../../../utils/getDefaultParam";
+import { ProblemData } from "../../types/content/problem.type";
+import CustomPagination from "../../features/mislancenous/CustomPagination";
+import { Link as page } from "../../types/paginator.type";
+import { getProblems } from "../../service/api/problem-manage/getProblems";
+import { getDefaultParam } from "../../utils/getDefaultParam";
 
 const ProblemSetProblems: React.FC<{
   problemSetId: string;

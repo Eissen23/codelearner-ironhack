@@ -2,7 +2,7 @@ import React from "react";
 import { Card, Row, Alert, Tabs, Tab } from "react-bootstrap";
 import { UserDetail } from "../../types/user.type";
 import { useOutletContext } from "react-router-dom";
-import CourseCard from "../element/org/CourseCard";
+import CourseCard from "./element/CourseCard";
 import CreateCourseForm from "../form/CreateCourseForm";
 import OrgHeadCourse from "../courses/OrgHeadCourse";
 

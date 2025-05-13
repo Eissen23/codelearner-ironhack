@@ -1,9 +1,9 @@
-import React, { useEffect, useState, useRef } from "react";
+import React from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import LayoutHome from "../layout/LayoutHome";
 import DashBoardLeft from "../components/dash-board/DashBoardLeft";
 import { useAuth } from "../context/auth/AuthContext";
-import { Outlet, useLoaderData } from "react-router";
+import { Outlet } from "react-router";
 import { useUserDetail } from "../features/hooks/users/useUserDetail";
 
 const settings = [

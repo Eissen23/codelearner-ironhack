@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
-import { getProblemList } from "../../../service/api/problem-manage/getProblemList";
-import { ProblemResponse } from "../../../types/content/problem.type";
+import { getProblemList } from "../../service/api/problem-manage/getProblemList";
+import { ProblemResponse } from "../../types/content/problem.type";
 import Accordion from "react-bootstrap/Accordion";
 import Button from "react-bootstrap/Button";
 import Spinner from "react-bootstrap/Spinner";
-import { parseEscapeSequences } from "../../../utils/parseEscapeSequence";
+import { parseEscapeSequences } from "../../utils/parseEscapeSequence";
 import { Link } from "react-router";
 import { GrLinkNext } from "react-icons/gr";
 

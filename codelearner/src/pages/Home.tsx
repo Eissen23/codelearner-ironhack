@@ -2,7 +2,7 @@ import Banner from "../features/main/Banner";
 import SwiperCustom from "../features/main/custom-swiper/SwiperCustom";
 import LayoutHome from "../layout/LayoutHome";
 import "../assets/style/Home.css";
-import ProblemAccordionList from "../features/main/problems/ProblemsAccordion";
+import ProblemAccordionList from "../components/problems/ProblemsAccordion";
 
 const slideInfo = [
   {

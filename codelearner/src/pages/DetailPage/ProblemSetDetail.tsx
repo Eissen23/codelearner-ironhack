@@ -2,7 +2,7 @@ import { Alert, Col, Row } from "react-bootstrap";
 import { useParams } from "react-router";
 import LayoutHome from "../../layout/LayoutHome";
 import ProblemSetInfo from "../../components/problemset/ProblemSetInfo";
-import ProblemSetProblems from "../../features/main/problems/ProblemSetProblems";
+import ProblemSetProblems from "../../components/problems/ProblemSetProblems";
 import Filter from "../../features/main/filter/Filter";
 
 const ProblemSetDetail = () => {

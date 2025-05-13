@@ -1,9 +1,9 @@
 import React from "react";
-import { Card, Row, Col, Alert, Tabs, Tab } from "react-bootstrap";
+import { Card, Row, Tabs, Tab } from "react-bootstrap";
 import { UserDetail } from "../../types/user.type";
 import { useOutletContext } from "react-router-dom";
 import CreateOrganizationForm from "../form/CreateOrganizationForm";
-import OrgCard from "../element/org/OrgCard";
+import OrgCard from "./element/OrgCard";
 
 const DashBoardOrg: React.FC = () => {
   const [key, setKey] = React.useState("default");

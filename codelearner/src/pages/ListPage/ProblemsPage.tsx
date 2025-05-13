@@ -1,5 +1,5 @@
 import ProblemSetSlide from "../../components/problemset/ProblemSetsSlide";
-import ProblemList from "../../features/main/problems/ProblemList";
+import ProblemList from "../../components/problems/ProblemList";
 import LayoutHome from "../../layout/LayoutHome";
 import Filter from "../../features/main/filter/Filter";
 import { getDefaultParam } from "../../utils/getDefaultParam";

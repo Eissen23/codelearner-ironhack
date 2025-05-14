@@ -1,13 +1,15 @@
 import React, { useState } from "react";
 import { Form, Button, Row, Col, InputGroup } from "react-bootstrap";
-import { Organization } from "../../types/user.type";
-import { Course } from "../../types/org/course.type";
-import { addCourse } from "../../service/api/cours-manage/addCourse";
-import { useAuth } from "../../context/auth/AuthContext";
+import { Course } from "../../../types/org/course.type";
+import { addCourse } from "../../../service/api/cours-manage/addCourse";
+import { useAuth } from "../../../context/auth/AuthContext";
 import { toast, ToastContainer } from "react-toastify";
+import { Org } from "../../../types/org/org.type";
+import { useNavigate } from "react-router";
 
-const CreateCourseForm: React.FC<{ orgs: Organization[] }> = ({ orgs }) => {
+const AddCourseOrg: React.FC<{ orgs: Org }> = ({ orgs }) => {
   const { token } = useAuth();
+  const navigate = useNavigate();
 
   const [Loading, setLoading] = useState(false);
   const [formData, setFormData] = useState<Omit<Course, "id" | "created_at">>({
@@ -18,7 +20,7 @@ const CreateCourseForm: React.FC<{ orgs: Organization[] }> = ({ orgs }) => {
     currency: "",
     duration: 0,
     logo: null,
-    org_id: 0,
+    org_id: orgs.id,
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -44,6 +46,7 @@ const CreateCourseForm: React.FC<{ orgs: Organization[] }> = ({ orgs }) => {
       setLoading(true);
       await addCourse(token, formData);
       toast("Successfully added course");
+      navigate(`/dashboard/mod/org-manage/${orgs.id}`);
     } catch (error) {
       toast.error("Failed to add course");
       throw error;
@@ -76,27 +79,22 @@ const CreateCourseForm: React.FC<{ orgs: Organization[] }> = ({ orgs }) => {
         <Row>
           <Col md={6} xs={12}>
             <Form.Group className="mb-3">
-              <Form.Label htmlFor="name">Course's organization*</Form.Label>
+              <Form.Label htmlFor="name">Course's organization</Form.Label>
               <Form.Select
                 id="org_id"
-                defaultValue={0}
+                defaultValue={orgs.id}
                 name="org_id"
                 onChange={handleSelect}
                 required
+                disabled
               >
-                <option value={0}>Organization select</option>
-                {orgs.map(
-                  (org) =>
-                    org.pivot.role === "OrgHead" && (
-                      <option key={org.id} value={org.id}>
-                        {org.name}
-                      </option>
-                    )
-                )}
+                <option key={orgs.id} value={orgs.id}>
+                  {orgs.name}
+                </option>
               </Form.Select>
             </Form.Group>
             <Form.Group className="mb-3">
-              <Form.Label htmlFor="name">Course name*</Form.Label>
+              <Form.Label htmlFor="name">Course name</Form.Label>
               <Form.Control
                 type="text"
                 id="name"
@@ -108,7 +106,7 @@ const CreateCourseForm: React.FC<{ orgs: Organization[] }> = ({ orgs }) => {
             </Form.Group>
 
             <Form.Group className="mb-3">
-              <Form.Label htmlFor="fee">Fee</Form.Label>
+              <Form.Label htmlFor="fee">Fee (unchange if free)</Form.Label>
               <InputGroup>
                 <Form.Control
                   type="number"
@@ -154,7 +152,7 @@ const CreateCourseForm: React.FC<{ orgs: Organization[] }> = ({ orgs }) => {
           <Col md={6} xs={12}>
             <Form.Group className="mb-3">
               <Form.Label htmlFor="short_description">
-                Short Description*
+                Short Description
               </Form.Label>
               <Form.Control
                 as="textarea"
@@ -166,7 +164,7 @@ const CreateCourseForm: React.FC<{ orgs: Organization[] }> = ({ orgs }) => {
               />
             </Form.Group>
             <Form.Group className="mb-3">
-              <Form.Label htmlFor="description">Description*</Form.Label>
+              <Form.Label htmlFor="description">Description</Form.Label>
               <Form.Control
                 as="textarea"
                 rows={8}
@@ -184,4 +182,4 @@ const CreateCourseForm: React.FC<{ orgs: Organization[] }> = ({ orgs }) => {
   );
 };
 
-export default CreateCourseForm;
+export default AddCourseOrg;

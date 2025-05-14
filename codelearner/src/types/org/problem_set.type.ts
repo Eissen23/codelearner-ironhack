@@ -1,17 +1,20 @@
 import { Link } from "../paginator.type";
+import { Org } from "./org.type";
 
 export type ProblemSet = {
   id: number;
   name: string;
   description?: string;
   short_description: string;
-  expired_at: Date;
+  expired_at?: Date;
   created_at: Date;
+  logo?: string;
   org_id: number;
 };
 
 export type ProblemSetInfoResponse = {
   data: ProblemSet;
+  belong_to: Org;
 };
 
 export type ProblemSetResponse = {

@@ -24,3 +24,8 @@ export type CreateOrgResponse = {
 export type OrgListResponse = {
   org: Org[];
 };
+
+export type OrgUpdateRes = {
+  message: string;
+  data: Org;
+};

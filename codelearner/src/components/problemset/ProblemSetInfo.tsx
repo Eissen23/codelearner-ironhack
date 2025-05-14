@@ -1,29 +1,11 @@
 import React from "react";
-import { getProblemSetInfo } from "../../service/api/problem-set-manage/getProblemSetInfo";
-import { ProblemSet } from "../../types/org/problem_set.type";
 import { Card, Alert } from "react-bootstrap";
+import { useProblemSetsInfo } from "../../features/hooks/problemsets/useProblemSetInfo";
 
 const ProblemSetInfo: React.FC<{ problem_set_id: string }> = ({
   problem_set_id,
 }) => {
-  const [problemSet, setProblemSet] = React.useState<ProblemSet | null>(null);
-  const [loading, setLoading] = React.useState(false);
-
-  React.useEffect(() => {
-    const fetchProblemSets = async () => {
-      try {
-        setLoading(true);
-        const { data } = await getProblemSetInfo(problem_set_id);
-        setProblemSet(data);
-      } catch (error) {
-        console.log("Failed to fetch problem set info");
-        throw error;
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchProblemSets();
-  }, [problem_set_id]);
+  const { problemSet, loading } = useProblemSetsInfo(problem_set_id);
 
   if (loading) {
     return <div> is Loading ....</div>;
@@ -45,7 +27,7 @@ const ProblemSetInfo: React.FC<{ problem_set_id: string }> = ({
         </Card.Text>
         <Card.Text>
           <strong>Expired at:</strong>
-          {new Date(problemSet.expired_at).toLocaleDateString()}
+          {new Date(problemSet.expired_at || "").toLocaleDateString()}
         </Card.Text>
       </Card.Body>
     </Card>

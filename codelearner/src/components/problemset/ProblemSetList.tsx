@@ -1,4 +1,4 @@
-import { Container, Row, Col, Card, Spinner, Alert } from "react-bootstrap";
+import { Container, Row, Col, Spinner, Alert } from "react-bootstrap";
 import { useProblemSets } from "../../features/hooks/problemsets/useProblemSets";
 import ProblemSetCard from "./element/ProblemSetCard";
 
@@ -25,7 +25,9 @@ const ProblemSetList = () => {
     <Container className="py-4">
       <Row xs={1} md={2} lg={3} className="g-4">
         {problemSets.map((problemSet) => (
-          <ProblemSetCard problemSet={problemSet} />
+          <Col md={6} lg={4} key={problemSet.id} className="mb-3">
+            <ProblemSetCard problemSet={problemSet} />
+          </Col>
         ))}
       </Row>
     </Container>

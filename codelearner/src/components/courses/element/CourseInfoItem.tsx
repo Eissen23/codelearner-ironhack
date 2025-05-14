@@ -1,24 +1,36 @@
-import React, { useState } from "react";
-import { Form, Button, Row, Col, InputGroup } from "react-bootstrap";
-import { Organization } from "../../types/user.type";
-import { Course } from "../../types/org/course.type";
-import { addCourse } from "../../service/api/cours-manage/addCourse";
-import { useAuth } from "../../context/auth/AuthContext";
+import { useState } from "react";
+import { useAuth } from "../../../context/auth/AuthContext";
+import { Course } from "../../../types/org/course.type";
+import { Col, Form, InputGroup, Row, Spinner } from "react-bootstrap";
 import { toast, ToastContainer } from "react-toastify";
+import { updateCourse } from "../../../service/api/cours-manage/updateCourse";
+import { deleteCourse } from "../../../service/api/cours-manage/deleteCourse";
+import { useNavigate } from "react-router";
+import { Org } from "../../../types/org/org.type";
 
-const CreateCourseForm: React.FC<{ orgs: Organization[] }> = ({ orgs }) => {
+const CourseInfoItem: React.FC<{
+  course: Course | null;
+  org?: Org | null;
+}> = ({ course, org }) => {
+  if (!course) {
+    return <div>Loading...</div>;
+  }
+
+  const navigate = useNavigate();
   const { token } = useAuth();
+  const [isEditing, setIsEditing] = useState(false);
 
   const [Loading, setLoading] = useState(false);
-  const [formData, setFormData] = useState<Omit<Course, "id" | "created_at">>({
-    name: "",
-    description: "",
-    short_description: "",
-    fee: 0.0,
-    currency: "",
-    duration: 0,
-    logo: null,
-    org_id: 0,
+  const [formData, setFormData] = useState<Omit<Course, "created_at">>({
+    id: course.id,
+    name: course.name,
+    description: course.description,
+    short_description: course.short_description,
+    fee: course.fee,
+    currency: course.currency,
+    duration: course.duration,
+    logo: course.logo,
+    org_id: course.org_id,
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -42,11 +54,26 @@ const CreateCourseForm: React.FC<{ orgs: Organization[] }> = ({ orgs }) => {
 
     try {
       setLoading(true);
-      await addCourse(token, formData);
-      toast("Successfully added course");
+      await updateCourse(token, formData);
+      toast("Successfully updated course");
     } catch (error) {
-      toast.error("Failed to add course");
+      toast.error("Failed to update course");
       throw error;
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleDelelete = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      setLoading(true);
+      await deleteCourse(formData.id.toString(), token || "");
+      toast("Delete Success");
+      navigate("/dashboard/head/course");
+    } catch (error) {
+      console.log("error while delete", error);
+      toast.error("Delete fail");
     } finally {
       setLoading(false);
     }
@@ -57,21 +84,7 @@ const CreateCourseForm: React.FC<{ orgs: Organization[] }> = ({ orgs }) => {
       <ToastContainer />
       <Form onSubmit={handleSubmit} className="d-block p-3">
         <div className="d-flex justify-content-between mb-4 mt-3">
-          <h2 className="text-center mb-0">Create Course</h2>
-          <Button className="d-block" variant="primary" type="submit" size="sm">
-            {Loading ? (
-              <>
-                <span
-                  className="spinner-border spinner-border-sm me-2"
-                  role="status"
-                  aria-hidden="true"
-                ></span>
-                Creating...
-              </>
-            ) : (
-              "Add Course"
-            )}
-          </Button>
+          <h2 className="text-center mb-0">Course Info</h2>
         </div>
         <Row>
           <Col md={6} xs={12}>
@@ -79,20 +92,16 @@ const CreateCourseForm: React.FC<{ orgs: Organization[] }> = ({ orgs }) => {
               <Form.Label htmlFor="name">Course's organization*</Form.Label>
               <Form.Select
                 id="org_id"
-                defaultValue={0}
+                defaultValue={course.org_id}
+                value={formData.org_id}
                 name="org_id"
                 onChange={handleSelect}
                 required
+                disabled
               >
-                <option value={0}>Organization select</option>
-                {orgs.map(
-                  (org) =>
-                    org.pivot.role === "OrgHead" && (
-                      <option key={org.id} value={org.id}>
-                        {org.name}
-                      </option>
-                    )
-                )}
+                <option value={course.org_id}>
+                  {org ? org.name : course.org_id}
+                </option>
               </Form.Select>
             </Form.Group>
             <Form.Group className="mb-3">
@@ -104,6 +113,7 @@ const CreateCourseForm: React.FC<{ orgs: Organization[] }> = ({ orgs }) => {
                 value={formData.name}
                 onChange={handleChange}
                 required
+                disabled={!isEditing}
               />
             </Form.Group>
 
@@ -116,6 +126,7 @@ const CreateCourseForm: React.FC<{ orgs: Organization[] }> = ({ orgs }) => {
                   name="fee"
                   value={formData.fee}
                   onChange={handleChange}
+                  disabled={!isEditing}
                 ></Form.Control>
 
                 <Form.Select
@@ -123,6 +134,7 @@ const CreateCourseForm: React.FC<{ orgs: Organization[] }> = ({ orgs }) => {
                   name="currency"
                   defaultValue="USD"
                   onChange={handleSelect}
+                  disabled={!isEditing}
                 >
                   <option value="USD">USD</option>
                   <option value="VND">VND</option>
@@ -138,6 +150,7 @@ const CreateCourseForm: React.FC<{ orgs: Organization[] }> = ({ orgs }) => {
                 name="logo"
                 value={formData.logo || ""}
                 onChange={handleChange}
+                disabled={!isEditing}
               />
             </Form.Group>
             <Form.Group className="mb-3">
@@ -148,6 +161,7 @@ const CreateCourseForm: React.FC<{ orgs: Organization[] }> = ({ orgs }) => {
                 name="duration"
                 value={formData.duration}
                 onChange={handleChange}
+                disabled={!isEditing}
               />
             </Form.Group>
           </Col>
@@ -163,6 +177,7 @@ const CreateCourseForm: React.FC<{ orgs: Organization[] }> = ({ orgs }) => {
                 value={formData.short_description}
                 onChange={handleChange}
                 required
+                disabled={!isEditing}
               />
             </Form.Group>
             <Form.Group className="mb-3">
@@ -175,13 +190,48 @@ const CreateCourseForm: React.FC<{ orgs: Organization[] }> = ({ orgs }) => {
                 value={formData.description || ""}
                 onChange={handleChange}
                 required
+                disabled={!isEditing}
               />
             </Form.Group>
           </Col>
         </Row>
+        <div className="d-flex gap-2 justify-content-between">
+          <button
+            type="button"
+            className="btn btn-danger"
+            onClick={handleDelelete}
+          >
+            {Loading && (
+              <span>
+                <Spinner animation="border" size="sm"></Spinner>
+              </span>
+            )}
+            Delete
+          </button>
+
+          <div className="d-flex">
+            <button
+              type="button"
+              className="btn btn-secondary"
+              onClick={() => setIsEditing(!isEditing)}
+            >
+              {isEditing ? "Cancel" : "Edit"}
+            </button>
+            {isEditing && (
+              <button type="submit" className="btn btn-primary ms-3">
+                {Loading && (
+                  <span>
+                    <Spinner animation="border" size="sm"></Spinner>
+                  </span>
+                )}
+                Save Changes
+              </button>
+            )}
+          </div>
+        </div>
       </Form>
     </div>
   );
 };
 
-export default CreateCourseForm;
+export default CourseInfoItem;

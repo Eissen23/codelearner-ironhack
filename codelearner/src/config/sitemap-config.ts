@@ -13,10 +13,16 @@ import CourseDetail from "../pages/DetailPage/CourseDetail";
 import ProblemSetDetail from "../pages/DetailPage/ProblemSetDetail";
 import ProblemsPage from "../pages/ListPage/ProblemsPage";
 import DashBoardRight from "../components/dash-board/DashBoardRight";
-import DashBoardOrg from "../components/dash-board/DashBoardOrg";
-import DashBoardCourse from "../components/dash-board/DashBoardCourse";
+import DashBoardOrg from "../components/dash-board/moderator/DashBoardOrg";
+import DashBoardCourse from "../components/dash-board/moderator/DashBoardCourse";
 import SimpleOutlet from "../components/SimpleOutlet";
 import ProblemDetail from "../pages/DetailPage/ProblemDetail";
+import OrgSetting from "../components/dash-board/moderator/OrgSetting";
+import AddCoursePage from "../pages/OrgHead/AddCoursePage";
+import AddProblemSetPage from "../pages/OrgHead/AddProblemSetPage";
+import DashBoardProblemSet from "../components/dash-board/moderator/DashBoardProblemSet";
+import CourseSettingPage from "../pages/Setting/CourseSettingPage";
+import ProblemSetSetting from "../pages/Setting/ProblemSetSetting";
 
 const routes_map = [
   {
@@ -90,6 +96,7 @@ const routes_map = [
         path: "/code",
         Component: Code,
       },
+      // dashboard
       {
         path: "/dashboard",
         Component: DashBoard,
@@ -99,21 +106,49 @@ const routes_map = [
             Component: DashBoardRight,
           },
           {
-            path: "/dashboard/org-manage",
+            path: "/dashboard/head/org-manage",
             children: [
               {
                 index: true,
                 Component: DashBoardOrg,
               },
               {
-                path: "/dashboard/org-manage/:org",
-                Component: DashBoardOrg,
+                path: "/dashboard/head/org-manage/:org_id",
+                Component: OrgSetting,
+              },
+              {
+                path: "/dashboard/head/org-manage/:org_id/add-course",
+                Component: AddCoursePage,
+              },
+              {
+                path: "/dashboard/head/org-manage/:org_id/add-problem-set",
+                Component: AddProblemSetPage,
               },
             ],
           },
           {
-            path: "/dashboard/course",
+            path: "/dashboard/head/course",
             Component: DashBoardCourse,
+          },
+          {
+            path: "/dashboard/head/problemset",
+            Component: DashBoardProblemSet,
+          },
+        ],
+      },
+      //
+      {
+        path: "/setting",
+        component: SimpleOutlet,
+        children: [
+          { index: true, component: CourseSettingPage },
+          {
+            path: "/setting/course/:course_id",
+            Component: CourseSettingPage,
+          },
+          {
+            path: "/setting/problem-set/:problemSetId",
+            Component: ProblemSetSetting,
           },
         ],
       },

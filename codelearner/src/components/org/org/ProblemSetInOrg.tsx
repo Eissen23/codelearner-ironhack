@@ -1,22 +1,28 @@
 import React from "react";
-import { Col, Card, Row } from "react-bootstrap";
+import { Col, Row, Spinner } from "react-bootstrap";
 import { useProblemSets } from "../../../features/hooks/problemsets/useProblemSets";
 import ProblemSetCard from "../../problemset/element/ProblemSetCard";
 
 const ProblemSetInOrg: React.FC<{ org_id: string }> = ({ org_id }) => {
   const { problemSets, isLoading } = useProblemSets(org_id);
 
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
-
+  if (isLoading)
+    return (
+      <Spinner
+        animation="border"
+        role="status"
+        className="d-block mx-auto my-5"
+      />
+    );
   return (
     <div className="moderator-org">
       <h4>Problem Sets In Organization</h4>
       {problemSets.length ? (
         <Row>
           {problemSets.map((problemSet) => (
-            <ProblemSetCard problemSet={problemSet} />
+            <Col md={6} lg={4} key={problemSet.id} className="mb-3">
+              <ProblemSetCard problemSet={problemSet} />
+            </Col>
           ))}
         </Row>
       ) : (

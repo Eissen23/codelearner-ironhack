@@ -1,4 +1,5 @@
 import { Link } from "../paginator.type";
+import { Org } from "./org.type";
 
 export type Course = {
   id: number;
@@ -14,6 +15,7 @@ export type Course = {
 };
 export type CourseInfoResponse = {
   data: Course;
+  belong_to: Org;
 };
 
 // Main response interface

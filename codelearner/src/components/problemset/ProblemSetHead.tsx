@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { useAuth } from "../../context/auth/AuthContext";
-import CourseCardItem from "./element/CourseCardItem";
+import { useProblemSetsHead } from "../../features/hooks/problemsets/useProblemSetsHead";
 import { Alert, Button, Col, Row, Spinner } from "react-bootstrap";
-import { useCourseHead } from "../../features/hooks/course/useCourseHead";
+import ProblemSetCard from "./element/ProblemSetCard";
 
-const OrgHeadCourse = () => {
+const ProblemSetHead = () => {
   const { token } = useAuth();
 
   const [refreshKey, setRefreshKey] = useState(0);
@@ -13,16 +13,16 @@ const OrgHeadCourse = () => {
     setRefreshKey((prev) => prev + 1);
   };
 
-  const { courses, isLoading } = useCourseHead(token, refreshKey);
+  const { problemSets, isLoading } = useProblemSetsHead(token, refreshKey);
 
   if (isLoading) return <Spinner animation="border" role="status"></Spinner>;
 
-  if (!courses) {
+  if (!problemSets) {
     return <Alert variant="danger"> Failed to fetch courses</Alert>;
   }
 
   return (
-    <div className="orghead-course">
+    <div className="orghead-problemset">
       <Button
         onClick={handleRefresh}
         variant="secondary"
@@ -32,11 +32,12 @@ const OrgHeadCourse = () => {
         <i className="bi bi-arrow-clockwise"></i>
         <span>Refresh</span>
       </Button>
-      {courses.length ? (
+
+      {problemSets.length ? (
         <Row>
-          {courses.map((course) => (
-            <Col key={`crs-${course.id}`} md={4} xs={12} className="mb-3">
-              <CourseCardItem setting course={course} />
+          {problemSets.map((problemSet) => (
+            <Col key={`pbs-${problemSet.id}`} md={4} xs={12} className="mb-3">
+              <ProblemSetCard problemSet={problemSet} setting />
             </Col>
           ))}
         </Row>
@@ -47,4 +48,4 @@ const OrgHeadCourse = () => {
   );
 };
 
-export default OrgHeadCourse;
+export default ProblemSetHead;

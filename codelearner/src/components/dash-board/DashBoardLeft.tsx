@@ -20,6 +20,16 @@ const defaultMenuItems: MenuItem[] = [
     icon: "bi bi-house",
   },
   {
+    path: "/dashboard/your-course",
+    label: "Your course",
+    icon: "bi bi-journal",
+  },
+  {
+    path: "/dashboard/your-submission",
+    label: "Your submission",
+    icon: "bi bi-file-code-fill",
+  },
+  {
     path: "/dashboard/settings",
     label: "Settings",
     icon: "bi bi-gear",

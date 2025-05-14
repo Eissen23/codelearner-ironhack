@@ -6,14 +6,32 @@ import { useAuth } from "../context/auth/AuthContext";
 import { Outlet } from "react-router";
 import { useUserDetail } from "../features/hooks/users/useUserDetail";
 
-const settings = [
+const orgHead = [
   {
-    path: "/dashboard/org-manage",
+    path: "/dashboard/head/org-manage",
     label: "Manage Organization",
     icon: "bi bi-house-gear",
   },
   {
-    path: "/dashboard/course",
+    path: "/dashboard/head/course",
+    label: "Manage Course",
+    icon: "bi bi-book-half",
+  },
+  {
+    path: "/dashboard/head/problemset",
+    label: "Manage Problem Set",
+    icon: "bi bi-building-gear",
+  },
+];
+
+const moderator = [
+  {
+    path: "/dashboard/mod/org-manage",
+    label: "Manage Organization",
+    icon: "bi bi-house-gear",
+  },
+  {
+    path: "/dashboard/mod/course",
     label: "Manage Course",
     icon: "bi bi-book-half",
   },
@@ -27,11 +45,15 @@ const DashBoard: React.FC = () => {
     <LayoutHome>
       <Container fluid className="my-5">
         <Row>
-          <Col md={3}>
+          <Col md={3} className="border-end border-1 ">
             <DashBoardLeft title="User's section" />
-            <div className="py-3">--------------</div>
-
-            <DashBoardLeft title="Moderator's section" menuItems={settings} />
+            <div className="py-3 text-secondary">____________________</div>
+            <DashBoardLeft
+              title="Organization's head section"
+              menuItems={orgHead}
+            />
+            <div className="py-3 text-secondary">____________________</div>
+            <DashBoardLeft title="Moderator's section" menuItems={moderator} />
           </Col>
           <Col md={9}>
             <Outlet context={userDetail} />

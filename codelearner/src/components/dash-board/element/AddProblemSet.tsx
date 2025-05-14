@@ -1,24 +1,25 @@
 import React, { useState } from "react";
-import { Form, Button, Row, Col, InputGroup } from "react-bootstrap";
-import { Organization } from "../../types/user.type";
-import { Course } from "../../types/org/course.type";
-import { addCourse } from "../../service/api/cours-manage/addCourse";
-import { useAuth } from "../../context/auth/AuthContext";
+import { Form, Button, Row, Col } from "react-bootstrap";
+import { useAuth } from "../../../context/auth/AuthContext";
 import { toast, ToastContainer } from "react-toastify";
+import { Org } from "../../../types/org/org.type";
+import { useNavigate } from "react-router";
+import { ProblemSet } from "../../../types/org/problem_set.type";
+import { addProblemSet } from "../../../service/api/problem-set-manage/addProblemSet";
 
-const CreateCourseForm: React.FC<{ orgs: Organization[] }> = ({ orgs }) => {
+const AddProblemSet: React.FC<{ orgs: Org }> = ({ orgs }) => {
   const { token } = useAuth();
+  const navigate = useNavigate();
 
   const [Loading, setLoading] = useState(false);
-  const [formData, setFormData] = useState<Omit<Course, "id" | "created_at">>({
+  const [formData, setFormData] = useState<
+    Omit<ProblemSet, "id" | "created_at">
+  >({
     name: "",
     description: "",
     short_description: "",
-    fee: 0.0,
-    currency: "",
-    duration: 0,
-    logo: null,
-    org_id: 0,
+    logo: "",
+    org_id: orgs.id,
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -42,8 +43,9 @@ const CreateCourseForm: React.FC<{ orgs: Organization[] }> = ({ orgs }) => {
 
     try {
       setLoading(true);
-      await addCourse(token, formData);
+      await addProblemSet(formData, token || "");
       toast("Successfully added course");
+      navigate(`/dashboard/mod/org-manage/${orgs.id}`);
     } catch (error) {
       toast.error("Failed to add course");
       throw error;
@@ -57,7 +59,7 @@ const CreateCourseForm: React.FC<{ orgs: Organization[] }> = ({ orgs }) => {
       <ToastContainer />
       <Form onSubmit={handleSubmit} className="d-block p-3">
         <div className="d-flex justify-content-between mb-4 mt-3">
-          <h2 className="text-center mb-0">Create Course</h2>
+          <h4 className="text-center mb-0">Add problem set</h4>
           <Button className="d-block" variant="primary" type="submit" size="sm">
             {Loading ? (
               <>
@@ -69,34 +71,29 @@ const CreateCourseForm: React.FC<{ orgs: Organization[] }> = ({ orgs }) => {
                 Creating...
               </>
             ) : (
-              "Add Course"
+              "Add Problem set"
             )}
           </Button>
         </div>
         <Row>
           <Col md={6} xs={12}>
             <Form.Group className="mb-3">
-              <Form.Label htmlFor="name">Course's organization*</Form.Label>
+              <Form.Label htmlFor="name">ProblemSet's organization</Form.Label>
               <Form.Select
                 id="org_id"
-                defaultValue={0}
+                defaultValue={orgs.id}
                 name="org_id"
                 onChange={handleSelect}
                 required
+                disabled
               >
-                <option value={0}>Organization select</option>
-                {orgs.map(
-                  (org) =>
-                    org.pivot.role === "OrgHead" && (
-                      <option key={org.id} value={org.id}>
-                        {org.name}
-                      </option>
-                    )
-                )}
+                <option key={orgs.id} value={orgs.id}>
+                  {orgs.name}
+                </option>
               </Form.Select>
             </Form.Group>
             <Form.Group className="mb-3">
-              <Form.Label htmlFor="name">Course name*</Form.Label>
+              <Form.Label htmlFor="name">ProblemSet name*</Form.Label>
               <Form.Control
                 type="text"
                 id="name"
@@ -108,45 +105,12 @@ const CreateCourseForm: React.FC<{ orgs: Organization[] }> = ({ orgs }) => {
             </Form.Group>
 
             <Form.Group className="mb-3">
-              <Form.Label htmlFor="fee">Fee</Form.Label>
-              <InputGroup>
-                <Form.Control
-                  type="number"
-                  id="fee"
-                  name="fee"
-                  value={formData.fee}
-                  onChange={handleChange}
-                ></Form.Control>
-
-                <Form.Select
-                  id="currency"
-                  name="currency"
-                  defaultValue="USD"
-                  onChange={handleSelect}
-                >
-                  <option value="USD">USD</option>
-                  <option value="VND">VND</option>
-                </Form.Select>
-              </InputGroup>
-            </Form.Group>
-
-            <Form.Group className="mb-3">
               <Form.Label htmlFor="logo">Logo</Form.Label>
               <Form.Control
                 type="file"
                 id="logo"
                 name="logo"
                 value={formData.logo || ""}
-                onChange={handleChange}
-              />
-            </Form.Group>
-            <Form.Group className="mb-3">
-              <Form.Label htmlFor="duration">Duration</Form.Label>
-              <Form.Control
-                type="number"
-                id="duration"
-                name="duration"
-                value={formData.duration}
                 onChange={handleChange}
               />
             </Form.Group>
@@ -166,7 +130,7 @@ const CreateCourseForm: React.FC<{ orgs: Organization[] }> = ({ orgs }) => {
               />
             </Form.Group>
             <Form.Group className="mb-3">
-              <Form.Label htmlFor="description">Description*</Form.Label>
+              <Form.Label htmlFor="description">Description* </Form.Label>
               <Form.Control
                 as="textarea"
                 rows={8}
@@ -184,4 +148,4 @@ const CreateCourseForm: React.FC<{ orgs: Organization[] }> = ({ orgs }) => {
   );
 };
 
-export default CreateCourseForm;
+export default AddProblemSet;

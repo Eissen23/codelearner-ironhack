@@ -1,13 +1,12 @@
 import React from "react";
-import { Card, Row, Alert, Tabs, Tab } from "react-bootstrap";
-import { UserDetail } from "../../types/user.type";
+import { Card, Tabs, Tab } from "react-bootstrap";
+import { UserDetail } from "../../../types/user.type";
 import { useOutletContext } from "react-router-dom";
-import CourseCard from "./element/CourseCard";
-import CreateCourseForm from "../form/CreateCourseForm";
-import OrgHeadCourse from "../courses/OrgHeadCourse";
+import CreateCourseForm from "../../form/CreateCourseForm";
+import OrgHeadCourse from "../../courses/OrgHeadCourse";
 
 const DashBoardCourse: React.FC = () => {
-  const [key, setKey] = React.useState("default");
+  const [key, setKey] = React.useState("your-moderate");
   const userInfo = useOutletContext() as UserDetail | null;
 
   if (!userInfo) {
@@ -18,7 +17,6 @@ const DashBoardCourse: React.FC = () => {
     );
   }
 
-  const courses = userInfo.courses;
   const orgs = userInfo.organizations;
 
   return (
@@ -31,6 +29,7 @@ const DashBoardCourse: React.FC = () => {
         onSelect={(k) => setKey(k || "")}
         className="mb-3 mt-4"
       >
+        {/* 
         <Tab eventKey="default" title="All enrolled course">
           {courses.length != 0 ? (
             <Row xs={1} md={2} className="g-4">
@@ -42,6 +41,7 @@ const DashBoardCourse: React.FC = () => {
             <Alert variant="info">No courses....</Alert>
           )}
         </Tab>
+            */}
         <Tab eventKey="your-moderate" title="Your Moderating Course">
           <OrgHeadCourse />
         </Tab>

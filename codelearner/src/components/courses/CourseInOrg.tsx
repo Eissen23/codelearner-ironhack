@@ -1,27 +1,10 @@
-import { getCourseInOrg } from "../../service/api/cours-manage/getCourseInOrg";
 import React from "react";
-import { Course } from "../../types/org/course.type";
-import { Row } from "react-bootstrap";
+import { Col, Row } from "react-bootstrap";
 import CourseCardItem from "./element/CourseCardItem";
+import { useCourses } from "../../features/hooks/course/useCourses";
 
 const CourseInOrg: React.FC<{ org_id: string }> = ({ org_id }) => {
-  const [courses, setCourses] = React.useState<Course[]>([]);
-  const [loading, setLoading] = React.useState(true);
-
-  React.useEffect(() => {
-    const fetchCourses = async () => {
-      try {
-        const { courses_page } = await getCourseInOrg(org_id);
-        setCourses(courses_page.data);
-      } catch (error) {
-        console.error("Error fetching courses:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchCourses();
-  }, [org_id]);
+  const { courses, loading } = useCourses(org_id);
 
   if (loading) {
     return <div>Loading...</div>;
@@ -29,11 +12,13 @@ const CourseInOrg: React.FC<{ org_id: string }> = ({ org_id }) => {
 
   return (
     <div className="moderator-org">
-      <h4>Course In Org</h4>
+      <h4 className="mb-3">Course In Org</h4>
       {courses.length ? (
         <Row>
           {courses.map((course) => (
-            <CourseCardItem course={course} />
+            <Col key={`crs-${course.id}`} md={4} xs={12} className="mb-3">
+              <CourseCardItem course={course} />
+            </Col>
           ))}
         </Row>
       ) : (

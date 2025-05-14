@@ -1,9 +1,9 @@
 import React from "react";
-import { Card, Row, Tabs, Tab } from "react-bootstrap";
-import { UserDetail } from "../../types/user.type";
+import { Card, Row, Tabs, Tab, Col } from "react-bootstrap";
+import { UserDetail } from "../../../types/user.type";
 import { useOutletContext } from "react-router-dom";
-import CreateOrganizationForm from "../form/CreateOrganizationForm";
-import OrgCard from "./element/OrgCard";
+import CreateOrganizationForm from "../../form/CreateOrganizationForm";
+import OrgCard from "../element/OrgCard";
 
 const DashBoardOrg: React.FC = () => {
   const [key, setKey] = React.useState("default");
@@ -32,7 +32,12 @@ const DashBoardOrg: React.FC = () => {
       >
         <Tab eventKey="default" title="All organization">
           <Row xs={1} md={2} className="g-4">
-            {organizations && organizations.map((org) => <OrgCard org={org} />)}
+            {organizations &&
+              organizations.map((org) => (
+                <Col key={`org_card${org.id}`}>
+                  <OrgCard org={org} />
+                </Col>
+              ))}
           </Row>
         </Tab>
 

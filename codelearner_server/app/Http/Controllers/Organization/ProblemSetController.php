@@ -41,8 +41,10 @@ class ProblemSetController extends Controller implements HasMiddleware
     public function show(ProblemSet $problemSet)
     {
         //
+        $org = $problemSet->organization()->first();
         return [
             'data' => $problemSet,
+            'belong_to'=>   $org
         ];
 
     }

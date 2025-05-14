@@ -67,8 +67,10 @@ class CourseController extends Controller implements HasMiddleware
     public function show(Course $course)
     {
         //
+        $org = $course->organization()->first();
         return [
             "data" => $course,
+            "belong_to" => $org
         ];
     }
 

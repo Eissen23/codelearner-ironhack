@@ -17,6 +17,7 @@ Route::prefix('member')->controller(OwnerController::class)->group( function () 
     Route::get('/your-orgs', 'getYourOrg');
     Route::get('/enrolled', 'getYourCourseEnroll');
     Route::get('/modrated-course', 'getYourCourseModerator');
+    Route::get('/modrated-problemset', 'getYourProblemModerator');
     Route::get('/submission', 'getYourSubmission');
 });
 

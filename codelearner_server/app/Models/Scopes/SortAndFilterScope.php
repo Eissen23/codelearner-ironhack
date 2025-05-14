@@ -13,6 +13,15 @@ class SortAndFilterScope implements Scope
 {
     /**
      * Apply the scope to a given Eloquent query builder.
+     * 
+     * TODO: It's better to group the model into a scope hierachy that wont hurt in the long run
+     * EX: 
+     * User
+     * Org 
+     * ProblemSet Course
+     * Problem, Article 
+     * UserSubmission, Soluttion 
+     * 
      */
     public function apply(Builder $builder, Model $model)
     {   
@@ -24,7 +33,7 @@ class SortAndFilterScope implements Scope
         $filter = Request::input('keyword', null);
         $sort = Request::input('sort', 'created-desc'); // Default to created-desc
 
-        $allowedSorts = ['id', 'name', 'created_at', 'updated_at'];
+        $allowedSorts = ['id', 'name', 'created_at'];
 
         // Parse sort parameter (e.g., name-asc, created-desc)
         $sortParts = explode('-', $sort);

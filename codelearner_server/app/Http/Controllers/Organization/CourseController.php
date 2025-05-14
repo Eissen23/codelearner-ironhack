@@ -47,7 +47,7 @@ class CourseController extends Controller implements HasMiddleware
             'description' => 'required',
             'short_description'=> 'required|string',
             'duration' => 'integer',
-            'fee' => 'nullable|numeric',
+            'fee' => 'numeric|nullable',
             'currency' => 'string|nullable',
             'logo' =>'url|nullable',
         ]);

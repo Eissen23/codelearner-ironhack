@@ -7,7 +7,7 @@ use App\Models\ProblemSet;
 use App\Models\UserSolution;
 use Illuminate\Http\Request;
 
-class ProblemSetHelper 
+class ProblemSetHelper
 {
     /**
      * Get the ProblemSet for the course.
@@ -15,9 +15,25 @@ class ProblemSetHelper
      * @param ProblemSet $problemSet
      *
      */
-    public static function getOrgProblemPaginator(Request $request, ?ProblemSet $problemSet = null) {
+    public static function getOrgProblemPaginator(Request $request, ?ProblemSet $problemSet = null)
+    {
         $perpage = $request->input('per_page', 10);
-        $assets_data = $problemSet ? $problemSet->problems()->paginate($perpage) : Problem::paginate($perpage);
+        if ($problemSet) {
+            // Re-query ProblemSet without scopes to bypass SortAndFilterScope
+            $problemSet = ProblemSet::withoutGlobalScopes()->find($problemSet->id);
+
+            if (!$problemSet) {
+                return response()->json([
+                    'message' => "No query results for model [App\\Models\\ProblemSet] {$problemSet->id}",
+                ], 404);
+            }
+
+            // Fetch problems with their scope (SortAndFilterScope applies to Problem)
+            $assets_data = $problemSet->problems()->paginate($perpage);
+        } else {
+            // No ProblemSet provided, fetch all Problems with their scope
+            $assets_data = Problem::paginate($perpage);
+        }
 
         return $assets_data;
     }
@@ -29,14 +45,15 @@ class ProblemSetHelper
      * @param Problem $problem
      * 
      */
-    public static function getUserSubmissionPaginator(Request $request, ?Problem $problem = null) {
+    public static function getUserSubmissionPaginator(Request $request, ?Problem $problem = null)
+    {
         $perpage = $request->input('per_page', 10);
         $user = $request->user();
         $submissions = $problem ? $user->userSubmissions()->where('problem_id', $problem->id)->paginate($perpage) : $user->userSubmissions()->paginate($perpage);
 
         return $submissions;
     }
-    
+
     /**
      * Get the user submission for the problem from the moderator 
      * problem should not be null so that the moderator can view the submission for the problem
@@ -44,7 +61,8 @@ class ProblemSetHelper
      * @param Problem $problem
      * 
      */
-    public static function getSubmissionAsModPaginator(Request $request, Problem $problem) {
+    public static function getSubmissionAsModPaginator(Request $request, Problem $problem)
+    {
         $perpage = $request->input('per_page', 10);
         $submissions = $problem->userSubmissions()->paginate($perpage);
 
@@ -56,16 +74,17 @@ class ProblemSetHelper
      * User side they should only care about the solution that they created
      * @param Problem $problem
      * @param Request $request
-    */
-    public static function getUserSolutionPaginator(Request $request, ?Problem $problem=null) {
+     */
+    public static function getUserSolutionPaginator(Request $request, ?Problem $problem = null)
+    {
         $perpage = $request->input('per_page', 10);
 
-        $user_solution = UserSolution::whereHas('userSubmission', function($query) use ($request) {
+        $user_solution = UserSolution::whereHas('userSubmission', function ($query) use ($request) {
             $query->where('user_id', $request->user()->id);
         });
 
-        if($problem) {
-            $user_solution =  $user_solution->whereHas('userSubmission', function($query) use ($problem) {
+        if ($problem) {
+            $user_solution = $user_solution->whereHas('userSubmission', function ($query) use ($problem) {
                 $query->where('problem_id', $problem->id);
             });
         }
@@ -80,11 +99,12 @@ class ProblemSetHelper
      * Moderator side they should only care about the unpublish solution 
      * @param Problem $problem
      * @param Request $request
-    */
-    public static function getUSPaginatorMod(Request $request, Problem $problem) {
+     */
+    public static function getUSPaginatorMod(Request $request, Problem $problem)
+    {
         $perpage = $request->input('per_page', 10);
         $user_solution = $problem->userSubmissions()->get()->userSolution()->where('status', 'ubpublished')->paginate($perpage);
-    
+
         return $user_solution;
     }
 }

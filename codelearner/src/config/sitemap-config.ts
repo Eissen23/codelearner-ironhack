@@ -13,16 +13,17 @@ import CourseDetail from "../pages/DetailPage/CourseDetail";
 import ProblemSetDetail from "../pages/DetailPage/ProblemSetDetail";
 import ProblemsPage from "../pages/ListPage/ProblemsPage";
 import DashBoardRight from "../components/dash-board/DashBoardRight";
-import DashBoardOrg from "../components/dash-board/moderator/DashBoardOrg";
-import DashBoardCourse from "../components/dash-board/moderator/DashBoardCourse";
+import DashBoardOrg from "../components/dash-board/head/DashBoardOrg";
+import DashBoardCourse from "../components/dash-board/head/DashBoardCourse";
 import SimpleOutlet from "../components/SimpleOutlet";
 import ProblemDetail from "../pages/DetailPage/ProblemDetail";
-import OrgSetting from "../components/dash-board/moderator/OrgSetting";
+import OrgSetting from "../components/dash-board/head/OrgSetting";
 import AddCoursePage from "../pages/OrgHead/AddCoursePage";
 import AddProblemSetPage from "../pages/OrgHead/AddProblemSetPage";
-import DashBoardProblemSet from "../components/dash-board/moderator/DashBoardProblemSet";
+import DashBoardProblemSet from "../components/dash-board/head/DashBoardProblemSet";
 import CourseSettingPage from "../pages/Setting/CourseSettingPage";
 import ProblemSetSetting from "../pages/Setting/ProblemSetSetting";
+import YourSubmission from "../components/dash-board/user/YourSubmission";
 
 const routes_map = [
   {
@@ -133,6 +134,11 @@ const routes_map = [
           {
             path: "/dashboard/head/problemset",
             Component: DashBoardProblemSet,
+          },
+
+          {
+            path: "/dashboard/your-submission",
+            Component: YourSubmission,
           },
         ],
       },

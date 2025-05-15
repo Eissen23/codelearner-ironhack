@@ -3,7 +3,7 @@ import { Container, Row, Col } from "react-bootstrap";
 import LayoutHome from "../layout/LayoutHome";
 import DashBoardLeft from "../components/dash-board/DashBoardLeft";
 import { useAuth } from "../context/auth/AuthContext";
-import { Outlet } from "react-router";
+import { Outlet, useLocation } from "react-router";
 import { useUserDetail } from "../features/hooks/users/useUserDetail";
 
 const orgHead = [
@@ -38,6 +38,12 @@ const moderator = [
 ];
 
 const DashBoard: React.FC = () => {
+  // const location = useLocation();
+  // const routesNeedingData = ["/setting", "/dashboard", "/settings"];
+  // const noNeedData = routesNeedingData.some((route) =>
+  //   location.pathname.startsWith(route)
+  // );
+
   const { token } = useAuth();
   const userDetail = useUserDetail(token);
 

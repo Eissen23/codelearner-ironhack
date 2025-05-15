@@ -1,5 +1,4 @@
 import { CODELEARNER_API } from "../clients/codelearner";
-import { ProblemSet } from "../../../types/org/problem_set.type";
 
 type Response = {
   message: string;

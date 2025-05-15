@@ -6,7 +6,7 @@ export type Article = {
   description: string;
   chapter?: string;
   content?: string;
-  type: string;
+  type: "article" | "solution" | "chapter";
   course_id: number;
   mod_id: number;
   created_at: Date;

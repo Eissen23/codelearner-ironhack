@@ -1,14 +1,14 @@
 import React from "react";
 
-import ProblemSetSlide from "./problemset/ProblemSetsSlide";
 import LayoutHome from "../layout/LayoutHome";
+import ArticleForm from "../features/main/article/ArticleForm";
 // import CreateOrganizationForm from "../components/form/CreateOrganizationForm";
 // import CreateCourseForm from "../components/form/CreateCourseForm";
 
 const TestView: React.FC = () => {
   return (
     <LayoutHome>
-      <ProblemSetSlide />
+      <ArticleForm />
     </LayoutHome>
   );
 };

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Content;
 
 
+use App\Http\ControllerHelper\ArticleHelper;
 use App\Http\Controllers\Controller;
 use App\Http\ControllerHelper\CourseHelper;
 use App\Models\Article;
@@ -74,9 +75,15 @@ class ArticleController extends Controller implements HasMiddleware
     public function show(Article $article)
     {
         //
-
+        $belong = request()->input('is_belong', false);
+        $needAuthor = request()->input('author', false);
+        
+        $course = $belong ? $article->course()->first() : "";
+        $author = $needAuthor ? ArticleHelper::getAuthor($article) : "";
         return [
-            "data"=>$article
+            "data"=>$article,
+            "belong_to" => $course,
+            "author" => $author,
         ];
     }
 

@@ -1,6 +1,7 @@
 <?php
 use App\Http\Controllers\User\AuthController;
 use App\Http\Controllers\User\OwnerController;
+use App\Http\Controllers\User\UserModeratorController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -19,6 +20,11 @@ Route::prefix('member')->controller(OwnerController::class)->group( function () 
     Route::get('/modrated-course', 'getYourCourseModerator');
     Route::get('/modrated-problemset', 'getYourProblemModerator');
     Route::get('/submission', 'getYourSubmission');
+});
+
+Route::prefix('mod')->controller(UserModeratorController::class)->group(function() {
+    Route::get('/your-courses', 'getCourseToPost');
+    Route::get('/your-problemset', 'getProblemSetToAdd');
 });
 
 // ORG

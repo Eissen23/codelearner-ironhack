@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { getProblemList } from "../../service/api/problem-manage/getProblemList";
 import { ProblemResponse } from "../../types/content/problem.type";
 import Accordion from "react-bootstrap/Accordion";
 import Button from "react-bootstrap/Button";
@@ -7,6 +6,7 @@ import Spinner from "react-bootstrap/Spinner";
 import { parseEscapeSequences } from "../../utils/parseEscapeSequence";
 import { Link } from "react-router";
 import { GrLinkNext } from "react-icons/gr";
+import { getProblems } from "../../service/api/problem-manage/getProblems";
 
 const ProblemAccordionList = () => {
   const [problems, setProblems] = useState<ProblemResponse | null>(null);
@@ -15,7 +15,7 @@ const ProblemAccordionList = () => {
   useEffect(() => {
     const fetchProblems = async () => {
       try {
-        const response = await getProblemList();
+        const response = await getProblems({});
         setProblems(response);
         // console.log(response);
       } catch (err) {

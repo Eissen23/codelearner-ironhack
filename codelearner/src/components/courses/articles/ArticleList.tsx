@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { getArticleFromCourse } from "../../../service/api/article-manage/getArticle";
+import { getArticles } from "../../../service/api/article-manage/getArticles";
 import { Article } from "../../../types/content/article.type";
 import { Accordion, Alert } from "react-bootstrap";
 
@@ -11,7 +11,7 @@ const ArticleList: React.FC<{ course_id: string }> = ({ course_id }) => {
     const fetchArticle = async () => {
       setLoading(true);
       try {
-        const { articles } = await getArticleFromCourse(course_id);
+        const { articles } = await getArticles(course_id);
         setArticle(articles.data);
       } catch (error) {
         console.error("Error fetching article:", error);

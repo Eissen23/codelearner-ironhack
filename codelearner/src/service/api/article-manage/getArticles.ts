@@ -1,7 +1,7 @@
 import { ArticleResponse } from "../../../types/content/article.type";
 import { CODELEARNER_API } from "../clients/codelearner";
 
-export const getArticleFromCourse = async (
+export const getArticles = async (
   course_id: string
 ): Promise<ArticleResponse> => {
   try {

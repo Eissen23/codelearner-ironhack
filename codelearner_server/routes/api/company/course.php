@@ -11,6 +11,10 @@ Route::apiResource('/',CourseController::class)
     ->parameter('','course')
     ->except('store');
 
+Route::controller(CourseController::class)->group(function () {
+    Route::get('/{course}/is-own', 'isOwn');
+});
+
 Route::controller(ArticleController::class)->group(function(){
     Route::post("{course}/add-article", 'store');
     Route::get('{course}/list-articles', 'index');

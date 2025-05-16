@@ -15,12 +15,17 @@ class UserModeratorController extends Controller implements HasMiddleware{
         ];
     }
 
+    public function getModOrg (Request $request){
+        $org = $request->user()->moderatedOrg()->get();
+        return $org;
+    }
+
     public function getCourseToPost (Request $request) {
-        $course = $request->user()->organizations()->with('courses')->get()->pluck('courses')->flatten();
+        $course = $request->user()->moderatedOrg()->with('courses')->get()->pluck('courses')->flatten();
         return $course;
     }
     public function getProblemSetToAdd (Request $request) {
-        $course = $request->user()->organizations()->with('problemSets')->get()->pluck('problemSets')->flatten();
+        $course = $request->user()->moderatedOrg()->with('problemSets')->get()->pluck('problemSets')->flatten();
         return $course;
     }
 }

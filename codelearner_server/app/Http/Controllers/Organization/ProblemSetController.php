@@ -7,6 +7,8 @@ use App\Http\Controllers\Controller;
 use App\Http\ControllerHelper\AssetHelper;
 use App\Models\Organization;
 use App\Models\ProblemSet;
+use App\Models\User;
+use App\Policies\PolicyHelper\OrgPolicyHelper;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
@@ -39,12 +41,14 @@ class ProblemSetController extends Controller implements HasMiddleware
      * Display the specified resource.
      */
     public function show(ProblemSet $problemSet)
-    {
+    {   
+        $belong = request()->input('is_belong', false);
+        
+        $org = $belong ? $problemSet->organization()->first() : null;
         //
-        $org = $problemSet->organization()->first();
         return [
             'data' => $problemSet,
-            'belong_to'=>   $org
+            'belong_to'=>   $org,
         ];
 
     }
@@ -110,5 +114,10 @@ class ProblemSetController extends Controller implements HasMiddleware
         return [
             'message'=> 'Problem set deleted',
         ];
+    }
+
+    public function  isOwn (Request $request, ProblemSet $problemSet) {
+        $user =  $request->user();
+        return OrgPolicyHelper::userOwn($user, $problemSet);
     }
 }

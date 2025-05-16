@@ -34,8 +34,11 @@ class ProblemController extends Controller implements HasMiddleware
     }
 
     public function show(Problem $problem)
-    {   $belong = request()->input('is_belong', false);
-        $problemSet = $belong ? $problem->problemSet()->first() : "";
+    {   
+        $belong = request()->input('is_belong', false);
+        
+        $problemSet = $belong ? $problem->problemSet()->first() : "";        
+
         // return a single problem
         return [
             'problem' => $problem,

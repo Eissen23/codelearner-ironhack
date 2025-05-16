@@ -9,6 +9,7 @@ use App\Http\ControllerHelper\AssetHelper;
 use App\Models\Course;
 use App\Models\Organization;
 
+use App\Policies\PolicyHelper\OrgPolicyHelper;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
@@ -65,9 +66,11 @@ class CourseController extends Controller implements HasMiddleware
      * Display the specified resource.
      */
     public function show(Course $course)
-    {
+    {   
+        $belong = request()->input('is_belong', false);
         //
-        $org = $course->organization()->first();
+        $org = $belong ? $course->organization()->first() : null;
+        
         return [
             "data" => $course,
             "belong_to" => $org
@@ -114,5 +117,10 @@ class CourseController extends Controller implements HasMiddleware
         return [
             'message' => 'Course deleted'
         ];
+    }
+
+    public function isOwn (Request $request, Course $course) {
+        $user =  $request->user();
+        return OrgPolicyHelper::userOwn($user, $course);
     }
 }

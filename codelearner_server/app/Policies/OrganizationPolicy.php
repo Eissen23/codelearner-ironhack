@@ -10,8 +10,6 @@ use Illuminate\Auth\Access\Response;
 class OrganizationPolicy 
 {
 
-    
-
     public function orgHead(User $user, Organization $organization)
     {   
         // Log::info('OrgPolicy orghead method called', ['user_id' => $user->id, 'org_id' => $organization->id]);

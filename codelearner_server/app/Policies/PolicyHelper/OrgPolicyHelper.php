@@ -36,5 +36,17 @@ class OrgPolicyHelper{
         return $moderator ? in_array($moderator->role, self::MODERATOR_ROLE) : false;
     }
 
-    
+     /**
+     * check if the user is an OrgHead
+     * @param Course|ProblemSet $asset
+     * @param User $user
+     */
+    public static function userOwn(User $user, Course|ProblemSet $asset)
+    {   
+        $org = $asset->organization()->first();
+
+        $moderator = self::getMod($org, $user );
+
+        return $moderator ? ($moderator->role === self::OrgHead) : false;
+    }
 }

@@ -92,7 +92,6 @@ const CourseInfoItem: React.FC<{
               <Form.Label htmlFor="name">Course's organization*</Form.Label>
               <Form.Select
                 id="org_id"
-                defaultValue={course.org_id}
                 value={formData.org_id}
                 name="org_id"
                 onChange={handleSelect}

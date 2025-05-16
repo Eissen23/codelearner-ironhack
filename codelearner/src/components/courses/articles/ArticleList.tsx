@@ -1,39 +1,37 @@
-import React, { useState } from "react";
-import { getArticles } from "../../../service/api/article-manage/getArticles";
-import { Article } from "../../../types/content/article.type";
-import { Accordion, Alert } from "react-bootstrap";
+import React from "react";
+import { Accordion, Alert, Button } from "react-bootstrap";
+import { useArticle } from "../../../features/hooks/articles/useArticles";
+import { Link } from "react-router";
 
-const ArticleList: React.FC<{ course_id: string }> = ({ course_id }) => {
-  const [articles, setArticle] = useState<Article[]>();
-  const [loading, setLoading] = useState(false);
-
-  React.useEffect(() => {
-    const fetchArticle = async () => {
-      setLoading(true);
-      try {
-        const { articles } = await getArticles(course_id);
-        setArticle(articles.data);
-      } catch (error) {
-        console.error("Error fetching article:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchArticle();
-  }, [course_id]);
+const ArticleList: React.FC<{ course_id: string; editable?: boolean }> = ({
+  course_id,
+  editable,
+}) => {
+  const { articles, loading } = useArticle(course_id);
 
   if (loading) {
     return <div>Is loading ...</div>;
   }
 
-  if (articles?.length === 0) {
+  if (articles && articles?.length < 0) {
     return <Alert variant="info"> No article for this course</Alert>;
   }
 
   return (
     <div className="article_list">
-      <h4>Chapter in course</h4>
+      <div className="d-flex justify-content-between mb-4">
+        <h4>Chapter in course</h4>
+        {editable && (
+          <Button variant="primary" size="sm">
+            <Link
+              className="text-white text-decoration-none"
+              to={`add-article`}
+            >
+              Add Course
+            </Link>
+          </Button>
+        )}
+      </div>
       <Accordion defaultActiveKey="0" flush>
         {articles?.map((article) => (
           <Accordion.Item

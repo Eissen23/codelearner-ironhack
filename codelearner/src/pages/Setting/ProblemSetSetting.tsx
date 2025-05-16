@@ -3,12 +3,14 @@ import LayoutHome from "../../layout/LayoutHome";
 import ProblemSetInfoItem from "../../components/problemset/element/ProblemSetInfoItem";
 import { useProblemSetsInfo } from "../../features/hooks/problemsets/useProblemSetInfo";
 import { Spinner } from "react-bootstrap";
+import ProblemSetProblems from "../../components/problems/ProblemSetProblems";
 
 const ProblemSetSetting: React.FC = () => {
   const { problemSetId } = useParams<{ problemSetId: string }>();
 
   const { loading, problemSet, belong } = useProblemSetsInfo(
-    problemSetId || ""
+    problemSetId || "",
+    true
   );
   if (loading) {
     return (
@@ -30,13 +32,17 @@ const ProblemSetSetting: React.FC = () => {
 
   return (
     <LayoutHome>
-      <div>
+      <section className="problemset_info mb-5">
         <ProblemSetInfoItem
           problemSet={problemSet}
           loading={loading}
           org={belong}
         />
-      </div>
+      </section>
+
+      <section>
+        <ProblemSetProblems problemSetId={problemSetId || ""} editable />
+      </section>
     </LayoutHome>
   );
 };

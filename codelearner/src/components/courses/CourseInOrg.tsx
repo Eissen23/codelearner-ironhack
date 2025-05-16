@@ -3,7 +3,10 @@ import { Col, Row } from "react-bootstrap";
 import CourseCardItem from "./element/CourseCardItem";
 import { useCourses } from "../../features/hooks/course/useCourses";
 
-const CourseInOrg: React.FC<{ org_id: string }> = ({ org_id }) => {
+const CourseInOrg: React.FC<{ org_id: string; isMod?: boolean }> = ({
+  org_id,
+  isMod,
+}) => {
   const { courses, loading } = useCourses(org_id);
 
   if (loading) {
@@ -17,7 +20,7 @@ const CourseInOrg: React.FC<{ org_id: string }> = ({ org_id }) => {
         <Row>
           {courses.map((course) => (
             <Col key={`crs-${course.id}`} md={4} xs={12} className="mb-3">
-              <CourseCardItem course={course} />
+              <CourseCardItem course={course} setting={isMod} />
             </Col>
           ))}
         </Row>

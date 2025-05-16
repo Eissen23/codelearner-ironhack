@@ -1,5 +1,5 @@
 import React from "react";
-import { Alert, Badge, ListGroup, Spinner } from "react-bootstrap";
+import { Alert, Badge, Button, ListGroup, Spinner } from "react-bootstrap";
 import { Link } from "react-router";
 import { ProblemData } from "../../types/content/problem.type";
 import CustomPagination from "../../features/mislancenous/CustomPagination";
@@ -9,7 +9,8 @@ import { getDefaultParam } from "../../utils/getDefaultParam";
 
 const ProblemSetProblems: React.FC<{
   problemSetId: string;
-}> = ({ problemSetId }) => {
+  editable?: boolean | false;
+}> = ({ problemSetId, editable }) => {
   const { page, per_page, sort, keyword } = getDefaultParam();
 
   const [problems, setProblems] = React.useState<ProblemData[]>([]);
@@ -53,6 +54,18 @@ const ProblemSetProblems: React.FC<{
 
   return (
     <div className="mt-3">
+      <div className="d-flex justify-content-end mb-4">
+        {editable && (
+          <Button variant="primary">
+            <Link
+              className="text-white text-decoration-none"
+              to={`add-problem`}
+            >
+              Add problem
+            </Link>
+          </Button>
+        )}
+      </div>
       <ListGroup>
         {problems.map((problem) => (
           <ListGroup.Item key={problem.id}>

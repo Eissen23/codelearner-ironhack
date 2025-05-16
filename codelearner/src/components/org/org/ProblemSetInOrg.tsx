@@ -3,7 +3,10 @@ import { Col, Row, Spinner } from "react-bootstrap";
 import { useProblemSets } from "../../../features/hooks/problemsets/useProblemSets";
 import ProblemSetCard from "../../problemset/element/ProblemSetCard";
 
-const ProblemSetInOrg: React.FC<{ org_id: string }> = ({ org_id }) => {
+const ProblemSetInOrg: React.FC<{ org_id: string; isMod?: boolean }> = ({
+  org_id,
+  isMod,
+}) => {
   const { problemSets, isLoading } = useProblemSets(org_id);
 
   if (isLoading)
@@ -21,7 +24,7 @@ const ProblemSetInOrg: React.FC<{ org_id: string }> = ({ org_id }) => {
         <Row>
           {problemSets.map((problemSet) => (
             <Col md={6} lg={4} key={problemSet.id} className="mb-3">
-              <ProblemSetCard problemSet={problemSet} />
+              <ProblemSetCard problemSet={problemSet} setting={isMod} />
             </Col>
           ))}
         </Row>

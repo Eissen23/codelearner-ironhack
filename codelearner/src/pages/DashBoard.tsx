@@ -3,7 +3,7 @@ import { Container, Row, Col } from "react-bootstrap";
 import LayoutHome from "../layout/LayoutHome";
 import DashBoardLeft from "../components/dash-board/DashBoardLeft";
 import { useAuth } from "../context/auth/AuthContext";
-import { Outlet, useLocation } from "react-router";
+import { Outlet } from "react-router";
 import { useUserDetail } from "../features/hooks/users/useUserDetail";
 
 const orgHead = [

@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { Organization } from "../../../types/user.type";
 import { Card, Badge } from "react-bootstrap";
 
@@ -18,12 +19,16 @@ const OrgCard: React.FC<{ org: Organization }> = ({ org }) => {
       )}
       <Card.Body>
         <Card.Title>
-          <a
-            href={`org-manage/${org.id}`}
+          <Link
+            to={
+              org.pivot.role === "OrgHead"
+                ? `${org.id}`
+                : `/dashboard/mod/org/${org.id}`
+            }
             className="text-decoration-none text-dark"
           >
             {org.name}
-          </a>
+          </Link>
         </Card.Title>
         <Card.Text>
           Role:{" "}

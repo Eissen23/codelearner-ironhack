@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { ProblemSet } from "../../../types/org/problem_set.type";
 import { getProblemSetMod } from "../../../service/api/user-manage/moderator/getProblemSetMod";
 
-export const useProblemSetsHead = (token: string | null) => {
+export const useProblemSetsMod = (token: string | null) => {
   const [problemSets, setProblemSet] = useState<ProblemSet[]>();
   const [isLoading, setIsLoading] = useState(true);
 
@@ -20,7 +20,7 @@ export const useProblemSetsHead = (token: string | null) => {
       }
     };
     fetchProblemSet();
-  });
+  }, []);
 
   return { problemSets, isLoading };
 };

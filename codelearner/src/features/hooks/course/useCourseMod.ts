@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Course } from "../../../types/org/course.type";
 import { getCoursesMod } from "../../../service/api/user-manage/moderator/getCoursesMod";
 
-export const useCourseHead = (token: string | null) => {
+export const useCourseMod = (token: string | null) => {
   const [courses, setCourses] = useState<Course[]>();
   const [isLoading, setIsLoading] = useState(true);
 
@@ -23,7 +23,7 @@ export const useCourseHead = (token: string | null) => {
     };
 
     fetchCourses();
-  });
+  }, []);
 
   return { courses, isLoading };
 };

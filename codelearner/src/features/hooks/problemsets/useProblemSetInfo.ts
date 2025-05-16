@@ -3,7 +3,10 @@ import { getProblemSetInfo } from "../../../service/api/problem-set-manage/getPr
 import { ProblemSet } from "../../../types/org/problem_set.type";
 import { Org } from "../../../types/org/org.type";
 
-export const useProblemSetsInfo = (problem_set_id: string) => {
+export const useProblemSetsInfo = (
+  problem_set_id: string,
+  is_belong?: boolean | false
+) => {
   const [problemSet, setProblemSet] = React.useState<ProblemSet | null>(null);
   const [loading, setLoading] = React.useState(false);
   const [belong, setBelong] = React.useState<Org | null>(null);
@@ -12,7 +15,10 @@ export const useProblemSetsInfo = (problem_set_id: string) => {
     const fetchProblemSets = async () => {
       try {
         setLoading(true);
-        const { data, belong_to } = await getProblemSetInfo(problem_set_id);
+        const { data, belong_to } = await getProblemSetInfo(
+          problem_set_id,
+          is_belong
+        );
         setProblemSet(data);
         setBelong(belong_to);
       } catch (error) {

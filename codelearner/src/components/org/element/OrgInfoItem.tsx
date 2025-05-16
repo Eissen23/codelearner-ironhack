@@ -13,7 +13,10 @@ import { useAuth } from "../../../context/auth/AuthContext";
 import { toast, ToastContainer } from "react-toastify";
 import { deleteOrg } from "../../../service/api/org-manage/deleteOrg";
 
-const OrgInfoItem: React.FC<{ org: Org }> = ({ org }) => {
+const OrgInfoItem: React.FC<{ org: Org; onlyRead?: boolean }> = ({
+  org,
+  onlyRead,
+}) => {
   const navigate = useNavigate();
   const { token } = useAuth();
   const [isEditing, setIsEditing] = useState(false);
@@ -108,40 +111,43 @@ const OrgInfoItem: React.FC<{ org: Org }> = ({ org }) => {
           <FormLabel>Created Date:</FormLabel>
           <FormText> {new Date(org.created_at).toDateString()}</FormText>
         </FormGroup>
-        <div className="d-flex gap-2 justify-content-between">
-          <button
-            type="button"
-            className="btn btn-danger"
-            onClick={handleDelelete}
-          >
-            {loading && (
-              <span>
-                <Spinner animation="border" size="sm"></Spinner>
-              </span>
-            )}
-            Delete
-          </button>
 
-          <div className="d-flex">
+        {!onlyRead && (
+          <div className="d-flex gap-2 justify-content-between">
             <button
               type="button"
-              className="btn btn-secondary"
-              onClick={() => setIsEditing(!isEditing)}
+              className="btn btn-danger"
+              onClick={handleDelelete}
             >
-              {isEditing ? "Cancel" : "Edit"}
+              {loading && (
+                <span>
+                  <Spinner animation="border" size="sm"></Spinner>
+                </span>
+              )}
+              Delete
             </button>
-            {isEditing && (
-              <button type="submit" className="btn btn-primary">
-                {loading && (
-                  <span>
-                    <Spinner animation="border" size="sm"></Spinner>
-                  </span>
-                )}
-                Save Changes
+
+            <div className="d-flex">
+              <button
+                type="button"
+                className="btn btn-secondary"
+                onClick={() => setIsEditing(!isEditing)}
+              >
+                {isEditing ? "Cancel" : "Edit"}
               </button>
-            )}
+              {isEditing && (
+                <button type="submit" className="btn btn-primary">
+                  {loading && (
+                    <span>
+                      <Spinner animation="border" size="sm"></Spinner>
+                    </span>
+                  )}
+                  Save Changes
+                </button>
+              )}
+            </div>
           </div>
-        </div>
+        )}
       </Form>
     </div>
   );

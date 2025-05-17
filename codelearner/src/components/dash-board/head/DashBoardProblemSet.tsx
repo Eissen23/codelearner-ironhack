@@ -28,7 +28,7 @@ const DashBoardProblemSet: React.FC = () => {
         onSelect={(k) => setKey(k || "")}
         className="mb-3 mt-4"
       >
-        <Tab eventKey="your-moderate" title="Your Moderating ProblemSet">
+        <Tab eventKey="your-moderate" title="Owned ProblemSet">
           <ProblemSetHead />
         </Tab>
         <Tab eventKey="create" title="Create Problem Set">

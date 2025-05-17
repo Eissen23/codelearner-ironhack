@@ -34,7 +34,7 @@ const DashBoardCourse: React.FC = () => {
           
         </Tab>
             */}
-        <Tab eventKey="your-moderate" title="Your Moderating Course">
+        <Tab eventKey="your-moderate" title="Owned Courses">
           <OrgHeadCourse />
         </Tab>
         <Tab eventKey="create" title="Create course">

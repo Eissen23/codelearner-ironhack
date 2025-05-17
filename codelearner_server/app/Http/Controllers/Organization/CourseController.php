@@ -69,7 +69,7 @@ class CourseController extends Controller implements HasMiddleware
     {   
         $belong = request()->input('is_belong', false);
         //
-        $org = $belong ? $course->organization()->first() : null;
+        $org = $belong==='true' ? $course->organization()->first() : null;
         
         return [
             "data" => $course,

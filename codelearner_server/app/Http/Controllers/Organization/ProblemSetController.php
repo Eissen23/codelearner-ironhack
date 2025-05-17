@@ -44,7 +44,7 @@ class ProblemSetController extends Controller implements HasMiddleware
     {   
         $belong = request()->input('is_belong', false);
         
-        $org = $belong ? $problemSet->organization()->first() : null;
+        $org = $belong==='true' ? $problemSet->organization()->first() : null;
         //
         return [
             'data' => $problemSet,

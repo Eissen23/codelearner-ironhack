@@ -19,6 +19,7 @@ class Problem extends Model
         'difficulty',
         'problem_set',
         'test_cases',
+        'is_rich_text',
     ];
 
     protected function casts(): array

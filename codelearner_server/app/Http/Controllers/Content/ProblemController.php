@@ -37,7 +37,7 @@ class ProblemController extends Controller implements HasMiddleware
     {   
         $belong = request()->input('is_belong', false);
         
-        $problemSet = $belong ? $problem->problemSet()->first() : "";        
+        $problemSet = $belong==true ? $problem->problemSet()->first() : "";        
 
         // return a single problem
         return [
@@ -56,12 +56,13 @@ class ProblemController extends Controller implements HasMiddleware
             'name' => 'required|string|max:255',
             'description' => 'required|string',
             'tags' => 'array',
-            'difficulty' => 'string',
-            'test_case' => 'required|array',
-            'test_case.input' => 'required|array',
-            'test_case.input.*' => 'string',
-            'test_case.output' => 'required|array',
-            'test_case.output.*' => 'string',
+            'difficulty' => 'integer',
+            'is_rich_text' => 'nullable|boolean',
+            'test_cases' => 'required|array',
+            'test_cases.input' => 'required|array',
+            'test_cases.input.*' => 'required|string',
+            'test_cases.output' => 'required|array',
+            'test_cases.output.*' => 'required|string',
         ]);
 
         $fields['problem_set'] = $problemSet->id;
@@ -79,11 +80,12 @@ class ProblemController extends Controller implements HasMiddleware
             'name' => 'string|max:255',
             'description' => 'string',
             'tags' => 'array',
-            'difficulty' => 'string',
+            'difficulty' => 'integer',
             'test_case' => 'array',
             'test_case.input' => 'array',
             'test_case.input.*' => 'string',
             'test_case.output' => 'array',
+            'is_rich_text' => 'nullable|boolean',
             'test_case.output.*' => 'string',
         ]);
 

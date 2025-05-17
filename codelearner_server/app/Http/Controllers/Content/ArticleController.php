@@ -78,7 +78,7 @@ class ArticleController extends Controller implements HasMiddleware
         $belong = request()->input('is_belong', false);
         $needAuthor = request()->input('author', false);
         
-        $course = $belong ? $article->course()->first() : "";
+        $course = $belong==='true' ? $article->course()->first() : "";
         $author = $needAuthor ? ArticleHelper::getAuthor($article) : "";
         return [
             "data"=>$article,

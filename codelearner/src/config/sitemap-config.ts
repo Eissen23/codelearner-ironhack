@@ -50,7 +50,17 @@ const ProblemSetSetting = lazy(
 const AddArticle = lazy(() => import("../pages/CreatePage/AddArticle"));
 const AddProblem = lazy(() => import("../pages/CreatePage/AddProblem"));
 const ProtectedRoutes = lazy(() => import("../context/routes/ProtectedRoute"));
-import NotFound from "../pages/NotFound";
+const NotFound = lazy(() => import("../pages/NotFound"));
+const YourCourse = lazy(
+  () => import("../components/dash-board/user/YourEnrolledCourse")
+);
+const SettingMain = lazy(
+  () => import("../components/dash-board/setting/SettingMain")
+);
+const ModeratingCourse = lazy(() => import("../pages/Mod/ModeratingCourse"));
+const ModeratingProblemSet = lazy(
+  () => import("../pages/Mod/ModeratingProblemSet")
+);
 
 const routes_map: RouteObject[] = [
   { path: "/", Component: Home },
@@ -108,6 +118,18 @@ const routes_map: RouteObject[] = [
             Component: DashBoardRight,
           },
           {
+            path: "/dashboard/your-submission",
+            Component: YourSubmission,
+          },
+          {
+            path: "/dashboard/your-course",
+            Component: YourCourse,
+          },
+          {
+            path: "/dashboard/settings",
+            Component: SettingMain,
+          },
+          {
             path: "/dashboard/head/org-manage",
             children: [
               {
@@ -137,15 +159,23 @@ const routes_map: RouteObject[] = [
             Component: DashBoardProblemSet,
           },
 
-          {
-            path: "/dashboard/your-submission",
-            Component: YourSubmission,
-          },
-
           // mod
           {
-            path: "/dashboard/mod/org/:org_id",
-            Component: OrgMod,
+            path: "/dashboard/mod",
+            children: [
+              {
+                path: "/dashboard/mod/org/:org_id",
+                Component: OrgMod,
+              },
+              {
+                path: "/dashboard/mod/problemset",
+                Component: ModeratingProblemSet,
+              },
+              {
+                path: "/dashboard/mod/course",
+                Component: ModeratingCourse,
+              },
+            ],
           },
         ],
       },

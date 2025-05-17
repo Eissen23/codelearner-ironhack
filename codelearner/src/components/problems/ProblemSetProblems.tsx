@@ -48,10 +48,6 @@ const ProblemSetProblems: React.FC<{
     );
   }
 
-  if (problems.length === 0) {
-    return <Alert variant="info"> No data ...</Alert>;
-  }
-
   return (
     <div className="mt-3">
       <div className="d-flex justify-content-end mb-4">
@@ -66,28 +62,33 @@ const ProblemSetProblems: React.FC<{
           </Button>
         )}
       </div>
-      <ListGroup>
-        {problems.map((problem) => (
-          <ListGroup.Item key={problem.id}>
-            <div className="d-flex justify-content-between">
-              <Link className="text-black" to={`/problems/${problem.id}`}>
-                {problem.name}
-              </Link>
-              <Badge
-                bg={
-                  problem.difficulty <= 3
-                    ? "success"
-                    : problem.difficulty <= 7
-                    ? "warning"
-                    : "danger"
-                }
-              >
-                Difficulty: {problem.difficulty}
-              </Badge>
-            </div>
-          </ListGroup.Item>
-        ))}
-      </ListGroup>
+
+      {problems.length != 0 ? (
+        <ListGroup>
+          {problems.map((problem) => (
+            <ListGroup.Item key={problem.id}>
+              <div className="d-flex justify-content-between">
+                <Link className="text-black" to={`/problems/${problem.id}`}>
+                  {problem.name}
+                </Link>
+                <Badge
+                  bg={
+                    problem.difficulty <= 3
+                      ? "success"
+                      : problem.difficulty <= 7
+                      ? "warning"
+                      : "danger"
+                  }
+                >
+                  Difficulty: {problem.difficulty}
+                </Badge>
+              </div>
+            </ListGroup.Item>
+          ))}
+        </ListGroup>
+      ) : (
+        <Alert variant="info"> No data ...</Alert>
+      )}
       {paginations && <CustomPagination links={paginations} />}
     </div>
   );

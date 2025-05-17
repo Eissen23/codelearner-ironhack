@@ -114,6 +114,7 @@ const MenuBar = ({ editor }: MenuBarProps) => {
     <div className="border border-3 rounded-2 bg-light p-1">
       {menuOption.map((option, index) => (
         <button
+          type="button"
           className={`btn btn-sm ${option.pressed ? "btn-primary" : ""}`}
           key={index}
           onClick={option.onclick}

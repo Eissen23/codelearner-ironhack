@@ -45,7 +45,7 @@ const ProblemDetail: React.FC = () => {
             gutterAlign="end"
           >
             <CodeEditor
-              testCase={problemData?.test_case}
+              testCase={problemData?.test_cases}
               editorRef={editorRef}
               language={language}
               onLanguageChange={setLanguage}
@@ -53,7 +53,7 @@ const ProblemDetail: React.FC = () => {
             <ProblemOutput
               editorRef={editorRef}
               language={language}
-              testCase={problemData?.test_case}
+              testCase={problemData?.test_cases}
             />
           </Split>
         </Split>

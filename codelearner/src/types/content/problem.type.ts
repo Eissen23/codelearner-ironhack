@@ -9,7 +9,7 @@ export type ProblemData = {
   id: string;
   name: string;
   description: string;
-  test_case: TestCase;
+  test_cases: TestCase;
   difficulty: number;
   problem_set: number;
   is_rich_text: boolean;

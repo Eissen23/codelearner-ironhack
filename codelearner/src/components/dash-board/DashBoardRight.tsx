@@ -1,5 +1,5 @@
 import React from "react";
-import { Card, Row, Col } from "react-bootstrap";
+import { Card, Row, Col, Spinner } from "react-bootstrap";
 import { User } from "../../types/auth.types";
 import { useOutletContext } from "react-router";
 import { UserDetail } from "../../types/user.type";
@@ -15,6 +15,7 @@ const DashBoardRight: React.FC<DashBoardRightProps> = () => {
     return (
       <Card className="shadow-sm">
         <Card.Body>Loading...</Card.Body>
+        <Spinner animation="border"></Spinner>
       </Card>
     );
   }

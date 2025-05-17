@@ -12,29 +12,27 @@ const YourSubmission: React.FC = () => {
     return <Spinner animation="border"></Spinner>;
   }
 
-  if (userSubmission?.length === 0) {
-    return (
-      <div>
-        <Alert variant="info">No submission yet.....</Alert>
-        <Button className="btn btn-primary">
-          <Link to={"/problems"} className="text-white text-decoration-none">
-            Solve some problems to submit the submission
-          </Link>
-        </Button>
-      </div>
-    );
-  }
-
   return (
     <div>
-      <ListGroup>
-        {userSubmission.map((user_sub) => (
-          <ListGroup.Item>
-            {" "}
-            <SubmissionItem key={user_sub.id} submission={user_sub} />
-          </ListGroup.Item>
-        ))}
-      </ListGroup>
+      <h4 className="display-6 mb-3">Your submission</h4>
+      {userSubmission?.length !== 0 ? (
+        <ListGroup>
+          {userSubmission.map((user_sub) => (
+            <ListGroup.Item>
+              <SubmissionItem key={user_sub.id} submission={user_sub} />
+            </ListGroup.Item>
+          ))}
+        </ListGroup>
+      ) : (
+        <div>
+          <Alert variant="info">No submission yet.....</Alert>
+          <Button className="btn btn-primary">
+            <Link to={"/problems"} className="text-white text-decoration-none">
+              Solve some problems to submit the submission
+            </Link>
+          </Button>
+        </div>
+      )}
     </div>
   );
 };

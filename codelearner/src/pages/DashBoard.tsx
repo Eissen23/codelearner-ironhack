@@ -26,14 +26,14 @@ const orgHead = [
 
 const moderator = [
   {
-    path: "/dashboard/mod/org-manage",
-    label: "Manage Organization",
-    icon: "bi bi-house-gear",
+    path: "/dashboard/mod/problemset",
+    label: "Manage Problem Sets",
+    icon: "bi bi-file-post",
   },
   {
     path: "/dashboard/mod/course",
     label: "Manage Course",
-    icon: "bi bi-book-half",
+    icon: "bi bi-pen",
   },
 ];
 

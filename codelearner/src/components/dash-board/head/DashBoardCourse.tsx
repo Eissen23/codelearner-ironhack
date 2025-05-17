@@ -31,15 +31,7 @@ const DashBoardCourse: React.FC = () => {
       >
         {/* 
         <Tab eventKey="default" title="All enrolled course">
-          {courses.length != 0 ? (
-            <Row xs={1} md={2} className="g-4">
-              {courses.map((course) => (
-                <CourseCard course={course} />
-              ))}
-            </Row>
-          ) : (
-            <Alert variant="info">No courses....</Alert>
-          )}
+          
         </Tab>
             */}
         <Tab eventKey="your-moderate" title="Your Moderating Course">

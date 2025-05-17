@@ -1,21 +1,47 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { Container, Row, Col, Form, Button, Spinner } from "react-bootstrap";
 import RichTextEditor from "../tiptap/RichTextEditor";
 import { useProblemForm } from "../../hooks/problems/useProblemsForm";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { ToastContainer } from "react-toastify";
+import { ProblemData } from "../../../types/content/problem.type";
+import KeyValueForm from "../../mislancenous/KeyValue";
+import { useEditor } from "@tiptap/react";
+import StarterKit from "@tiptap/starter-kit";
 
-const ProblemForm: React.FC = () => {
+const ProblemForm: React.FC<{
+  problemData?: ProblemData;
+  noEdit?: boolean;
+}> = ({ problemData, noEdit = false }) => {
+  const editor = useEditor({
+    extensions: [StarterKit],
+    content: "<p></p>",
+    editable: true,
+  });
+
   const {
     problem,
     setProblem,
-    testCaseInputRaw,
-    testCaseOutputRaw,
     handleChange,
-    handleBlur,
     handleSubmit,
+    handleTestCasesChange,
     uploading,
-  } = useProblemForm(null);
+  } = useProblemForm(editor, problemData, noEdit);
+
+  const handleEditorUpdate = useCallback(
+    (content: string) => {
+      setProblem((prev) => {
+        if (prev.description !== content) {
+          return { ...prev, description: content };
+        }
+        return prev;
+      });
+    },
+    [setProblem]
+  );
+  if (!editor) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <Container className="my-4">
@@ -34,22 +60,7 @@ const ProblemForm: React.FC = () => {
                 required
               />
             </Form.Group>
-
-            <Form.Group className="mb-3" controlId="test_case_input">
-              <Form.Label>Test Case Input*</Form.Label>
-              <Form.Control
-                as="textarea"
-                rows={3}
-                name="test_case_input"
-                value={testCaseInputRaw}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                placeholder="Enter test case inputs as comma-separated values"
-                required
-              />
-            </Form.Group>
           </Col>
-
           <Col md={6}>
             <Form.Group className="mb-3" controlId="difficulty">
               <Form.Label>Difficulty*</Form.Label>
@@ -63,20 +74,6 @@ const ProblemForm: React.FC = () => {
                 <option value="2">Medium</option>
                 <option value="3">Hard</option>
               </Form.Select>
-            </Form.Group>
-
-            <Form.Group className="mb-3" controlId="test_case_output">
-              <Form.Label>Test Case Output*</Form.Label>
-              <Form.Control
-                as="textarea"
-                rows={3}
-                name="test_case_output"
-                value={testCaseOutputRaw}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                placeholder="Enter test case outputs as comma-separated values"
-                required
-              />
             </Form.Group>
           </Col>
         </Row>
@@ -96,14 +93,22 @@ const ProblemForm: React.FC = () => {
           />
         </Form.Group>
 
+        <Form.Group controlId="test_cases">
+          <Form.Label>Test Cases*</Form.Label>
+          <KeyValueForm
+            initialData={{
+              test_cases: problem.test_cases ?? { input: [], output: [] },
+            }}
+            onChange={handleTestCasesChange}
+          />
+        </Form.Group>
+
         <Form.Group className="mb-3" controlId="description">
           <Form.Label>Description*</Form.Label>
           {problem.is_rich_text ? (
             <RichTextEditor
-              content={problem.description ?? ""}
-              onUpdate={(content) =>
-                setProblem((prev) => ({ ...prev, description: content }))
-              }
+              content={problem.description ?? "<p></p>"}
+              onUpdate={handleEditorUpdate}
               editable={problem.is_rich_text}
             />
           ) : (
@@ -125,8 +130,10 @@ const ProblemForm: React.FC = () => {
               <Spinner animation="border" size="sm" />
               Saving
             </div>
-          ) : (
+          ) : !noEdit ? (
             "Save Problem"
+          ) : (
+            "Update"
           )}
         </Button>
       </Form>

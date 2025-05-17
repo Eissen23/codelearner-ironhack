@@ -39,11 +39,11 @@ const LayoutHome: React.FC<LayoutHomeProps> = ({
         )}
       </main>
       <footer className="text-white bg-dark">
-        <Row className="g-0">
-          <Col md={{ span: 10, offset: 1 }} lg={{ span: 10, offset: 1 }}>
-            {footer || <Footer></Footer>}
-          </Col>
-        </Row>
+        {/* <Row className="g-0"> */}
+        {/* <Col md={{ span: 10, offset: 1 }} lg={{ span: 10, offset: 1 }}> */}
+        {footer || <Footer></Footer>}
+        {/* </Col> */}
+        {/* </Row> */}
       </footer>
     </>
   );

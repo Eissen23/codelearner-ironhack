@@ -8,11 +8,11 @@ type Response = {
 
 export const updateArticle = async (
   token: string,
-  article: Omit<Article, "created_at" | "update_at">
+  article: Omit<Article, "created_at" | "updated_at">
 ): Promise<Response> => {
   try {
     const result = await CODELEARNER_API.put<Response>(
-      `/article/${article.id}`,
+      `/articles/${article.id}`,
       article,
       {
         headers: {

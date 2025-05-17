@@ -6,6 +6,8 @@ import MenuBar from "./MenuBar";
 import TextAlign from "@tiptap/extension-text-align";
 import Highlight from "@tiptap/extension-highlight";
 import Link from "@tiptap/extension-link";
+import TextStyle from "@tiptap/extension-text-style";
+import FontFamily from "@tiptap/extension-font-family";
 
 type RichTextEditorProps = {
   content: string;
@@ -37,10 +39,15 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({
       }),
       Highlight,
       Link.configure(linkConfig),
+      TextStyle,
+      FontFamily,
     ],
-    content,
+    content: content || "<p></p>",
     onUpdate: ({ editor }) => {
-      onUpdate(editor.getHTML());
+      const html = editor.getHTML();
+      if (html && html !== "<p></p>") {
+        onUpdate(html);
+      }
     },
     editable,
     editorProps: {
@@ -53,8 +60,21 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({
   useEffect(() => {
     if (editor) {
       editor.setEditable(editable);
+      if (content && content !== editor.getHTML()) {
+        editor.commands.setContent(content || "<p></p>");
+      }
     }
-  }, [editable, editor]);
+  }, [editor, editable, content]);
+
+  useEffect(() => {
+    return () => {
+      editor?.destroy();
+    };
+  }, [editor]);
+
+  if (!editor) {
+    return <div>Loading editor...</div>;
+  }
 
   return (
     <>

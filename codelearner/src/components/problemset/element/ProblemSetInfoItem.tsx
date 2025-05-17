@@ -13,7 +13,6 @@ const ProblemSetInfoItem: React.FC<{
   loading: boolean;
   org: Org;
 }> = ({ problemSet, loading, org }) => {
-  // const { problemSet, belong, loading } = useProblemSetsInfo(problem_set_id);
   const [isEditing, setIsEditing] = useState(false);
   const { token } = useAuth();
   const navigate = useNavigate();

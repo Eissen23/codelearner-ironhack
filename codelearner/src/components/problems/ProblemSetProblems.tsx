@@ -9,8 +9,8 @@ import { getDefaultParam } from "../../utils/getDefaultParam";
 
 const ProblemSetProblems: React.FC<{
   problemSetId: string;
-  editable?: boolean | false;
-}> = ({ problemSetId, editable }) => {
+  editable: boolean;
+}> = ({ problemSetId, editable = false }) => {
   const { page, per_page, sort, keyword } = getDefaultParam();
 
   const [problems, setProblems] = React.useState<ProblemData[]>([]);

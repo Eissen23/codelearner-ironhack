@@ -9,13 +9,17 @@ type Response = {
 
 export const getProblemByID = async (
   problem_id: string,
-  belong_to?: false
+  is_belong: boolean = false
 ): Promise<Response> => {
-  const custom_uri = belong_to
-    ? `/problems/${problem_id}?belong_to=${belong_to}`
-    : `/problems/${problem_id}`;
   try {
-    const response = await CODELEARNER_API.get<Response>(custom_uri);
+    const response = await CODELEARNER_API.get<Response>(
+      `/problems/${problem_id}`,
+      {
+        params: {
+          is_belong,
+        },
+      }
+    );
     return response.data;
   } catch (error) {
     console.log("Errot get problem by id", error);

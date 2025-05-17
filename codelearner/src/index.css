@@ -11,6 +11,10 @@ body {
   color: #333;
 }
 
+main {
+  min-height: 80vh;
+}
+
 /* Set up base font and line height */
 html {
   font-size: 16px;

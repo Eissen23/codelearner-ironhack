@@ -1,14 +1,14 @@
 import React from "react";
 
 import LayoutHome from "../layout/LayoutHome";
-import ArticleForm from "../features/main/article/ArticleForm";
+import ProblemForm from "../features/main/problems/ProblemsForm";
 // import CreateOrganizationForm from "../components/form/CreateOrganizationForm";
 // import CreateCourseForm from "../components/form/CreateCourseForm";
 
 const TestView: React.FC = () => {
   return (
     <LayoutHome>
-      <ArticleForm />
+      <ProblemForm />
     </LayoutHome>
   );
 };

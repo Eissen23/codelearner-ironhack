@@ -1,13 +1,13 @@
 import React from "react";
 import { Accordion, Alert, Button } from "react-bootstrap";
-import { useArticle } from "../../../features/hooks/articles/useArticles";
+import { useArticles } from "../../../features/hooks/articles/useArticles";
 import { Link } from "react-router";
 
 const ArticleList: React.FC<{ course_id: string; editable?: boolean }> = ({
   course_id,
   editable,
 }) => {
-  const { articles, loading } = useArticle(course_id);
+  const { articles, loading } = useArticles(course_id);
 
   if (loading) {
     return <div>Is loading ...</div>;
@@ -27,7 +27,7 @@ const ArticleList: React.FC<{ course_id: string; editable?: boolean }> = ({
               className="text-white text-decoration-none"
               to={`add-article`}
             >
-              Add Course
+              Add article
             </Link>
           </Button>
         )}

@@ -11,13 +11,16 @@ type Response = {
 
 export const showArticle = async (
   article_id: string,
-  is_belong: false,
-  author: true
+  is_belong: boolean = false,
+  author: boolean = false
 ): Promise<Response> => {
   try {
-    const response = await CODELEARNER_API.get(
-      `/articles/${article_id}?is_belong=${is_belong}&author=${author}`
-    );
+    const response = await CODELEARNER_API.get(`/articles/${article_id}`, {
+      params: {
+        is_belong,
+        author,
+      },
+    });
     return response.data;
   } catch (error) {
     console.log("error fetching article data");

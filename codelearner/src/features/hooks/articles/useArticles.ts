@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { getArticles } from "../../../service/api/article-manage/getArticles";
 import { Article } from "../../../types/content/article.type";
 
-export const useArticle = (course_id: string) => {
+export const useArticles = (course_id: string) => {
   const [articles, setArticle] = useState<Article[]>();
   const [loading, setLoading] = useState(false);
 

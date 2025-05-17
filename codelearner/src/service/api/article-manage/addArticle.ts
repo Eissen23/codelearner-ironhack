@@ -7,7 +7,7 @@ type Response = {
 
 export const addArticle = async (
   token: string,
-  article: Omit<Article, "id" | "created_at" | "updated_at">
+  article: Omit<Article, "id" | "created_at" | "updated_at" | "mod_id">
 ): Promise<Response> => {
   try {
     const response = await CODELEARNER_API.post<Response>(

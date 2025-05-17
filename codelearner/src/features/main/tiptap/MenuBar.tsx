@@ -23,6 +23,8 @@ import {
   BsListUl,
   BsListOl,
 } from "react-icons/bs";
+import FontSelect from "./FontSelect";
+import HyperlinkSelect from "./HyperlinkSelect";
 
 // Define the props interface for MenuBar
 interface MenuBarProps {
@@ -111,18 +113,24 @@ const MenuBar = ({ editor }: MenuBarProps) => {
   ];
 
   return (
-    <div className="border border-3 rounded-2 bg-light p-1">
-      {menuOption.map((option, index) => (
-        <button
-          type="button"
-          className={`btn btn-sm ${option.pressed ? "btn-primary" : ""}`}
-          key={index}
-          onClick={option.onclick}
-        >
-          {option.icon}
-        </button>
-      ))}
-    </div>
+    <>
+      <div className="border bg-light p-1 d-flex justify-content-lg-between">
+        <FontSelect editor={editor} />
+        <HyperlinkSelect editor={editor} />
+      </div>
+      <div className="border border-top-0 bg-light p-1">
+        {menuOption.map((option, index) => (
+          <button
+            type="button"
+            className={`btn btn-sm ${option.pressed ? "btn-primary" : ""}`}
+            key={index}
+            onClick={option.onclick}
+          >
+            {option.icon}
+          </button>
+        ))}
+      </div>
+    </>
   );
 };
 

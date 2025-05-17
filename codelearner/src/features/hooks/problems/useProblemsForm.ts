@@ -1,33 +1,57 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { Editor } from "@tiptap/react";
 import { ProblemData } from "../../../types/content/problem.type";
 import { useParams } from "react-router";
 import { useAuth } from "../../../context/auth/AuthContext";
 import { addProblem } from "../../../service/api/problem-manage/addProblem";
+import { updateProblem } from "../../../service/api/problem-manage/updateProblem";
 import { toast } from "react-toastify";
 
-// Define the TestCase type
+interface TestCases {
+  test_cases: {
+    input: string[];
+    output: string[];
+  };
+}
 
-export const useProblemForm = (editor: Editor | null) => {
+export const useProblemForm = (
+  editor: Editor | null,
+  problemData?: ProblemData,
+  noEdit: boolean = false
+) => {
   const { problemSetId } = useParams();
   const { token } = useAuth();
+  const [uploading, setUploading] = useState(false);
 
   const [problem, setProblem] = useState<Partial<ProblemData>>({
+    id: "",
     name: "",
-    description: "",
+    description: "<p></p>",
     test_cases: { input: [], output: [] },
     difficulty: 1,
     is_rich_text: true,
   });
-  const [testCaseInputRaw, setTestCaseInputRaw] = useState("");
-  const [testCaseOutputRaw, setTestCaseOutputRaw] = useState("");
-  const [uploading, setUploading] = useState(false);
 
-  const parseRawInput = (raw: string): string[] =>
-    raw
-      .split(",")
-      .map((item) => item.trim())
-      .filter((item) => item);
+  // Initialize problem state when problemData changes
+  useEffect(() => {
+    if (problemData) {
+      setProblem((prev) => ({
+        ...problemData,
+        description:
+          problemData.description && problemData.description !== "<p></p>"
+            ? problemData.description
+            : prev.description || "<p></p>",
+      }));
+    }
+  }, [problemData]);
+
+  useEffect(() => {
+    if (editor && problem.description && problem.is_rich_text) {
+      if (editor.getHTML() !== problem.description) {
+        editor.commands.setContent(problem.description);
+      }
+    }
+  }, [editor, problem.description, problem.is_rich_text]);
 
   const handleChange = useCallback(
     (
@@ -36,50 +60,59 @@ export const useProblemForm = (editor: Editor | null) => {
       >
     ) => {
       const { name, value } = e.target;
-      if (name === "test_case_input") {
-        setTestCaseInputRaw(value);
-      } else if (name === "test_case_output") {
-        setTestCaseOutputRaw(value);
-      } else if (name === "is_rich_text") {
+      if (name === "is_rich_text") {
+        const isRichText = value === "true";
         setProblem((prev) => ({
           ...prev,
-          is_rich_text: value === "true",
+          is_rich_text: isRichText,
         }));
         if (editor) {
-          editor.setEditable(value === "true");
-          if (value !== "true") {
-            setProblem((prev) => ({ ...prev, description: "" }));
-            editor.commands.setContent("");
+          editor.setEditable(isRichText);
+          if (!isRichText) {
+            editor.commands.setContent("<p></p>"); // Set default content for non-rich-text mode
+          } else {
+            // Restore the description if available
+            editor.commands.setContent(problem.description || "<p></p>");
           }
         }
-      } else {
-        setProblem((prev) => ({
-          ...prev,
-          [name]: name === "difficulty" ? Number(value) : value,
-        }));
+        return;
       }
-    },
-    [editor]
-  );
-
-  const handleBlur = useCallback((e: React.FocusEvent<HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    if (name === "test_case_input" || name === "test_case_output") {
-      const arrayValue = parseRawInput(value);
       setProblem((prev) => ({
         ...prev,
-        test_cases: {
-          ...prev.test_cases!,
-          [name === "test_case_input" ? "input" : "output"]: arrayValue,
-        },
+        [name]: name === "difficulty" ? Number(value) : value,
       }));
-    }
+    },
+    [editor, problem.description]
+  );
+
+  // Handle test cases update from KeyValueForm
+  const handleTestCasesChange = useCallback((data: TestCases) => {
+    setProblem((prev) => ({
+      ...prev,
+      test_cases: {
+        input: data.test_cases.input,
+        output: data.test_cases.output,
+      },
+    }));
   }, []);
 
-  const fetchAddProblem = async (data: Omit<ProblemData, "id">) => {
+  const fetchAddProblem = async () => {
+    const newProblem: Omit<ProblemData, "id"> = {
+      name: problem.name ?? "",
+      description: problem.is_rich_text
+        ? problem.description ?? ""
+        : problem.description ?? "",
+      test_cases: {
+        input: problem.test_cases?.input ?? [],
+        output: problem.test_cases?.output ?? [],
+      },
+      difficulty: problem.difficulty ?? 1,
+      is_rich_text: problem.is_rich_text ?? true,
+      problem_set: problemSetId ? parseInt(problemSetId, 10) : 0,
+    };
     try {
       setUploading(true);
-      await addProblem(token || "", data);
+      await addProblem(token || "", newProblem);
       toast("Create problem success");
     } catch (error) {
       console.log("error adding problem", error);
@@ -89,45 +122,48 @@ export const useProblemForm = (editor: Editor | null) => {
     }
   };
 
+  const fetchUpdateProblem = async () => {
+    const data: ProblemData = {
+      id: problem.id ?? "",
+      name: problem.name ?? "",
+      description: problem.is_rich_text
+        ? problem.description ?? ""
+        : problem.description ?? "",
+      test_cases: {
+        input: problem.test_cases?.input ?? [],
+        output: problem.test_cases?.output ?? [],
+      },
+      difficulty: problem.difficulty ?? 1,
+      is_rich_text: problem.is_rich_text ?? true,
+      problem_set: problemSetId ? parseInt(problemSetId, 10) : 0,
+    };
+    try {
+      setUploading(true);
+      await updateProblem(token || "", data);
+      toast("Create update success");
+    } catch (error) {
+      console.log("error updating problem", error);
+      toast("Failed to update problem");
+    } finally {
+      setUploading(false);
+    }
+  };
+
   const handleSubmit = useCallback(
     (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
-      // Parse raw inputs before submission
-      const inputArray = parseRawInput(testCaseInputRaw);
-      const outputArray = parseRawInput(testCaseOutputRaw);
-      const newProblem: Omit<ProblemData, "id"> = {
-        name: problem.name ?? "",
-        description: problem.is_rich_text
-          ? problem.description ?? ""
-          : problem.description ?? "",
-        test_cases: {
-          input:
-            inputArray.length > 0
-              ? inputArray
-              : problem.test_cases?.input ?? [],
-          output:
-            outputArray.length > 0
-              ? outputArray
-              : problem.test_cases?.output ?? [],
-        },
-        difficulty: problem.difficulty ?? 1,
-        is_rich_text: problem.is_rich_text ?? true,
-        problem_set: problemSetId ? parseInt(problemSetId, 10) : 0,
-      };
-      console.log("Problem Data:", newProblem);
-      // Add your submit logic here (e.g., API call)
-      fetchAddProblem(newProblem);
+
+      !noEdit ? fetchAddProblem() : fetchUpdateProblem();
+      // console.log(newProblem);
     },
-    [problem, testCaseInputRaw, testCaseOutputRaw]
+    [problem, problemSetId, token]
   );
 
   return {
     problem,
     setProblem,
-    testCaseInputRaw,
-    testCaseOutputRaw,
     handleChange,
-    handleBlur,
+    handleTestCasesChange,
     handleSubmit,
     uploading,
   };

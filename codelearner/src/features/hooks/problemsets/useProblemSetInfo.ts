@@ -5,7 +5,7 @@ import { Org } from "../../../types/org/org.type";
 
 export const useProblemSetsInfo = (
   problem_set_id: string,
-  is_belong?: boolean | false
+  is_belong: boolean = false
 ) => {
   const [problemSet, setProblemSet] = React.useState<ProblemSet | null>(null);
   const [loading, setLoading] = React.useState(false);

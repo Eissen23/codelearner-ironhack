@@ -3,14 +3,17 @@ import { ProblemSetInfoResponse } from "../../../types/org/problem_set.type";
 
 export const getProblemSetInfo = async (
   problem_set_id: string,
-  belong?: boolean
+  is_belong: boolean = false
 ): Promise<ProblemSetInfoResponse> => {
-  const uri = belong
-    ? `problem-sets/${problem_set_id}?is_belong=${belong}`
-    : `problem-sets/${problem_set_id}`;
-
   try {
-    const response = await CODELEARNER_API.get<ProblemSetInfoResponse>(uri);
+    const response = await CODELEARNER_API.get<ProblemSetInfoResponse>(
+      `problem-sets/${problem_set_id}`,
+      {
+        params: {
+          is_belong,
+        },
+      }
+    );
     return response.data;
   } catch (error) {
     console.log("Error fetching problem set info", error);

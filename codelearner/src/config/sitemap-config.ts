@@ -1,5 +1,7 @@
 import { lazy } from "react";
 import { RouteObject } from "react-router";
+import ArticleSettingPage from "../pages/Setting/ArticleSettingPage";
+import ProblemSettingPage from "../pages/Setting/ProblemSettingPage";
 
 // Lazy-loaded components
 const Home = lazy(() => import("../pages/Home"));
@@ -48,6 +50,7 @@ const ProblemSetSetting = lazy(
   () => import("../pages/Setting/ProblemSetSetting")
 );
 const AddArticle = lazy(() => import("../pages/CreatePage/AddArticle"));
+const ArticleDetail = lazy(() => import("../pages/DetailPage/AricleDetail"));
 const AddProblem = lazy(() => import("../pages/CreatePage/AddProblem"));
 const ProtectedRoutes = lazy(() => import("../context/routes/ProtectedRoute"));
 const NotFound = lazy(() => import("../pages/NotFound"));
@@ -98,6 +101,11 @@ const routes_map: RouteObject[] = [
       { index: true, Component: ProblemsPage },
       { path: "/problems/:problem_id", Component: ProblemDetail },
     ],
+  },
+
+  {
+    path: "/articles",
+    children: [{ path: "/articles/:article_id", Component: ArticleDetail }],
   },
 
   {
@@ -183,7 +191,7 @@ const routes_map: RouteObject[] = [
       {
         path: "/setting",
         children: [
-          { index: true, Component: CourseSettingPage },
+          { index: true, Component: SettingMain },
           {
             path: "/setting/course/:course_id",
             children: [
@@ -201,6 +209,24 @@ const routes_map: RouteObject[] = [
               {
                 path: "/setting/problem-set/:problemSetId/add-problem",
                 Component: AddProblem,
+              },
+            ],
+          },
+          {
+            path: "/setting/article/:article_id",
+            children: [
+              {
+                index: true,
+                Component: ArticleSettingPage,
+              },
+            ],
+          },
+          {
+            path: "/setting/problem/:problem_id",
+            children: [
+              {
+                index: true,
+                Component: ProblemSettingPage,
               },
             ],
           },

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import { Stack, Tab, Tabs } from "react-bootstrap";
 import { FaCirclePlay } from "react-icons/fa6";
 import { IoSend } from "react-icons/io5";
@@ -6,7 +6,17 @@ import { LANGUAGE_MAPPING } from "../../../data/LanguageMapping";
 import { TestCase } from "../../../types/content/problem.type";
 import { createBatchSubmission } from "../../../utils/code/createBatchSub";
 import { runTestCase } from "../../../service/api/judge0-code/RunTestCase";
-import { parseEscapeSequences } from "../../../utils/parseEscapeSequence";
+import {
+  ResultData,
+  SubmissionResponse,
+} from "../../../types/code/judge0.type";
+import { toast, ToastContainer } from "react-toastify";
+import { makeAnswer } from "../../../utils/code/makeAnswer";
+import { useParams } from "react-router";
+import { submitAnswer } from "../../../service/user-service/submission/submitAnswer";
+import { getAuthToken } from "../../../config/loader/getLocalItem";
+import OutputTab from "./element/OutputTab";
+import ResultTab from "./element/ResultTab";
 
 interface OutputProps {
   editorRef: React.RefObject<any>;
@@ -19,43 +29,96 @@ const ProblemOutput: React.FC<OutputProps> = ({
   editorRef,
   language,
   testCase,
-  onSubmit,
 }) => {
+  const { problem_id } = useParams();
+  const token = getAuthToken();
+
+  const runNumber = useRef(0);
   const [isRunning, setIsRunning] = React.useState(false);
-  const [output, setOutput] = React.useState<string[]>([]);
-  const [status, setStatus] = React.useState<Boolean[]>([true]);
+  const [results, setResults] = React.useState<SubmissionResponse[]>();
+  const [valuation, setValuation] = React.useState<ResultData>();
 
   const runCode = async () => {
     if (!editorRef.current) {
       return;
     }
     const code = editorRef.current.getValue();
+    if (!code) {
+      toast.error("Code can't be empty", {
+        position: "bottom-center",
+      });
+      console.log("Code can't be empty");
+      return;
+    }
+
     const languageCode = LANGUAGE_MAPPING[language];
     if (!languageCode) {
-      console.error(`Language code not found for ${language}`);
+      toast.error(`Language code not found for ${language}`, {
+        position: "bottom-center",
+      });
       return;
     }
 
     try {
       setIsRunning(true);
-      const subs = await createBatchSubmission(code, languageCode, testCase);
+      const subs = createBatchSubmission(code, languageCode, testCase);
 
       const { submissions } = await runTestCase(subs);
-      console.log("Submission", submissions);
 
-      const batch_status = submissions.map((sub) => {
-        return sub.status.id === 3;
-      });
-      const batch_outputs = submissions.map((sub) => {
-        return sub.stdout || sub.stderr || "";
-      });
-
-      setStatus(batch_status);
-      setOutput(batch_outputs);
+      setResults(submissions);
+      const userSubmit = makeAnswer(
+        code,
+        languageCode,
+        submissions,
+        problem_id || "",
+        runNumber.current
+      );
+      setValuation(userSubmit);
     } catch (error) {
-      setOutput(["An error occurred while running the code"]);
-      setStatus([false]);
       console.error(error);
+    } finally {
+      setIsRunning(false);
+      runNumber.current += 1;
+    }
+  };
+
+  const submitCode = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    if (!token) {
+      toast.error("Login for this feature", {
+        position: "bottom-center",
+      });
+      return;
+    }
+    const allow = confirm("Do you want to submit this code");
+
+    if (!allow) {
+      return;
+    }
+
+    if (runNumber.current === 0) {
+      await runCode();
+      runNumber.current = 0;
+    }
+
+    const userSubmit = makeAnswer(
+      editorRef.current.getValue(),
+      LANGUAGE_MAPPING[language],
+      results,
+      problem_id || "",
+      runNumber.current
+    );
+    try {
+      setIsRunning(true);
+      await submitAnswer(token, userSubmit);
+      toast.success("Submission success", {
+        position: "bottom-center",
+      });
+      setValuation(userSubmit);
+    } catch (error) {
+      toast.error("Submission failed", {
+        position: "bottom-center",
+      });
     } finally {
       setIsRunning(false);
     }
@@ -63,6 +126,7 @@ const ProblemOutput: React.FC<OutputProps> = ({
 
   return (
     <div className="Output">
+      <ToastContainer />
       <Stack
         direction="horizontal"
         className="mb-2 bg-gradient border-bottom border-dark-subtle border-4 px-3 py-2"
@@ -87,7 +151,7 @@ const ProblemOutput: React.FC<OutputProps> = ({
         <button
           className="ms-auto btn btn-success text-white px-3 py-2 rounded-pill"
           type="submit"
-          onClick={onSubmit}
+          onClick={submitCode}
         >
           <IoSend className="mb-1 me-2" />
           Submit
@@ -97,29 +161,18 @@ const ProblemOutput: React.FC<OutputProps> = ({
             hiển thị tab đấy màu đỏ, với UserSubmission, trạng thái là Wrong answer khi 1 trong các element sai, (tham khảo ở hàm wait trong code
             sevice)
           */}
-      <Tabs defaultActiveKey={"output-0"} className="mb-3">
-        {status.map((stat, index) => (
+      <Tabs defaultActiveKey={"result"}>
+        <Tab className="bg-black" eventKey={`result`} title={`Output`} key={0}>
+          <ResultTab data={valuation} />
+        </Tab>
+        {results?.map((result, index) => (
           <Tab
             className="bg-black"
             eventKey={`output-${index}`}
             title={`Output ${index + 1}`}
-            key={index}
+            key={index + 1}
           >
-            <div
-              className={stat ? "text-success" : "text-danger"}
-              style={{ height: "32vh" }}
-            >
-              <h6 className="fw-semibold text-uppercase ms-3">
-                {stat ? "Output" : "Error"}
-              </h6>
-              <div className="final_output">
-                <p style={{ whiteSpace: "pre-wrap" }}>
-                  {output[index]
-                    ? parseEscapeSequences(output[index])
-                    : "Click run to see the code"}
-                </p>
-              </div>
-            </div>
+            <OutputTab submision={result} />
           </Tab>
         ))}
       </Tabs>

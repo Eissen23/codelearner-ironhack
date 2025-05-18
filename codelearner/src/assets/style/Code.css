@@ -50,3 +50,19 @@
   height: 75%;
   overflow-y: scroll;
 }
+
+.nav.nav-tabs {
+  border-bottom: 1px solid grey;
+}
+
+.nav-tabs .nav-link.active {
+  background-color: var(--bs-black);
+  border: none;
+  color: greenyellow;
+}
+.nav-tabs .nav-link {
+  background-color: transparent;
+  border: none;
+  color: white;
+}
+

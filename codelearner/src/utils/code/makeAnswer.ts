@@ -1,44 +1,62 @@
 import { ResultData, SubmissionResponse } from "../../types/code/judge0.type";
+import { calculatePoints } from "./calculatePoints";
 
 export function makeAnswer(
-  data: SubmissionResponse[],
   source_code: string,
-  language_id: number
+  language_id: number,
+  data: SubmissionResponse[] | undefined,
+  problem_id: string,
+  runNumber: number
 ): ResultData {
-  const allAccepted = data.every((d) => d.status.id === 3);
-  const result = allAccepted ? "Accepted" : "Wrong Answer";
+  if (!data)
+    return {
+      source_code,
+      language_id,
+      result: "Client Error",
+      points: 0,
+      time: 0,
+      memory: 0,
+      problem_id,
+    };
 
-  const times = data.map((d) => d.time);
-  const memories = data.map((d) => d.memory);
+  // Calculate average time (converting strings to numbers)
+  const totalTime = data.reduce(
+    (sum, submission) => sum + parseFloat(submission.time),
+    0
+  );
+  const avgTime =
+    data.length > 0 ? Number((totalTime / data.length).toFixed(2)) : 0;
 
-  const minTime = Math.min(...times);
-  const maxTime = Math.max(...times);
-  const minMemory = Math.min(...memories);
-  const maxMemory = Math.max(...memories);
+  // Calculate average memory
+  const totalMemory = data.reduce(
+    (sum, submission) => sum + submission.memory,
+    0
+  );
+  const avgMemory =
+    data.length > 0 ? Number((totalMemory / data.length).toFixed(2)) : 0;
 
-  const alpha = 0.5;
-  const beta = 0.5;
+  // Determine overall result
+  // We'll say "Accepted" if all submissions were accepted
+  const allAccepted = data.every(
+    (submission) =>
+      submission.status.id === 3 && submission.status.description === "Accepted"
+  );
+  const result = allAccepted ? "Accepted" : "Failed";
 
-  const pointsArray = data.map((d) => {
-    const normalizedTime = (d.time - minTime) / (maxTime - minTime || 1);
-    const normalizedMemory =
-      (d.memory - minMemory) / (maxMemory - minMemory || 1);
-    const compositeScore = alpha * normalizedTime + beta * normalizedMemory;
-    return 1 - compositeScore;
-  });
+  // Calculate points - giving full points (100) if all tests passed
 
-  const totalPoints =
-    pointsArray.reduce((sum, p) => sum + p, 0) / pointsArray.length;
-
-  const avgTime = times.reduce((sum, t) => sum + t, 0) / times.length;
-  const avgMemory = memories.reduce((sum, m) => sum + m, 0) / memories.length;
+  const points =
+    result === "Accepted"
+      ? calculatePoints(data, runNumber, avgTime, avgMemory)
+      : 0;
 
   return {
     source_code,
     language_id,
     result,
-    points: Number(totalPoints.toFixed(4)),
-    time: Number(avgTime.toFixed(2)),
-    memory: Number(avgMemory.toFixed(2)),
+    points,
+    time: avgTime,
+    memory: avgMemory,
+    problem_id,
   };
 }

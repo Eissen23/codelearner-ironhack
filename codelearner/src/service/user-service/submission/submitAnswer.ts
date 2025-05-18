@@ -7,7 +7,7 @@ export const submitAnswer = async (
 ): Promise<SubmitResponse> => {
   try {
     const response = CODELEARNER_API.post(
-      `/problems/${data.problem_id}`,
+      `/problems/${data.problem_id}/submit`,
       data,
       {
         headers: {

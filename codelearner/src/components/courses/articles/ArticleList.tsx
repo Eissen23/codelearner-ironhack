@@ -42,6 +42,19 @@ const ArticleList: React.FC<{ course_id: string; editable?: boolean }> = ({
             <Accordion.Header>{article.name}</Accordion.Header>
             <Accordion.Body>
               <p>{article.description}</p>
+              <Button variant="primary">
+                <Link
+                  className="text-white text-decoration-none"
+                  to={
+                    editable
+                      ? `/setting/article/${article.id}`
+                      : `/articles/${article.id}`
+                  }
+                >
+                  To article
+                  <i className="bi bi-arrow-right ms-2"></i>
+                </Link>
+              </Button>
             </Accordion.Body>
           </Accordion.Item>
         ))}

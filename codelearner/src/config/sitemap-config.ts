@@ -1,7 +1,6 @@
 import { lazy } from "react";
 import { RouteObject } from "react-router";
-import ArticleSettingPage from "../pages/Setting/ArticleSettingPage";
-import ProblemSettingPage from "../pages/Setting/ProblemSettingPage";
+import NotAuthorize from "../pages/NotAuthorize";
 
 // Lazy-loaded components
 const Home = lazy(() => import("../pages/Home"));
@@ -64,6 +63,12 @@ const ModeratingCourse = lazy(() => import("../pages/Mod/ModeratingCourse"));
 const ModeratingProblemSet = lazy(
   () => import("../pages/Mod/ModeratingProblemSet")
 );
+const ArticleSettingPage = lazy(
+  () => import("../pages/Setting/ArticleSettingPage")
+);
+const ProblemSettingPage = lazy(
+  () => import("../pages/Setting/ProblemSettingPage")
+);
 
 const routes_map: RouteObject[] = [
   { path: "/", Component: Home },
@@ -110,7 +115,7 @@ const routes_map: RouteObject[] = [
 
   {
     path: "/test-view",
-    Component: TestView,
+    Component: NotAuthorize,
   },
   {
     path: "/",
@@ -235,6 +240,7 @@ const routes_map: RouteObject[] = [
     ],
   },
   { path: "*", Component: NotFound },
+  { path: "*/not-authorized", Component: NotAuthorize },
 ];
 
 export default routes_map;

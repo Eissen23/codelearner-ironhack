@@ -14,7 +14,13 @@ export const getBatchSubmission = async (
   const tokens = batchToken.map((token) => token.token).join(",");
   try {
     const response = await JUDGE0_API.get<BatchSubRes>(
-      `/submissions/batch?tokens=${tokens}`
+      `/submissions/batch?tokens=${tokens}`,
+      {
+        params: {
+          fields:
+            "stdout,time,memory,stderr,token,compile_output,message,status,expected_output,stdin",
+        },
+      }
     );
     return response.data;
   } catch (error) {

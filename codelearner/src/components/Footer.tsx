@@ -1,11 +1,11 @@
-import React from 'react';
-import { Container, Row, Col } from 'react-bootstrap';
-import MenuFooter from '../features/footer/MenuFooter';
-import Logo from '../features/footer/Logo';
+import React from "react";
+import { Container, Row, Col } from "react-bootstrap";
+import MenuFooter from "../features/footer/MenuFooter";
+import Logo from "../features/footer/Logo";
 const addresses = [
   "123 Learning Street",
   "Codelearner City, ST 12345",
-  "United States"
+  "United States",
 ];
 const menuLinks = [
   { text: "Home", to: "/" },
@@ -15,9 +15,9 @@ const menuLinks = [
 
 const Footer: React.FC = () => {
   return (
-    <div className="py-4 text-white">
-      <Row >
-        <Col md={4} >
+    <Container className="py-4 text-white">
+      <Row>
+        <Col md={4}>
           <Logo size="sm" imageUrl="/assets/logo/codelearner.svg" />
           {addresses.map((line, index) => (
             <div key={index}>{line}</div>
@@ -33,8 +33,7 @@ const Footer: React.FC = () => {
           <MenuFooter title="Menu" links={menuLinks} />
         </Col>
       </Row>
-
-    </div>
+    </Container>
   );
 };
 

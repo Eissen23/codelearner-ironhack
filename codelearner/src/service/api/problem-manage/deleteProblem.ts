@@ -1,6 +1,6 @@
 import { CODELEARNER_API } from "../clients/codelearner";
 
-export const deleteArticle = async (
+export const deleteProblem = async (
   token: string,
   problem_id: string
 ): Promise<{ message: string }> => {

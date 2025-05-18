@@ -17,6 +17,7 @@ const ArticleForm: React.FC<{ articleData?: Article; nonEdit?: boolean }> = ({
     handleChange,
     handleContentUpdate,
     handleSubmit,
+    handleDelete,
   } = useArticleForm(articleData, nonEdit);
 
   return (
@@ -92,11 +93,19 @@ const ArticleForm: React.FC<{ articleData?: Article; nonEdit?: boolean }> = ({
             editable
           />
         </Form.Group>
+        <div className="d-flex justify-content-end gap-2">
+          <Button variant="primary" type="submit">
+            {uploading && <Spinner animation="border" size="sm" />}
+            {!nonEdit ? "Save Article" : "Update article"}
+          </Button>
 
-        <Button variant="primary" type="submit">
-          {uploading && <Spinner animation="border" />}
-          {!nonEdit ? "Save Article" : "Update article"}
-        </Button>
+          {nonEdit && (
+            <Button variant="danger" type="button" onClick={handleDelete}>
+              {uploading && <Spinner animation="border" size="sm" />}
+              Delete article
+            </Button>
+          )}
+        </div>
       </Form>
     </Container>
   );

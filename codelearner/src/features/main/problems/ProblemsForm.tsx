@@ -27,6 +27,7 @@ const ProblemForm: React.FC<{
     handleSubmit,
     handleTestCasesChange,
     uploading,
+    handleDelete,
   } = useProblemForm(editor, problemData, noEdit);
 
   const handleEditorUpdate = useCallback(
@@ -138,19 +139,27 @@ const ProblemForm: React.FC<{
             />
           )}
         </Form.Group>
+        <div className="d-flex justify-content-end gap-2">
+          <Button variant="primary" type="submit">
+            {uploading ? (
+              <div>
+                <Spinner animation="border" size="sm" />
+                Saving
+              </div>
+            ) : !noEdit ? (
+              "Save Problem"
+            ) : (
+              "Update"
+            )}
+          </Button>
 
-        <Button variant="primary" type="submit">
-          {uploading ? (
-            <div>
-              <Spinner animation="border" size="sm" />
-              Saving
-            </div>
-          ) : !noEdit ? (
-            "Save Problem"
-          ) : (
-            "Update"
+          {noEdit && (
+            <Button variant="danger" type="button" onClick={handleDelete}>
+              {uploading && <Spinner animation="border" size="sm" />}
+              Delete problem
+            </Button>
           )}
-        </Button>
+        </div>
       </Form>
     </Container>
   );

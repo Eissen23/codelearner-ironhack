@@ -33,13 +33,15 @@ const OrgInfoItem: React.FC<{ org: Org; onlyRead?: boolean }> = ({
     }));
   };
 
-  const handleDelelete = async (e: React.FormEvent) => {
+  const handleDelete = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
       setLoading(true);
       await deleteOrg(formData.id.toString(), token || "");
-      toast("Delete Success");
-      navigate("/dashboard/mod/org-manage");
+      toast.success("Delete Success");
+      setTimeout(() => {
+        navigate(-1);
+      }, 5000);
     } catch (error) {
       console.log("error while delete", error);
       toast.error("Delete fail");
@@ -117,7 +119,7 @@ const OrgInfoItem: React.FC<{ org: Org; onlyRead?: boolean }> = ({
             <button
               type="button"
               className="btn btn-danger"
-              onClick={handleDelelete}
+              onClick={handleDelete}
             >
               {loading && (
                 <span>

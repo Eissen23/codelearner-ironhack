@@ -64,13 +64,15 @@ const CourseInfoItem: React.FC<{
     }
   };
 
-  const handleDelelete = async (e: React.FormEvent) => {
+  const handleDelete = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
       setLoading(true);
       await deleteCourse(formData.id.toString(), token || "");
       toast("Delete Success");
-      navigate("/dashboard/head/course");
+      setTimeout(() => {
+        navigate(-1);
+      }, 5000);
     } catch (error) {
       console.log("error while delete", error);
       toast.error("Delete fail");
@@ -198,7 +200,7 @@ const CourseInfoItem: React.FC<{
           <button
             type="button"
             className="btn btn-danger"
-            onClick={handleDelelete}
+            onClick={handleDelete}
           >
             {Loading && (
               <span>

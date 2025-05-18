@@ -6,6 +6,7 @@ import { useAuth } from "../../../context/auth/AuthContext";
 import { addProblem } from "../../../service/api/problem-manage/addProblem";
 import { updateProblem } from "../../../service/api/problem-manage/updateProblem";
 import { toast } from "react-toastify";
+import { deleteProblem } from "../../../service/api/problem-manage/deleteProblem";
 
 interface TestCases {
   test_cases: {
@@ -173,12 +174,31 @@ export const useProblemForm = (
     [problem, problemSetId, token]
   );
 
+  const handleDelete = async (e: React.FormEvent) => {
+    e.preventDefault;
+    // const belong_to = problem.problem_set;
+    try {
+      setUploading(true);
+      const {} = await deleteProblem(token || "", problem.id || "");
+      toast.success("Successfully delete problem");
+      setTimeout(() => {
+        navigate(-1);
+      }, 5000);
+    } catch (error) {
+      console.log("Error deleting article", error);
+      toast.error("Failed to deleting article");
+    } finally {
+      setUploading(false);
+    }
+  };
+
   return {
     problem,
     setProblem,
     handleChange,
     handleTestCasesChange,
     handleSubmit,
+    handleDelete,
     uploading,
   };
 };

@@ -5,6 +5,7 @@ import { addArticle } from "../../../service/api/article-manage/addArticle";
 import { useAuth } from "../../../context/auth/AuthContext";
 import { toast } from "react-toastify";
 import { updateArticle } from "../../../service/api/article-manage/updateArticle";
+import { deleteArticle } from "../../../service/api/article-manage/deleteArticle";
 
 interface UseArticleFormReturn {
   article: Partial<Article>;
@@ -14,6 +15,7 @@ interface UseArticleFormReturn {
   handleContentUpdate: (content: string) => void;
   handleSubmit: (e: FormEvent<HTMLFormElement>) => void;
   uploading: boolean;
+  handleDelete: (e: React.FormEvent) => void;
 }
 
 export const useArticleForm = (
@@ -70,7 +72,7 @@ export const useArticleForm = (
       toast("Successfully post article");
       setTimeout(() => {
         navigate(`/setting/article/${article.id}`);
-      }, 4000);
+      }, 5000);
     } catch (error) {
       console.log("Error post article", error);
       toast.error("Failed to post article");
@@ -93,7 +95,7 @@ export const useArticleForm = (
     try {
       setUploading(true);
       const {} = await updateArticle(token || "", newArticle);
-      toast("Successfully updating article");
+      toast.success("Successfully updating article");
     } catch (error) {
       console.log("Error updating article", error);
       toast.error("Failed to update article");
@@ -108,11 +110,30 @@ export const useArticleForm = (
     console.log(article);
   };
 
+  const handleDelete = async (e: React.FormEvent) => {
+    e.preventDefault;
+    // const belong_to = article.course_id;
+    try {
+      setUploading(true);
+      const {} = await deleteArticle(token || "", article.id || "");
+      toast.success("Successfully delete article");
+      setTimeout(() => {
+        navigate(-1);
+      }, 4000);
+    } catch (error) {
+      console.log("Error deleting article", error);
+      toast.error("Failed to deleting article");
+    } finally {
+      setUploading(false);
+    }
+  };
+
   return {
     article,
     uploading,
     handleChange,
     handleContentUpdate,
     handleSubmit,
+    handleDelete,
   };
 };

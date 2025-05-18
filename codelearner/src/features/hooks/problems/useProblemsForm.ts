@@ -1,7 +1,7 @@
 import { useState, useCallback, useEffect } from "react";
 import { Editor } from "@tiptap/react";
 import { ProblemData } from "../../../types/content/problem.type";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { useAuth } from "../../../context/auth/AuthContext";
 import { addProblem } from "../../../service/api/problem-manage/addProblem";
 import { updateProblem } from "../../../service/api/problem-manage/updateProblem";
@@ -22,14 +22,16 @@ export const useProblemForm = (
   const { problemSetId } = useParams();
   const { token } = useAuth();
   const [uploading, setUploading] = useState(false);
+  const navigate = useNavigate();
 
   const [problem, setProblem] = useState<Partial<ProblemData>>({
     id: "",
     name: "",
     description: "<p></p>",
-    test_cases: { input: [], output: [] },
+    test_cases: { input: [""], output: [""] },
     difficulty: 1,
     is_rich_text: true,
+    tags: [],
   });
 
   // Initialize problem state when problemData changes
@@ -79,7 +81,14 @@ export const useProblemForm = (
       }
       setProblem((prev) => ({
         ...prev,
-        [name]: name === "difficulty" ? Number(value) : value,
+        [name]:
+          name === "difficulty"
+            ? Number(value)
+            : name === "tags"
+            ? Array.isArray(value)
+              ? value
+              : value.split(",").map((v) => v.trim())
+            : value,
       }));
     },
     [editor, problem.description]
@@ -109,11 +118,15 @@ export const useProblemForm = (
       difficulty: problem.difficulty ?? 1,
       is_rich_text: problem.is_rich_text ?? true,
       problem_set: problemSetId ? parseInt(problemSetId, 10) : 0,
+      tags: problem.tags ?? [],
     };
     try {
       setUploading(true);
-      await addProblem(token || "", newProblem);
-      toast("Create problem success");
+      const { id } = await addProblem(token || "", newProblem);
+      toast("Create problem success. Redirecting to problem setting");
+      setTimeout(() => {
+        navigate(`/setting/problem/${id}`);
+      }, 4000);
     } catch (error) {
       console.log("error adding problem", error);
       toast("Failed to create problem");
@@ -136,6 +149,7 @@ export const useProblemForm = (
       difficulty: problem.difficulty ?? 1,
       is_rich_text: problem.is_rich_text ?? true,
       problem_set: problemSetId ? parseInt(problemSetId, 10) : 0,
+      tags: problem.tags ?? [],
     };
     try {
       setUploading(true);
@@ -154,7 +168,7 @@ export const useProblemForm = (
       e.preventDefault();
 
       !noEdit ? fetchAddProblem() : fetchUpdateProblem();
-      // console.log(newProblem);
+      console.log(problem);
     },
     [problem, problemSetId, token]
   );

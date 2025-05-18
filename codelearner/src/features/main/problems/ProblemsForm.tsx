@@ -8,6 +8,7 @@ import { ProblemData } from "../../../types/content/problem.type";
 import KeyValueForm from "../../mislancenous/KeyValue";
 import { useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
+import TagifyInput from "../../mislancenous/TagInput";
 
 const ProblemForm: React.FC<{
   problemData?: ProblemData;
@@ -77,6 +78,30 @@ const ProblemForm: React.FC<{
             </Form.Group>
           </Col>
         </Row>
+
+        <Row>
+          <Col md={6} xs={12}>
+            <Form.Group className="mb-3" controlId="formTags">
+              <Form.Label>Tags</Form.Label>
+              <TagifyInput
+                name="tags"
+                initialTags={problem.tags}
+                onChange={handleChange}
+              />
+            </Form.Group>
+          </Col>
+        </Row>
+
+        <Form.Group controlId="test_cases">
+          <KeyValueForm
+            initialData={{
+              test_cases: problem.test_cases ?? { input: [""], output: [""] },
+            }}
+            onChange={handleTestCasesChange}
+            title="Test Cases*"
+          />
+        </Form.Group>
+
         <Form.Group className="mb-3" controlId="is_rich_text">
           <Form.Label>Description Type*</Form.Label>
           <Form.Check
@@ -90,16 +115,6 @@ const ProblemForm: React.FC<{
                 is_rich_text: e.target.checked,
               }));
             }}
-          />
-        </Form.Group>
-
-        <Form.Group controlId="test_cases">
-          <Form.Label>Test Cases*</Form.Label>
-          <KeyValueForm
-            initialData={{
-              test_cases: problem.test_cases ?? { input: [], output: [] },
-            }}
-            onChange={handleTestCasesChange}
           />
         </Form.Group>
 

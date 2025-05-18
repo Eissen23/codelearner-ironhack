@@ -68,7 +68,14 @@ const ProblemSetProblems: React.FC<{
           {problems.map((problem) => (
             <ListGroup.Item key={problem.id}>
               <div className="d-flex justify-content-between">
-                <Link className="text-black" to={`/problems/${problem.id}`}>
+                <Link
+                  className="text-black"
+                  to={
+                    !editable
+                      ? `/problems/${problem.id}`
+                      : `/setting/problem/${problem.id}`
+                  }
+                >
                   {problem.name}
                 </Link>
                 <Badge

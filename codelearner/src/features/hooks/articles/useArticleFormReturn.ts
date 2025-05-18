@@ -1,6 +1,6 @@
 import { useState, ChangeEvent, FormEvent, useEffect } from "react";
 import { Article } from "../../../types/content/article.type";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { addArticle } from "../../../service/api/article-manage/addArticle";
 import { useAuth } from "../../../context/auth/AuthContext";
 import { toast } from "react-toastify";
@@ -23,13 +23,14 @@ export const useArticleForm = (
   const { course_id } = useParams();
   const { token } = useAuth();
   const [uploading, setUploading] = useState(false);
-
+  const navigate = useNavigate();
   const [article, setArticle] = useState<Partial<Article>>({
     name: "",
     description: "",
     chapter: "",
     content: "",
     type: "article",
+    tags: [],
     course_id: course_id ? Number(course_id) : undefined,
   });
 
@@ -60,13 +61,16 @@ export const useArticleForm = (
       type: article.type ?? "article",
       name: article.name ?? "",
       description: article.description ?? "",
+      tags: article.tags,
     } as Article;
 
     try {
       setUploading(true);
       const { article } = await addArticle(token || "", newArticle);
       toast("Successfully post article");
-      return article;
+      setTimeout(() => {
+        navigate(`/setting/article/${article.id}`);
+      }, 4000);
     } catch (error) {
       console.log("Error post article", error);
       toast.error("Failed to post article");
@@ -83,13 +87,13 @@ export const useArticleForm = (
       type: article.type ?? "article",
       name: article.name ?? "",
       description: article.description ?? "",
+      tags: article.tags,
     } as Article;
 
     try {
       setUploading(true);
-      const { article } = await updateArticle(token || "", newArticle);
+      const {} = await updateArticle(token || "", newArticle);
       toast("Successfully updating article");
-      return article;
     } catch (error) {
       console.log("Error updating article", error);
       toast.error("Failed to update article");
@@ -101,6 +105,7 @@ export const useArticleForm = (
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     !nonEdit ? postArticle() : fetchUpdateArticle();
+    console.log(article);
   };
 
   return {

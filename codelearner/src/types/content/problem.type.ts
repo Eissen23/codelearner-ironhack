@@ -11,6 +11,7 @@ export type ProblemData = {
   description: string;
   test_cases: TestCase;
   difficulty: number;
+  tags?: string[];
   problem_set: number;
   is_rich_text: boolean;
 };

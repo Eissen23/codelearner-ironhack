@@ -5,6 +5,7 @@ import RichTextEditor from "../tiptap/RichTextEditor";
 import { useArticleForm } from "../../hooks/articles/useArticleFormReturn";
 import { Article } from "../../../types/content/article.type";
 import { ToastContainer } from "react-toastify";
+import TagifyInput from "../../mislancenous/TagInput";
 
 const ArticleForm: React.FC<{ articleData?: Article; nonEdit?: boolean }> = ({
   articleData,
@@ -35,17 +36,12 @@ const ArticleForm: React.FC<{ articleData?: Article; nonEdit?: boolean }> = ({
                 required
               />
             </Form.Group>
-
-            <Form.Group className="mb-3" controlId="description">
-              <Form.Label>Description*</Form.Label>
-              <Form.Control
-                as="textarea"
-                rows={4}
-                name="description"
-                value={article.description || undefined}
+            <Form.Group className="mb-3" controlId="formTags">
+              <Form.Label>Tags</Form.Label>
+              <TagifyInput
+                name="tags"
+                initialTags={article.tags}
                 onChange={handleChange}
-                placeholder="Enter article description"
-                required
               />
             </Form.Group>
           </Col>
@@ -76,7 +72,18 @@ const ArticleForm: React.FC<{ articleData?: Article; nonEdit?: boolean }> = ({
             </Form.Group>
           </Col>
         </Row>
-
+        <Form.Group className="mb-3" controlId="description">
+          <Form.Label>Description*</Form.Label>
+          <Form.Control
+            as="textarea"
+            rows={4}
+            name="description"
+            value={article.description || undefined}
+            onChange={handleChange}
+            placeholder="Enter article description"
+            required
+          />
+        </Form.Group>
         <Form.Group className="mb-3" controlId="content">
           <Form.Label>Content</Form.Label>
           <RichTextEditor

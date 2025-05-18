@@ -11,6 +11,7 @@ export type Article = {
   mod_id: number;
   created_at: Date;
   updated_at: Date;
+  tags?: string[];
 };
 
 export type ArticlePaginator = {

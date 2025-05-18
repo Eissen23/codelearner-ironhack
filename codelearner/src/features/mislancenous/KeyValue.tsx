@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { Button, Row, Col, Form as BootstrapForm } from "react-bootstrap";
-import "bootstrap/dist/css/bootstrap.min.css";
 import { TestCase } from "../../types/content/problem.type";
 
 interface KeyValuePair {
@@ -15,11 +14,13 @@ interface TestCases {
 interface KeyValueFormProps {
   initialData?: TestCases;
   onChange?: (data: TestCases) => void;
+  title?: string;
 }
 
 const KeyValueForm: React.FC<KeyValueFormProps> = ({
   initialData,
   onChange,
+  title,
 }) => {
   const initialPairs: KeyValuePair[] = initialData?.test_cases.input.map(
     (key, index) => ({
@@ -81,8 +82,14 @@ const KeyValueForm: React.FC<KeyValueFormProps> = ({
 
   return (
     <div>
-      <div className="d-flex">
-        <Button variant="primary" onClick={addPair} className="ms-auto mb-3">
+      <div className="d-flex align-items-center">
+        <BootstrapForm.Label>{title}</BootstrapForm.Label>
+        <Button
+          variant="success"
+          onClick={addPair}
+          size="sm"
+          className="ms-auto mb-3"
+        >
           <i className="bi bi-plus-lg me-2"></i>
           Add Test Case
         </Button>
@@ -92,7 +99,7 @@ const KeyValueForm: React.FC<KeyValueFormProps> = ({
           <Col>
             <BootstrapForm.Control
               as="textarea"
-              rows={3}
+              rows={1}
               placeholder="Input (e.g., 2\n1 2)"
               value={pair.key}
               onChange={(e) => handleInputChange(index, "key", e.target.value)}
@@ -102,7 +109,7 @@ const KeyValueForm: React.FC<KeyValueFormProps> = ({
           <Col>
             <BootstrapForm.Control
               as="textarea"
-              rows={3}
+              rows={1}
               placeholder="Output (e.g., YES)"
               value={pair.value}
               onChange={(e) =>

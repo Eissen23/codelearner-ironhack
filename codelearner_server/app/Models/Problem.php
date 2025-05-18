@@ -22,13 +22,9 @@ class Problem extends Model
         'is_rich_text',
     ];
 
-    protected function casts(): array
-    {
-        return [
-            'tag' => 'array',
-            'test_cases' => 'array',
-        ];
-    }
+    protected $casts = [
+        'tags' => 'array',
+    ];
 
     public function problemSet()
     {

@@ -35,14 +35,14 @@ class ProblemController extends Controller implements HasMiddleware
 
     public function show(Problem $problem)
     {   
-        $belong = request()->input('is_belong', false);
+        // $belong = request()->input('is_belong', false);
         
-        $problemSet = $belong==true ? $problem->problemSet()->first() : "";        
+        // $problemSet = $belong==='true' ? $problem->problemSet()->first() : "";        
 
         // return a single problem
         return [
             'problem' => $problem,
-            'belong_to'=> $problemSet,
+            // 'belong_to'=> $problemSet,
         ];
     }
 
@@ -81,12 +81,12 @@ class ProblemController extends Controller implements HasMiddleware
             'description' => 'string',
             'tags' => 'array',
             'difficulty' => 'integer',
-            'test_case' => 'array',
-            'test_case.input' => 'array',
-            'test_case.input.*' => 'string',
-            'test_case.output' => 'array',
+            'test_cases' => 'array',
+            'test_cases.input' => 'array',
+            'test_cases.input.*' => 'string',
+            'test_cases.output' => 'array',
             'is_rich_text' => 'nullable|boolean',
-            'test_case.output.*' => 'string',
+            'test_cases.output.*' => 'string',
         ]);
 
         // update the problem

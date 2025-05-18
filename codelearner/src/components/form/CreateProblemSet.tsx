@@ -5,9 +5,11 @@ import { Organization } from "../../types/user.type";
 import { useAuth } from "../../context/auth/AuthContext";
 import { addProblemSet } from "../../service/api/problem-set-manage/addProblemSet";
 import { toast, ToastContainer } from "react-toastify";
+import { useNavigate } from "react-router";
 
 const CreateProblemSet: React.FC<{ orgs: Organization[] }> = ({ orgs }) => {
   const { token } = useAuth();
+  const navigate = useNavigate();
   const [Loading, setLoading] = useState(false);
   const [formData, setFormData] = useState<
     Omit<ProblemSet, "id" | "created_at">
@@ -40,8 +42,11 @@ const CreateProblemSet: React.FC<{ orgs: Organization[] }> = ({ orgs }) => {
 
     try {
       setLoading(true);
-      await addProblemSet(formData, token || "");
-      toast("Successfully added course");
+      const { data } = await addProblemSet(formData, token || "");
+      toast.success("Successfully added problem set");
+      setTimeout(() => {
+        navigate(`/setting/problem-set/${data.id}`);
+      }, 5000);
     } catch (error) {
       toast.error("Failed to add course");
       throw error;

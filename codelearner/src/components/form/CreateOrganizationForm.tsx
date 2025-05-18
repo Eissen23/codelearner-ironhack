@@ -4,9 +4,11 @@ import { Form, Button, Row, Col, Alert } from "react-bootstrap";
 import { createOrg } from "../../service/api/org-manage/createOrg";
 import { useAuth } from "../../context/auth/AuthContext";
 import { ToastContainer, toast, Bounce } from "react-toastify";
+import { useNavigate } from "react-router";
 
 const CreateOrganizationForm: React.FC = () => {
   const { isAuthenticated, token } = useAuth();
+  const navigate = useNavigate();
   const [formData, setFormData] = useState<
     Omit<Org, "id" | "created_at" | "updated_at">
   >({
@@ -31,14 +33,11 @@ const CreateOrganizationForm: React.FC = () => {
     // Add your API call or logic to handle form submission here
     try {
       setLoading(true);
-      await createOrg(token, formData);
-      toast("Organization created", {
-        position: "top-right",
-        autoClose: 5000,
-        closeOnClick: false,
-        theme: "light",
-        transition: Bounce,
-      });
+      const { organization } = await createOrg(token, formData);
+      toast.success("Organization created");
+      setTimeout(() => {
+        navigate(`/dashboard/head/org-manage/${organization.id}`);
+      }, 5000);
     } catch (error) {
       toast.error("Failed to create Org!", {
         position: "top-right",
@@ -87,7 +86,7 @@ const CreateOrganizationForm: React.FC = () => {
         <Row>
           <Col md={6} xs={12}>
             <Form.Group className="mb-3">
-              <Form.Label htmlFor="bane">Organization Name</Form.Label>
+              <Form.Label htmlFor="bane">Organization Name*</Form.Label>
               <Form.Control
                 type="text"
                 id="name"
@@ -99,7 +98,7 @@ const CreateOrganizationForm: React.FC = () => {
             </Form.Group>
 
             <Form.Group className="mb-3">
-              <Form.Label htmlFor="contact_email">Contact Email</Form.Label>
+              <Form.Label htmlFor="contact_email">Contact Email*</Form.Label>
               <Form.Control
                 type="email"
                 id="contact_email"
@@ -134,7 +133,7 @@ const CreateOrganizationForm: React.FC = () => {
           </Col>
           <Col md={6} xs={12}>
             <Form.Group className="mb-3">
-              <Form.Label htmlFor="description">Description</Form.Label>
+              <Form.Label htmlFor="description">Description*</Form.Label>
               <Form.Control
                 as="textarea"
                 rows={11}

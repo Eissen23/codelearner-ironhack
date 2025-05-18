@@ -56,7 +56,7 @@ const ProblemSetInfoItem: React.FC<{
     try {
       setLoading(true);
       await updateProblemSet(token || "", formData);
-      toast("Successfully updated problem set");
+      toast.success("Successfully updated problem set");
     } catch (error) {
       toast.error("Failed to update problem set");
       throw error;
@@ -66,10 +66,19 @@ const ProblemSetInfoItem: React.FC<{
   };
   const handleDelete = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    const allowed = confirm(
+      "Delete your Problem sets \n(Only head user are allowed)"
+    );
+
+    if (!allowed) {
+      return;
+    }
+
     try {
       setLoading(true);
       await deleteProblemSet(token || "", formData.id.toString());
-      toast("Delete Success");
+      toast.success("Delete Success");
       setTimeout(() => {
         navigate(-1);
       }, 5000);

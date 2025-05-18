@@ -35,6 +35,14 @@ const OrgInfoItem: React.FC<{ org: Org; onlyRead?: boolean }> = ({
 
   const handleDelete = async (e: React.FormEvent) => {
     e.preventDefault();
+    const allowed = confirm(
+      "Delete your organization \n(Only head user are allowed)"
+    );
+
+    if (!allowed) {
+      return;
+    }
+
     try {
       setLoading(true);
       await deleteOrg(formData.id.toString(), token || "");
@@ -56,7 +64,7 @@ const OrgInfoItem: React.FC<{ org: Org; onlyRead?: boolean }> = ({
       setLoading(true);
       await updateOrg(token, formData);
       setIsEditing(false);
-      toast("Update success");
+      toast.success("Update success");
     } catch (error) {
       console.error("Failed to update organization:", error);
       toast.error("Update failed");
@@ -129,7 +137,7 @@ const OrgInfoItem: React.FC<{ org: Org; onlyRead?: boolean }> = ({
               Delete
             </button>
 
-            <div className="d-flex">
+            <div className="d-flex gap-2">
               <button
                 type="button"
                 className="btn btn-secondary"

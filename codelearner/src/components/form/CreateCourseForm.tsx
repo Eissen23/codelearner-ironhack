@@ -5,10 +5,11 @@ import { Course } from "../../types/org/course.type";
 import { addCourse } from "../../service/api/cours-manage/addCourse";
 import { useAuth } from "../../context/auth/AuthContext";
 import { toast, ToastContainer } from "react-toastify";
+import { useNavigate } from "react-router";
 
 const CreateCourseForm: React.FC<{ orgs: Organization[] }> = ({ orgs }) => {
   const { token } = useAuth();
-
+  const navigate = useNavigate();
   const [Loading, setLoading] = useState(false);
   const [formData, setFormData] = useState<Omit<Course, "id" | "created_at">>({
     name: "",
@@ -42,8 +43,11 @@ const CreateCourseForm: React.FC<{ orgs: Organization[] }> = ({ orgs }) => {
 
     try {
       setLoading(true);
-      await addCourse(token, formData);
+      const { course } = await addCourse(token, formData);
       toast("Successfully added course");
+      setTimeout(() => {
+        navigate(`/setting/course/${course.id}`);
+      }, 5000);
     } catch (error) {
       toast.error("Failed to add course");
       throw error;

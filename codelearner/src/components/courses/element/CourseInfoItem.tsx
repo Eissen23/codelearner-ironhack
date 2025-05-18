@@ -66,6 +66,14 @@ const CourseInfoItem: React.FC<{
 
   const handleDelete = async (e: React.FormEvent) => {
     e.preventDefault();
+    const allowed = confirm(
+      "Delete your Course? \n(Only head user are allowed)"
+    );
+
+    if (!allowed) {
+      return;
+    }
+
     try {
       setLoading(true);
       await deleteCourse(formData.id.toString(), token || "");

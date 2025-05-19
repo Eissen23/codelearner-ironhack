@@ -5,7 +5,7 @@ import Filter from "../../features/main/filter/Filter";
 import { getDefaultParam } from "../../utils/getDefaultParam";
 
 const ProblemsPage = () => {
-  const { page, per_page, keyword, sort } = getDefaultParam();
+  const { page, per_page, keyword, sort, tags } = getDefaultParam();
 
   return (
     <LayoutHome>
@@ -23,6 +23,7 @@ const ProblemsPage = () => {
           per_page={per_page}
           name={keyword}
           sort={sort}
+          tags={tags}
         />
       </section>
     </LayoutHome>

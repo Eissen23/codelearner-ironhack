@@ -1,5 +1,6 @@
-import { Alert, Card, Col, Container, Row, Spinner } from "react-bootstrap";
+import { Alert, Badge, Spinner } from "react-bootstrap";
 import { useArticleInfo } from "../../features/hooks/articles/useArticleInfo";
+import { Link } from "react-router";
 
 const ArticleInfo: React.FC<{ article_id: string }> = ({ article_id }) => {
   const { articleData, loading } = useArticleInfo(article_id || "");
@@ -20,7 +21,16 @@ const ArticleInfo: React.FC<{ article_id: string }> = ({ article_id }) => {
   return (
     <article>
       <h1 className="mb-3">{articleData.name}</h1>
-
+      <div className="mb-3">
+        <span>Tag: </span>
+        {articleData.tags?.map((tag) => (
+          <Link to={`/problems?tags=${tag}`}>
+            <Badge className="me-2" color="primary">
+              {tag}
+            </Badge>
+          </Link>
+        ))}
+      </div>
       <div className="mb-2 d-flex gap-4 flex-wrap">
         {articleData.chapter && (
           <div>

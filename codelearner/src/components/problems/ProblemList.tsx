@@ -12,7 +12,8 @@ const ProblemList: React.FC<{
   per_page?: string;
   name?: string;
   sort?: string;
-}> = ({ page, name, sort, per_page }) => {
+  tags?: string;
+}> = ({ page, name, sort, per_page, tags }) => {
   const [problems, setProblems] = useState<ProblemResponse | null>(null);
   const [selectedProblem, setSelectedProblem] = useState<number | null>(null);
   const [loading, isLoading] = useState(false);
@@ -27,6 +28,7 @@ const ProblemList: React.FC<{
           perPage: per_page,
           keyword: name,
           sort,
+          tags: tags,
         });
         setProblems(response);
         setPaginations(response.links);
@@ -38,7 +40,7 @@ const ProblemList: React.FC<{
     };
 
     fetchProblems();
-  }, [page, per_page, name, sort]);
+  }, [page, per_page, name, sort, tags]);
 
   if (loading) {
     return (

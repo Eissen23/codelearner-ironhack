@@ -14,8 +14,10 @@ const DashBoardRight: React.FC<DashBoardRightProps> = () => {
   if (!userInfo) {
     return (
       <Card className="shadow-sm">
-        <Card.Body>Loading...</Card.Body>
-        <Spinner animation="border"></Spinner>
+        <Card.Body>
+          <Spinner animation="border" size="sm"></Spinner>
+          <span>Loading...</span>
+        </Card.Body>
       </Card>
     );
   }

@@ -2,6 +2,7 @@ import React from "react";
 import { Accordion, Alert, Button } from "react-bootstrap";
 import { useArticles } from "../../../features/hooks/articles/useArticles";
 import { Link } from "react-router";
+import ArticleAccordionItem from "../../articles/element/ArticleAccordionItem";
 
 const ArticleList: React.FC<{ course_id: string; editable?: boolean }> = ({
   course_id,
@@ -13,14 +14,16 @@ const ArticleList: React.FC<{ course_id: string; editable?: boolean }> = ({
     return <div>Is loading ...</div>;
   }
 
-  if (articles && articles?.length < 0) {
+  if (!articles) {
+    return <Alert variant="info"> No article for this course</Alert>;
+  }
+  if (articles?.length < 0) {
     return <Alert variant="info"> No article for this course</Alert>;
   }
 
   return (
     <div className="article_list">
       <div className="d-flex justify-content-between mb-4">
-        <h4>Chapter in course</h4>
         {editable && (
           <Button variant="primary" size="sm">
             <Link
@@ -34,29 +37,7 @@ const ArticleList: React.FC<{ course_id: string; editable?: boolean }> = ({
       </div>
       <Accordion defaultActiveKey="0" flush>
         {articles?.map((article) => (
-          <Accordion.Item
-            key={article.id}
-            eventKey={article.id}
-            className="mb-3"
-          >
-            <Accordion.Header>{article.name}</Accordion.Header>
-            <Accordion.Body>
-              <p>{article.description}</p>
-              <Button variant="primary">
-                <Link
-                  className="text-white text-decoration-none"
-                  to={
-                    editable
-                      ? `/setting/article/${article.id}`
-                      : `/articles/${article.id}`
-                  }
-                >
-                  To article
-                  <i className="bi bi-arrow-right ms-2"></i>
-                </Link>
-              </Button>
-            </Accordion.Body>
-          </Accordion.Item>
+          <ArticleAccordionItem article={article} editable={editable} />
         ))}
       </Accordion>
     </div>

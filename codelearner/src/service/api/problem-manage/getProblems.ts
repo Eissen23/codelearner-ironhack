@@ -8,12 +8,14 @@ export const getProblems = async ({
   perPage,
   keyword,
   sort,
+  tags,
 }: {
   problemSetId?: string;
   page?: string;
   perPage?: string;
   keyword?: string;
   sort?: string;
+  tags?: string;
 }): Promise<ProblemResponse> => {
   try {
     const url = problemSetId
@@ -22,10 +24,11 @@ export const getProblems = async ({
 
     const response = await CODELEARNER_API.get<ProblemResponse>(url, {
       params: {
-        keyword: keyword || undefined,
+        c_keyword: keyword || undefined,
         sort: sort || undefined,
         per_page: perPage || undefined,
         page: page || undefined,
+        tags: tags,
       },
     });
 

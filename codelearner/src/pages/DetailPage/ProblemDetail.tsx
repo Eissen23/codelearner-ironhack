@@ -17,7 +17,7 @@ const ProblemDetail: React.FC = () => {
   // };
 
   return (
-    <div>
+    <div className="problem_detail">
       <LayoutHome noGutter>
         <Split className="split">
           <ProblemDescription problem={problemData} />

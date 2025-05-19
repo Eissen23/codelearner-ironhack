@@ -4,7 +4,7 @@ import { Tab, Tabs } from "react-bootstrap";
 import { useState } from "react";
 import Filter from "../../features/main/filter/Filter";
 import { useAuth } from "../../context/auth/AuthContext";
-import OrgHeadCourse from "../../components/courses/OrgHeadCourse";
+import YourCourse from "../../components/dash-board/user/YourEnrolledCourse";
 const CoursePage = () => {
   const [key, setKey] = useState("home");
   const { token } = useAuth();
@@ -21,8 +21,8 @@ const CoursePage = () => {
           <CourseList />
         </Tab>
         {token && (
-          <Tab eventKey="YourOrg" title="Your Org">
-            <OrgHeadCourse />
+          <Tab eventKey="yourcourse" title="Your course">
+            <YourCourse />
           </Tab>
         )}
       </Tabs>

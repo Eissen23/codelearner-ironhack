@@ -3,11 +3,13 @@ import { Form, Button, Offcanvas } from "react-bootstrap";
 import { useNavigate, useLocation } from "react-router-dom";
 import * as qs from "qs";
 import { FaFilter } from "react-icons/fa";
+import TagFilter from "./TagsFilter";
 
 interface Filters {
   per_page: string;
   keyword: string;
   sort: string;
+  tags: string[];
 }
 
 interface FilterProps {
@@ -25,25 +27,44 @@ const Filter: React.FC<FilterProps> = ({ problem_only }) => {
   // Parse initial query parameters from URL
   const queryParams = qs.parse(location.search, {
     ignoreQueryPrefix: true,
-  }) as Partial<Filters>;
+    comma: true,
+  });
+
+  // Helper function to normalize tags
+  const normalizeTags = (tags: unknown): string[] => {
+    if (Array.isArray(tags)) {
+      return tags.map(String);
+    }
+    if (typeof tags === "string") {
+      return tags.split(",").filter((tag) => tag.trim() !== "");
+    }
+    return [];
+  };
 
   // State for filters
   const [filters, setFilters] = useState<Filters>({
-    per_page: queryParams.per_page || "",
-    keyword: queryParams.keyword || "",
-    sort: queryParams.sort || "",
+    per_page:
+      typeof queryParams.per_page === "string" ? queryParams.per_page : "",
+    keyword: typeof queryParams.keyword === "string" ? queryParams.keyword : "",
+    sort: typeof queryParams.sort === "string" ? queryParams.sort : "",
+    tags: normalizeTags(queryParams.tags),
   });
 
   useEffect(() => {
     setFilters({
-      per_page: queryParams.per_page || "",
-      keyword: queryParams.keyword || "",
-      sort: queryParams.sort || "",
+      per_page:
+        typeof queryParams.per_page === "string" ? queryParams.per_page : "",
+      keyword:
+        typeof queryParams.keyword === "string" ? queryParams.keyword : "",
+      sort: typeof queryParams.sort === "string" ? queryParams.sort : "",
+      tags: normalizeTags(queryParams.tags),
     });
   }, [location.search]);
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLElement & { name: string; value: string }>
+    e: React.ChangeEvent<
+      HTMLElement & { name: string; value: string | string[] }
+    >
   ) => {
     const { name, value } = e.target;
     setFilters((prev) => ({
@@ -58,8 +79,9 @@ const Filter: React.FC<FilterProps> = ({ problem_only }) => {
     if (filters.per_page) newParams.per_page = filters.per_page;
     if (filters.keyword) newParams.keyword = filters.keyword;
     if (filters.sort) newParams.sort = filters.sort;
+    if (filters.tags.length) newParams.tags = filters.tags; // Assign array directly
 
-    const queryString = qs.stringify(newParams);
+    const queryString = qs.stringify(newParams, { arrayFormat: "comma" });
     navigate(`${location.pathname}?${queryString}`);
     handleClose();
   };
@@ -69,6 +91,7 @@ const Filter: React.FC<FilterProps> = ({ problem_only }) => {
       per_page: "",
       keyword: "",
       sort: "",
+      tags: [],
     });
     navigate(location.pathname);
     handleClose();
@@ -141,6 +164,15 @@ const Filter: React.FC<FilterProps> = ({ problem_only }) => {
                   </option>,
                 ]}
               </Form.Select>
+            </Form.Group>
+
+            <Form.Group className="mb-3" controlId="tags">
+              <Form.Label>Tags</Form.Label>
+              <TagFilter
+                name="tags"
+                initialTags={filters.tags}
+                onChange={handleChange}
+              />
             </Form.Group>
 
             <div className="d-flex gap-2">

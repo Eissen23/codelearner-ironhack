@@ -1,4 +1,4 @@
-import { Col, Container, Row } from "react-bootstrap";
+import { Col, Row } from "react-bootstrap";
 import { useParams } from "react-router";
 import ArticleInfo from "../../components/articles/ArticleInfo";
 import LayoutHome from "../../layout/LayoutHome";

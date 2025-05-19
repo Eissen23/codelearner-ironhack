@@ -8,6 +8,7 @@ export const getDefaultParam = () => {
   const per_page = searchParams.get("per_page") || "";
   const keyword = searchParams.get("keyword") || "";
   const sort = searchParams.get("sort") || "";
+  const tags = searchParams.get("tags") || "";
 
-  return { page, per_page, keyword, sort };
+  return { page, per_page, keyword, sort, tags };
 };

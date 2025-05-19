@@ -18,22 +18,10 @@ class ProblemSetHelper
     public static function getOrgProblemPaginator(Request $request, ?ProblemSet $problemSet = null)
     {
         $perpage = $request->input('per_page', 10);
-        if ($problemSet) {
-            // Re-query ProblemSet without scopes to bypass SortAndFilterScope
-            $problemSet = ProblemSet::withoutGlobalScopes()->find($problemSet->id);
-
-            if (!$problemSet) {
-                return response()->json([
-                    'message' => "No query results for model [App\\Models\\ProblemSet] {$problemSet->id}",
-                ], 404);
-            }
-
-            // Fetch problems with their scope (SortAndFilterScope applies to Problem)
-            $assets_data = $problemSet->problems()->paginate($perpage);
-        } else {
+        
+        $assets_data =$problemSet ?  $problemSet->problems()->paginate($perpage) : Problem::paginate($perpage);
             // No ProblemSet provided, fetch all Problems with their scope
-            $assets_data = Problem::paginate($perpage);
-        }
+            
 
         return $assets_data;
     }

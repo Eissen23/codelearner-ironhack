@@ -5,9 +5,10 @@ namespace App\Models\Scopes;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Scope;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Request;
 
-class DocSortAndFilterScope implements Scope
+class ContentScope implements Scope
 {
     /**
      * Apply the scope to a given Eloquent query builder.
@@ -15,7 +16,8 @@ class DocSortAndFilterScope implements Scope
     public function apply(Builder $builder, Model $model)
     {
         //
-        $filter = Request::input('keyword', null);
+         $filter = Request::input('c_keyword', null);
+        $tags = Request::input('tags', null); // Get tags from query parameter
         $sort = Request::input('sort', 'created-desc'); // Default to created-desc
 
         $allowedSorts = ['_id', 'name', 'created_at', 'difficulty'];
@@ -42,6 +44,16 @@ class DocSortAndFilterScope implements Scope
         // Apply filtering on 'name' if provided
         if ($filter) {
             $builder->where('name', 'like', '%' . $filter . '%');
+        }
+
+        // Apply filtering on 'tags' if provided
+        if ($tags) {
+            // Split tags by comma to handle multiple tags (e.g., "linked-list,stack")
+            $tagsArray = array_filter(array_map('trim', explode(',', $tags)));
+            if (!empty($tagsArray)) {
+                $builder->whereIn('tags', $tagsArray);
+            }
+            
         }
 
         return $builder;

@@ -2,11 +2,11 @@
 
 namespace App\Models;
 
+use App\Models\Scopes\ContentScope;
 use MongoDB\Laravel\Eloquent\Model;
-use App\Models\Scopes\DocSortAndFilterScope;
 use Illuminate\Database\Eloquent\Attributes\ScopedBy;
 
-#[ScopedBy([DocSortAndFilterScope::class])]
+#[ScopedBy([ContentScope::class])]
 class Problem extends Model
 {
     //
@@ -22,9 +22,9 @@ class Problem extends Model
         'is_rich_text',
     ];
 
-    protected $casts = [
-        'tags' => 'array',
-    ];
+    // protected $casts = [
+    //     'tags'=>'array'
+    // ];
 
     public function problemSet()
     {

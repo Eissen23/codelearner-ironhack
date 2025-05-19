@@ -4,7 +4,9 @@ namespace App\Models;
 
 use MongoDB\Laravel\Eloquent\Model;
 
+use Illuminate\Database\Eloquent\Attributes\ScopedBy;
 
+#[ScopedBy([ContentScope::class])]
 class Article extends Model
 {   
     
@@ -19,6 +21,7 @@ class Article extends Model
         "chapter",
         "course_id",
         "mod_id",
+        "tags"
     ];
 
     public function moderator(){

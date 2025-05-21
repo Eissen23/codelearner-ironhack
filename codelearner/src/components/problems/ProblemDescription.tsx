@@ -34,6 +34,7 @@ const ProblemDescription: React.FC<{ problem?: ProblemData }> = ({
       <div className="badge_problemtype mb-4">
         {problem.tags?.map((tag) => (
           <Badge
+            key={tag}
             pill
             bg="primary"
             className="me-2"

@@ -57,7 +57,7 @@ const ArticleForm: React.FC<{ articleData?: Article; nonEdit?: boolean }> = ({
                 required
               >
                 <option value="article">Article</option>
-                <option value="solution">Solution</option>
+                {/* <option value="solution">Solution</option> */}
                 <option value="chapter">Chapter</option>
               </Form.Select>
             </Form.Group>

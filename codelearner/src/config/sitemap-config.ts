@@ -1,6 +1,5 @@
 import { lazy } from "react";
 import { RouteObject } from "react-router";
-
 // Lazy-loaded components
 const Home = lazy(() => import("../pages/Home"));
 const MemberLogin = lazy(() => import("../pages/member/MemberLogin"));
@@ -40,6 +39,7 @@ const AddProblemSetPage = lazy(
 const YourSubmission = lazy(
   () => import("../components/dash-board/user/YourSubmission")
 );
+const SubmissionPage = lazy(() => import("../pages/DetailPage/SubmissionPage"));
 const OrgMod = lazy(() => import("../components/dash-board/moderator/OrgMod"));
 const CourseSettingPage = lazy(
   () => import("../pages/Setting/CourseSettingPage")
@@ -48,7 +48,7 @@ const ProblemSetSetting = lazy(
   () => import("../pages/Setting/ProblemSetSetting")
 );
 const AddArticle = lazy(() => import("../pages/CreatePage/AddArticle"));
-const ArticleDetail = lazy(() => import("../pages/DetailPage/AricleDetail"));
+const ArticleDetail = lazy(() => import("../pages/DetailPage/ArticleDetail"));
 const AddProblem = lazy(() => import("../pages/CreatePage/AddProblem"));
 const ProtectedRoutes = lazy(() => import("../context/routes/ProtectedRoute"));
 const NotFound = lazy(() => import("../pages/NotFound"));
@@ -88,6 +88,10 @@ const routes_map: RouteObject[] = [
     children: [
       { index: true, Component: CoursePage },
       { path: "/courses/:course_id", Component: CourseDetail },
+      {
+        path: "/courses/:course_id/articles/:article_id",
+        Component: ArticleDetail,
+      },
     ],
   },
 
@@ -108,14 +112,14 @@ const routes_map: RouteObject[] = [
   },
 
   {
-    path: "/articles",
-    children: [{ path: "/articles/:article_id", Component: ArticleDetail }],
-  },
-
-  {
     path: "/test-view",
     Component: TestView,
   },
+  {
+    path: "/user/submissions/:user_sub_id",
+    Component: SubmissionPage,
+  },
+
   {
     path: "/",
     Component: ProtectedRoutes,

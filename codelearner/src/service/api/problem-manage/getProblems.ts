@@ -8,14 +8,14 @@ export const getProblems = async ({
   perPage,
   keyword,
   sort,
-  tags,
+  tagged,
 }: {
   problemSetId?: string;
   page?: string;
   perPage?: string;
   keyword?: string;
   sort?: string;
-  tags?: string;
+  tagged?: string;
 }): Promise<ProblemResponse> => {
   try {
     const url = problemSetId
@@ -28,7 +28,7 @@ export const getProblems = async ({
         sort: sort || undefined,
         per_page: perPage || undefined,
         page: page || undefined,
-        tags: tags,
+        tagged: tagged || undefined,
       },
     });
 

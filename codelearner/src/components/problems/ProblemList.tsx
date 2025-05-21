@@ -28,7 +28,7 @@ const ProblemList: React.FC<{
           perPage: per_page,
           keyword: name,
           sort,
-          tags: tags,
+          tagged: tags,
         });
         setProblems(response);
         setPaginations(response.links);

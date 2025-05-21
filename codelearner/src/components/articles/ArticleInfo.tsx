@@ -24,7 +24,7 @@ const ArticleInfo: React.FC<{ article_id: string }> = ({ article_id }) => {
       <div className="mb-3">
         <span>Tag: </span>
         {articleData.tags?.map((tag) => (
-          <Link to={`/problems?tags=${tag}`}>
+          <Link to={`/problems?tagged=${tag}`}>
             <Badge className="me-2" color="primary">
               {tag}
             </Badge>

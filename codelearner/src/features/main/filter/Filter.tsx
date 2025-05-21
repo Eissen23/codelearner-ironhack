@@ -9,7 +9,7 @@ interface Filters {
   per_page: string;
   keyword: string;
   sort: string;
-  tags: string[];
+  tagged: string[];
 }
 
 interface FilterProps {
@@ -31,12 +31,12 @@ const Filter: React.FC<FilterProps> = ({ problem_only }) => {
   });
 
   // Helper function to normalize tags
-  const normalizeTags = (tags: unknown): string[] => {
-    if (Array.isArray(tags)) {
-      return tags.map(String);
+  const normalizeTags = (tagged: unknown): string[] => {
+    if (Array.isArray(tagged)) {
+      return tagged.map(String);
     }
-    if (typeof tags === "string") {
-      return tags.split(",").filter((tag) => tag.trim() !== "");
+    if (typeof tagged === "string") {
+      return tagged.split(",").filter((tagged) => tagged.trim() !== "");
     }
     return [];
   };
@@ -47,7 +47,7 @@ const Filter: React.FC<FilterProps> = ({ problem_only }) => {
       typeof queryParams.per_page === "string" ? queryParams.per_page : "",
     keyword: typeof queryParams.keyword === "string" ? queryParams.keyword : "",
     sort: typeof queryParams.sort === "string" ? queryParams.sort : "",
-    tags: normalizeTags(queryParams.tags),
+    tagged: normalizeTags(queryParams.tagged),
   });
 
   useEffect(() => {
@@ -57,7 +57,7 @@ const Filter: React.FC<FilterProps> = ({ problem_only }) => {
       keyword:
         typeof queryParams.keyword === "string" ? queryParams.keyword : "",
       sort: typeof queryParams.sort === "string" ? queryParams.sort : "",
-      tags: normalizeTags(queryParams.tags),
+      tagged: normalizeTags(queryParams.tagged),
     });
   }, [location.search]);
 
@@ -79,7 +79,7 @@ const Filter: React.FC<FilterProps> = ({ problem_only }) => {
     if (filters.per_page) newParams.per_page = filters.per_page;
     if (filters.keyword) newParams.keyword = filters.keyword;
     if (filters.sort) newParams.sort = filters.sort;
-    if (filters.tags.length) newParams.tags = filters.tags; // Assign array directly
+    if (filters.tagged.length) newParams.tagged = filters.tagged; // Assign array directly
 
     const queryString = qs.stringify(newParams, { arrayFormat: "comma" });
     navigate(`${location.pathname}?${queryString}`);
@@ -91,7 +91,7 @@ const Filter: React.FC<FilterProps> = ({ problem_only }) => {
       per_page: "",
       keyword: "",
       sort: "",
-      tags: [],
+      tagged: [],
     });
     navigate(location.pathname);
     handleClose();
@@ -169,8 +169,8 @@ const Filter: React.FC<FilterProps> = ({ problem_only }) => {
             <Form.Group className="mb-3" controlId="tags">
               <Form.Label>Tags</Form.Label>
               <TagFilter
-                name="tags"
-                initialTags={filters.tags}
+                name="tagged"
+                initialTags={filters.tagged}
                 onChange={handleChange}
               />
             </Form.Group>

@@ -1,24 +1,22 @@
 import { Link } from "../paginator.type";
-import { ProblemData } from "./problem.type";
 
-export type UserSubmission = {
+export type UserSolution = {
   id: string;
-  source_code: string;
-  language_id: number;
-  result: string;
-  points: number;
-  time: number;
-  memory: number;
-  user_id: number;
-  problem_id: string;
+  name: string;
+  description: string;
+  content: string;
+  status: "published" | "unpublished";
   created_at: Date;
   updated_at: Date;
-  problem?: ProblemData;
 };
 
-export type UserSubmissionPaginate = {
+export type UserSolutionRes = {
+  user_solution: UserSolution;
+};
+
+export type PaginatedUsrSolution = {
   current_page: number;
-  data: UserSubmission[];
+  data: UserSolution[];
   first_page_url: string;
   from: number;
   last_page: number;

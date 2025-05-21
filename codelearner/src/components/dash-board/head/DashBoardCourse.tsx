@@ -1,5 +1,5 @@
 import React from "react";
-import { Card, Tabs, Tab } from "react-bootstrap";
+import { Card, Tabs, Tab, Badge } from "react-bootstrap";
 import { UserDetail } from "../../../types/user.type";
 import { useOutletContext } from "react-router-dom";
 import CreateCourseForm from "../../form/CreateCourseForm";
@@ -21,7 +21,9 @@ const DashBoardCourse: React.FC = () => {
 
   return (
     <div className="dashboard-course">
-      <h2 style={{ lineHeight: 1 }}>Courses</h2>
+      <h2 style={{ lineHeight: 1 }}>
+        Courses <Badge bg="success">Head</Badge>
+      </h2>
 
       <Tabs
         id="controlled-tab-example"

@@ -7,7 +7,7 @@ export const getArticlesTaged = async (
   try {
     const response = await CODELEARNER_API.get(`articles`, {
       params: {
-        tags: tags,
+        tagged: tags,
       },
     });
 

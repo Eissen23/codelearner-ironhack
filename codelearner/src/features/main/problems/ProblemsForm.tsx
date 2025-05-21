@@ -80,18 +80,14 @@ const ProblemForm: React.FC<{
           </Col>
         </Row>
 
-        <Row>
-          <Col md={6} xs={12}>
-            <Form.Group className="mb-3" controlId="formTags">
-              <Form.Label>Tags</Form.Label>
-              <TagifyInput
-                name="tags"
-                initialTags={problem.tags}
-                onChange={handleChange}
-              />
-            </Form.Group>
-          </Col>
-        </Row>
+        <Form.Group className="mb-3" controlId="formTags">
+          <Form.Label>Tags</Form.Label>
+          <TagifyInput
+            name="tags"
+            initialTags={problem.tags}
+            onChange={handleChange}
+          />
+        </Form.Group>
 
         <Form.Group controlId="test_cases">
           <KeyValueForm

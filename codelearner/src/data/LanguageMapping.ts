@@ -8,5 +8,12 @@ export const LANGUAGE_MAPPING: { [key: string]: number } = {
   rust: 108,
   typescript: 101,
   kotlin: 111,
-  php: 98
+  php: 98,
+};
+
+export const getLanguageKey = (code: number): string => {
+  const entry = Object.entries(LANGUAGE_MAPPING).find(
+    ([_, value]) => value === code
+  );
+  return entry ? entry[0] : "unknown";
 };

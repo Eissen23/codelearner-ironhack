@@ -8,7 +8,7 @@ const ArticleAccordionItem: React.FC<{
   editable?: boolean;
 }> = ({ article, editable }) => {
   return (
-    <Accordion.Item key={article.id} eventKey={article.id} className="mb-3">
+    <Accordion.Item eventKey={article.id} className="mb-3">
       <Accordion.Header>{article.name}</Accordion.Header>
       <Accordion.Body>
         <p>{article.description}</p>
@@ -18,7 +18,7 @@ const ArticleAccordionItem: React.FC<{
             to={
               editable
                 ? `/setting/article/${article.id}`
-                : `/articles/${article.id}`
+                : `/courses/${article.course_id}/articles/${article.id}`
             }
           >
             To article

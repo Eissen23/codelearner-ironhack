@@ -1,7 +1,7 @@
 import React from "react";
 import { useOutletContext } from "react-router";
 import { UserDetail } from "../../../types/user.type";
-import { Card, Tab, Tabs } from "react-bootstrap";
+import { Badge, Card, Tab, Tabs } from "react-bootstrap";
 import ProblemSetHead from "../../problemset/ProblemSetHead";
 import CreateProblemSet from "../../form/CreateProblemSet";
 
@@ -21,7 +21,9 @@ const DashBoardProblemSet: React.FC = () => {
 
   return (
     <div className="dashboard-problemset">
-      <h2 style={{ lineHeight: 1 }}>Problem Set</h2>
+      <h2 style={{ lineHeight: 1 }}>
+        Problem Set <Badge bg="success">Head</Badge>
+      </h2>
       <Tabs
         id="controlled-tab-example"
         activeKey={key}

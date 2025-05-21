@@ -38,12 +38,6 @@ const moderator = [
 ];
 
 const DashBoard: React.FC = () => {
-  // const location = useLocation();
-  // const routesNeedingData = ["/setting", "/dashboard", "/settings"];
-  // const noNeedData = routesNeedingData.some((route) =>
-  //   location.pathname.startsWith(route)
-  // );
-
   const { token } = useAuth();
   const userDetail = useUserDetail(token);
 

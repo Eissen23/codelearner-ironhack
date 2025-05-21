@@ -17,11 +17,11 @@ const menuItems = [
 
 const userItems = [
   { label: "Home", link: "/" },
-  { label: "Dashboard", link: "/dashboard" },
   { label: "Problem", link: "/problems" },
   { label: "Courses", link: "/courses" },
   { label: "Problem Sets", link: "/problem-sets" },
   { label: "Org", link: "/orgs" },
+  { label: "Profile", link: "/dashboard" },
 ];
 
 function HeadNav() {
@@ -45,7 +45,7 @@ function HeadNav() {
             <div>
               <MenuNav items={isAuthenticated ? userItems : menuItems} />
             </div>
-            <div className="d-block">
+            <div className="d-block ms-2">
               {isAuthenticated ? <Logout /> : <Auth />}
             </div>
           </div>

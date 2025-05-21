@@ -3,8 +3,9 @@ import { useParams } from "react-router";
 import { ProblemData } from "../../../types/content/problem.type";
 import { getProblemByID } from "../../../service/api/problem-manage/getProblemById";
 
-const useProblemDetail = () => {
-  const { problem_id } = useParams<{ problem_id: string }>();
+const useProblemDetail = (problem?: string) => {
+  const params = useParams<{ problem_id: string }>();
+  const problem_id = problem || params.problem_id;
 
   const [problemData, setProblemData] = useState<ProblemData>();
   const [loading, setLoading] = useState(false);

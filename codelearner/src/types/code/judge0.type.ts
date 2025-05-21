@@ -1,3 +1,5 @@
+import { ProblemData } from "../content/problem.type";
+
 export type SubmissionParams = {
   source_code: string;
   language_id: number;
@@ -35,6 +37,7 @@ export type ResultData = {
   updated_at?: Date;
   created_at?: Date;
   id?: string;
+  problem?: ProblemData;
 };
 
 export type SubmitResponse = {

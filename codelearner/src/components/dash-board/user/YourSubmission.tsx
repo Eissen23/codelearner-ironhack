@@ -1,24 +1,23 @@
 import { Alert, Button, ListGroup, Spinner } from "react-bootstrap";
-import { useOutletContext } from "react-router";
-import { UserDetail } from "../../../types/user.type";
 import SubmissionItem from "../../submission/SubmissionItem";
 import { Link } from "react-router-dom";
+import UseSubmissions from "../../../features/hooks/submissions/useSubmissions";
 
+// TODO: this request is way too slugish and undeserving
 const YourSubmission: React.FC = () => {
-  const userDetail = useOutletContext() as UserDetail | null;
-  const userSubmission = userDetail?.submissions;
-
-  if (!userSubmission) {
-    return <Spinner animation="border"></Spinner>;
-  }
+  const { submissions, loading } = UseSubmissions();
 
   return (
     <div>
       <h4 className="display-6 mb-3">Your submission</h4>
-      {userSubmission?.length !== 0 ? (
+      {loading ? (
+        <div className="d-flex justify-content-center h-100 align-content-center">
+          <Spinner animation="border"></Spinner>
+        </div>
+      ) : submissions?.length !== 0 ? (
         <ListGroup>
-          {userSubmission.map((user_sub) => (
-            <ListGroup.Item>
+          {submissions?.map((user_sub) => (
+            <ListGroup.Item key={user_sub.id}>
               <SubmissionItem key={user_sub.id} submission={user_sub} />
             </ListGroup.Item>
           ))}

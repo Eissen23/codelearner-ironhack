@@ -10,7 +10,11 @@ use Illuminate\Auth\Access\Response;
 class UserSolutionPolicy
 {
     public function view(User $user, UserSolution $user_solution)
-    {
+    {       
+        if($user_solution->status === 'Published') {
+            return Response::allow();
+        }
+
         // check if user belong in the organzation that the problem belongs to
         $problem = $user_solution->userSubmission()->first()->problem()->first();
         $problemSet = $problem->problemSet()->first();

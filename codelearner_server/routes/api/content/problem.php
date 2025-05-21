@@ -26,7 +26,6 @@ Route::controller(SolutionArticleController::class)->group(function () {
 Route::controller(UserSubmissionController::class)->group(function () {
     Route::get('/{problem}/submissions', 'index'); // when open summission - good
     Route::get('/{problem}/submissions-as-mod', 'indexAsMod'); // when open summission listing - good
-    Route::get('/submissions/{userSubmission}', 'show'); // good
     Route::post('/{problem}/submit', 'store');//good
 });
 

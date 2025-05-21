@@ -42,11 +42,13 @@ class UserSubmissionController extends Controller implements HasMiddleware
     }
 
 
+    // data should be eager loaded
     public function show(UserSubmission $userSubmission)
     {   
         Gate::authorize('view', $userSubmission);
+        $sub = $userSubmission->with('problem')->first();
         return [
-            "submission" => $userSubmission,
+            "submission" => $sub,
         ];
     }
     

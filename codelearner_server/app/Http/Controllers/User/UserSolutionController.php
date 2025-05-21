@@ -58,9 +58,10 @@ class UserSolutionController extends Controller implements HasMiddleware
     public function show(UserSolution $user_solution){
         //only moderator and owner of solution can view the solution
         Gate::authorize('view', $user_solution);
+        $us = $user_solution->with('userSubmission')->first();
 
         return [
-            'user_solution' => $user_solution->userSubmission,
+            'user_solution' => $us,
         ];
     }
 

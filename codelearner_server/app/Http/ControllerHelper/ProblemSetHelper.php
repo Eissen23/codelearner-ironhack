@@ -18,10 +18,10 @@ class ProblemSetHelper
     public static function getOrgProblemPaginator(Request $request, ?ProblemSet $problemSet = null)
     {
         $perpage = $request->input('per_page', 10);
-        
-        $assets_data =$problemSet ?  $problemSet->problems()->paginate($perpage) : Problem::paginate($perpage);
-            // No ProblemSet provided, fetch all Problems with their scope
-            
+
+        $assets_data = $problemSet ? $problemSet->problems()->paginate($perpage) : Problem::paginate($perpage);
+        // No ProblemSet provided, fetch all Problems with their scope
+
 
         return $assets_data;
     }
@@ -36,8 +36,17 @@ class ProblemSetHelper
     public static function getUserSubmissionPaginator(Request $request, ?Problem $problem = null)
     {
         $perpage = $request->input('per_page', 10);
+        $problem = $request->input('problem', false);
+        
         $user = $request->user();
-        $submissions = $problem ? $user->userSubmissions()->where('problem_id', $problem->id)->paginate($perpage) : $user->userSubmissions()->paginate($perpage);
+        $submissions = $problem ? 
+            $user->userSubmissions()
+            ->where('problem_id', $problem->id)
+            ->paginate($perpage) 
+            : 
+            $user->userSubmissions()
+            ->with('problem')
+            ->paginate($perpage);
 
         return $submissions;
     }
@@ -91,7 +100,7 @@ class ProblemSetHelper
     public static function getUSPaginatorMod(Request $request, Problem $problem)
     {
         $perpage = $request->input('per_page', 10);
-        $user_solution = $problem->userSubmissions()->get()->userSolution()->where('status', 'ubpublished')->paginate($perpage);
+        $user_solution = $problem->userSubmissions()->get()->userSolution()->where('status', 'unpublished')->paginate($perpage);
 
         return $user_solution;
     }

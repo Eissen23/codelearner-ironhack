@@ -100,7 +100,7 @@ class ArticleController extends Controller implements HasMiddleware
             'description' => 'string|max:255',
             'content' => 'nullable',
             'type' => "string", 
-            'tags' => 'array',
+            'tags' => "array",
         ]);
 
         $article->update($fields);

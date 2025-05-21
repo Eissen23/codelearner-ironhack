@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Log;
 
 class SolutionArticleController extends Controller implements HasMiddleware
 {
@@ -38,45 +39,31 @@ class SolutionArticleController extends Controller implements HasMiddleware
         // TODO: There haven been any problem set for these problems in the database
         Gate::authorize('modify', $problem);
 
-        //Create an article and an solution article at the same time
-        //Create the article
-        $field_article = $request->validate([
-            'name' => 'required|string|max:255',
-            'description' => 'required|string|max:255',
-            'content' => 'required|string',
-
-        ]);
-        $field_article['type'] = 'solution';
-        $org_id = $problem->problemSet()->get(['org_id'])->first()->org_id;
-        $user_id = $request->user()->id;
-
-        $field_article['mod_id'] =  ModeratorHelper::getModerator($org_id, $user_id)->id;
-
-        $article = Article::create($field_article);
-
-        //Create the solution article
+        //Create an solution article 
         $field_solution_article = $request->validate([
+            'name' => 'string|max:255',
+            'description' => 'string|max:255|nullable',
             'solution' => 'required',
-            'language' => 'required|int',
+            'language' => 'required|integer',
         ]);
+        
+        if($field_solution_article['name'] == null) {
+            $field_solution_article['name'] = "Solution for {$problem->name}";
+        }
 
         $field_solution_article['problem_id'] = $problem->id;
-        $field_solution_article['article_id'] = $article->id;
 
         $solution_article = SolutionArticle::create($field_solution_article);
 
         return [
-            'solution_articles' => [
-                'article' => $article,
-                'solution' => $solution_article,
-            ]
+            'solution_articles' => $solution_article
         ];
     }
 
     public function show(SolutionArticle $solution_article)
     {
         //
-        $solution_article->load('article');
+        $solution_article->load('problem');
 
         return [
             'data' =>  $solution_article,
@@ -89,19 +76,13 @@ class SolutionArticleController extends Controller implements HasMiddleware
         Gate::authorize('modify', $solution_article);
 
         $fields = $request->validate([
+            'name' => 'string|max:255',
+            'description' => 'string|max:255|nullable',
             'solution' => 'string',
-            'language' => 'int',
+            'language' => 'integer',
         ]);
 
         $solution_article->update($fields);
-
-        $article = $solution_article->article;
-        $article_fields = $request->validate([
-            'name' => 'string|max:255',
-            'description' => 'string|max:255',
-            'content' => 'string',
-        ]);
-        $article->update($article_fields);
 
         return [
             'message' => 'Solution article updated successfully',

@@ -33,8 +33,7 @@ class Problem extends Model
 
     public function solutionArticles()
     {
-        return $this->hasMany(SolutionArticle::class, 'problem_id')
-            ->with('article');
+        return $this->hasMany(SolutionArticle::class, 'problem_id');
     }
 
     public function userSubmissions()

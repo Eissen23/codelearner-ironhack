@@ -43,5 +43,8 @@ Route::prefix('sub_articles')->group(base_path('routes/api/content/sub_article.p
 // Problem 
 Route::prefix('problems')->group(base_path('routes/api/content/problem.php'));
 
+// Submission
+Route::prefix('submissions')->group(base_path('routes/api/content/submission.php'));
+
 // Solution
 Route::prefix('solutions')->group(base_path('routes/api/content/solution.php'));

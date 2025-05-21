@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
+use App\Models\Scopes\ContentScope;
 use MongoDB\Laravel\Eloquent\Model;
-
 use Illuminate\Database\Eloquent\Attributes\ScopedBy;
 
 #[ScopedBy([ContentScope::class])]

@@ -31,7 +31,7 @@ class SortAndFilterScope implements Scope
         //     'filter' => Request::input('filter'),
         // ]);
         $filter = Request::input('keyword', null);
-        $sort = Request::input('sort', 'created-desc'); // Default to created-desc
+        $sort = Request::input('sort', 'created_at-desc'); // Default to created-desc
 
         $allowedSorts = ['id', 'name', 'created_at'];
 

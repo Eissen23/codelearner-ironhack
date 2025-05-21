@@ -17,7 +17,7 @@ class ContentScope implements Scope
     {
         //
          $filter = Request::input('c_keyword', null);
-        $tags = Request::input('tags', null); // Get tags from query parameter
+        $tags = Request::input('tagged', null); // Get tags from query parameter
         $sort = Request::input('sort', 'created-desc'); // Default to created-desc
 
         $allowedSorts = ['_id', 'name', 'created_at', 'difficulty'];
@@ -51,9 +51,12 @@ class ContentScope implements Scope
             // Split tags by comma to handle multiple tags (e.g., "linked-list,stack")
             $tagsArray = array_filter(array_map('trim', explode(',', $tags)));
             if (!empty($tagsArray)) {
-                $builder->whereIn('tags', $tagsArray);
+            $builder->where(function($query) use ($tagsArray) {
+                foreach ($tagsArray as $tag) {
+                $query->orWhere('tags', 'regexp', '/^' . $tag . '$/i');
+                }
+            });
             }
-            
         }
 
         return $builder;

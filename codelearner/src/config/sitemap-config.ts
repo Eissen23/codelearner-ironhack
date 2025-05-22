@@ -1,5 +1,6 @@
 import { lazy } from "react";
 import { RouteObject } from "react-router";
+import SolutionCreate from "../pages/CreatePage/SolutionCreate";
 // Lazy-loaded components
 const Home = lazy(() => import("../pages/Home"));
 const MemberLogin = lazy(() => import("../pages/member/MemberLogin"));
@@ -235,6 +236,10 @@ const routes_map: RouteObject[] = [
               {
                 index: true,
                 Component: ProblemSettingPage,
+              },
+              {
+                path: "/setting/problem/:problem_id/add-solution",
+                Component: SolutionCreate,
               },
             ],
           },

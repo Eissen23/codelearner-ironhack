@@ -38,19 +38,6 @@
   overflow: auto;
 }
 
-.final_output {
-  background-color: var(--bs-secondary);
-  margin: 0.5rem 1rem;
-  margin-top: 0.5rem;
-  color: white;
-  border-radius: 0.5rem;
-  padding-top: 0.5rem;
-  padding-left: 1rem;
-  padding-right: 1rem;
-  height: 75%;
-  overflow-y: scroll;
-}
-
 .problem_detail .nav.nav-tabs {
   border-bottom: 1px solid grey;
 }

@@ -28,6 +28,14 @@
 .select-font-group label {
   text-wrap: nowrap;
 }
+
+.solution-editor {
+  height: 72vh;
+  position: relative;
+  margin-bottom: 2rem;
+  overflow: hidden;
+}
+
 /* Basic editor styles */
 /* .tiptap :first-child {
   margin-top: 0;
@@ -124,4 +132,4 @@
   border: none;
   border-top: 1px solid var(--gray-2);
   margin: 2rem 0;
-} 
+}

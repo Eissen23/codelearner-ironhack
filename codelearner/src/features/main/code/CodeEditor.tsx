@@ -56,7 +56,6 @@ const CodeEditor: React.FC<CodeEditorProps> = ({
         onChange={handleEditorChange}
         options={{
           minimap: { enabled: false },
-          scrollBeyondLastLine: true,
           readOnly: readOnly,
           automaticLayout: true,
         }}

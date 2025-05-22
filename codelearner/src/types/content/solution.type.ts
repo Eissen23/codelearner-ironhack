@@ -29,3 +29,15 @@ export type PaginatedUsrSolution = {
   to: number;
   total: number;
 };
+
+// solution article
+export type SolutionArticle = {
+  id: string;
+  name?: string;
+  description?: string;
+  solution: string;
+  language: number;
+  problem_id: string;
+  created_at: Date;
+  updated_at: Date;
+};

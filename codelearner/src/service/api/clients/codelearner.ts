@@ -7,4 +7,3 @@ export const CODELEARNER_API = axios.create({
     Accept: "application/json",
   },
 });
-

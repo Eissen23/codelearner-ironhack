@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Gate;
 // other user can only see solution which is published
 
 class UserSolutionController extends Controller implements HasMiddleware
-{   
+{
     public static function Middleware()
     {
         return [
@@ -26,11 +26,12 @@ class UserSolutionController extends Controller implements HasMiddleware
     }
 
     /* 
-    * This view all the solutions that been stored (published and non published) 
-    * from the user 
-    * perpective 
-    */
-    public function index(?Problem $problem = null){
+     * This view all the solutions that been stored (published and non published) 
+     * from the user 
+     * perpective 
+     */
+    public function index(?Problem $problem = null)
+    {
 
         $user_solution = ProblemSetHelper::getUserSolutionPaginator(request(), $problem);
 
@@ -44,7 +45,8 @@ class UserSolutionController extends Controller implements HasMiddleware
      * from the moderator perspective
      */
     //havent check
-    public function indexAsMod(?Problem $problem = null){
+    public function indexAsMod(?Problem $problem = null)
+    {
         Gate::authorize('view_solution', $problem);
 
         $user_solution = ProblemSetHelper::getUSPaginatorMod(request(), $problem);
@@ -55,10 +57,15 @@ class UserSolutionController extends Controller implements HasMiddleware
     }
 
     // This view all the solution that been stored (published and non published)
-    public function show(UserSolution $user_solution){
+    public function show(UserSolution $user_solution)
+    {
         //only moderator and owner of solution can view the solution
         Gate::authorize('view', $user_solution);
-        $us = $user_solution->with('userSubmission')->first();
+        $us = $user_solution->load([
+            'userSubmission' => function ($query) {
+                $query->without('userSolution'); // Assuming your relationship is named 'userSolution'
+            }
+        ]);
 
         return [
             'user_solution' => $us,
@@ -70,10 +77,10 @@ class UserSolutionController extends Controller implements HasMiddleware
     public function store(UserSubmission $userSubmission)
     {
         Gate::authorize('create_solution', $userSubmission);
-        
+
         $fields = request()->validate([
             'name' => 'required|string|max:255',
-            'description' => 'required|string|max:255',
+            'description' => 'required|string   ',
             'content' => 'required',
         ]);
         $fields['submission_id'] = $userSubmission->id;
@@ -92,10 +99,12 @@ class UserSolutionController extends Controller implements HasMiddleware
 
         $field_solution = request()->validate([
             'name' => 'string|max:255',
-            'description' => 'string|max:255',
+            'description' => 'string',
             'content' => 'nullable',
         ]);
-        
+
+        $field_solution['status'] = 'unpublished';
+
         $user_solution->update($field_solution);
 
         return [
@@ -105,7 +114,8 @@ class UserSolutionController extends Controller implements HasMiddleware
     }
 
     // Destroy the solution if the user is the owner of the solution
-    public function destroy(UserSolution $user_solution){
+    public function destroy(UserSolution $user_solution)
+    {
         Gate::authorize('delete', $user_solution);
 
         $user_solution->delete();
@@ -115,5 +125,5 @@ class UserSolutionController extends Controller implements HasMiddleware
         ];
     }
 
-    
+
 }

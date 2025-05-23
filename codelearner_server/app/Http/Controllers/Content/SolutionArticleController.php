@@ -42,7 +42,7 @@ class SolutionArticleController extends Controller implements HasMiddleware
         //Create an solution article 
         $field_solution_article = $request->validate([
             'name' => 'string|max:255',
-            'description' => 'string|max:255|nullable',
+            'description' => 'string|nullable',
             'solution' => 'required',
             'language' => 'required|integer',
         ]);
@@ -77,7 +77,7 @@ class SolutionArticleController extends Controller implements HasMiddleware
 
         $fields = $request->validate([
             'name' => 'string|max:255',
-            'description' => 'string|max:255|nullable',
+            'description' => 'string|nullable',
             'solution' => 'string',
             'language' => 'integer',
         ]);
@@ -95,7 +95,6 @@ class SolutionArticleController extends Controller implements HasMiddleware
         //
         Gate::authorize('modify', $solution_article);
 
-        $solution_article->article->delete();
         $solution_article->delete();
 
         return [

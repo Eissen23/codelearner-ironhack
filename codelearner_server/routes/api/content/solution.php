@@ -7,6 +7,7 @@ use App\Http\Controllers\Content\SolutionArticleController;
 //User solution route
 Route::controller(UserSolutionController::class)->group(function () {
     Route::get('/your-solution', 'index'); // as user good
+    Route::put('/your-solution/{user_solution}', 'update'); // unchecked
     Route::get('user-solution/{user_solution}', 'show'); // as user && mod good 
     Route::post('/make-solution/{userSubmission}', 'store'); // as user good
     Route::delete('/your-solution/{user_solution}', 'destroy'); // as user good

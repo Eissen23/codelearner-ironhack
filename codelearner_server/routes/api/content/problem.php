@@ -29,7 +29,11 @@ Route::controller(UserSubmissionController::class)->group(function () {
     Route::post('/{problem}/submit', 'store');//good
 });
 
+Route::controller(UserSolutionController::class)->group(function () {
+    Route::get('/{problem}/user-solution-mod','indexAsMod');
+});
+
 // View publish through problem
 Route::controller(PublishSolutionController::class)->group(function () {
-    Route::put('{problem}/view-solution', 'view');
+    Route::get('{problem}/view-solution', 'viewPublished');
 });

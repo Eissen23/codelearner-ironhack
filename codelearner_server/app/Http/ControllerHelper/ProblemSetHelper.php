@@ -34,21 +34,19 @@ class ProblemSetHelper
      * 
      */
     public static function getUserSubmissionPaginator(Request $request, ?Problem $problem = null)
-    {
-        $perpage = $request->input('per_page', 10);
-        $problem = $request->input('problem', false);
-        
+    {  
+        $perPage = $request->input('per_page', 10);
         $user = $request->user();
-        $submissions = $problem ? 
-            $user->userSubmissions()
-            ->where('problem_id', $problem->id)
-            ->paginate($perpage) 
-            : 
-            $user->userSubmissions()
-            ->with('problem')
-            ->paginate($perpage);
 
-        return $submissions;
+        $query = $user->userSubmissions();
+
+        if ($problem) {
+            $query->where('problem_id', $problem->id);
+        } else {
+            $query->with('problem:id,name,description');
+        }
+
+        return $query->paginate($perPage);
     }
 
     /**
@@ -86,6 +84,12 @@ class ProblemSetHelper
             });
         }
 
+        $user_solution->with([
+            'userSubmission' => function ($query) {
+                $query->select('id', 'language_id', 'result')->without('userSolution');
+            }
+        ]);
+
         return $user_solution->paginate($perpage);
     }
 
@@ -100,7 +104,9 @@ class ProblemSetHelper
     public static function getUSPaginatorMod(Request $request, Problem $problem)
     {
         $perpage = $request->input('per_page', 10);
-        $user_solution = $problem->userSubmissions()->get()->userSolution()->where('status', 'unpublished')->paginate($perpage);
+        $user_solution = UserSolution::whereHas('userSubmission', function ($query) use ($problem) {
+            $query->where('problem_id', $problem->id);
+        })->where('status', 'unpublished')->paginate($perpage);
 
         return $user_solution;
     }

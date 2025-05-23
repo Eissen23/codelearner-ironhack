@@ -8,7 +8,8 @@ use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
 use App\Models\UserSolution;
 use Illuminate\Support\Facades\Gate;
-class PublishSolutionController extends Controller implements HasMiddleware{
+class PublishSolutionController extends Controller implements HasMiddleware
+{
     public static function Middleware()
     {
         return [
@@ -18,29 +19,32 @@ class PublishSolutionController extends Controller implements HasMiddleware{
     // to reject and publish the solution
     // The mod need to own the user problem solution
     public function publish(UserSolution $userSolution)
-    {   
+    {
         Gate::authorize('publish', $userSolution);
         $userSolution->update([
             'status' => 'published',
         ]);
-    
+
         return [
             'message' => 'Solution published successfully'
         ];
     }
 
     public function reject(UserSolution $userSolution)
-    {   
+    {
         Gate::authorize('publish', $userSolution);
-        
+
         $userSolution->update([
             'status' => 'rejected',
         ]);
-    
+
         return [
             'message' => 'Solution rejected'
         ];
     }
+
+
+
 
     // TODO: add logic to this and route
     // only the published are shown to the user
@@ -48,11 +52,17 @@ class PublishSolutionController extends Controller implements HasMiddleware{
     public function viewPublished(Problem $problems)
     {
         // For the user who want to view the published solution
-        $userSolution = UserSolution::where('status', 'published')->get();
-        $userSubmission = $userSolution->userSubmission()->where('problem_id', $problems->id)->get();
-        
+        $userSolution = UserSolution::where('status', 'published')
+            ->with([
+                'userSubmission' => function ($query) {
+                    $query->select('id', 'source_code', 'language_id', 'result')
+                        ->without('userSolution');
+                }
+            ])
+            ->get();
+
         return [
-            'user_submission' => $userSubmission,
+            'user_solutions' => $userSolution,
         ];
     }
 }

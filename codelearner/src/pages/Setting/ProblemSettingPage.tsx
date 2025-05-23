@@ -5,6 +5,9 @@ const UserSolutionMod = lazy(
 const SolutionArticleList = lazy(
   () => import("../../components/solution/SolutionArticleList")
 );
+const UserSolPublic = lazy(
+  () => import("../../components/solution/UserSolPublic")
+);
 
 import useProblemDetail from "../../features/hooks/problems/useProblemDetail";
 import ProblemForm from "../../features/main/problems/ProblemsForm";
@@ -42,6 +45,11 @@ const ProblemSettingPage = () => {
               <section className="solution_article mb-3">
                 <Suspense fallback={CustomSpinner}>
                   <SolutionArticleList />
+                </Suspense>
+              </section>
+              <section className="solution_article mb-3">
+                <Suspense fallback={CustomSpinner}>
+                  <UserSolPublic />
                 </Suspense>
               </section>
             </Tab>

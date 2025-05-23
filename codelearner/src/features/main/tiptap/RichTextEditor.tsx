@@ -49,7 +49,7 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({
         onUpdate(html);
       }
     },
-    editable,
+    editable: editable,
     editorProps: {
       attributes: {
         class: "tiptap-editor",

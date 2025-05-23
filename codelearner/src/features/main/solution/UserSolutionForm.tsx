@@ -1,5 +1,5 @@
 import React from "react";
-import { Form, Button, Container, Card } from "react-bootstrap";
+import { Form, Button, Container, Card, Spinner } from "react-bootstrap";
 import { UserSolution } from "../../../types/content/solution.type";
 import RichTextEditor from "../tiptap/RichTextEditor";
 import useFormUSSolution from "../../hooks/solution/useFormUSSolution";
@@ -14,8 +14,14 @@ const UserSolutionForm: React.FC<UserSolutionFormProps> = ({
   initialData = {},
   update = false,
 }) => {
-  const { formData, handleSubmit, handleChange, handleContentChange } =
-    useFormUSSolution(initialData);
+  const {
+    formData,
+    uploading,
+    handleSubmit,
+    handleChange,
+    handleContentChange,
+    handlDelete,
+  } = useFormUSSolution(initialData, update);
 
   return (
     <Container className="my-4">
@@ -33,6 +39,7 @@ const UserSolutionForm: React.FC<UserSolutionFormProps> = ({
                 onChange={handleChange}
                 placeholder="Enter solution name"
                 required
+                disabled={update}
               />
             </Form.Group>
 
@@ -45,6 +52,7 @@ const UserSolutionForm: React.FC<UserSolutionFormProps> = ({
                 value={formData.description}
                 onChange={handleChange}
                 placeholder="Enter solution description"
+                disabled={update}
                 required
               />
             </Form.Group>
@@ -53,13 +61,13 @@ const UserSolutionForm: React.FC<UserSolutionFormProps> = ({
               <RichTextEditor
                 content={formData.content}
                 onUpdate={handleContentChange}
-                editable={true}
+                editable={!update}
               />
             </Form.Group>
             {initialData.id && (
               <Form.Group className="mb-3" controlId="id">
                 <Form.Label>ID</Form.Label>
-                <Form.Control type="text" value={initialData.id} readOnly />
+                <Form.Control type="text" value={initialData.id} disabled />
               </Form.Group>
             )}
             {initialData.created_at && (
@@ -68,7 +76,7 @@ const UserSolutionForm: React.FC<UserSolutionFormProps> = ({
                 <Form.Control
                   type="text"
                   value={initialData.created_at.toString()}
-                  readOnly
+                  disabled
                 />
               </Form.Group>
             )}
@@ -78,13 +86,22 @@ const UserSolutionForm: React.FC<UserSolutionFormProps> = ({
                 <Form.Control
                   type="text"
                   value={initialData.updated_at.toString()}
-                  readOnly
+                  disabled
                 />
               </Form.Group>
             )}
-            <Button variant="primary" type="submit">
-              {!update ? "Add" : "Update"}
-            </Button>
+            <div className="d-flex justify-content-between">
+              <Button variant="primary" type="submit">
+                {uploading && <Spinner animation="border" size="sm" />}
+                Confirm
+              </Button>
+              {!update && (
+                <Button variant="danger" type="button" onClick={handlDelete}>
+                  {uploading && <Spinner animation="border" size="sm" />}
+                  Delete
+                </Button>
+              )}
+            </div>
           </Form>
         </Card.Body>
       </Card>

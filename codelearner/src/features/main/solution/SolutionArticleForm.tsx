@@ -12,19 +12,25 @@ import { makeSArticle } from "../../../service/api/solution-article/makeSArticle
 import { useAuth } from "../../../context/auth/AuthContext";
 import { toast, ToastContainer } from "react-toastify";
 import CheckOutput from "../code/CheckOutput";
+import { updateSArticle } from "../../../service/api/solution-article/updateSArticle";
+import { deleteSarticle } from "../../../service/api/solution-article/deleteSAticle";
+import { useNavigate, useParams } from "react-router";
 
 // Define props type
 interface SolutionArticleFormProps {
   initialData?: SolutionArticle | null;
+  update?: boolean;
 }
 
 const SolutionArticleForm: React.FC<SolutionArticleFormProps> = ({
   initialData,
+  update = false,
 }) => {
   const editorRef = useRef<any>(null);
   const { problemData } = useProblemDetail();
   const [loading, setLoading] = useState(false);
   const { token } = useAuth();
+  const navigate = useNavigate();
   const [language, setLanguage] = useState("python");
   const [isExecuted, setIsExecuted] = useState(false);
   const [formData, setFormData] = useState({
@@ -33,6 +39,7 @@ const SolutionArticleForm: React.FC<SolutionArticleFormProps> = ({
     solution: "",
     language: LANGUAGE_MAPPING[language],
   });
+  const { sol_atricle_id } = useParams();
 
   // Map numeric language to string for CodeEditor
   useEffect(() => {
@@ -80,15 +87,36 @@ const SolutionArticleForm: React.FC<SolutionArticleFormProps> = ({
   const addSArticle = async () => {
     try {
       setLoading(true);
-      const {} = await makeSArticle(
+      const { solution_articles } = await makeSArticle(
         problemData?.id || "",
         formData,
         token || ""
       );
       toast.success("Add solution article success");
+      setTimeout(() => {
+        navigate(`/setting/solution-article/${solution_articles.id}`);
+      }, 4000);
     } catch (error) {
       console.log("addSArticle", error);
       toast.error("Add failed");
+      throw error;
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const updateArticle = async () => {
+    try {
+      setLoading(true);
+      const {} = await updateSArticle(
+        initialData?.id || "",
+        formData,
+        token || ""
+      );
+      toast.success("Update solution article success");
+    } catch (error) {
+      console.log("updateArticle", error);
+      toast.error("update failed");
       throw error;
     } finally {
       setLoading(false);
@@ -101,8 +129,28 @@ const SolutionArticleForm: React.FC<SolutionArticleFormProps> = ({
       toast.error("You need to check the solution code before sending");
       return;
     }
-    addSArticle();
+    update ? updateArticle() : addSArticle();
     console.log(formData);
+  };
+
+  const handleDelete = async () => {
+    const isDelete = confirm("Do you want to delete this solution");
+
+    if (!isDelete) {
+      return;
+    }
+
+    try {
+      setLoading(true);
+      await deleteSarticle(sol_atricle_id || "", token || "");
+      toast.success("successfully delete article");
+    } catch (error) {
+      toast.error("fail to delete article");
+      console.log(error);
+      throw error;
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -133,29 +181,45 @@ const SolutionArticleForm: React.FC<SolutionArticleFormProps> = ({
           <Form.Label>Solution Code</Form.Label>
           <CodeEditor
             value={formData.solution}
-            testCase={problemData?.test_cases}
+            testCase={
+              update
+                ? initialData?.problem?.test_cases
+                : problemData?.test_cases
+            }
             language={language}
             onChange={handleCodeEditorChange}
             onLanguageChange={handleLanguageChange}
             editorRef={editorRef}
+            readOnly={false}
           />
         </Form.Group>
         <div className="mb-3 p-1">
           <CheckOutput
             editorRef={editorRef}
             language={language}
-            testCase={problemData?.test_cases}
+            testCase={
+              update
+                ? initialData?.problem?.test_cases
+                : problemData?.test_cases
+            }
             setIsExecuted={setIsExecuted}
           />
         </div>
-        <Button variant="primary" type="submit" className="w-100">
-          {loading && (
-            <span>
-              <Spinner animation="border" size="sm" color="bg-white" />
-            </span>
+        <div className="d-flex justify-content-between">
+          <Button variant="primary" type="submit">
+            {loading && (
+              <span>
+                <Spinner animation="border" size="sm" color="bg-white" />
+              </span>
+            )}
+            {update ? "Update solution" : "Submit solution"}
+          </Button>
+          {update && (
+            <Button variant="danger" type="button" onClick={handleDelete}>
+              Delete
+            </Button>
           )}
-          Submit Solution
-        </Button>
+        </div>
       </Form>
     </>
   );

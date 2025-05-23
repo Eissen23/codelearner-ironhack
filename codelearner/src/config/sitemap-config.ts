@@ -1,6 +1,9 @@
 import { lazy } from "react";
 import { RouteObject } from "react-router";
 import SolutionCreate from "../pages/CreatePage/SolutionCreate";
+import UserSolutionPage from "../pages/DetailPage/UserSolutionPage";
+import YourSolution from "../components/dash-board/user/YourSolution";
+import SolArticle from "../pages/DetailPage/SolArticle";
 // Lazy-loaded components
 const Home = lazy(() => import("../pages/Home"));
 const MemberLogin = lazy(() => import("../pages/member/MemberLogin"));
@@ -143,6 +146,10 @@ const routes_map: RouteObject[] = [
             Component: YourCourse,
           },
           {
+            path: "/dashboard/your-solution",
+            Component: YourSolution,
+          },
+          {
             path: "/dashboard/settings",
             Component: SettingMain,
           },
@@ -240,6 +247,24 @@ const routes_map: RouteObject[] = [
               {
                 path: "/setting/problem/:problem_id/add-solution",
                 Component: SolutionCreate,
+              },
+            ],
+          },
+          {
+            path: "/setting/user-solution/:user_solution_id",
+            children: [
+              {
+                index: true,
+                Component: UserSolutionPage,
+              },
+            ],
+          },
+          {
+            path: "/setting/solution-article/:sol_atricle_id",
+            children: [
+              {
+                index: true,
+                Component: SolArticle,
               },
             ],
           },

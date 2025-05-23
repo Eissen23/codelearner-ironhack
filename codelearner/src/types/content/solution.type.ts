@@ -1,13 +1,16 @@
+import { ResultData } from "../code/judge0.type";
 import { Link } from "../paginator.type";
+import { ProblemData } from "./problem.type";
 
 export type UserSolution = {
   id: string;
   name: string;
   description: string;
   content: string;
-  status: "published" | "unpublished";
+  status: "published" | "unpublished" | "rejected";
   created_at: Date;
   updated_at: Date;
+  user_submission?: ResultData;
 };
 
 export type UserSolutionRes = {
@@ -40,4 +43,5 @@ export type SolutionArticle = {
   problem_id: string;
   created_at: Date;
   updated_at: Date;
+  problem?: ProblemData;
 };

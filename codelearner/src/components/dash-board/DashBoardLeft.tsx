@@ -30,6 +30,11 @@ const defaultMenuItems: MenuItem[] = [
     icon: "bi bi-file-code-fill",
   },
   {
+    path: "/dashboard/your-solution",
+    label: "Your solution",
+    icon: "bi bi-file-code-fill",
+  },
+  {
     path: "/dashboard/settings",
     label: "Settings",
     icon: "bi bi-gear",

@@ -1,15 +1,14 @@
 import { PaginatedUsrSolution } from "../../../types/content/solution.type";
 import { CODELEARNER_API } from "../clients/codelearner";
 
-export const getUsrSolutions = async (
-  token: string,
-  submission_id?: string
-): Promise<PaginatedUsrSolution> => {
-  const uri = submission_id
-    ? `solutions/your-solution/${submission_id}`
-    : `solutions/your-solution`;
+type Response = {
+  user_solution: PaginatedUsrSolution;
+};
+
+export const getUsrSolutions = async (token: string): Promise<Response> => {
+  const uri = `solutions/your-solution`;
   try {
-    const response = await CODELEARNER_API.get<PaginatedUsrSolution>(uri, {
+    const response = await CODELEARNER_API.get<Response>(uri, {
       headers: {
         Authorization: `Bearer ${token}`,
       },

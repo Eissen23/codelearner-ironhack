@@ -1,6 +1,7 @@
 import { Link, useParams } from "react-router";
 import { useSArticleList } from "../../features/hooks/solution/useSArticleList";
 import { Alert, Button, ListGroup, Spinner } from "react-bootstrap";
+import { getLanguageKey } from "../../data/LanguageMapping";
 const SolutionArticleList = () => {
   const { problem_id } = useParams();
   const { loading, solutionArticle } = useSArticleList(problem_id || "");
@@ -16,13 +17,13 @@ const SolutionArticleList = () => {
           <ListGroup>
             {solutionArticle?.map((solution, index) => (
               <ListGroup.Item key={index}>
-                <h6>{solution.name}</h6>
-                <span
-                  className="overflow-hidden"
-                  dangerouslySetInnerHTML={{
-                    __html: solution.description || "",
-                  }}
-                ></span>
+                <div className="d-flex justify-content-between">
+                  <h6>{solution.name}</h6>
+                  <div>{getLanguageKey(solution.language)}</div>
+                  <Link to={`/setting/solution-article/${solution.id}`}>
+                    To solution
+                  </Link>
+                </div>
               </ListGroup.Item>
             ))}
           </ListGroup>

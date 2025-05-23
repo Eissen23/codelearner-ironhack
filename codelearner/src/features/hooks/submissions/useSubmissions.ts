@@ -22,7 +22,7 @@ const UseSubmissions = () => {
       }
     };
     fetchUserSub();
-  }, []);
+  }, [token]);
 
   return { loading, submissions };
 };

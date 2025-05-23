@@ -81,9 +81,10 @@ const useFormUSSolution = (
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     // console.log(formData);
-    update ? fetchAddSolution() : fetchUpdateSol();
+    !update ? fetchAddSolution() : fetchUpdateSol();
   };
 
+  console.log(update);
   const handlDelete = async () => {
     const isDelete = confirm("Do you want to delete your problem");
     if (!isDelete) {

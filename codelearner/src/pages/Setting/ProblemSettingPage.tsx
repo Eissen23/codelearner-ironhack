@@ -1,4 +1,4 @@
-import { lazy, Suspense } from "react";
+import { lazy, Suspense, useState } from "react";
 const UserSolutionMod = lazy(
   () => import("../../components/solution/UserSolutionMod")
 );
@@ -16,6 +16,8 @@ import { Alert, Spinner, Tab, Tabs } from "react-bootstrap";
 import CustomSpinner from "../../components/CustomSpinner";
 
 const ProblemSettingPage = () => {
+  const [activeTab, setActiveTab] = useState("problem_info");
+
   const { problemData, loading } = useProblemDetail();
 
   return (
@@ -24,7 +26,8 @@ const ProblemSettingPage = () => {
         <>
           <h1 className="setting page">Update the problem</h1>
           <Tabs
-            defaultActiveKey="problem_info"
+            activeKey={activeTab}
+            onSelect={(key) => setActiveTab(key || "problem_info")}
             id="problemInfo"
             className="mb-3"
           >
@@ -36,22 +39,26 @@ const ProblemSettingPage = () => {
               )}
             </Tab>
             <Tab eventKey="user_solution" title="Available Solution">
-              <section className="unpublished">
-                <Suspense fallback={CustomSpinner}>
-                  <UserSolutionMod />
-                </Suspense>
-              </section>
+              {activeTab === "user_solution" && (
+                <>
+                  <section className="unpublished mb-3">
+                    <Suspense fallback={CustomSpinner}>
+                      <UserSolutionMod />
+                    </Suspense>
+                  </section>
 
-              <section className="solution_article mb-3">
-                <Suspense fallback={CustomSpinner}>
-                  <SolutionArticleList />
-                </Suspense>
-              </section>
-              <section className="solution_article mb-3">
-                <Suspense fallback={CustomSpinner}>
-                  <UserSolPublic />
-                </Suspense>
-              </section>
+                  <section className="solution_article mb-3">
+                    <Suspense fallback={CustomSpinner}>
+                      <SolutionArticleList />
+                    </Suspense>
+                  </section>
+                  <section className="solution_article mb-3">
+                    <Suspense fallback={CustomSpinner}>
+                      <UserSolPublic />
+                    </Suspense>
+                  </section>
+                </>
+              )}
             </Tab>
           </Tabs>
         </>

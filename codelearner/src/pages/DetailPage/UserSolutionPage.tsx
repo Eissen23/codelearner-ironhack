@@ -27,7 +27,8 @@ const UserSolutionPage: React.FC = () => {
           </div>
           <UserSolutionForm
             initialData={user_solution}
-            update={user_solution?.status != "published"}
+            update
+            editable={user_solution?.status === "published"}
           />
         </section>
       )}

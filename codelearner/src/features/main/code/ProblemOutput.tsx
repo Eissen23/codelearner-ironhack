@@ -96,9 +96,9 @@ const ProblemOutput: React.FC<OutputProps> = ({
       return;
     }
 
-    if (runNumber.current === 0) {
+    // Probably error here
+    if (!valuation) {
       await runCode();
-      runNumber.current = 0;
     }
 
     const userSubmit = makeAnswer(

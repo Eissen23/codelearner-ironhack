@@ -8,11 +8,13 @@ import { ToastContainer } from "react-toastify";
 interface UserSolutionFormProps {
   initialData?: Partial<UserSolution>;
   update?: boolean;
+  editable?: boolean;
 }
 
 const UserSolutionForm: React.FC<UserSolutionFormProps> = ({
   initialData = {},
-  update = false,
+  update = false, //sửa update
+  editable = true,
 }) => {
   const {
     formData,
@@ -31,20 +33,20 @@ const UserSolutionForm: React.FC<UserSolutionFormProps> = ({
           <Card.Title>User Solution Form</Card.Title>
           <Form onSubmit={handleSubmit}>
             <Form.Group className="mb-3" controlId="name">
-              <Form.Label>Name</Form.Label>
+              <Form.Label>Name*</Form.Label>
               <Form.Control
                 type="text"
                 name="name"
                 value={formData.name}
                 onChange={handleChange}
                 placeholder="Enter solution name"
+                disabled={!editable}
                 required
-                disabled={update}
               />
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="description">
-              <Form.Label>Description</Form.Label>
+              <Form.Label>Description*</Form.Label>
               <Form.Control
                 as="textarea"
                 rows={3}
@@ -52,16 +54,16 @@ const UserSolutionForm: React.FC<UserSolutionFormProps> = ({
                 value={formData.description}
                 onChange={handleChange}
                 placeholder="Enter solution description"
-                disabled={update}
+                disabled={!editable}
                 required
               />
             </Form.Group>
             <Form.Group className="mb-3" controlId="content">
-              <Form.Label>Content</Form.Label>
+              <Form.Label>Content*</Form.Label>
               <RichTextEditor
                 content={formData.content}
                 onUpdate={handleContentChange}
-                editable={!update}
+                editable={editable}
               />
             </Form.Group>
             {initialData.id && (
@@ -91,9 +93,9 @@ const UserSolutionForm: React.FC<UserSolutionFormProps> = ({
               </Form.Group>
             )}
             <div className="d-flex justify-content-between">
-              <Button variant="primary" type="submit">
+              <Button variant="primary" type="submit" disabled={!editable}>
                 {uploading && <Spinner animation="border" size="sm" />}
-                Confirm
+                {update ? "Update solution" : "Confirm"}
               </Button>
               {!update && (
                 <Button variant="danger" type="button" onClick={handlDelete}>

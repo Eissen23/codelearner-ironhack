@@ -11,7 +11,8 @@ import { Org } from "../../../types/org/org.type";
 const CourseInfoItem: React.FC<{
   course: Course | null;
   org?: Org | null;
-}> = ({ course, org }) => {
+  user_role?: "HEAD" | "MOD" | "UNAUTHORIZE";
+}> = ({ course, org, user_role = "UNAUTHORIZE" }) => {
   if (!course) {
     return <div>Loading...</div>;
   }
@@ -209,6 +210,7 @@ const CourseInfoItem: React.FC<{
             type="button"
             className="btn btn-danger"
             onClick={handleDelete}
+            disabled={user_role !== "HEAD"}
           >
             {Loading && (
               <span>
@@ -223,6 +225,7 @@ const CourseInfoItem: React.FC<{
               type="button"
               className="btn btn-secondary"
               onClick={() => setIsEditing(!isEditing)}
+              disabled={user_role !== "HEAD"}
             >
               {isEditing ? "Cancel" : "Edit"}
             </button>

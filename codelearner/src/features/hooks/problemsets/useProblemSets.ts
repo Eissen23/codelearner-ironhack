@@ -6,7 +6,7 @@ export const useProblemSets = (org_id?: string) => {
   const [problemSets, setProblemSets] = useState<ProblemSet[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-
+  console.log(org_id);
   useEffect(() => {
     const fetchProblemSets = async () => {
       try {
@@ -20,7 +20,7 @@ export const useProblemSets = (org_id?: string) => {
     };
 
     fetchProblemSets();
-  }, []);
+  }, [org_id]);
 
   return { problemSets, isLoading, error };
 };

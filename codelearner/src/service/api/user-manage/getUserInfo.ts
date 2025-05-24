@@ -7,7 +7,6 @@ interface getUserCredential {
   signal?: AbortSignal;
 }
 
-// TODO: rewrite this function to use CODELEARNER_API
 export const getUserInfo = async (
   credentials: getUserCredential
 ): Promise<User> => {

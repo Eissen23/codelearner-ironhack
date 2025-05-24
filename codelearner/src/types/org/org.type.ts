@@ -7,6 +7,7 @@ export type Org = {
   logo?: string;
   created_at: Date;
   updated_at: Date;
+  pivot?: Moderator;
 };
 
 export type Moderator = {

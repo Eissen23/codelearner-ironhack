@@ -1,10 +1,18 @@
 import { lazy } from "react";
 import { RouteObject } from "react-router";
-import SolutionCreate from "../pages/CreatePage/SolutionCreate";
-import UserSolutionPage from "../pages/DetailPage/UserSolutionPage";
-import YourSolution from "../components/dash-board/user/YourSolution";
-import SolArticle from "../pages/DetailPage/SolArticle";
-// Lazy-loaded components
+import { psOwnerLoader } from "./loader/psOwnerLoader";
+import { courseOwnerLoader } from "./loader/courseOwnerLoader";
+
+const SolutionCreate = lazy(() => import("../pages/CreatePage/SolutionCreate"));
+const UserSolutionPage = lazy(
+  () => import("../pages/DetailPage/UserSolutionPage")
+);
+const YourSolution = lazy(
+  () => import("../components/dash-board/user/YourSolution")
+);
+const SolArticle = lazy(() => import("../pages/DetailPage/SolArticle"));
+const NotAuthorize = lazy(() => import("../pages/NotAuthorize"));
+
 const Home = lazy(() => import("../pages/Home"));
 const MemberLogin = lazy(() => import("../pages/member/MemberLogin"));
 const MemberRegister = lazy(() => import("../pages/member/MemberRegister"));
@@ -211,9 +219,13 @@ const routes_map: RouteObject[] = [
           {
             path: "/setting/course/:course_id",
             children: [
-              { index: true, Component: CourseSettingPage },
               {
-                path: "/setting/course/:course_id/add-article",
+                index: true,
+                loader: courseOwnerLoader,
+                Component: CourseSettingPage,
+              },
+              {
+                path: "add-article",
                 Component: AddArticle,
               },
             ],
@@ -221,7 +233,11 @@ const routes_map: RouteObject[] = [
           {
             path: "/setting/problem-set/:problemSetId",
             children: [
-              { index: true, Component: ProblemSetSetting },
+              {
+                index: true,
+                loader: psOwnerLoader,
+                Component: ProblemSetSetting,
+              },
               {
                 path: "/setting/problem-set/:problemSetId/add-problem",
                 Component: AddProblem,
@@ -273,7 +289,7 @@ const routes_map: RouteObject[] = [
     ],
   },
   { path: "*", Component: NotFound },
-  // { path: "*/not-authorized", Component: NotAuthorize },
+  { path: "/not-authorized", Component: NotAuthorize },
 ];
 
 export default routes_map;

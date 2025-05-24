@@ -1,4 +1,4 @@
-import { useParams } from "react-router";
+import { redirect, useLoaderData, useParams } from "react-router";
 import LayoutHome from "../../layout/LayoutHome";
 import ProblemSetInfoItem from "../../components/problemset/element/ProblemSetInfoItem";
 import { useProblemSetsInfo } from "../../features/hooks/problemsets/useProblemSetInfo";
@@ -7,11 +7,16 @@ import ProblemSetProblems from "../../components/problems/ProblemSetProblems";
 
 const ProblemSetSetting: React.FC = () => {
   const { problemSetId } = useParams<{ problemSetId: string }>();
-
+  const { role } = useLoaderData();
   const { loading, problemSet, belong } = useProblemSetsInfo(
     problemSetId || "",
     true
   );
+
+  if (role === "UNAUTHORIZE") {
+    redirect("/not-authorized");
+  }
+
   if (loading) {
     return (
       <LayoutHome>
@@ -37,6 +42,7 @@ const ProblemSetSetting: React.FC = () => {
           problemSet={problemSet}
           loading={loading}
           org={belong}
+          user_role={role}
         />
       </section>
 

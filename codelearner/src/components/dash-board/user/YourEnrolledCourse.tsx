@@ -1,14 +1,16 @@
 import { Alert, Button, Col, Row, Spinner } from "react-bootstrap";
 import { useOutletContext } from "react-router";
-import { UserDetail } from "../../../types/user.type";
+import { UserCourse } from "../../../types/user.type";
 import { Link } from "react-router-dom";
 import CourseCard from "../element/CourseCard";
+import { useEnroll } from "../../../features/hooks/course/userEnroll";
 
 const YourCourse: React.FC = () => {
-  const userDetail = useOutletContext() as UserDetail | null;
-  const userCourse = userDetail?.courses;
+  const token = useOutletContext() as string | null;
 
-  if (!userCourse) {
+  const { courses, loading } = useEnroll(token!);
+
+  if (loading) {
     return (
       <Spinner animation="border" className="align-items-center"></Spinner>
     );
@@ -16,12 +18,12 @@ const YourCourse: React.FC = () => {
 
   return (
     <div>
-      <h4 className="display-6 mb-3">Your submission</h4>
-      {userCourse?.length !== 0 ? (
+      <h4 className="fs-4 mb-3">Your Courses</h4>
+      {courses?.length !== 0 ? (
         <Row>
-          {userCourse.map((user_course) => (
+          {courses.map((user_course) => (
             <Col xs={12} md={4} key={user_course.id}>
-              <CourseCard course={user_course} />
+              <CourseCard course={user_course as UserCourse} />
             </Col>
           ))}
         </Row>

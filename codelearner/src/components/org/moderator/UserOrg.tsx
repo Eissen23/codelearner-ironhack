@@ -1,28 +1,9 @@
-import React, { useEffect } from "react";
-import { getUserOrg } from "../../../service/api/user-manage/getUserOrg";
+import React from "react";
 import { Container, Row, Col, Card, Spinner, Alert } from "react-bootstrap";
-import { Org } from "../../../types/org/org.type";
+import { useUserOrgs } from "../../../features/hooks/orgs/useUserOrg";
 
-const UserOrg: React.FC<{ token: string }> = ({ token }) => {
-  const [orgs, setOrgs] = React.useState<Org[]>();
-  const [loading, setLoading] = React.useState(false);
-
-  useEffect(() => {
-    const fetchOrgs = async () => {
-      try {
-        setLoading(true);
-        const data = await getUserOrg(token);
-        setOrgs(data);
-      } catch (err) {
-        console.log("error while getting user's org");
-        throw err;
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchOrgs();
-  }, [token]);
+const UserOrg: React.FC<{ token?: string }> = ({ token = "" }) => {
+  const { loading, orgs } = useUserOrgs(token);
 
   if (loading) {
     return (

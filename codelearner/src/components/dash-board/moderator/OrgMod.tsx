@@ -24,7 +24,7 @@ const OrgMod: React.FC = () => {
       </section>
 
       <section className="course_mod">
-        <CourseInOrg org_id={org_id || ""} isMod />
+        <CourseInOrg isMod />
       </section>
 
       <section className="course_mod">

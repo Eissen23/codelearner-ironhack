@@ -1,23 +1,25 @@
 import React from "react";
 import { useOutletContext } from "react-router";
-import { UserDetail } from "../../../types/user.type";
+import { Organization } from "../../../types/user.type";
 import { Badge, Card, Tab, Tabs } from "react-bootstrap";
 import ProblemSetHead from "../../problemset/ProblemSetHead";
 import CreateProblemSet from "../../form/CreateProblemSet";
+import { useUserOrgs } from "../../../features/hooks/orgs/useUserOrg";
 
 const DashBoardProblemSet: React.FC = () => {
   const [key, setKey] = React.useState("your-moderate");
-  const userInfo = (useOutletContext() as UserDetail) || null;
+  const token = useOutletContext() as string | null;
+  const { orgs, loading } = useUserOrgs(token!);
 
-  if (!userInfo) {
+  const organizations = orgs as Organization[];
+
+  if (loading) {
     return (
       <Card className="shadow-sm">
         <Card.Body>Loading...</Card.Body>
       </Card>
     );
   }
-
-  const orgs = userInfo.organizations;
 
   return (
     <div className="dashboard-problemset">
@@ -34,7 +36,7 @@ const DashBoardProblemSet: React.FC = () => {
           <ProblemSetHead />
         </Tab>
         <Tab eventKey="create" title="Create Problem Set">
-          <CreateProblemSet orgs={orgs || []} />
+          {organizations && <CreateProblemSet orgs={organizations} />}
         </Tab>
       </Tabs>
     </div>

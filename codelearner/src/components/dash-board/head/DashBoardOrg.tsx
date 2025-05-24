@@ -1,23 +1,22 @@
 import React from "react";
 import { Card, Row, Tabs, Tab, Col } from "react-bootstrap";
-import { UserDetail } from "../../../types/user.type";
+import { Organization } from "../../../types/user.type";
 import { useOutletContext } from "react-router-dom";
 import CreateOrganizationForm from "../../form/CreateOrganizationForm";
 import OrgCard from "../element/OrgCard";
+import { useUserOrgs } from "../../../features/hooks/orgs/useUserOrg";
 
 const DashBoardOrg: React.FC = () => {
   const [key, setKey] = React.useState("default");
-  const userInfo = useOutletContext() as UserDetail | null;
-
-  if (!userInfo) {
+  const token = useOutletContext() as string | null;
+  const { orgs, loading } = useUserOrgs(token!);
+  if (loading) {
     return (
       <Card className="shadow-sm">
         <Card.Body>Loading...</Card.Body>
       </Card>
     );
   }
-
-  const organizations = userInfo.organizations;
 
   return (
     <div className="dashboard-org">
@@ -32,10 +31,10 @@ const DashBoardOrg: React.FC = () => {
       >
         <Tab eventKey="default" title="All organization">
           <Row xs={1} md={2} className="g-4">
-            {organizations &&
-              organizations.map((org) => (
+            {orgs &&
+              orgs.map((org) => (
                 <Col key={`org_card${org.id}`}>
-                  <OrgCard org={org} />
+                  <OrgCard org={org as Organization} />
                 </Col>
               ))}
           </Row>

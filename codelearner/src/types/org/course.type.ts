@@ -1,4 +1,5 @@
 import { Link } from "../paginator.type";
+import { Enrolled } from "../user.type";
 import { Org } from "./org.type";
 
 export type Course = {
@@ -12,6 +13,7 @@ export type Course = {
   logo: string | null;
   created_at: Date;
   org_id: number;
+  pivot?: Enrolled;
 };
 export type CourseInfoResponse = {
   data: Course;

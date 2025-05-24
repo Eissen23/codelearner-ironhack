@@ -1,9 +1,13 @@
-import ProblemSetInOrg from "../../org/org/ProblemSetInOrg";
-import CourseInOrg from "../../courses/CourseInOrg";
+import { lazy, Suspense } from "react";
+
 import { useOrgDetail } from "../../../features/hooks/orgs/useOrgDetail";
 import { Button, Spinner } from "react-bootstrap";
 import { useNavigate, useParams } from "react-router";
 import OrgInfoItem from "../../org/element/OrgInfoItem";
+
+const CourseInOrg = lazy(() => import("../../courses/CourseInOrg"));
+import ProblemSetInOrg from "../../org/org/ProblemSetInOrg";
+import CustomSpinner from "../../CustomSpinner";
 
 const OrgSetting = () => {
   const { org_id } = useParams();
@@ -31,8 +35,11 @@ const OrgSetting = () => {
       </section>
 
       <section className="course_manage mb-4">
-        {org_id && <CourseInOrg org_id={org_id} />}
-
+        {org_id && (
+          <Suspense fallback={CustomSpinner}>
+            <CourseInOrg />
+          </Suspense>
+        )}
         <Button
           variant="primary"
           size="sm"

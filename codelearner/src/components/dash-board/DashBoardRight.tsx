@@ -1,17 +1,13 @@
 import React from "react";
 import { Card, Row, Col, Spinner } from "react-bootstrap";
-import { User } from "../../types/auth.types";
 import { useOutletContext } from "react-router";
-import { UserDetail } from "../../types/user.type";
+import { useUserDetail } from "../../features/hooks/users/useUserDetail";
 
-interface DashBoardRightProps {
-  userInfo?: User;
-}
+const DashBoardRight: React.FC = () => {
+  const token = useOutletContext() as string | null;
+  const userDetail = useUserDetail(token);
 
-const DashBoardRight: React.FC<DashBoardRightProps> = () => {
-  const userInfo = useOutletContext() as UserDetail | null;
-
-  if (!userInfo) {
+  if (!userDetail) {
     return (
       <Card className="shadow-sm">
         <Card.Body>
@@ -30,31 +26,33 @@ const DashBoardRight: React.FC<DashBoardRightProps> = () => {
           <Col sm={4}>
             <strong>Name:</strong>
           </Col>
-          <Col sm={8}>{userInfo.full_name}</Col>
+          <Col sm={8}>{userDetail.full_name}</Col>
         </Row>
         <Row className="mb-3">
           <Col sm={4}>
             <strong>Email:</strong>
           </Col>
-          <Col sm={8}>{userInfo.email}</Col>
+          <Col sm={8}>{userDetail.email}</Col>
         </Row>
         <Row className="mb-3">
           <Col sm={4}>
             <strong>Account Name:</strong>
           </Col>
-          <Col sm={8}>{userInfo.account_name}</Col>
+          <Col sm={8}>{userDetail.account_name}</Col>
         </Row>
         <Row className="mb-3">
           <Col sm={4}>
             <strong>Created Date:</strong>
           </Col>
-          <Col sm={8}>{new Date(userInfo.created_at).toLocaleDateString()}</Col>
+          <Col sm={8}>
+            {new Date(userDetail.created_at).toLocaleDateString()}
+          </Col>
         </Row>
         <Row className="mb-3">
           <Col sm={4}>
             <strong>About:</strong>
           </Col>
-          <Col sm={8}>{userInfo.about}</Col>
+          <Col sm={8}>{userDetail.about}</Col>
         </Row>
       </Card.Body>
     </Card>

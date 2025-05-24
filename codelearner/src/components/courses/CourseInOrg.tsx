@@ -2,11 +2,10 @@ import React from "react";
 import { Col, Row } from "react-bootstrap";
 import CourseCardItem from "./element/CourseCardItem";
 import { useCourses } from "../../features/hooks/course/useCourses";
+import { useParams } from "react-router";
 
-const CourseInOrg: React.FC<{ org_id: string; isMod?: boolean }> = ({
-  org_id,
-  isMod,
-}) => {
+const CourseInOrg: React.FC<{ isMod?: boolean }> = ({ isMod }) => {
+  const { org_id } = useParams();
   const { courses, loading } = useCourses(org_id);
 
   if (loading) {

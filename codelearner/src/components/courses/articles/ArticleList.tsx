@@ -37,7 +37,11 @@ const ArticleList: React.FC<{ course_id: string; editable?: boolean }> = ({
       </div>
       <Accordion defaultActiveKey="0" flush>
         {articles?.map((article) => (
-          <ArticleAccordionItem article={article} editable={editable} />
+          <ArticleAccordionItem
+            article={article}
+            editable={editable}
+            key={article.id}
+          />
         ))}
       </Accordion>
     </div>

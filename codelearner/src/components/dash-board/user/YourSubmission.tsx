@@ -9,7 +9,7 @@ const YourSubmission: React.FC = () => {
 
   return (
     <div>
-      <h4 className="display-6 mb-3">Your submission</h4>
+      <h4 className="fs-4  mb-3">Your submission</h4>
       {loading ? (
         <div className="d-flex justify-content-center h-100 align-content-center">
           <Spinner animation="border"></Spinner>

@@ -2,11 +2,12 @@ import React from "react";
 import { Col, Row, Spinner } from "react-bootstrap";
 import { useProblemSets } from "../../../features/hooks/problemsets/useProblemSets";
 import ProblemSetCard from "../../problemset/element/ProblemSetCard";
+import { useParams } from "react-router";
 
 const ProblemSetInOrg: React.FC<{ org_id: string; isMod?: boolean }> = ({
-  org_id,
   isMod,
 }) => {
+  const { org_id } = useParams();
   const { problemSets, isLoading } = useProblemSets(org_id);
 
   if (isLoading)

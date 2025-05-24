@@ -12,7 +12,8 @@ const ProblemSetInfoItem: React.FC<{
   problemSet: ProblemSet;
   loading: boolean;
   org: Org;
-}> = ({ problemSet, loading, org }) => {
+  user_role?: "HEAD" | "MOD" | "UNAUTHORIZE";
+}> = ({ problemSet, loading, org, user_role = "UNAUTHORIZE" }) => {
   const [isEditing, setIsEditing] = useState(false);
   const { token } = useAuth();
   const navigate = useNavigate();
@@ -174,6 +175,7 @@ const ProblemSetInfoItem: React.FC<{
             type="button"
             className="btn btn-danger"
             onClick={handleDelete}
+            disabled={user_role !== "HEAD"}
           >
             {Loading && (
               <span>
@@ -188,6 +190,7 @@ const ProblemSetInfoItem: React.FC<{
               type="button"
               className="btn btn-secondary"
               onClick={() => setIsEditing(!isEditing)}
+              disabled={user_role !== "HEAD"}
             >
               {isEditing ? "Cancel" : "Edit"}
             </button>

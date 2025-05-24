@@ -39,7 +39,6 @@ const moderator = [
 
 const DashBoard: React.FC = () => {
   const { token } = useAuth();
-  const userDetail = useUserDetail(token);
 
   return (
     <LayoutHome>
@@ -56,7 +55,7 @@ const DashBoard: React.FC = () => {
             <DashBoardLeft title="Moderator's section" menuItems={moderator} />
           </Col>
           <Col md={9}>
-            <Outlet context={userDetail} />
+            <Outlet context={token} />
           </Col>
         </Row>
       </Container>

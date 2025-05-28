@@ -1,30 +1,30 @@
-import { Dropdown } from "react-bootstrap";
+import { Form } from "react-bootstrap";
 import { LANGUAGE_VERSION } from "../../../data/LanguageVersion";
-interface LanguageSelectorProps {   
+interface LanguageSelectorProps {
   language?: string;
-  onChange?: (eventKey: any, event: Object) => any;
+  onChange?: (event: React.ChangeEvent<HTMLSelectElement>) => void;
 }
 
-const defaultLanguages = Object.entries(LANGUAGE_VERSION)
+const defaultLanguages = Object.entries(LANGUAGE_VERSION);
 
-const LanguageSelector: React.FC<LanguageSelectorProps> = ({ language , onChange }) => {
+const LanguageSelector: React.FC<LanguageSelectorProps> = ({
+  language,
+  onChange,
+}) => {
   return (
-      <Dropdown onSelect={onChange}>
-        <Dropdown.Toggle size="sm" variant="secondary" id="dropdown-basic">
-          {language}
-        </Dropdown.Toggle>
-        <Dropdown.Menu >
-          {defaultLanguages.map(([lang, version]) => (
-            <Dropdown.Item 
-              key={lang} 
-              eventKey={lang}
-              active={lang === language}
-            >
-              {lang} - {version}
-            </Dropdown.Item>
-          ))}
-        </Dropdown.Menu>
-      </Dropdown>
+    <Form.Select
+      size="sm"
+      value={language}
+      onChange={onChange}
+      id="language-selector"
+      className="w-25 bg-black text-white"
+    >
+      {defaultLanguages.map(([lang, version]) => (
+        <option key={lang} value={lang}>
+          {version.name}
+        </option>
+      ))}
+    </Form.Select>
   );
 };
 

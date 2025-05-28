@@ -1,13 +1,17 @@
-import { LoaderFunctionArgs } from "react-router-dom";
+import { LoaderFunctionArgs, redirect } from "react-router-dom";
 import { getAuthToken } from "./getLocalItem";
-import { isOwnerProblemSet } from "../../service/helper/isOwnerProblemSet";
+import { isOrgHead } from "../../service/helper/isOrgHead";
 
 export const orgOwnerLoader = async ({ params }: LoaderFunctionArgs) => {
-  const { problemSetId } = params;
+  const { org_id } = params;
   const token = getAuthToken();
 
-  if (!problemSetId || !token) throw new Error("Missing problemSetId or token");
+  if (!org_id || !token) throw new Error("Missing problemSetId or token");
 
-  const { role } = await isOwnerProblemSet(token, problemSetId);
+  const { role } = await isOrgHead(token, org_id);
+
+  if (role === "UNAUTHORIZE") {
+    return redirect("/not-authorized");
+  }
   return { role };
 };

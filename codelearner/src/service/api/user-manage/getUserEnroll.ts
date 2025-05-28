@@ -10,7 +10,7 @@ export const getUserEnroll = async (token: string): Promise<Course[]> => {
     });
     return response.data;
   } catch (error) {
-    console.log("error fetching member/your-orgs");
+    console.log("error fetching member/enrolled");
     throw error;
   }
 };

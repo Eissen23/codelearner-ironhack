@@ -3,6 +3,19 @@ import { Organization } from "../../../types/user.type";
 import { Card, Badge } from "react-bootstrap";
 
 const OrgCard: React.FC<{ org: Organization }> = ({ org }) => {
+  const getBadgeVariant = (role: string) => {
+    switch (role) {
+      case "OrgHead":
+        return "warning";
+      case "Moderator":
+        return "primary";
+      case "Pending":
+        return "secondary";
+      default:
+        return "danger";
+    }
+  };
+
   return (
     <Card className="h-100 shadow-sm hover-shadow">
       {org.logo && (
@@ -19,24 +32,13 @@ const OrgCard: React.FC<{ org: Organization }> = ({ org }) => {
       )}
       <Card.Body>
         <Card.Title>
-          <Link
-            to={
-              org.pivot.role === "OrgHead"
-                ? `${org.id}`
-                : `/dashboard/mod/org/${org.id}`
-            }
-            className="text-decoration-none text-dark"
-          >
+          <Link to={`${org.id}`} className="text-decoration-none text-dark">
             {org.name}
           </Link>
         </Card.Title>
         <Card.Text>
           Role:{" "}
-          {org.pivot.role === "OrgHead" ? (
-            <Badge bg="warning">{org.pivot.role}</Badge>
-          ) : (
-            <Badge bg="primary">{org.pivot.role}</Badge>
-          )}
+          <Badge bg={getBadgeVariant(org.pivot.role)}>{org.pivot.role}</Badge>
         </Card.Text>
         <Card.Text>{org.description}</Card.Text>
         {(org.contact_email || org.website) && (

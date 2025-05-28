@@ -1,4 +1,4 @@
-import { redirect, useLoaderData, useParams } from "react-router";
+import { useLoaderData, useParams } from "react-router";
 import LayoutHome from "../../layout/LayoutHome";
 import ProblemSetInfoItem from "../../components/problemset/element/ProblemSetInfoItem";
 import { useProblemSetsInfo } from "../../features/hooks/problemsets/useProblemSetInfo";
@@ -12,10 +12,6 @@ const ProblemSetSetting: React.FC = () => {
     problemSetId || "",
     true
   );
-
-  if (role === "UNAUTHORIZE") {
-    redirect("/not-authorized");
-  }
 
   if (loading) {
     return (

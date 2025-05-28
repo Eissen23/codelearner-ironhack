@@ -2,6 +2,7 @@ import { lazy } from "react";
 import { RouteObject } from "react-router";
 import { psOwnerLoader } from "./loader/psOwnerLoader";
 import { courseOwnerLoader } from "./loader/courseOwnerLoader";
+import { orgOwnerLoader } from "./loader/orgOwnerLoader";
 
 const SolutionCreate = lazy(() => import("../pages/CreatePage/SolutionCreate"));
 const UserSolutionPage = lazy(
@@ -52,7 +53,7 @@ const YourSubmission = lazy(
   () => import("../components/dash-board/user/YourSubmission")
 );
 const SubmissionPage = lazy(() => import("../pages/DetailPage/SubmissionPage"));
-const OrgMod = lazy(() => import("../components/dash-board/moderator/OrgMod"));
+// const OrgMod = lazy(() => import("../components/dash-board/moderator/OrgMod"));
 const CourseSettingPage = lazy(
   () => import("../pages/Setting/CourseSettingPage")
 );
@@ -142,7 +143,7 @@ const routes_map: RouteObject[] = [
         Component: DashBoard,
         children: [
           {
-            index: true,
+            path: "profile",
             Component: DashBoardRight,
           },
           {
@@ -162,32 +163,33 @@ const routes_map: RouteObject[] = [
             Component: SettingMain,
           },
           {
-            path: "/dashboard/head/org-manage",
+            path: "org-manage",
             children: [
               {
                 index: true,
                 Component: DashBoardOrg,
               },
               {
-                path: "/dashboard/head/org-manage/:org_id",
+                path: ":org_id",
+                loader: orgOwnerLoader,
                 Component: OrgSetting,
               },
               {
-                path: "/dashboard/head/org-manage/:org_id/add-course",
+                path: ":org_id/add-course",
                 Component: AddCoursePage,
               },
               {
-                path: "/dashboard/head/org-manage/:org_id/add-problem-set",
+                path: ":org_id/add-problem-set",
                 Component: AddProblemSetPage,
               },
             ],
           },
           {
-            path: "/dashboard/head/course",
+            path: "/dashboard/course",
             Component: DashBoardCourse,
           },
           {
-            path: "/dashboard/head/problemset",
+            path: "/dashboard/problemset",
             Component: DashBoardProblemSet,
           },
 
@@ -195,10 +197,6 @@ const routes_map: RouteObject[] = [
           {
             path: "/dashboard/mod",
             children: [
-              {
-                path: "/dashboard/mod/org/:org_id",
-                Component: OrgMod,
-              },
               {
                 path: "/dashboard/mod/problemset",
                 Component: ModeratingProblemSet,

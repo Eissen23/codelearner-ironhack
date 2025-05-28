@@ -13,7 +13,7 @@ export const getCourseHead = async (token: string): Promise<Course[]> => {
     );
     return response.data;
   } catch (error) {
-    console.log("error fetching member/your-orgs");
+    console.log("error fetching member/modrated-course");
     throw error;
   }
 };

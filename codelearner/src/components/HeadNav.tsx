@@ -21,7 +21,7 @@ const userItems = [
   { label: "Courses", link: "/courses" },
   { label: "Problem Sets", link: "/problem-sets" },
   { label: "Org", link: "/orgs" },
-  { label: "Profile", link: "/dashboard" },
+  { label: "Profile", link: "/dashboard/profile" },
 ];
 
 function HeadNav() {

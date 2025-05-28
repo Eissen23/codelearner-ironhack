@@ -2,7 +2,7 @@ import { lazy, Suspense } from "react";
 
 import { useOrgDetail } from "../../../features/hooks/orgs/useOrgDetail";
 import { Button, Spinner } from "react-bootstrap";
-import { useNavigate, useParams } from "react-router";
+import { useLoaderData, useNavigate, useParams } from "react-router";
 import OrgInfoItem from "../../org/element/OrgInfoItem";
 
 const CourseInOrg = lazy(() => import("../../courses/CourseInOrg"));
@@ -12,6 +12,7 @@ import CustomSpinner from "../../CustomSpinner";
 const OrgSetting = () => {
   const { org_id } = useParams();
   const { loading, data } = useOrgDetail(org_id || "");
+  const { role } = useLoaderData();
   const navigate = useNavigate();
 
   const handleClick = (to: string) => {
@@ -31,7 +32,7 @@ const OrgSetting = () => {
     <div className="course_manage">
       <section className="org_info mb-4 border-1 border-bottom pb-4">
         <h4 className="text-muted">Organization detail</h4>
-        {data && <OrgInfoItem org={data} />}
+        {data && <OrgInfoItem org={data} onlyRead={role !== "HEAD"} />}
       </section>
 
       <section className="course_manage mb-4">
@@ -40,24 +41,28 @@ const OrgSetting = () => {
             <CourseInOrg />
           </Suspense>
         )}
-        <Button
-          variant="primary"
-          size="sm"
-          onClick={() => handleClick("add-course")}
-        >
-          Add Course
-        </Button>
+        {role === "HEAD" && (
+          <Button
+            variant="primary"
+            size="sm"
+            onClick={() => handleClick("add-course")}
+          >
+            Add Course
+          </Button>
+        )}
       </section>
 
       <section className="problemset_manage">
         {org_id && <ProblemSetInOrg org_id={org_id} />}
-        <Button
-          variant="primary"
-          size="sm"
-          onClick={() => handleClick("add-problem-set")}
-        >
-          Add Problemset
-        </Button>
+        {role === "HEAD" && (
+          <Button
+            variant="primary"
+            size="sm"
+            onClick={() => handleClick("add-problem-set")}
+          >
+            Add Problemset
+          </Button>
+        )}
       </section>
     </div>
   );

@@ -36,7 +36,7 @@ const CreateOrganizationForm: React.FC = () => {
       const { organization } = await createOrg(token, formData);
       toast.success("Organization created");
       setTimeout(() => {
-        navigate(`/dashboard/head/org-manage/${organization.id}`);
+        navigate(`/dashboard/org-manage/${organization.id}`);
       }, 5000);
     } catch (error) {
       toast.error("Failed to create Org!", {

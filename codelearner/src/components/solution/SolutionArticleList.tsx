@@ -1,7 +1,7 @@
 import { Link, useParams } from "react-router";
 import { useSArticleList } from "../../features/hooks/solution/useSArticleList";
 import { Alert, Button, ListGroup, Spinner } from "react-bootstrap";
-import { getLanguageKey } from "../../data/LanguageMapping";
+import { getVersionName } from "../../data/LanguageVersion";
 const SolutionArticleList = () => {
   const { problem_id } = useParams();
   const { loading, solutionArticle } = useSArticleList(problem_id || "");
@@ -19,7 +19,7 @@ const SolutionArticleList = () => {
               <ListGroup.Item key={index}>
                 <div className="d-flex justify-content-between">
                   <h6>{solution.name}</h6>
-                  <div>{getLanguageKey(solution.language)}</div>
+                  <div>{getVersionName(solution.language)}</div>
                   <Link to={`/setting/solution-article/${solution.id}`}>
                     To solution
                   </Link>

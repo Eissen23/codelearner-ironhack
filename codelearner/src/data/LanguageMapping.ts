@@ -9,6 +9,10 @@ export const LANGUAGE_MAPPING: { [key: string]: number } = {
   typescript: 101,
   kotlin: 111,
   php: 98,
+  python2: 70,
+  python3: 71,
+  cpp11: 52,
+  java8: 62,
 };
 
 export const getLanguageKey = (code: number): string => {

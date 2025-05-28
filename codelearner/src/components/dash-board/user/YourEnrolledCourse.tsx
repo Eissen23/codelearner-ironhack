@@ -1,12 +1,12 @@
 import { Alert, Button, Col, Row, Spinner } from "react-bootstrap";
-import { useOutletContext } from "react-router";
 import { UserCourse } from "../../../types/user.type";
 import { Link } from "react-router-dom";
 import CourseCard from "../element/CourseCard";
 import { useEnroll } from "../../../features/hooks/course/userEnroll";
+import { getAuthToken } from "../../../config/loader/getLocalItem";
 
 const YourCourse: React.FC = () => {
-  const token = useOutletContext() as string | null;
+  const token = getAuthToken();
 
   const { courses, loading } = useEnroll(token!);
 

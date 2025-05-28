@@ -1,6 +1,7 @@
-import { Link } from "react-router";
+import { useNavigate } from "react-router-dom";
 
 const NotAuthorize = () => {
+  const navigate = useNavigate();
   return (
     <div className="container mt-5 text-center">
       <div className="row justify-content-center">
@@ -9,10 +10,15 @@ const NotAuthorize = () => {
             <h4 className="alert-heading">Access Denied!</h4>
             <p>Sorry, you are not authorized to access this page.</p>
             <hr />
-            <p className="mb-0">
+            <div className="mb-0">
               Please contact your administrator for access.
-            </p>
-            <Link to={`/`}>HOME</Link>
+              <button
+                onClick={() => navigate(-2)}
+                className="btn btn-link d-block mx-auto"
+              >
+                Back
+              </button>
+            </div>
           </div>
         </div>
       </div>

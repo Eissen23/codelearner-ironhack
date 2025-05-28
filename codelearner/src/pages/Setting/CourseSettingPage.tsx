@@ -1,6 +1,6 @@
 import LayoutHome from "../../layout/LayoutHome";
 import { Spinner } from "react-bootstrap";
-import { redirect, useLoaderData, useParams } from "react-router-dom";
+import { useLoaderData, useParams } from "react-router-dom";
 import { useCourseInfo } from "../../features/hooks/course/useCourseInfo";
 import CourseInfoItem from "../../components/courses/element/CourseInfoItem";
 import ArticleList from "../../components/courses/articles/ArticleList";
@@ -9,10 +9,6 @@ const CourseSettingPage: React.FC = () => {
   const { course_id } = useParams<{ course_id: string }>();
   const { role } = useLoaderData();
   const { loading, course, belong } = useCourseInfo(course_id || "", true);
-
-  if (role === "UNAUTHORIZE") {
-    redirect("/not-authorized");
-  }
 
   if (loading) {
     return (

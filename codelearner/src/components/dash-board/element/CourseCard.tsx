@@ -18,7 +18,7 @@ const CourseCard: React.FC<{ course: UserCourse }> = ({ course }) => {
           <Card.Text>{course.description}</Card.Text>
           <div className="text-muted">
             <p className="mb-1">{course.description}</p>
-            {course.duration && (
+            {course.duration > 0 && (
               <p className="mb-1">Duration: {course.duration}</p>
             )}
           </div>

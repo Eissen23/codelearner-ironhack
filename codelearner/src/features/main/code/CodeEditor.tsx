@@ -4,6 +4,7 @@ import styles from "./Editor.module.css";
 import LanguageSelector from "./LanguageSelector";
 import { TestCase } from "../../../types/content/problem.type";
 import ViewTestCase from "./ViewTestCase";
+import { LANGUAGE_VERSION } from "../../../data/LanguageVersion";
 
 interface CodeEditorProps {
   value?: string;
@@ -27,8 +28,10 @@ const CodeEditor: React.FC<CodeEditorProps> = ({
   const internalRef = useRef<any>(null);
   const editorRef = externalRef || internalRef;
 
-  const handleLanguageChange = (newLanguage: string) => {
-    onLanguageChange(newLanguage);
+  const handleLanguageChange = (
+    event: React.ChangeEvent<HTMLSelectElement>
+  ) => {
+    onLanguageChange(event.target.value);
   };
 
   const onMount = (editor: any) => {
@@ -50,7 +53,7 @@ const CodeEditor: React.FC<CodeEditorProps> = ({
       </div>
       <Editor
         theme="vs-dark"
-        language={language}
+        language={LANGUAGE_VERSION[language].syntax}
         value={value}
         onMount={onMount}
         onChange={handleEditorChange}

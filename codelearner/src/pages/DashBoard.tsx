@@ -4,21 +4,21 @@ import LayoutHome from "../layout/LayoutHome";
 import DashBoardLeft from "../components/dash-board/DashBoardLeft";
 import { useAuth } from "../context/auth/AuthContext";
 import { Outlet } from "react-router";
-import { useUserDetail } from "../features/hooks/users/useUserDetail";
+import "../assets/style/DashBoard.css";
 
 const orgHead = [
   {
-    path: "/dashboard/head/org-manage",
+    path: "/dashboard/org-manage",
     label: "Manage Organization",
     icon: "bi bi-house-gear",
   },
   {
-    path: "/dashboard/head/course",
+    path: "/dashboard/course",
     label: "Manage Course",
     icon: "bi bi-book-half",
   },
   {
-    path: "/dashboard/head/problemset",
+    path: "/dashboard/problemset",
     label: "Manage Problem Set",
     icon: "bi bi-building-gear",
   },
@@ -46,12 +46,12 @@ const DashBoard: React.FC = () => {
         <Row>
           <Col md={3} className="border-end border-1 ">
             <DashBoardLeft title="User's section" />
-            <div className="py-3 text-secondary">____________________</div>
+            <hr />
             <DashBoardLeft
               title="Organization's head section"
               menuItems={orgHead}
             />
-            <div className="py-3 text-secondary">____________________</div>
+            <hr />
             <DashBoardLeft title="Moderator's section" menuItems={moderator} />
           </Col>
           <Col md={9}>

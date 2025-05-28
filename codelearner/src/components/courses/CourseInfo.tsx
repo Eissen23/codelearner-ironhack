@@ -1,11 +1,26 @@
 import React from "react";
-import { Card, Spinner, Alert } from "react-bootstrap";
+import { Card, Spinner, Alert, Button } from "react-bootstrap";
 import { useCourseInfo } from "../../features/hooks/course/useCourseInfo";
+import { getAuthToken } from "../../config/loader/getLocalItem";
+import { enrollCourse } from "../../service/user-service/enroll/enrollCourse";
+import { toast, ToastContainer } from "react-toastify";
 
 const CourseInfo: React.FC<{ courseId: string | undefined }> = ({
   courseId,
 }) => {
   const { loading, error, course } = useCourseInfo(courseId);
+  const token = getAuthToken();
+  const handleEnroll = async () => {
+    try {
+      await toast.promise(enrollCourse(courseId!, token!), {
+        pending: "Enrolling",
+        success: "Enroll success",
+        error: "You have already enrolled",
+      });
+    } catch (error) {
+      console.log("handleEnroll", error);
+    }
+  };
 
   if (loading) {
     return (
@@ -26,18 +41,36 @@ const CourseInfo: React.FC<{ courseId: string | undefined }> = ({
   }
 
   return (
-    <Card className="shadow-sm">
-      <Card.Header as="h5">{course.name}</Card.Header>
-      <Card.Body>
-        <Card.Title>Course Details</Card.Title>
-        <Card.Text>{course.description}</Card.Text>
-        {course.duration && (
+    <>
+      <ToastContainer />
+      <Card className="shadow-sm">
+        <Card.Header as="h5">{course.name}</Card.Header>
+        <Card.Body>
+          <Card.Title>Course Details</Card.Title>
           <Card.Text>
-            <strong>Duration:</strong> {course.duration}
+            <strong>What's this courses about?</strong>
+            <br />
+            {course.short_description}
           </Card.Text>
-        )}
-      </Card.Body>
-    </Card>
+          <Card.Text className="text-secondary">{course.description}</Card.Text>
+          {course.duration !== 0 && (
+            <Card.Text>
+              <strong>Duration:</strong> {course.duration}
+            </Card.Text>
+          )}
+          {token && (
+            <Button
+              variant="primary"
+              size="sm"
+              className="me-auto"
+              onClick={handleEnroll}
+            >
+              Enroll course?
+            </Button>
+          )}
+        </Card.Body>
+      </Card>
+    </>
   );
 };
 

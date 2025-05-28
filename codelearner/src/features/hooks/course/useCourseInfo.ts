@@ -34,7 +34,7 @@ export const useCourseInfo = (
     };
 
     fetchCourseInfo();
-  }, [courseId]);
+  }, []);
 
   return { course, belong, loading, error };
 };

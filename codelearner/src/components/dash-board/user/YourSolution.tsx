@@ -2,7 +2,7 @@ import React from "react";
 import useYourSolution from "../../../features/hooks/users/useYourSolution";
 import { Alert, ListGroup, Spinner } from "react-bootstrap";
 import { Link } from "react-router";
-import { getLanguageKey } from "../../../data/LanguageMapping";
+import { getVersionName } from "../../../data/LanguageVersion";
 
 const YourSolution: React.FC = () => {
   const { loading, userSolution } = useYourSolution();
@@ -30,7 +30,7 @@ const YourSolution: React.FC = () => {
                     {us.status}
                   </div>
                   <div>
-                    {getLanguageKey(us.user_submission?.language_id || 0)}
+                    {getVersionName(us.user_submission?.language_id || 0)}
                   </div>
                   <Link to={`/setting/user-solution/${us.id}`}>
                     To your solution

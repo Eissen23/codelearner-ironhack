@@ -1,6 +1,6 @@
 import React from "react";
 import { Nav } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 interface MenuItem {
   path: string;
@@ -15,7 +15,7 @@ interface DashBoardLeftProps {
 
 const defaultMenuItems: MenuItem[] = [
   {
-    path: "/dashboard",
+    path: "/dashboard/profile",
     label: "Overview",
     icon: "bi bi-house",
   },
@@ -45,6 +45,11 @@ const DashBoardLeft: React.FC<DashBoardLeftProps> = ({
   title,
   menuItems = defaultMenuItems,
 }) => {
+  const location = useLocation();
+  const isActive = (path: string) => {
+    // Check if current path starts with nav item path
+    return location.pathname.startsWith(path);
+  };
   return (
     <>
       <h3 className="fs-6 text-secondary">{title}</h3>
@@ -54,7 +59,9 @@ const DashBoardLeft: React.FC<DashBoardLeftProps> = ({
             <Nav.Link
               as={Link}
               to={`${item.path}`}
-              className="d-flex align-items-center gap-2 text-dark nav-pills"
+              className={`d-flex align-items-center gap-2 ${
+                isActive(item.path) ? "active text-primary" : "text-dark"
+              }`}
             >
               {item.icon && <i className={item.icon}></i>}
               {item.label}

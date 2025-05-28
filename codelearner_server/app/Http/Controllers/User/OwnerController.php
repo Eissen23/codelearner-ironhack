@@ -8,7 +8,8 @@ use App\Models\User;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
 
-class OwnerController extends Controller implements HasMiddleware{
+class OwnerController extends Controller implements HasMiddleware
+{
     public static function Middleware()
     {
         return [
@@ -16,25 +17,54 @@ class OwnerController extends Controller implements HasMiddleware{
         ];
     }
 
-    public function getYourOrg(Request $request) {
-        $org = $request->user()->organizations()->get();
+
+    public function getYourOrg(Request $request)
+    {
+        $organizations = $request->user()
+            ->organizations()
+            ->get()
+            ->groupBy('pivot.role');
+
+        return [
+            'org_managed' => $organizations->get('Head', collect()),
+            'org_mod' => $organizations->get('Moderator', collect()),
+            'org_not_authorize' => $organizations->get('Member', collect()), // or whatever your third role is
+        ];
+    }
+
+    public function getYourOrgSpec(Request $request)
+    {
+        $as_role = $request->input('as_role', null);
+
+        $org = [];
+        if (!$as_role) {
+            $org = $request->user()->organizations()->get();
+        } else {
+            $org = $request->user()->organizations()->wherePivot('role', $as_role)->get();
+        }
+
         return $org;
     }
-    public function getYourCourseEnroll(Request $request) {
+
+    public function getYourCourseEnroll(Request $request)
+    {
         $course = $request->user()->courses()->get();
         return $course;
     }
-    public function getYourCourseModerator(Request $request) {
+    public function getYourCourseModerator(Request $request)
+    {
         $course = $request->user()->managedOrganizations()->with('courses')->get()->pluck('courses')->flatten();
         return $course;
     }
 
-    public function getYourProblemModerator(Request $request) {
+    public function getYourProblemModerator(Request $request)
+    {
         $problemSets = $request->user()->managedOrganizations()->with('problemSets')->get()->pluck('problemSets')->flatten();
         return $problemSets;
     }
 
-    public function getYourSubmission(Request $request) {
+    public function getYourSubmission(Request $request)
+    {
         $submission = $request->user()->userSubmissions()->get();
         return $submission;
     }

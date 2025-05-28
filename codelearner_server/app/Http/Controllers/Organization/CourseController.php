@@ -121,6 +121,6 @@ class CourseController extends Controller implements HasMiddleware
 
     public function isOwn (Request $request, Course $course) {
         $user =  $request->user();
-        return OrgPolicyHelper::userOwn($user, $course);
+        return ['role' =>OrgPolicyHelper::userOwn($user, $course)];
     }
 }

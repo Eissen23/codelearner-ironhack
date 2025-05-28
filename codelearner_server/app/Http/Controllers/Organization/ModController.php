@@ -43,6 +43,7 @@ class ModController extends Controller implements HasMiddleware
 
 
     public function joinOrg(Request $request, Organization $org){
+        Gate::authorize('join', $org);
         $user = $request->user();
         if (!$user || !$org){
             return response()->json( [

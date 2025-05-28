@@ -12,6 +12,9 @@ use App\Http\Controllers\Organization\ProblemSetController;
  */
 
 Route::apiResource('/', OrgController::class)->parameter('','org');
+Route::controller(OrgController::class)->group(function() {
+    Route::get('/{org}/allow','isOwn');
+});
 
 /**
  * Use the moderator controller 

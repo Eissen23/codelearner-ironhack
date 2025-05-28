@@ -47,12 +47,12 @@ class UserCourseController extends Controller implements HasMiddleware
     {
         Gate::authorize('join', $course);
 
-        $payment_id = null;
+        $payment_id = 0;
         if($course->fee){
             // Handle payment logic here
             // For example, redirect to a payment gateway
             // $paymen_id = Payment::create($api);
-            $payment_id = 1; // Placeholder for payment ID
+            $payment_id = 0; // Placeholder for payment ID
         } 
 
         $fields = [

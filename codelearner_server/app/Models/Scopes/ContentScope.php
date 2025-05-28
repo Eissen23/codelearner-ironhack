@@ -18,7 +18,7 @@ class ContentScope implements Scope
         //
          $filter = Request::input('c_keyword', null);
         $tags = Request::input('tagged', null); // Get tags from query parameter
-        $sort = Request::input('sort', 'created-desc'); // Default to created-desc
+        $sort = Request::input('sort', 'created_at-asc'); // Default to created-desc
 
         $allowedSorts = ['_id', 'name', 'created_at', 'difficulty'];
 

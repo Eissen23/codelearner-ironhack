@@ -45,4 +45,17 @@ class OrganizationPolicy
         return Response::allow();
     }
 
+    public function join (User $user, Organization $organization) {
+        if(!$user || !$organization) {
+            return Response::deny('Either user or org is null');
+        }
+
+        $moderator = OrgPolicyHelper::getMod($organization, $user);
+
+        if ($moderator) {
+            return Response::deny('User already in  org', 403);
+        }
+        
+        return Response::allow();
+    }
 }

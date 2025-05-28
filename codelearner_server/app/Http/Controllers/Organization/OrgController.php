@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Organization;
 use App\Models\Moderator;
 
+use App\Policies\PolicyHelper\OrgPolicyHelper;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
@@ -15,9 +16,10 @@ use Illuminate\Support\Facades\Gate;
 class OrgController extends Controller implements HasMiddleware
 {
 
-    public static function middleware(){
+    public static function middleware()
+    {
         return [
-            new Middleware('auth:sanctum', except :['index', 'show']),
+            new Middleware('auth:sanctum', except: ['index', 'show']),
         ];
     }
 
@@ -113,5 +115,19 @@ class OrgController extends Controller implements HasMiddleware
         return [
             'message' => 'Delete organization successfully',
         ];
+    }
+
+    public function isOwn(Request $request, Organization $org)
+    {
+        $mod = OrgPolicyHelper::getMod($org, $request->user());
+        if (!$mod){
+            return ['role' => 'UNAUTHORIZE'];
+        }
+
+        $roleLabel = match ($mod->role) {
+            'OrgHead'=> 'HEAD',
+            'Moderator' => 'MOD',
+        };
+        return ['role' =>$roleLabel];
     }
 }

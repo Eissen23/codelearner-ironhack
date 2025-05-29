@@ -26,9 +26,10 @@ class OwnerController extends Controller implements HasMiddleware
             ->groupBy('pivot.role');
 
         return [
-            'org_managed' => $organizations->get('Head', collect()),
+            'org_managed' => $organizations->get('OrgHead', collect()),
             'org_mod' => $organizations->get('Moderator', collect()),
-            'org_not_authorize' => $organizations->get('Member', collect()), // or whatever your third role is
+            'org_pending' => $organizations->get('Pending', collect()), // or whatever your third role is
+            'org_reject' => $organizations->get('Reject', collect()), // or whatever your third role is
         ];
     }
 

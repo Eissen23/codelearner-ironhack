@@ -44,7 +44,7 @@ $card-border-color: rgba($dark, 0.1);
 $card-box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 
 // Import Bootstrap's source
-@import "../node_modules/bootstrap/scss/bootstrap.scss";
+@import "../../../node_modules/bootstrap/scss/bootstrap.scss";
 
 // Component-specific overrides
 .btn-primary {

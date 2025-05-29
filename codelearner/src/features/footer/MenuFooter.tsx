@@ -1,5 +1,5 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React from "react";
+import { Link } from "react-router-dom";
 
 interface MenuLink {
   text: string;
@@ -18,7 +18,10 @@ const MenuFooter: React.FC<MenuFooterProps> = ({ title, links }) => {
       <ul className="menu-links list-unstyled">
         {links.map((link, index) => (
           <li key={index}>
-            <Link to={link.to} className="menu-link">
+            <Link
+              to={link.to}
+              className="menu-link text-light text-decoration-none"
+            >
               {link.text}
             </Link>
           </li>
@@ -29,4 +32,3 @@ const MenuFooter: React.FC<MenuFooterProps> = ({ title, links }) => {
 };
 
 export default MenuFooter;
-

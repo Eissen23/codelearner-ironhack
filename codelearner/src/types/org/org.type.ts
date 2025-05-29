@@ -30,3 +30,10 @@ export type OrgUpdateRes = {
   message: string;
   data: Org;
 };
+
+export type OrgUser = {
+  org_managed: Org[];
+  org_mod: Org[];
+  org_pending: Org[];
+  org_reject: Org[];
+};

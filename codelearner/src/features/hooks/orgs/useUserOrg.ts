@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
-import { Org } from "../../../types/org/org.type";
+import { OrgUser } from "../../../types/org/org.type";
 import { getUserOrg } from "../../../service/api/user-manage/getUserOrg";
 
 export const useUserOrgs = (token: string) => {
-  const [orgs, setOrgs] = useState<Org[]>();
+  const [orgs, setOrgs] = useState<OrgUser>();
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {

@@ -11,7 +11,7 @@ const DashBoardProblemSet: React.FC = () => {
   const token = useOutletContext() as string | null;
   const { orgs, loading } = useUserOrgs(token!);
 
-  const organizations = orgs as Organization[];
+  const organizations = orgs?.org_managed as Organization[];
 
   if (loading) {
     return (

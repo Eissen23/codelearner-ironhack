@@ -1,12 +1,12 @@
 import { CODELEARNER_API } from "../clients/codelearner";
-import { Org } from "../../../types/org/org.type";
+import { OrgUser } from "../../../types/org/org.type";
 
 export const getUserOrg = async (
   token: string,
   role?: "OrgHead" | "Moderator" | "Pending"
-): Promise<Org[]> => {
+): Promise<OrgUser> => {
   try {
-    const response = await CODELEARNER_API.get<Org[]>("/member/your-orgs", {
+    const response = await CODELEARNER_API.get<OrgUser>("/member/your-orgs", {
       headers: {
         Authorization: `Bearer ${token}`,
       },

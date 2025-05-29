@@ -1,4 +1,5 @@
 import { UserSubmission } from "./content/submission.type";
+import { Link } from "./paginator.type";
 
 export interface Moderator {
   user_id: number;
@@ -49,4 +50,32 @@ export type UserDetail = {
   submissions: UserSubmission[];
   organizations: Organization[];
   courses: UserCourse[];
+};
+
+export type UserModerator = {
+  id: number;
+  full_name: string;
+  account_name: string;
+  email: string;
+  email_verified_at: Date;
+  created_at: Date;
+  updated_at: Date;
+  about: string;
+  pivot: Moderator;
+};
+
+export type ModList = {
+  current_page: number;
+  data: UserModerator[];
+  first_page_url: string;
+  from: number;
+  last_page: number;
+  last_page_url: string;
+  links: Link[];
+  next_page_url: string | null;
+  path: string;
+  per_page: number;
+  prev_page_url: string | null;
+  to: number;
+  total: number;
 };

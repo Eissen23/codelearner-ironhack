@@ -1,12 +1,23 @@
+import { ModList } from "../../../../types/user.type";
 import { CODELEARNER_API } from "../../clients/codelearner";
 
-type response = {};
+type Response = {
+  moderators: ModList;
+};
 
-export const showModInOrg = (org_id: string, token: string) => {
+export const showModInOrg = async (
+  org_id: string,
+  token: string
+): Promise<Response> => {
   try {
-    const response = CODELEARNER_API.get(`orgs/${org_id}/mods`, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
+    const response = await CODELEARNER_API.get<Response>(
+      `orgs/${org_id}/mods`,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
+
+    return response.data;
   } catch (error) {
     console.log("showModInOrg", error);
     throw error;

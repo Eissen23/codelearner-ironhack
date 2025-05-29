@@ -1,5 +1,5 @@
 import React from "react";
-import { Card, Row, Tabs, Tab, Col } from "react-bootstrap";
+import { Card, Row, Tabs, Tab, Col, Accordion } from "react-bootstrap";
 import { Organization } from "../../../types/user.type";
 import { useOutletContext } from "react-router-dom";
 import CreateOrganizationForm from "../../form/CreateOrganizationForm";
@@ -30,14 +30,48 @@ const DashBoardOrg: React.FC = () => {
         className="mb-3 mt-4"
       >
         <Tab eventKey="default" title="All organization">
-          <Row xs={1} md={2} className="g-4">
-            {orgs &&
-              orgs.map((org) => (
-                <Col key={`org_card${org.id}`}>
-                  <OrgCard org={org as Organization} />
-                </Col>
-              ))}
-          </Row>
+          <Accordion defaultActiveKey="0" flush>
+            <Accordion.Item eventKey="0">
+              <Accordion.Header>Head Organizations</Accordion.Header>
+              <Accordion.Body className="overflow-scroll">
+                <Row xs={1} md={2} className="g-4">
+                  {orgs &&
+                    orgs.org_managed.map((org) => (
+                      <Col key={`org_card${org.id}`}>
+                        <OrgCard org={org as Organization} />
+                      </Col>
+                    ))}
+                </Row>
+              </Accordion.Body>
+            </Accordion.Item>
+            <Accordion.Item eventKey="2">
+              <Accordion.Header>Moderated Organizations</Accordion.Header>
+              <Accordion.Body>
+                <Row xs={1} md={2} className="g-4">
+                  {orgs &&
+                    orgs.org_mod.map((org) => (
+                      <Col key={`org_card${org.id}`}>
+                        <OrgCard org={org as Organization} />
+                      </Col>
+                    ))}
+                </Row>
+              </Accordion.Body>
+            </Accordion.Item>
+
+            <Accordion.Item eventKey="3">
+              <Accordion.Header>Pending Organizations</Accordion.Header>
+              <Accordion.Body>
+                <Row xs={1} md={2} className="g-4">
+                  {orgs &&
+                    orgs.org_pending.map((org) => (
+                      <Col key={`org_card${org.id}`}>
+                        <OrgCard org={org as Organization} />
+                      </Col>
+                    ))}
+                </Row>
+              </Accordion.Body>
+            </Accordion.Item>
+          </Accordion>
         </Tab>
 
         <Tab eventKey="Create" title="Create">

@@ -3,7 +3,7 @@ import { createRoot } from "react-dom/client";
 import "./index.css";
 import App from "./App";
 import "bootstrap-icons/font/bootstrap-icons.css";
-import "./variable.css";
+import "./assets/custom/variable.css";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>

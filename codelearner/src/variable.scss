@@ -1,0 +1,89 @@
+// Custom SCSS for React Bootstrap
+// Define modern color palette
+$primary: #4a00e0; // Vibrant purple
+$secondary: #8e2de2; // Softer purple
+$success: #2ecc71; // Green
+$danger: #e74c3c; // Red
+$warning: #f1c40f; // Yellow
+$info: #3498db; // Blue
+$light: #f8f9fa; // Light gray
+$dark: #2c3e50; // Dark navy
+
+// Typography
+$font-family-base: system-ui, -apple-system, "Segoe UI", Roboto,
+  "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial, sans-serif,
+  "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+$font-size-base: 1rem; // 16px
+$line-height-base: 1.5;
+
+// Spacing
+$spacer: 1.5rem; // More breathing room
+$border-radius: 0.5rem; // Softer corners
+$border-radius-lg: 0.75rem;
+$border-radius-sm: 0.25rem;
+
+// Buttons
+$btn-padding-y: 0.5rem;
+$btn-padding-x: 1.25rem;
+$btn-font-weight: 500;
+$btn-border-radius: $border-radius;
+$btn-transition: all 0.3s ease;
+
+// Forms
+$input-padding-y: 0.75rem;
+$input-padding-x: 1rem;
+$input-border-radius: $border-radius;
+$input-border-color: #ced4da;
+$input-focus-border-color: $primary;
+$input-box-shadow: none;
+$input-focus-box-shadow: 0 0 0 0.2rem rgba($primary, 0.25);
+
+// Cards
+$card-border-radius: $border-radius-lg;
+$card-border-color: rgba($dark, 0.1);
+$card-box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+
+// Import Bootstrap's source
+@import "../node_modules/bootstrap/scss/bootstrap.scss";
+
+// Component-specific overrides
+.btn-primary {
+  background: linear-gradient(135deg, $primary, $secondary);
+  border: none;
+
+  &:hover {
+    background: linear-gradient(
+      135deg,
+      darken($primary, 10%),
+      darken($secondary, 10%)
+    );
+  }
+}
+
+.btn-outline-primary {
+  border-color: $primary;
+  color: $primary;
+
+  &:hover {
+    background-color: rgba($primary, 0.1);
+    border-color: $primary;
+    color: $primary;
+  }
+}
+
+.form-control {
+  transition: all 0.3s ease;
+
+  &:focus {
+    border-color: $input-focus-border-color;
+    box-shadow: $input-focus-box-shadow;
+  }
+}
+
+.card {
+  transition: transform 0.2s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+  }
+}

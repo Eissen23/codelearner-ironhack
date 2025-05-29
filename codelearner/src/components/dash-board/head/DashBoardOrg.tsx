@@ -5,6 +5,7 @@ import { useOutletContext } from "react-router-dom";
 import CreateOrganizationForm from "../../form/CreateOrganizationForm";
 import OrgCard from "../element/OrgCard";
 import { useUserOrgs } from "../../../features/hooks/orgs/useUserOrg";
+import OrgListItem from "../../org/element/OrgListItem";
 
 const DashBoardOrg: React.FC = () => {
   const [key, setKey] = React.useState("default");
@@ -34,7 +35,7 @@ const DashBoardOrg: React.FC = () => {
             <Accordion.Item eventKey="0">
               <Accordion.Header>Head Organizations</Accordion.Header>
               <Accordion.Body className="overflow-scroll">
-                <Row xs={1} md={2} className="g-4">
+                <Row xs={1} md={3} className="g-4">
                   {orgs &&
                     orgs.org_managed.map((org) => (
                       <Col key={`org_card${org.id}`}>
@@ -47,28 +48,20 @@ const DashBoardOrg: React.FC = () => {
             <Accordion.Item eventKey="2">
               <Accordion.Header>Moderated Organizations</Accordion.Header>
               <Accordion.Body>
-                <Row xs={1} md={2} className="g-4">
-                  {orgs &&
-                    orgs.org_mod.map((org) => (
-                      <Col key={`org_card${org.id}`}>
-                        <OrgCard org={org as Organization} />
-                      </Col>
-                    ))}
-                </Row>
+                {orgs &&
+                  orgs.org_mod.map((org) => (
+                    <OrgListItem key={org.id} org={org} />
+                  ))}
               </Accordion.Body>
             </Accordion.Item>
 
             <Accordion.Item eventKey="3">
               <Accordion.Header>Pending Organizations</Accordion.Header>
               <Accordion.Body>
-                <Row xs={1} md={2} className="g-4">
-                  {orgs &&
-                    orgs.org_pending.map((org) => (
-                      <Col key={`org_card${org.id}`}>
-                        <OrgCard org={org as Organization} />
-                      </Col>
-                    ))}
-                </Row>
+                {orgs &&
+                  orgs.org_pending.map((org) => (
+                    <OrgListItem key={org.id} org={org} />
+                  ))}
               </Accordion.Body>
             </Accordion.Item>
           </Accordion>

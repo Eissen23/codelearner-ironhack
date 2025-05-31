@@ -13,23 +13,30 @@ export const isOrgHead = async (
 
   // Check if request is already in progress
   if (pendingRequests.has(cacheKey)) {
-    return pendingRequests.get(cacheKey)!;
+    const pendingResponse = await pendingRequests.get(cacheKey);
+    return pendingResponse.data;
   }
 
   try {
-    const request = CODELEARNER_API.get<response>(`/orgs/${org_id}/allow`, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
+    const requestPromise = CODELEARNER_API.get<response>(
+      `/orgs/${org_id}/allow`,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
 
-    pendingRequests.set(cacheKey, request);
-    const response = await request;
+    pendingRequests.set(cacheKey, requestPromise);
+
+    const response = await requestPromise;
+    pendingRequests.delete(cacheKey); // Clean up after request completes
 
     return response.data;
   } catch (error) {
-    // Handle Axios cancel error silently if it's a duplicate
+    pendingRequests.delete(cacheKey); // Clean up on error
     if (axios.isCancel(error)) {
-      return pendingRequests.get(cacheKey)!; // Return the original pending promise
+      return { role: "UNAUTHORIZE" };
     }
+    console.error("Error in isOrgHead:", error);
     throw error;
   }
 };

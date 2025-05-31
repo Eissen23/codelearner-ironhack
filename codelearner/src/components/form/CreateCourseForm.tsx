@@ -60,7 +60,7 @@ const CreateCourseForm: React.FC<{ orgs: Organization[] }> = ({ orgs }) => {
     <div className="container-fluid align-items-center justify-content-center bg-light">
       <ToastContainer />
       <Form onSubmit={handleSubmit} className="d-block p-3">
-        <div className="d-flex justify-content-between mb-4 mt-3">
+        <div className="d-flex justify-content-between mb-3">
           <h2 className="text-center mb-0">Create Course</h2>
           <Button className="d-block" variant="primary" type="submit" size="sm">
             {Loading ? (

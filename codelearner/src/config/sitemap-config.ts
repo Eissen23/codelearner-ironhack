@@ -2,8 +2,6 @@ import { lazy } from "react";
 import { RouteObject } from "react-router";
 import { psOwnerLoader } from "./loader/psOwnerLoader";
 import { courseOwnerLoader } from "./loader/courseOwnerLoader";
-import { orgOwnerLoader } from "./loader/orgOwnerLoader";
-
 const SolutionCreate = lazy(() => import("../pages/CreatePage/SolutionCreate"));
 const UserSolutionPage = lazy(
   () => import("../pages/DetailPage/UserSolutionPage")
@@ -171,7 +169,6 @@ const routes_map: RouteObject[] = [
               },
               {
                 path: ":org_id",
-                loader: orgOwnerLoader,
                 Component: OrgSetting,
               },
               {

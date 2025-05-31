@@ -85,7 +85,7 @@ class ModController extends Controller implements HasMiddleware
             default:{
                 $mod->delete();
                 return [
-                    'message'=> 'Request denied'
+                    'message'=> 'Denied the mod request'
                 ];      
             }
         }

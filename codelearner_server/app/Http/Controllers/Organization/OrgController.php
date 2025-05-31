@@ -124,10 +124,6 @@ class OrgController extends Controller implements HasMiddleware
             return ['role' => 'UNAUTHORIZE'];
         }
 
-        $roleLabel = match ($mod->role) {
-            'OrgHead'=> 'HEAD',
-            'Moderator' => 'MOD',
-        };
-        return ['role' =>$roleLabel];
+        return ['role' =>$mod->role];
     }
 }

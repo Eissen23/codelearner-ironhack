@@ -35,7 +35,7 @@ const DashBoardOrg: React.FC = () => {
               <Accordion.Body className="overflow-scroll">
                 {orgs &&
                   orgs.org_managed.map((org) => (
-                    <OrgListItem key={org.id} org={org} />
+                    <OrgListItem key={org.id} org={org} setting />
                   ))}
               </Accordion.Body>
             </Accordion.Item>
@@ -44,7 +44,7 @@ const DashBoardOrg: React.FC = () => {
               <Accordion.Body>
                 {orgs &&
                   orgs.org_mod.map((org) => (
-                    <OrgListItem key={org.id} org={org} />
+                    <OrgListItem key={org.id} org={org} setting />
                   ))}
               </Accordion.Body>
             </Accordion.Item>
@@ -54,7 +54,7 @@ const DashBoardOrg: React.FC = () => {
               <Accordion.Body>
                 {orgs &&
                   orgs.org_pending.map((org) => (
-                    <OrgListItem key={org.id} org={org} />
+                    <OrgListItem key={org.id} org={org} setting />
                   ))}
               </Accordion.Body>
             </Accordion.Item>

@@ -19,6 +19,8 @@ const OrgSetting = () => {
     navigate(`${to}`);
   };
 
+  console.log(role);
+
   if (loading)
     return (
       <Spinner
@@ -32,7 +34,7 @@ const OrgSetting = () => {
     <div className="course_manage">
       <section className="org_info mb-4 border-1 border-bottom pb-4">
         <h4 className="text-muted">Organization detail</h4>
-        {data && <OrgInfoItem org={data} onlyRead={role !== "HEAD"} />}
+        {data && <OrgInfoItem org={data} role={role} />}
       </section>
 
       <section className="course_manage mb-4">

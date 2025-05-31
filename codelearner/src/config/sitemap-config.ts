@@ -92,7 +92,7 @@ const routes_map: RouteObject[] = [
     path: "/orgs",
     children: [
       { index: true, Component: Org },
-      { path: "/orgs/:id", Component: OrgDetail },
+      { path: "/orgs/:org_id", Component: OrgDetail },
     ],
   },
 

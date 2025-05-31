@@ -13,9 +13,9 @@ import { useAuth } from "../../../context/auth/AuthContext";
 import { toast, ToastContainer } from "react-toastify";
 import { deleteOrg } from "../../../service/api/org-manage/deleteOrg";
 
-const OrgInfoItem: React.FC<{ org: Org; onlyRead?: boolean }> = ({
+const OrgInfoItem: React.FC<{ org: Org; role?: string }> = ({
   org,
-  onlyRead,
+  role = "",
 }) => {
   const navigate = useNavigate();
   const { token } = useAuth();
@@ -122,7 +122,7 @@ const OrgInfoItem: React.FC<{ org: Org; onlyRead?: boolean }> = ({
           <FormText> {new Date(org.created_at).toDateString()}</FormText>
         </FormGroup>
 
-        {!onlyRead && (
+        {role === "HEAD" && (
           <div className="d-flex gap-2 justify-content-between">
             <button
               type="button"

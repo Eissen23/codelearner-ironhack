@@ -8,7 +8,7 @@ const OrgListItem: React.FC<{ org: Org; setting?: boolean }> = ({
   org,
   setting = false,
 }) => {
-  const uri = setting ? `/dashboard/org_manage/${org.id}` : `/orgs/${org.id}`;
+  const uri = setting ? `/dashboard/org-manage/${org.id}` : `/orgs/${org.id}`;
 
   return (
     <Card className="mb-1 shadow-sm list-item">

@@ -1,5 +1,8 @@
-import React, { useState } from "react";
-import UserSolutionForm from "../../features/main/solution/UserSolutionForm";
+import React, { lazy, Suspense, useState } from "react";
+import FormPreview from "../lazy/FormPreview";
+const UserSolutionForm = lazy(
+  () => import("../../features/main/solution/UserSolutionForm")
+);
 
 const SolutionSub: React.FC = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -21,8 +24,9 @@ const SolutionSub: React.FC = () => {
       <div className="user-solution-form">
         {isVisible && (
           <div className="content">
-            {/* Add your content here */}
-            <UserSolutionForm />
+            <Suspense fallback={<FormPreview />}>
+              <UserSolutionForm />
+            </Suspense>
           </div>
         )}
       </div>

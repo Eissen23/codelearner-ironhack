@@ -1,13 +1,13 @@
 // Custom SCSS for React Bootstrap
 // Define modern color palette
-$primary: #8e2de2; // Vibrant purple
-$secondary: #6c757d; // Softer purple
-$success: #2ecc71; // Green
-$danger: #ff5964; // Red
-$warning: #f1c40f; // Yellow
-$info: #35a7ff; // Blue
-$light: #f6f6f6; // Light gray
-$dark: #30292f; // Dark navy
+$primary: #007bff; // Vibrant blue, techy and professional (Bootstrap default primary)
+$secondary: #6c757d; // Cool gray, versatile for secondary elements
+$success: #28a745; // Bright green, signals positive actions
+$danger: #dc3545; // Bold red, clear for errors or alerts
+$warning: #ffc107; // Warm amber, attention-grabbing but not alarming
+$info: #17a2b8; // Cyan, fresh and tech-forward
+$light: #f6f6f6; // Off-white, clean for backgrounds
+$dark: #212529; // Deep charcoal, high contrast for text or dark mode
 
 // Typography
 $font-family-base: system-ui, -apple-system, "Segoe UI", Roboto,
@@ -47,27 +47,18 @@ $card-box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 @import "../../../node_modules/bootstrap/scss/bootstrap.scss";
 
 // Component-specific overrides
+
 .btn-primary {
-  background: linear-gradient(135deg, $primary, $secondary);
-  border: none;
-
-  &:hover {
-    background: linear-gradient(
-      135deg,
-      darken($primary, 10%),
-      darken($secondary, 10%)
-    );
-  }
-}
-
-.btn-outline-primary {
+  color: #fff !important;
+  background-color: $primary;
   border-color: $primary;
-  color: $primary;
 
-  &:hover {
-    background-color: rgba($primary, 0.1);
-    border-color: $primary;
-    color: $primary;
+  &:hover,
+  &:focus,
+  &:active {
+    color: #fff !important;
+    background-color: darken($primary, 10%);
+    border-color: darken($primary, 10%);
   }
 }
 
@@ -82,8 +73,4 @@ $card-box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 
 .card {
   transition: transform 0.2s ease;
-
-  &:hover {
-    transform: translateY(-2px);
-  }
 }

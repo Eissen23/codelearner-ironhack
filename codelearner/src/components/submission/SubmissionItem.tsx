@@ -23,7 +23,7 @@ const SubmissionItem: React.FC<{ submission: UserSubmission }> = ({
         </Link>
       </div>
       <div>
-        <strong>Language:</strong>
+        <strong>Language: </strong>
         {
           SupportedLanguage.find((lang) => lang.code === submission.language_id)
             ?.name
@@ -50,7 +50,8 @@ const SubmissionItem: React.FC<{ submission: UserSubmission }> = ({
         <strong>Points:</strong> {submission.points}
       </div>
       <div>
-        <strong>Created At:</strong> {submission.created_at.toLocaleString()}
+        <strong>Created At:</strong>{" "}
+        {new Date(submission.created_at).toLocaleString()}
       </div>
     </div>
   );

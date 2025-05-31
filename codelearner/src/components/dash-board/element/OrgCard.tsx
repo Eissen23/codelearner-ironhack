@@ -61,7 +61,7 @@ const OrgCard: React.FC<{ org: Organization }> = ({ org }) => {
       </Card.Body>
       <Card.Footer className="text-muted">
         <small>
-          Last updated: {new Date(org.updated_at).toLocaleDateString()}
+          Last updated: {new Date(org.created_at).toLocaleDateString()}
         </small>
       </Card.Footer>
     </Card>

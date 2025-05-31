@@ -14,7 +14,7 @@ const OrgListItem: React.FC<{ org: Org; setting?: boolean }> = ({
     <Card className="mb-3 shadow-sm">
       <Card.Body>
         <Row>
-          <Col xs={2} className="text-center">
+          <Col xs={1} className="text-center">
             {org.logo ? (
               <img
                 src={org.logo}
@@ -23,50 +23,27 @@ const OrgListItem: React.FC<{ org: Org; setting?: boolean }> = ({
                 style={{ maxHeight: "4rem", objectFit: "contain" }}
               />
             ) : (
-              <div className="bg-light rounded p-3">
-                <i className="bi bi-building fs-4 text-muted"></i>
+              <div className="bg-light rounded">
+                <i className="bi bi-building fs-6 text-muted"></i>
               </div>
             )}
           </Col>
-          <Col xs={7}>
+          <Col xs={4}>
             <Link to={uri} className="text-decoration-none">
-              <Card.Title className="mb-2">{org.name}</Card.Title>
+              <Card.Title className="fs-6 clamp-1">{org.name}</Card.Title>
             </Link>
-            <Card.Text className="text-muted mb-2 clamp-1">
-              {org.description}
-            </Card.Text>
-            {/* 
-            <div className="d-flex gap-2 align-items-center">
-              <small className="text-muted">
-                <i className="bi bi-envelope me-1"></i>
-                {org.contact_email}
-              </small>
-              {org.website && (
-                <small>
-                  <a
-                    href={org.website}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-decoration-none"
-                  >
-                    <i className="bi bi-link-45deg me-1"></i>
-                    Website
-                  </a>
-                </small>
-              )}
-            </div>
-                  */}
           </Col>
-          <Col xs={3} className="text-end">
+          <Col xs={2} className="text-end">
             {org.pivot && (
               <Badge bg={getBadgeVariant2(org.pivot.role)}>
                 {org.pivot.role}
               </Badge>
             )}
-            <div className="mt-2">
-              <small className="text-muted">
-                Created: {new Date(org.created_at).toLocaleDateString()}
-              </small>
+          </Col>
+
+          <Col xs={2}>
+            <div className="text-muted">
+              {new Date(org.created_at).toLocaleDateString()}
             </div>
           </Col>
         </Row>

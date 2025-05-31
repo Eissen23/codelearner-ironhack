@@ -1,5 +1,5 @@
 import React from "react";
-import { Container, Row, Col, Card, Spinner, Alert } from "react-bootstrap";
+import { Container, Row, Col, Spinner, Alert } from "react-bootstrap";
 import { useUserOrgs } from "../../../features/hooks/orgs/useUserOrg";
 import OrgCard from "../../dash-board/element/OrgCard";
 import { Organization } from "../../../types/user.type";

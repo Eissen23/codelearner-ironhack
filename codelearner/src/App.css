@@ -17,3 +17,12 @@
   overflow: hidden;
   white-space: nowrap;
 }
+.fs-7 {
+  font-size: 0.875rem !important;
+}
+
+.button-group {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+}

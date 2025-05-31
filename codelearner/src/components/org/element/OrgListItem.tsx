@@ -11,7 +11,7 @@ const OrgListItem: React.FC<{ org: Org; setting?: boolean }> = ({
   const uri = setting ? `/dashboard/org_manage/${org.id}` : `/orgs/${org.id}`;
 
   return (
-    <Card className="mb-3 shadow-sm">
+    <Card className="mb-1 shadow-sm list-item">
       <Card.Body>
         <Row>
           <Col xs={1} className="text-center">
@@ -30,10 +30,10 @@ const OrgListItem: React.FC<{ org: Org; setting?: boolean }> = ({
           </Col>
           <Col xs={4}>
             <Link to={uri} className="text-decoration-none">
-              <Card.Title className="fs-6 clamp-1">{org.name}</Card.Title>
+              <h4 className="fs-6 mb-0">{org.name}</h4>
             </Link>
           </Col>
-          <Col xs={2} className="text-end">
+          <Col xs={2} className="text-center">
             {org.pivot && (
               <Badge bg={getBadgeVariant2(org.pivot.role)}>
                 {org.pivot.role}
@@ -42,7 +42,7 @@ const OrgListItem: React.FC<{ org: Org; setting?: boolean }> = ({
           </Col>
 
           <Col xs={2}>
-            <div className="text-muted">
+            <div className="text-muted fs-7">
               {new Date(org.created_at).toLocaleDateString()}
             </div>
           </Col>

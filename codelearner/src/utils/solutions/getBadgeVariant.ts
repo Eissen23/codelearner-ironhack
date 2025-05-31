@@ -16,7 +16,7 @@ export const getBadgeVariant2 = (role: string) => {
     case "Moderator":
       return "danger";
     case "Pending":
-      return "secondary";
+      return "info";
     default:
       return "danger";
   }

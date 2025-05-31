@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "concurrently --names \"Sass,DevServer\" \"npx sass --watch  src/assets/custom/variable.scss src/assets/custom/variable.css\" \"vite\"",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview"
@@ -34,7 +34,6 @@
     "react-router-dom": "^7.1.5",
     "react-split": "^2.0.14",
     "react-toastify": "^11.0.5",
-    "sass": "^1.89.0",
     "swiper": "^11.2.6"
   },
   "devDependencies": {
@@ -45,10 +44,12 @@
     "@types/swiper": "^5.4.3",
     "@types/yaireo__tagify": "^4.27.0",
     "@vitejs/plugin-react": "^1.3.2",
+    "concurrently": "^9.1.2",
     "eslint": "^9.19.0",
     "eslint-plugin-react-hooks": "^5.0.0",
     "eslint-plugin-react-refresh": "^0.4.18",
     "globals": "^15.14.0",
+    "sass": "1.77.6",
     "ts-node": "^10.9.2",
     "typescript": "~5.7.2",
     "typescript-eslint": "^8.22.0",

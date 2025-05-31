@@ -1,8 +1,8 @@
 import React from "react";
 import useYourSolution from "../../../features/hooks/users/useYourSolution";
 import { Alert, ListGroup, Spinner } from "react-bootstrap";
-import { Link } from "react-router";
-import { getVersionName } from "../../../data/LanguageVersion";
+
+import USolutionItem from "../../solution/elements/USolutionItem";
 
 const YourSolution: React.FC = () => {
   const { loading, userSolution } = useYourSolution();
@@ -18,24 +18,7 @@ const YourSolution: React.FC = () => {
           <ListGroup>
             {userSolution?.map((us, index) => (
               <ListGroup.Item key={index}>
-                <div className="d-flex justify-content-between">
-                  <h4 className="fs-6">{us.name}</h4>
-                  <div
-                    className={
-                      us.status === "published"
-                        ? "badge bg-success"
-                        : "badge bg-secondary"
-                    }
-                  >
-                    {us.status}
-                  </div>
-                  <div>
-                    {getVersionName(us.user_submission?.language_id || 0)}
-                  </div>
-                  <Link to={`/setting/user-solution/${us.id}`}>
-                    To your solution
-                  </Link>
-                </div>
+                <USolutionItem us={us} />
               </ListGroup.Item>
             ))}
           </ListGroup>

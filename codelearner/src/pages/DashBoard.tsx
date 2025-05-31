@@ -42,7 +42,7 @@ const DashBoard: React.FC = () => {
 
   return (
     <LayoutHome>
-      <Container fluid className="my-5">
+      <Container fluid>
         <Row>
           <Col md={3} className="border-end border-1 ">
             <DashBoardLeft title="User's section" />

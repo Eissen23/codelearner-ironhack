@@ -122,7 +122,7 @@ const OrgInfoItem: React.FC<{ org: Org; role?: string }> = ({
           <FormText> {new Date(org.created_at).toDateString()}</FormText>
         </FormGroup>
 
-        {role === "HEAD" && (
+        {role === "OrgHead" && (
           <div className="d-flex gap-2 justify-content-between">
             <button
               type="button"

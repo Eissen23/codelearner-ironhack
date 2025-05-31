@@ -2,7 +2,7 @@ import { lazy, Suspense } from "react";
 
 import { useOrgDetail } from "../../../features/hooks/orgs/useOrgDetail";
 import { Button, Spinner } from "react-bootstrap";
-import { useNavigate, useParams } from "react-router";
+import { useNavigate, useOutletContext, useParams } from "react-router";
 import OrgInfoItem from "../../org/element/OrgInfoItem";
 
 const CourseInOrg = lazy(() => import("../../courses/CourseInOrg"));
@@ -11,13 +11,18 @@ import CustomSpinner from "../../CustomSpinner";
 
 const OrgSetting = () => {
   const { org_id } = useParams();
-  const { loading, data, role_owner } = useOrgDetail(org_id || "", true);
+  const token = useOutletContext() as string;
+  const { loading, data, role_owner } = useOrgDetail(org_id || "", token);
   // const { role } = useLoaderData();
   const navigate = useNavigate();
 
   const handleClick = (to: string) => {
     navigate(`${to}`);
   };
+
+  if (role_owner === "UNAUTHORIZE" || role_owner === "Pending") {
+    navigate(`/not-authorized`);
+  }
 
   if (loading)
     return (
@@ -41,7 +46,7 @@ const OrgSetting = () => {
             <CourseInOrg isMod />
           </Suspense>
         )}
-        {role_owner === "HEAD" && (
+        {role_owner === "OrgHead" && (
           <Button
             variant="primary"
             size="sm"
@@ -54,7 +59,7 @@ const OrgSetting = () => {
 
       <section className="problemset_manage">
         {org_id && <ProblemSetInOrg org_id={org_id} isMod />}
-        {role_owner === "HEAD" && (
+        {role_owner === "OrgHead" && (
           <Button
             variant="primary"
             size="sm"

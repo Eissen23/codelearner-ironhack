@@ -8,7 +8,10 @@ import ArticleList from "../../components/courses/articles/ArticleList";
 const CourseSettingPage: React.FC = () => {
   const { course_id } = useParams<{ course_id: string }>();
   const { role } = useLoaderData();
-  const { loading, course, belong } = useCourseInfo(course_id || "", true);
+  const { loading, course, belong } = useCourseInfo({
+    courseId: course_id || "",
+    is_belong: true,
+  });
 
   if (loading) {
     return (

@@ -1,16 +1,17 @@
 import { CODELEARNER_API } from "../../api/clients/codelearner";
 
 type Response = {
-  message: string;
+  enrolled: boolean;
 };
 
-export const cancelCourses = async (
-  courseId: string,
+export const checkEnroll = async (
+  course_id: string,
   token: string
 ): Promise<Response> => {
   try {
-    const response = await CODELEARNER_API.delete<Response>(
-      `courses/${courseId}/unenroll`,
+    const response = await CODELEARNER_API.post<Response>(
+      `courses/${course_id}/is-study`,
+      null,
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -19,7 +20,7 @@ export const cancelCourses = async (
     );
     return response.data;
   } catch (error) {
-    console.log("cancelCourses", error);
+    console.log("checkEnroll", error);
     throw error;
   }
 };

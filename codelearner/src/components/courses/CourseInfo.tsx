@@ -4,12 +4,19 @@ import { useCourseInfo } from "../../features/hooks/course/useCourseInfo";
 import { getAuthToken } from "../../config/loader/getLocalItem";
 import { enrollCourse } from "../../service/user-service/enroll/enrollCourse";
 import { toast, ToastContainer } from "react-toastify";
+import { cancelCourses } from "../../service/user-service/enroll/cancelCourses";
 
 const CourseInfo: React.FC<{ courseId: string | undefined }> = ({
   courseId,
 }) => {
-  const { loading, error, course } = useCourseInfo(courseId);
   const token = getAuthToken();
+
+  const { loading, course, enroll, setEnroll } = useCourseInfo({
+    courseId,
+    token: token!,
+    enrollCheck: true,
+  });
+
   const handleEnroll = async () => {
     try {
       await toast.promise(enrollCourse(courseId!, token!), {
@@ -17,9 +24,21 @@ const CourseInfo: React.FC<{ courseId: string | undefined }> = ({
         success: "Enroll success",
         error: "You have already enrolled",
       });
+      setEnroll(true);
     } catch (error) {
       console.log("handleEnroll", error);
     }
+  };
+
+  const handleLeave = async () => {
+    try {
+      await toast.promise(cancelCourses(courseId!, token!), {
+        pending: "Cancelling",
+        success: "Successfuly cancelled",
+        error: "Error",
+      });
+      setEnroll(false);
+    } catch (error) {}
   };
 
   if (loading) {
@@ -30,10 +49,6 @@ const CourseInfo: React.FC<{ courseId: string | undefined }> = ({
         </Spinner>
       </div>
     );
-  }
-
-  if (error) {
-    return <Alert variant="danger">{error}</Alert>;
   }
 
   if (!course) {
@@ -58,7 +73,7 @@ const CourseInfo: React.FC<{ courseId: string | undefined }> = ({
               <strong>Duration:</strong> {course.duration}
             </Card.Text>
           )}
-          {token && (
+          {!enroll && token && (
             <Button
               variant="primary"
               size="sm"
@@ -66,6 +81,17 @@ const CourseInfo: React.FC<{ courseId: string | undefined }> = ({
               onClick={handleEnroll}
             >
               Enroll course?
+            </Button>
+          )}
+
+          {enroll && token && (
+            <Button
+              variant="danger"
+              size="sm"
+              className="me-auto"
+              onClick={handleLeave}
+            >
+              Cancel course?
             </Button>
           )}
         </Card.Body>

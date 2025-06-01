@@ -23,8 +23,8 @@ const ArticleList: React.FC<{ course_id: string; editable?: boolean }> = ({
 
   return (
     <div className="article_list">
-      <div className="d-flex justify-content-between mb-4">
-        {editable && (
+      {editable && (
+        <div className="d-flex justify-content-between mb-4">
           <Button variant="primary" size="sm">
             <Link
               className="text-white text-decoration-none"
@@ -33,8 +33,8 @@ const ArticleList: React.FC<{ course_id: string; editable?: boolean }> = ({
               Add article
             </Link>
           </Button>
-        )}
-      </div>
+        </div>
+      )}
       <Accordion defaultActiveKey="0" flush>
         {articles?.map((article) => (
           <ArticleAccordionItem

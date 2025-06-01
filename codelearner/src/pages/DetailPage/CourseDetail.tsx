@@ -10,7 +10,7 @@ const CourseDetail = () => {
   return (
     <LayoutHome>
       <div className="course_detail">
-        <Row>
+        <Row className="my-3">
           <Col xs={12} md={4}>
             <CourseInfo courseId={course_id} />
           </Col>

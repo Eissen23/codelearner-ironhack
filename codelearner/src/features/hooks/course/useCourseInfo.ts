@@ -2,17 +2,26 @@ import { useEffect, useState } from "react";
 import { getCourseInfo } from "../../../service/api/cours-manage/getCourseInfo";
 import { Course } from "../../../types/org/course.type";
 import { Org } from "../../../types/org/org.type";
+import { checkEnroll } from "../../../service/user-service/enroll/checkEnroll";
 
-export const useCourseInfo = (
-  courseId: string = "",
-  is_belong: boolean = false,
-  checkOwner: boolean = false
-) => {
+type useOrgInfoCred = {
+  courseId?: string;
+  token?: string;
+  is_belong?: boolean;
+  enrollCheck?: boolean;
+};
+
+export const useCourseInfo = ({
+  courseId = "",
+  token,
+  is_belong = false,
+  enrollCheck = false,
+}: useOrgInfoCred) => {
   const [course, setCourse] = useState<Course | null>(null);
   const [belong, setBelong] = useState<Org | null>(null);
   const [loading, setLoading] = useState(true);
-  const [roleLoading, setRoleLoading] = useState<boolean>(false);
-  const [role_owner, setRole] = useState<string>("UNAUTHORIZE");
+  const [enrollLoading, setEnrollLoading] = useState<boolean>(false);
+  const [enroll, setEnroll] = useState<boolean>();
 
   useEffect(() => {
     const fetchCourseInfo = async () => {
@@ -31,5 +40,29 @@ export const useCourseInfo = (
     fetchCourseInfo();
   }, [courseId]);
 
-  return { course, belong, loading: loading || roleLoading, role: role_owner };
+  useEffect(() => {
+    if (!enrollCheck && !token) return;
+
+    const fetchUserEnroll = async () => {
+      try {
+        setEnrollLoading(true);
+        const { enrolled } = await checkEnroll(courseId, token!);
+        setEnroll(enrolled);
+      } catch (error) {
+        console.log("fetchUserEnroll", error);
+      } finally {
+        setEnrollLoading(false);
+      }
+    };
+
+    fetchUserEnroll();
+  }, [enrollCheck]);
+
+  return {
+    course,
+    belong,
+    loading: loading || enrollLoading,
+    enroll,
+    setEnroll,
+  };
 };

@@ -20,10 +20,6 @@ const OrgSetting = () => {
     navigate(`${to}`);
   };
 
-  if (role_owner === "UNAUTHORIZE" || role_owner === "Pending") {
-    navigate(`/not-authorized`);
-  }
-
   if (loading)
     return (
       <Spinner
@@ -33,6 +29,9 @@ const OrgSetting = () => {
       />
     );
 
+  if (role_owner === "UNAUTHORIZE" || role_owner === "Pending") {
+    navigate(`/not-authorized`);
+  }
   return (
     <div className="course_manage">
       <section className="org_info mb-4 border-1 border-bottom pb-4">

@@ -12,7 +12,10 @@ const YourCourse: React.FC = () => {
 
   if (loading) {
     return (
-      <Spinner animation="border" className="align-items-center"></Spinner>
+      <>
+        <h4 className="fs-4 mb-3">Your Courses</h4>
+        <Spinner animation="border" className="align-items-center"></Spinner>
+      </>
     );
   }
 

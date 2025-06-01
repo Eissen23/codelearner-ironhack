@@ -14,9 +14,14 @@ const DashBoardCourse: React.FC = () => {
   const organizations = orgs?.org_managed as Organization[];
   if (loading) {
     return (
-      <Card className="shadow-sm">
-        <Card.Body>Loading...</Card.Body>
-      </Card>
+      <>
+        <h2 style={{ lineHeight: 1 }}>
+          Courses <Badge bg="success">Head</Badge>
+        </h2>
+        <Card className="shadow-sm">
+          <Card.Body>Loading...</Card.Body>
+        </Card>
+      </>
     );
   }
 

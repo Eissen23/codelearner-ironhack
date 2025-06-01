@@ -15,9 +15,14 @@ const DashBoardProblemSet: React.FC = () => {
 
   if (loading) {
     return (
-      <Card className="shadow-sm">
-        <Card.Body>Loading...</Card.Body>
-      </Card>
+      <>
+        <h2 style={{ lineHeight: 1 }}>
+          Problem Set <Badge bg="success">Head</Badge>
+        </h2>
+        <Card className="shadow-sm">
+          <Card.Body>Loading...</Card.Body>
+        </Card>
+      </>
     );
   }
 

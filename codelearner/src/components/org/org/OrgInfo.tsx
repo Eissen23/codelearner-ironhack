@@ -39,6 +39,40 @@ const OrgInfo = ({ id }: { id: string }) => {
     }
   };
 
+  const JoinBtn: React.FC = () => {
+    return (
+      <>
+        {role_owner === "UNAUTHORIZE" && (
+          <Button variant="primary" size="sm" onClick={handleJoin}>
+            Join Organization
+          </Button>
+        )}
+
+        {role_owner === "Pending" && (
+          <div className="d-flex gap-3">
+            <Button variant="secondary" size="sm" onClick={handleJoin} disabled>
+              Pending ...
+            </Button>
+            <Button variant="danger" size="sm" onClick={handleLeave}>
+              Cancel request
+            </Button>
+          </div>
+        )}
+
+        {(role_owner === "Moderator" || role_owner === "OrgHead") && (
+          <div className="d-flex gap-3">
+            <Button variant="secondary" size="sm" onClick={handleJoin}>
+              View Details
+            </Button>
+            <Button variant="danger" size="sm" onClick={handleLeave}>
+              Leave Organization
+            </Button>
+          </div>
+        )}
+      </>
+    );
+  };
+
   if (loading) {
     return (
       <div className="d-flex justify-content-center p-3">
@@ -78,38 +112,7 @@ const OrgInfo = ({ id }: { id: string }) => {
             {new Date(data.created_at).toLocaleDateString()}
           </Card.Text>
 
-          {role_owner === "UNAUTHORIZE" && (
-            <Button variant="primary" size="sm" onClick={handleJoin}>
-              Join Organization
-            </Button>
-          )}
-
-          {role_owner === "Pending" && (
-            <div className="d-flex gap-3">
-              <Button
-                variant="secondary"
-                size="sm"
-                onClick={handleJoin}
-                disabled
-              >
-                Pending ...
-              </Button>
-              <Button variant="danger" size="sm" onClick={handleLeave}>
-                Cancel request
-              </Button>
-            </div>
-          )}
-
-          {(role_owner === "Moderator" || role_owner === "OrgHead") && (
-            <div className="d-flex gap-3">
-              <Button variant="secondary" size="sm" onClick={handleJoin}>
-                View Details
-              </Button>
-              <Button variant="danger" size="sm" onClick={handleLeave}>
-                Leave Organization
-              </Button>
-            </div>
-          )}
+          {token && <JoinBtn />}
         </Card.Body>
       </Card>
     </>

@@ -11,16 +11,19 @@ const DashBoardOrg: React.FC = () => {
   const { orgs, loading } = useUserOrgs(token!);
   if (loading) {
     return (
-      <Card className="shadow-sm">
-        <Card.Body>Loading...</Card.Body>
-      </Card>
+      <>
+        <h4 style={{ lineHeight: 1 }}>Organizations</h4>
+        <Card className="shadow-sm">
+          <Card.Body>Loading...</Card.Body>
+        </Card>
+      </>
     );
   }
 
   return (
     <div className="dashboard-org">
       <div className="d-flex justify-content-between mb-4">
-        <h2 style={{ lineHeight: 1 }}>Organizations</h2>
+        <h4 style={{ lineHeight: 1 }}>Organizations</h4>
       </div>
       <Tabs
         id="controlled-tab-example"

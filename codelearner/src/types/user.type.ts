@@ -57,7 +57,7 @@ export type UserModerator = {
   full_name: string;
   account_name: string;
   email: string;
-  email_verified_at: Date;
+  logo: string | null;
   created_at: Date;
   updated_at: Date;
   about: string;

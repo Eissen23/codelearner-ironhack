@@ -30,3 +30,40 @@
 .user_solution_item {
   align-items: center;
 }
+
+/* Moderator Solution */
+.moderator-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  padding: 0.5rem 0.5rem;
+  border: 1px solid var(--bs-light);
+  border-radius: 0.25rem;
+  margin-bottom: 1rem;
+}
+
+.moderator-item > * {
+  margin-bottom: 0;
+}
+
+.moderator-item > *:nth-child(1) {
+  flex: 1 1 5%;
+  text-align: center;
+}
+
+.moderator-item > *:nth-child(2) {
+  flex: 1 1 20%;
+}
+
+.moderator-item > *:nth-child(3) {
+  flex: 1 1 20%;
+}
+
+.moderator-item > *:nth-child(4) {
+  flex: 1 1 15%;
+}
+
+.moderator-item > *:nth-child(5) {
+  flex: 1 1 15%;
+}

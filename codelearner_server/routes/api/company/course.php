@@ -24,4 +24,5 @@ Route::controller(UserCourseController::class)->group(function(){
     Route::get('{course}/enrolled-users', 'index');
     Route::post('{course}/enroll', 'store');
     Route::delete('{course}/unenroll', 'destroy');
+    Route::get('{course}/is-study', 'isEnroll'); // TODO: check this out
 });

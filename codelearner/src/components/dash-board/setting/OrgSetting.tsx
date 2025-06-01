@@ -8,13 +8,14 @@ import OrgInfoItem from "../../org/element/OrgInfoItem";
 const CourseInOrg = lazy(() => import("../../courses/CourseInOrg"));
 import ProblemSetInOrg from "../../org/org/ProblemSetInOrg";
 import CustomSpinner from "../../CustomSpinner";
+import ModeratorOrg from "../../org/moderator/ModeratorOrg";
 
 const OrgSetting = () => {
+  const navigate = useNavigate();
   const { org_id } = useParams();
   const token = useOutletContext() as string;
   const { loading, data, role_owner } = useOrgDetail(org_id || "", token);
   // const { role } = useLoaderData();
-  const navigate = useNavigate();
 
   const handleClick = (to: string) => {
     navigate(`${to}`);
@@ -49,6 +50,7 @@ const OrgSetting = () => {
           <Button
             variant="primary"
             size="sm"
+            className="mt-2"
             onClick={() => handleClick("add-course")}
           >
             Add Course
@@ -56,16 +58,23 @@ const OrgSetting = () => {
         )}
       </section>
 
-      <section className="problemset_manage">
+      <section className="problemset_manage mb-4">
         {org_id && <ProblemSetInOrg org_id={org_id} isMod />}
         {role_owner === "OrgHead" && (
           <Button
             variant="primary"
             size="sm"
+            className="mt-2"
             onClick={() => handleClick("add-problem-set")}
           >
             Add Problemset
           </Button>
+        )}
+      </section>
+
+      <section className="mod_manage">
+        {org_id && (
+          <ModeratorOrg org_id={org_id} token={token} role={role_owner} />
         )}
       </section>
     </div>

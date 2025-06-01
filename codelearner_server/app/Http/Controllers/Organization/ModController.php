@@ -93,7 +93,7 @@ class ModController extends Controller implements HasMiddleware
         $mod->update($status);
         return [
             'message'=> 'Update success',
-            'role'=> $mod,
+            'role'=> $mod->role,
         ];
     }
     public function leaveOrg(Request $request, Organization $org) {

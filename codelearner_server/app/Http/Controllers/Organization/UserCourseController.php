@@ -13,11 +13,12 @@ use App\Http\ControllerHelper\CourseHelper;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
-use Illuminate\Support\Facades\Gate;    
+use Illuminate\Support\Facades\Gate;
 
 class UserCourseController extends Controller implements HasMiddleware
-{   
-    public static function Middleware(){
+{
+    public static function Middleware()
+    {
         return [
             new Middleware('auth:sanctum')
         ];
@@ -27,14 +28,14 @@ class UserCourseController extends Controller implements HasMiddleware
      * Display a listing of the resource.
      */
     public function index(Course $course)
-    {   
+    {
         // if user is in course allow to see enrolled users
         Gate::authorize('modify', $course);
         // Get the list of users enrolled in the course
         $users = CourseHelper::getEnrolledPagination(request(), $course);
 
         return [
-           'users' => $users,
+            'users' => $users,
         ];
     }
 
@@ -48,16 +49,16 @@ class UserCourseController extends Controller implements HasMiddleware
         Gate::authorize('join', $course);
 
         $payment_id = 0;
-        if($course->fee){
+        if ($course->fee) {
             // Handle payment logic here
             // For example, redirect to a payment gateway
             // $paymen_id = Payment::create($api);
             $payment_id = 0; // Placeholder for payment ID
-        } 
+        }
 
         $fields = [
             'user_id' => $request->user()->id,
-            'course_id' => $course->id,        
+            'course_id' => $course->id,
             'payment_id' => $payment_id,
         ];
 
@@ -82,7 +83,15 @@ class UserCourseController extends Controller implements HasMiddleware
         $user_course->delete();
 
         return [
-            'message' => 'Leave successfull'  
+            'message' => 'Leave successfull'
         ];
+    }
+
+    public function isEnroll(Request $request, Course $course)
+    {
+        $user = $request->user();
+        $user_course = CourseHelper::getUserCourse($user, $course);
+        return ['enrolled' => $user_course ? true : false];
+
     }
 }

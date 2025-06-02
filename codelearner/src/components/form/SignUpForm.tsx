@@ -1,8 +1,7 @@
 import "../../assets/style/Login.css";
-import { Alert, Button, Form } from "react-bootstrap";
+import { Alert, Button, Form, InputGroup } from "react-bootstrap";
 import React, { useState } from "react";
 import { useAuth } from "../../context/auth/AuthContext";
-import Logo from "../../features/footer/Logo";
 
 interface SignUpProps {
   onSwitchToLogin: () => void;
@@ -40,10 +39,7 @@ const SignUpForm: React.FC<SignUpProps> = ({ onSwitchToLogin }) => {
   };
 
   return (
-    <Form
-      className="bg-light p-5 bg-body-secondary rounded-4"
-      onSubmit={handleSubmit}
-    >
+    <Form className="form-sign-up" onSubmit={handleSubmit}>
       {error && (
         <Alert dismissible variant="danger">
           {error}
@@ -54,41 +50,63 @@ const SignUpForm: React.FC<SignUpProps> = ({ onSwitchToLogin }) => {
           Sign up successful
         </Alert>
       )}
-      <div className="mx-auto d-flex justify-content-center mb-3">
-        <Logo size="sm" imageUrl="/assets/logo/codelearner.svg"></Logo>
-      </div>
-      <h3 className="text-dark text-center">SIGN UP</h3>
+      <h3 className="text-primary text-center fw-bold">Sign Up</h3>
       <Form.Group className="mb-3" controlId="email">
-        <Form.Label>Email address</Form.Label>
-        <Form.Control name="email" type="email" placeholder="Enter email" />
+        <InputGroup>
+          <InputGroup.Text>
+            <i className="bi bi-envelope-fill"></i>
+          </InputGroup.Text>
+          <Form.Control name="email" type="email" placeholder="Enter email *" />
+        </InputGroup>
       </Form.Group>
 
       <Form.Group className="mb-3" controlId="name">
-        <Form.Label>Display name</Form.Label>
-        <Form.Control name="name" type="name" placeholder="Enter name" />
+        <InputGroup>
+          <InputGroup.Text>
+            <i className="bi bi-person-fill"></i>
+          </InputGroup.Text>
+          <Form.Control name="name" type="name" placeholder="Enter name *" />
+        </InputGroup>
       </Form.Group>
 
       <Form.Group className="mb-3" controlId="accountName">
-        <Form.Label>Display account name</Form.Label>
-        <Form.Control
-          name="account-name"
-          type="name"
-          placeholder="Enter name"
-        />
+        <InputGroup>
+          <InputGroup.Text color="secondary">
+            <i className="bi bi-person-circle"></i>
+          </InputGroup.Text>
+          <Form.Control
+            name="account-name"
+            type="name"
+            placeholder="Enter name *"
+            required
+          />
+        </InputGroup>
       </Form.Group>
 
       <Form.Group className="mb-3" controlId="password">
-        <Form.Label>Password</Form.Label>
-        <Form.Control name="password" type="password" placeholder="Password" />
+        <InputGroup>
+          <InputGroup.Text>
+            <i className="bi bi-lock-fill"></i>
+          </InputGroup.Text>
+          <Form.Control
+            name="password"
+            type="password"
+            placeholder="Password *"
+          />
+        </InputGroup>
       </Form.Group>
 
       <Form.Group className="mb-3" controlId="confirmPassword">
-        <Form.Label>Confirm password</Form.Label>
-        <Form.Control
-          name="confirm-password"
-          type="password"
-          placeholder="Confirm Password"
-        />
+        <InputGroup>
+          <InputGroup.Text>
+            <i className="bi bi-lock-fill"></i>
+          </InputGroup.Text>
+          <Form.Control
+            name="confirm-password"
+            type="password"
+            placeholder="Confirm Password *"
+          />
+        </InputGroup>
       </Form.Group>
       <Form.Group className="d-flex justify-content-center mb-3">
         <Button variant="primary" type="submit">

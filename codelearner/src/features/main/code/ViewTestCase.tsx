@@ -38,10 +38,11 @@ const ViewTestCase: React.FC<{
                 key={index}
               >
                 <h6>Input:</h6>
-                <pre className="bg-black text-info px-3 py-2">{ip}</pre>
+                <pre className="bg-black text-light px-3 py-2">{ip}</pre>
 
                 <h6>Output:</h6>
-                <pre className="bg-black text-info px-3 py-2">
+                <pre className="bg-black text-light px-3 py-2">
+                  {ip}
                   {testCase.output[index]}
                 </pre>
               </Tab>

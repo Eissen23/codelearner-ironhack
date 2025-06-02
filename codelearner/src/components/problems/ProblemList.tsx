@@ -92,14 +92,12 @@ const ProblemList: React.FC<{
                       {parseEscapeSequences(problem.description)}
                     </p>
                   </div>
-                  <Button variant="primary">
-                    <Link
-                      className="text-white text-decoration-none"
-                      to={`/problems/${problem.id}`}
-                    >
-                      Try problem
-                    </Link>
-                  </Button>
+                  <Link
+                    className="text-white text-decoration-none btn btn-primary"
+                    to={`/problems/${problem.id}`}
+                  >
+                    Try problem
+                  </Link>
                 </div>
               )}
             </div>

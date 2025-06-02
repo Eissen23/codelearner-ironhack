@@ -2,21 +2,22 @@ import { Col, Row } from "react-bootstrap";
 import { useParams } from "react-router";
 import ArticleInfo from "../../components/articles/ArticleInfo";
 import LayoutHome from "../../layout/LayoutHome";
-import ArticleList from "../../components/courses/articles/ArticleList";
+import ArticleSlimList from "../../components/courses/articles/ArticleSlimList";
 
 const ArticleDetail = () => {
   const { course_id, article_id } = useParams();
 
   return (
-    <LayoutHome>
+    <LayoutHome noGutter>
       <Row>
-        <Col md={2}>
-          <h2 className="fs-5">Chapter:</h2>
-          <ArticleList course_id={course_id || ""} />
+        <Col md={3} className="bg-light border-end">
+          <h2 className="fs-5 py-2 ">Chapter:</h2>
+          <ArticleSlimList course_id={course_id || ""} editable={false} />
         </Col>
         <Col md={8}>
           <ArticleInfo article_id={article_id || ""} />
         </Col>
+        <Col md={1}></Col>
       </Row>
     </LayoutHome>
   );

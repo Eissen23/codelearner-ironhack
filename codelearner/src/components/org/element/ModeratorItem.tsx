@@ -7,12 +7,12 @@ const ModeratorItem: React.FC<{ mod: UserModerator; settings?: boolean }> = ({
   mod,
   settings = false,
 }) => {
-  const handleView = () => {
+  const handleView = async () => {
     // Handle view action
     console.log(`Viewing moderator: ${mod.full_name}`);
   };
 
-  const handleDelete = () => {
+  const handleDelete = async () => {
     // Handle delete action
     console.log(`Deleting moderator: ${mod.full_name}`);
   };

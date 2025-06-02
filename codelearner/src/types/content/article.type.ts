@@ -1,5 +1,16 @@
 import { Link } from "../paginator.type";
 
+export type SubArticle = {
+  id: string;
+  name: string;
+  description: string;
+  content?: string;
+  article_id: string;
+  mod_id: number;
+  created_at: Date;
+  updated_at: Date;
+};
+
 export type Article = {
   id: string;
   name: string;
@@ -12,6 +23,7 @@ export type Article = {
   created_at: Date;
   updated_at: Date;
   tags?: string[];
+  sub_articles?: SubArticle[];
 };
 
 export type ArticlePaginator = {

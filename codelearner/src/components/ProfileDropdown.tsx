@@ -11,11 +11,23 @@ const ProfileDropdown: React.FC = () => {
         variant="dark"
         align="end"
         id="dropdown-basic"
-        className="text-white rounded-pill"
-        title={<FaUserCircle />}
+        className="text-white rounded-pill no-after"
+        title={<FaUserCircle style={{ marginBottom: "25%" }} />}
       >
         <Dropdown.Item href="/dashboard/profile">View Profile</Dropdown.Item>
-        <Dropdown.Item href="/dashboard/settings">Settings</Dropdown.Item>
+        <Dropdown.Item href="/dashboard/your-submission">
+          Your Submission
+        </Dropdown.Item>
+        <Dropdown.Item href="/dashboard/your-solution">
+          Your Solution
+        </Dropdown.Item>
+        <Dropdown.Item href="/dashboard/org-manage">
+          Your Organization
+        </Dropdown.Item>
+        <Dropdown.Item href="/dashboard/your-course">
+          Your Courses
+        </Dropdown.Item>
+        {/* <Dropdown.Item href="/dashboard/settings">Settings</Dropdown.Item> */}
         <Dropdown.Divider />
         <Dropdown.Item>
           <Logout />

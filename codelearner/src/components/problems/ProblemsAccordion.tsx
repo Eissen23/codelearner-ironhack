@@ -15,7 +15,7 @@ const ProblemAccordionList = () => {
   useEffect(() => {
     const fetchProblems = async () => {
       try {
-        const response = await getProblems({});
+        const response = await getProblems({ perPage: "5", page: "1" });
         setProblems(response);
         // console.log(response);
       } catch (err) {

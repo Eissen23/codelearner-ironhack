@@ -1,19 +1,22 @@
-$murrey: #890640;
-$persian-indigo: #3a0674;
-$russian-violet: #0f0223;
-$zaffre: #0e14b1;
-$indigo: #480f8b;
-$federal-blue: #1c1558;
-$light-purple: #4a3a6b; // Lightened version of $russian-violet for better contrast
+$murrey: #890640ff;
+$persian-indigo: #3a0674ff;
+$russian-violet: #0f1a1e;
+$zaffre: #0e14b1ff;
+$zaffre2: #2324de;
+$indigo: #480f8bff;
+$federal-blue: #1c1558ff;
+$light-purple: #f8f5ff; // Lightened version of $russian-violet for better contrast
 
 $primary: $indigo; // Vibrant purple for main actions
 $secondary: $persian-indigo; // Subtle purple for secondary elements
-$success: $murrey; // Deep purple-red for positive actions
+$success: $zaffre2; // Deep purple-red for positive actions
 $danger: $murrey; // Same as success for consistency in alerts
 $warning: $zaffre; // Blue-purple for attention
 $info: $federal-blue; // Dark blue-purple for informational elements
 $light: $light-purple; // Light purple for backgrounds
 $dark: $russian-violet; // Near-black purple for dark elements
+
+$gradient: linear-gradient(45deg, $secondary, $dark);
 
 @import "../../../node_modules/bootstrap/scss/bootstrap";
 // Typography

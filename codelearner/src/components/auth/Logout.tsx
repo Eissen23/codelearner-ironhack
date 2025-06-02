@@ -2,7 +2,6 @@ import { Alert, Button, Modal } from "react-bootstrap";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/auth/AuthContext";
-import { BiLogOut } from "react-icons/bi";
 function Logout() {
   const navigate = useNavigate();
   const [show, setShow] = useState(false);
@@ -19,12 +18,12 @@ function Logout() {
   return (
     <>
       <Button
-        variant="danger"
+        variant="link"
         size="sm"
-        className="w-100 align-items-center"
+        className="w-100 text-start text-decoration-none text-dark"
         onClick={handleShow}
       >
-        <BiLogOut />
+        Logout
       </Button>
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton className="border-0"></Modal.Header>

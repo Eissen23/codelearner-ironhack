@@ -32,7 +32,7 @@ class Article extends Model
         return $this->belongsTo(Course::class);
     }
 
-    public function subArticle() {
+    public function subArticles() {
         return $this->hasMany(SubArticle::class, 'article_id');
     }
 }

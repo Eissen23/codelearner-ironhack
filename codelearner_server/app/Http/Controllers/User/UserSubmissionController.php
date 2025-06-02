@@ -75,33 +75,4 @@ class UserSubmissionController extends Controller implements HasMiddleware
         ];
     }
 
-    // No need for this function -> can be update with user_solution
-    // public function update(Request $request, UserSubmission $userSubmission)
-    // {
-    //     // validate the request
-    //     $fields = $request->validate([
-    //         'source_code' => 'text',
-    //         'language_id' => 'integer',
-    //         'result' => 'string',
-    //         'points' => 'integer',
-    //         'time' => 'float',
-    //         'memory' => 'float',
-    //     ]);
-
-    //     $userSubmission->update($fields);
-
-    //     return [
-    //         "message" => "Entry updated successfully",
-    //         "submission" => $userSubmission,
-    //     ];
-    // }
-
-    // public function destroy(UserSubmission $userSubmission)
-    // {
-    //     $userSubmission->delete();
-
-    //     return [
-    //         "message" => "Entry deleted successfully",
-    //     ];
-    // }
 }

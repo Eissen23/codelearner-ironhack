@@ -9,7 +9,7 @@ class ArticleHelper{
     public static function getSubArticlePaginator(Request $request, Article $chapterArticle)
     {
         $perPage = $request->input('per_page', 10);
-        $articles = $chapterArticle->subArticle()->paginate($perPage);
+        $articles = $chapterArticle->subArticles()->paginate($perPage);
         return $articles;
     }
 

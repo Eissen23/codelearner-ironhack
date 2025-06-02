@@ -21,7 +21,7 @@ class SubArticleController extends Controller implements HasMiddleware
     public function index(?Article $article){
         ArticleHelper::getSubArticlePaginator((request()), $article);
         return [
-            "sub_articles"=> $article->subArticle()->get(),
+            "sub_articles"=> $article->subArticles()->get(),
         ];
     }
 

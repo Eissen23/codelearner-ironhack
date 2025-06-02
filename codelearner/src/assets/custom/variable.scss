@@ -1,23 +1,21 @@
-// Custom SCSS for React Bootstrap
-// Define modern color palette
-$murrey: #890640ff;
-$persian-indigo: #3a0674ff;
-$russian-violet: #0f1a1e;
-$zaffre: #0e14b1ff;
-$zaffre2: #2324de;
-$indigo: #480f8bff;
-$federal-blue: #1c1558ff;
-$light-purple: #eee6ff; // Lightened version of $russian-violet for better contrast
+$murrey: #890640;
+$persian-indigo: #3a0674;
+$russian-violet: #0f0223;
+$zaffre: #0e14b1;
+$indigo: #480f8b;
+$federal-blue: #1c1558;
+$light-purple: #4a3a6b; // Lightened version of $russian-violet for better contrast
 
 $primary: $indigo; // Vibrant purple for main actions
 $secondary: $persian-indigo; // Subtle purple for secondary elements
-$success: $zaffre2; // Deep purple-red for positive actions
+$success: $murrey; // Deep purple-red for positive actions
 $danger: $murrey; // Same as success for consistency in alerts
 $warning: $zaffre; // Blue-purple for attention
 $info: $federal-blue; // Dark blue-purple for informational elements
 $light: $light-purple; // Light purple for backgrounds
 $dark: $russian-violet; // Near-black purple for dark elements
 
+@import "../../../node_modules/bootstrap/scss/bootstrap";
 // Typography
 $font-family-base: system-ui, -apple-system, "Segoe UI", Roboto,
   "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial, sans-serif,
@@ -25,50 +23,39 @@ $font-family-base: system-ui, -apple-system, "Segoe UI", Roboto,
 $font-size-base: 1rem; // 16px
 $line-height-base: 1.5;
 
-// Spacing
-$spacer: 1.5rem; // More breathing room
+// Component customization
 $border-radius: 0.5rem; // Softer corners
 $border-radius-lg: 0.75rem;
 $border-radius-sm: 0.25rem;
 
-// Buttons
 $btn-padding-y: 0.5rem;
 $btn-padding-x: 1.25rem;
 $btn-font-weight: 500;
-$btn-border-radius: $border-radius;
-$btn-transition: all 0.3s ease;
 
-// Forms
 $input-padding-y: 0.75rem;
 $input-padding-x: 1rem;
-$input-border-radius: $border-radius;
-$input-border-color: #ced4da;
 $input-focus-border-color: $primary;
-$input-box-shadow: none;
 $input-focus-box-shadow: 0 0 0 0.2rem rgba($primary, 0.25);
 
-// Cards
 $card-border-radius: $border-radius-lg;
-$card-border-color: rgba($dark, 0.1);
 $card-box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 
-// Import Bootstrap's source
-@import "../../../node_modules/bootstrap/scss/bootstrap.scss";
+// Import all of Bootstrap
 
-// Component-specific overrides
-
+// Custom overrides
 .btn-primary {
-  color: #fff !important;
-  background-color: $primary;
-  border-color: $primary;
+  transition: all 0.3s ease;
 
   &:hover,
   &:focus,
   &:active {
-    color: #fff !important;
     background-color: darken($primary, 10%);
     border-color: darken($primary, 10%);
   }
+}
+
+.bg-gradient {
+  color: #fff;
 }
 
 .form-control {
@@ -81,5 +68,6 @@ $card-box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .card {
+  box-shadow: $card-box-shadow;
   transition: transform 0.2s ease;
 }

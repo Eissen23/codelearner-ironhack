@@ -3,9 +3,9 @@ import Auth from "./auth/Auth";
 import logo from "/assets/logo/codelearner.svg";
 import "../assets/style/Navbar.css";
 import { useAuth } from "../context/auth/AuthContext";
-import Logout from "./auth/Logout";
 import MenuNav from "../features/main/nav-tab/MenuNav";
 import { Link } from "react-router-dom";
+import ProfileDropdown from "./ProfileDropdown";
 const menuItems = [
   { label: "Home", link: "/" },
   { label: "About", link: "/about" },
@@ -46,7 +46,7 @@ function HeadNav() {
               <MenuNav items={isAuthenticated ? userItems : menuItems} />
             </div>
             <div className="d-block ms-2">
-              {isAuthenticated ? <Logout /> : <Auth />}
+              {isAuthenticated ? <ProfileDropdown /> : <Auth />}
             </div>
           </div>
         </div>

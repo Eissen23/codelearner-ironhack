@@ -205,7 +205,7 @@ const SolutionArticleForm: React.FC<SolutionArticleFormProps> = ({
             setIsExecuted={setIsExecuted}
           />
         </div>
-        <div className="d-flex justify-content-between">
+        <div className="d-flex justify-content-between mb-3">
           <Button variant="primary" type="submit">
             {loading && (
               <span>

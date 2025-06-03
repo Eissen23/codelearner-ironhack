@@ -12,6 +12,16 @@ const menuLinks = [
   { text: "About", to: "/about" },
   { text: "Contact", to: "/contact" },
 ];
+const menuLinks2 = [
+  { text: "Condition & Term", to: "/" },
+  { text: "Contact", to: "/contact" },
+];
+const menuLinks3 = [
+  { text: "Problems", to: "/problems" },
+  { text: "Org", to: "/orgs" },
+  { text: "Course", to: "/courses" },
+  { text: "Contest", to: "/problem-sets" },
+];
 
 const Footer: React.FC = () => {
   return (
@@ -24,13 +34,13 @@ const Footer: React.FC = () => {
           ))}
         </Col>
         <Col md={2}>
-          <MenuFooter title="Menu" links={menuLinks} />
+          <MenuFooter title="About us" links={menuLinks} />
         </Col>
         <Col md={2}>
-          <MenuFooter title="Menu" links={menuLinks} />
+          <MenuFooter title="Policies" links={menuLinks2} />
         </Col>
         <Col md={4} className="text-left">
-          <MenuFooter title="Menu" links={menuLinks} />
+          <MenuFooter title="Navigate" links={menuLinks3} />
         </Col>
       </Row>
     </Container>

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { UserSolution } from "../../../types/content/solution.type";
 import { useAuth } from "../../../context/auth/AuthContext";
 import { addUsrSoltion } from "../../../service/api/usersolution/addUsrSolution";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { toast } from "react-toastify";
 import { updateUsrSolution } from "../../../service/api/usersolution/updateUsrSolution";
 import { deletUsrSolution } from "../../../service/api/usersolution/deletUsrSolution";
@@ -11,9 +11,9 @@ const useFormUSSolution = (
   initialData: Partial<UserSolution>,
   update: boolean = false
 ) => {
+  const navigate = useNavigate();
   const { token } = useAuth();
   const { user_sub_id, user_solution_id } = useParams();
-
   const [uploading, setUploading] = useState(false);
   const [formData, setFormData] = useState({
     name: initialData.name || "",
@@ -94,6 +94,9 @@ const useFormUSSolution = (
       setUploading(true);
       await deletUsrSolution(user_solution_id || "", token || "");
       toast.success("delete success");
+      setTimeout(() => {
+        navigate(-1);
+      }, 5000);
     } catch (error) {
       console.log("error: handlDelete");
       toast.error("fail to delete");

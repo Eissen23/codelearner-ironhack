@@ -144,6 +144,9 @@ const SolutionArticleForm: React.FC<SolutionArticleFormProps> = ({
       setLoading(true);
       await deleteSarticle(sol_atricle_id || "", token || "");
       toast.success("successfully delete article");
+      setTimeout(() => {
+        navigate(-1);
+      }, 5000);
     } catch (error) {
       toast.error("fail to delete article");
       console.log(error);

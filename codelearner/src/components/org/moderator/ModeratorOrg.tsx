@@ -1,6 +1,6 @@
 import React from "react";
 import { useModList } from "../../../features/hooks/orgs/useModList";
-import { Spinner } from "react-bootstrap";
+import { Spinner, Tab, Tabs } from "react-bootstrap";
 import ModeratorItem from "../element/ModeratorItem";
 
 type ModOrgCred = {
@@ -25,15 +25,30 @@ const ModeratorOrg: React.FC<ModOrgCred> = ({
           <Spinner animation="border" />
         </>
       ) : (
-        <div className="moderator_list">
-          {mods?.map((mod, index) => (
-            <ModeratorItem
-              mod={mod}
-              key={index}
-              settings={role === "OrgHead"}
-            />
-          ))}
-        </div>
+        <Tabs defaultActiveKey="in-org">
+          <Tab title="Currently Active" eventKey="in-org">
+            <div className="moderator_list mt-3">
+              {mods?.map((mod, index) => (
+                <ModeratorItem
+                  mod={mod}
+                  key={index}
+                  settings={role === "OrgHead"}
+                />
+              ))}
+            </div>
+          </Tab>
+          <Tab title="Awaiting Request" eventKey="awaiting">
+            <div className="moderator_list mt-3">
+              {mods?.map((mod, index) => (
+                <ModeratorItem
+                  mod={mod}
+                  key={index}
+                  settings={role === "OrgHead"}
+                />
+              ))}
+            </div>
+          </Tab>
+        </Tabs>
       )}
     </div>
   );

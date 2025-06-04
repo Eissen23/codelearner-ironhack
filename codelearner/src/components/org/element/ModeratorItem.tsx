@@ -35,7 +35,7 @@ const ModeratorItem: React.FC<{ mod: UserModerator; settings?: boolean }> = ({
         <p className="mb-0">{mod.email}</p>
       </div>
       <div className="created-at">
-        <small>Joined{new Date(mod.created_at).toLocaleDateString()}</small>
+        <small> {new Date(mod.created_at).toLocaleDateString()}</small>
       </div>
       <div className="role">
         <Badge bg={getBadgeVariant2(mod.pivot.role)}>{mod.pivot.role}</Badge>

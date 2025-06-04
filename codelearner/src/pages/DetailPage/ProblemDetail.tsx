@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { lazy, Suspense, useRef, useState } from "react";
 import Split from "react-split";
 import CodeEditor from "../../features/main/code/CodeEditor";
 import "../../assets/style/Code.css";
@@ -6,6 +6,14 @@ import LayoutHome from "../../layout/LayoutHome";
 import ProblemDescription from "../../components/problems/ProblemDescription";
 import ProblemOutput from "../../features/main/code/ProblemOutput";
 import useProblemDetail from "../../features/hooks/problems/useProblemDetail";
+import { Tab, Tabs } from "react-bootstrap";
+const SolutionArticleList = lazy(
+  () => import("../../components/solution/SolutionArticleList")
+);
+const UserSolPublic = lazy(
+  () => import("../../components/solution/UserSolPublic")
+);
+import CustomSpinner from "../../components/CustomSpinner";
 
 const ProblemDetail: React.FC = () => {
   const editorRef = useRef<any>(null);
@@ -20,7 +28,26 @@ const ProblemDetail: React.FC = () => {
     <div className="problem_detail">
       <LayoutHome noGutter>
         <Split className="split">
-          <ProblemDescription problem={problemData} />
+          <div>
+            <Tabs defaultActiveKey="description" className="bg-black">
+              <Tab title="ProblemDescription" eventKey="description">
+                <ProblemDescription problem={problemData} />
+              </Tab>
+              <Tab title="Solution" eventKey="solution">
+                <section className="solution_article mb-3">
+                  <Suspense fallback={CustomSpinner}>
+                    <SolutionArticleList />
+                  </Suspense>
+                </section>
+                <section className="solution_article mb-3">
+                  <Suspense fallback={CustomSpinner}>
+                    <UserSolPublic />
+                  </Suspense>
+                </section>
+              </Tab>
+            </Tabs>
+          </div>
+          {/* <ProblemDescription problem={problemData} /> */}
           <Split
             className="vertical-split"
             direction="vertical"

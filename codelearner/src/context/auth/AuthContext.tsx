@@ -9,6 +9,8 @@ import { loginService } from "../../service/user-service/login.ts";
 import { logoutService } from "../../service/user-service/logout.ts";
 import { registerService } from "../../service/user-service/register.ts";
 import { verifyToken } from "../../service/user-service/verifyToken.ts";
+import { RegisterResponse } from "../../types/auth.types.ts";
+import { AxiosError } from "axios";
 
 interface AuthState {
   isAuthenticated: boolean;
@@ -22,7 +24,8 @@ interface AuthState {
     account_name: string,
     full_name: string,
     password_confirmation: string
-  ) => Promise<void>;
+  ) => Promise<RegisterResponse>;
+  error: string;
 }
 
 const AuthContext = createContext<AuthState | undefined>(undefined);
@@ -37,6 +40,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
     !!localStorage.getItem("auth_token")
   );
   const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string>("");
 
   useEffect(() => {
     const storedToken = localStorage.getItem("auth_token");
@@ -71,7 +75,6 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
     password_confirmation: string
   ) => {
     try {
-      setIsLoading(true);
       const response = await registerService({
         account_name,
         full_name,
@@ -83,11 +86,13 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
       localStorage.setItem("auth_token", response.token);
       setToken(response.token);
       setIsAuthenticated(true);
-    } catch (error) {
-      console.error("Register failed:", error);
-      throw error;
-    } finally {
-      setIsLoading(false);
+      return response;
+    } catch (err: unknown) {
+      // console.error("Register failed:", err);
+      if (err instanceof AxiosError && err.response?.data?.message) {
+        setError(err.response?.data?.message);
+      }
+      throw err;
     }
   };
 
@@ -116,7 +121,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
       setIsAuthenticated(true);
       return true;
     } catch (error) {
-      console.error("Token verification failed:", error);
+      setError("Token verification failed");
       return false;
     }
   };
@@ -128,6 +133,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
     login,
     logout,
     register,
+    error,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

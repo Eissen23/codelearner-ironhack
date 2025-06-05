@@ -15,10 +15,11 @@ const MemberRegister = () => {
   return (
     <LayoutHome noGutter>
       <div
-        className="banner-background py-4"
+        className="banner-background"
         style={{
           backgroundImage: `url(${banner})`,
           backgroundSize: "cover",
+          padding: "6rem 0",
         }}
       >
         <Container>

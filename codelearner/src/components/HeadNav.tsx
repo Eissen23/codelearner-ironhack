@@ -26,7 +26,7 @@ const userItems = [
 function HeadNav() {
   const { isAuthenticated } = useAuth();
   return (
-    <div className="bg-dark py-3">
+    <div className="bg-dark py-2">
       <Container>
         <div className="d-flex justify-content-between align-items-center">
           <div className="logo-img d-flex">

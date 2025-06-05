@@ -22,7 +22,7 @@ export const registerService = async (
 
     return response.data;
   } catch (error) {
-    console.error("Error fetching data:", error);
+    // console.error("registerService:", error);
     throw error;
   }
 };

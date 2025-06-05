@@ -3,6 +3,7 @@ import { Button, Form, InputGroup } from "react-bootstrap";
 import React from "react";
 import { useAuth } from "../../context/auth/AuthContext";
 import { toast, ToastContainer } from "react-toastify";
+import { useNavigate } from "react-router";
 
 interface SignUpProps {
   onSwitchToLogin: () => void;
@@ -10,6 +11,7 @@ interface SignUpProps {
 
 const SignUpForm: React.FC<SignUpProps> = ({ onSwitchToLogin }) => {
   const { register, error } = useAuth();
+  const navigate = useNavigate();
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -34,7 +36,11 @@ const SignUpForm: React.FC<SignUpProps> = ({ onSwitchToLogin }) => {
         success: "Signup success",
         error: `${error}`,
       });
+
       // Redirect or show success message
+      setTimeout(() => {
+        navigate(`/`);
+      }, 5000);
     } catch (er) {
       console.log("handleSubmit signup", er);
     }

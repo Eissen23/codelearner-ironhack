@@ -141,7 +141,7 @@ const routes_map: RouteObject[] = [
         Component: DashBoard,
         children: [
           {
-            path: "profile",
+            path: "/dashboard/profile",
             Component: DashBoardRight,
           },
           {

@@ -1,6 +1,5 @@
-import axios from "axios";
 import { LogoutResponse } from "../../types/auth.types";
-const API_URL = import.meta.env.VITE_API_URL;
+import { CODELEARNER_API } from "../api/clients/codelearner";
 
 interface LogoutCredentials {
   token: string;
@@ -10,10 +9,8 @@ export const logoutService = async (
   credentials: LogoutCredentials
 ): Promise<LogoutResponse> => {
   try {
-    const response = await axios.delete(`${API_URL}/logout`, {
+    const response = await CODELEARNER_API.delete(`logout`, {
       headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
         Authorization: `Bearer ${credentials.token}`,
       },
     });

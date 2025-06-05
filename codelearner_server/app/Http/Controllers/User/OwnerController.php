@@ -69,11 +69,43 @@ class OwnerController extends Controller implements HasMiddleware
         $submission = $request->user()->userSubmissions()->get();
         return $submission;
     }
-    // public function getYourSolution(Request $request) {
-    //     $request->user()->submissions()->get();
-    //     return [
-    //         $
-    //     ]
-    // }
+
+
+    // Get user's active devices
+    public function getDevices(Request $request)
+    {
+        $user = $request->user();
+        return response()->json([
+            'devices' => $user->getActiveDevices()
+        ]);
+    }
+
+    // Revoke specific device
+    public function revokeDevice(Request $request)
+    {
+        $request->validate([
+            'device_name' => 'required|string'
+        ]);
+
+        $user = $request->user();
+        $revoked = $user->revokeDeviceToken($request->device_name);
+
+        return response()->json([
+            'message' => $revoked ? 'Device revoked successfully' : 'Device not found'
+        ]);
+    }
+
+    // Revoke all other devices
+    public function revokeAllOtherDevices(Request $request)
+    {
+        $user = $request->user();
+        $currentToken = $request->user()->currentAccessToken();
+
+        $user->revokeAllTokensExceptCurrent($currentToken->id);
+
+        return response()->json([
+            'message' => 'All other devices have been logged out'
+        ]);
+    }
 
 }

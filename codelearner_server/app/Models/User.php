@@ -3,6 +3,7 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Traits\ModelTrait\ManageDeviceToken;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -15,7 +16,7 @@ use Illuminate\Database\Eloquent\Attributes\ScopedBy;
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable, HasApiTokens;
+    use HasFactory, Notifiable, HasApiTokens, ManageDeviceToken;
 
     /**
      * The attributes that are mass assignable.
@@ -59,32 +60,37 @@ class User extends Authenticatable
     }
 
 
-    public function organizations(){
-        return $this->belongsToMany(Organization::class,'moderators', 'user_id', 'org_id')
-        ->using(Moderator::class)
-        ->withPivot('role');
-    }
-    
-    public function moderatedOrg(){
-        return $this->belongsToMany(Organization::class,'moderators', 'user_id', 'org_id')
-        ->using(Moderator::class)
-        ->withPivot('role')
-        ->wherePivot('role', 'Moderator');
+    public function organizations()
+    {
+        return $this->belongsToMany(Organization::class, 'moderators', 'user_id', 'org_id')
+            ->using(Moderator::class)
+            ->withPivot('role');
     }
 
-    public function managedOrganizations(){
-        return $this->belongsToMany(Organization::class,'moderators', 'user_id', 'org_id')
-        ->using(Moderator::class)
-        ->withPivot('role')
-        ->wherePivot('role', 'OrgHead');
+    public function moderatedOrg()
+    {
+        return $this->belongsToMany(Organization::class, 'moderators', 'user_id', 'org_id')
+            ->using(Moderator::class)
+            ->withPivot('role')
+            ->wherePivot('role', 'Moderator');
     }
 
-    public function courses(){
+    public function managedOrganizations()
+    {
+        return $this->belongsToMany(Organization::class, 'moderators', 'user_id', 'org_id')
+            ->using(Moderator::class)
+            ->withPivot('role')
+            ->wherePivot('role', 'OrgHead');
+    }
+
+    public function courses()
+    {
         return $this->belongsToMany(Course::class, 'user_courses', 'user_id', 'course_id')
-        ->using(UserCourse::class);
+            ->using(UserCourse::class);
     }
 
-    public function userSubmissions(){
+    public function userSubmissions()
+    {
         return $this->hasMany(UserSubmission::class);
     }
 }

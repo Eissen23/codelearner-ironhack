@@ -4,7 +4,7 @@ export type Org = {
   contact_email: string;
   description: string;
   website?: string;
-  logo?: string;
+  logo?: File; // Updated logo type to File
   created_at: Date;
   updated_at: Date;
   pivot?: Moderator;

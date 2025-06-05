@@ -8,7 +8,7 @@ type Response = {
 
 export const createOrg = async (
   token: string | null,
-  org: Omit<Org, "id" | "created_at" | "updated_at">
+  org: FormData
 ): Promise<Response> => {
   try {
     const response = await CODELEARNER_API.post<Response>("/orgs", org, {

@@ -41,6 +41,8 @@ services:
       - "9000:80"
     depends_on:
       - php
+    volumes:
+      - .:/var/www/html
     networks:
       - app-network
 
@@ -56,13 +58,15 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+    ports:
+      - "5000:3306"
     networks:
       - app-network
 
   mongodb:
     image: mongodb/mongodb-community-server:8.0-ubi9
     environment:
-      MONGO_INITDB_DATABASE: codelearner_problem
+      MONGO_INITDB_DATABASE: codelearner
     volumes:
       - mongo-data:/data/db
     healthcheck:

@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Scopes\SortAndFilterScope;
 use Illuminate\Database\Eloquent\Attributes\ScopedBy;
+use Storage;
 
 #[ScopedBy([SortAndFilterScope::class])]
 class Organization extends Model
@@ -25,7 +26,13 @@ class Organization extends Model
 
     protected $casts = [
         "created_at" => "datetime",
+        "updated_at" => "datetime",
     ];
+
+    public function getImageUrlAttribute()
+    {
+        return url(Storage::url($this->logo));
+    }
 
     public function users(){
         return $this->belongsToMany(User::class, 'moderators', 'org_id', 'user_id')

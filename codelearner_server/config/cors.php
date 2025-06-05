@@ -15,7 +15,7 @@ return [
     |
     */
 
-    'paths' => ['api/*', 'sanctum/csrf-cookie', 'graphql', env('FRONT_END_URL', 'http://localhost:5173')],
+    'paths' => ['api/*','storage/*', 'sanctum/csrf-cookie', 'graphql', env('FRONT_END_URL', 'http://localhost:5173')],
 
     'allowed_methods' => ['*'],
 

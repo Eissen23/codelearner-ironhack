@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Storage;
 
 class OrgController extends Controller implements HasMiddleware
 {
@@ -27,7 +28,10 @@ class OrgController extends Controller implements HasMiddleware
     public function index()
     {
         //
-        $orgs = Organization::all();
+        $orgs = Organization::all()->map(function ($org) {
+           $org->logo = $org->logo ? url(Storage::url($org->logo)) : null;
+            return $org;
+        });
         return [
             "org" => $orgs
         ];
@@ -44,8 +48,15 @@ class OrgController extends Controller implements HasMiddleware
             'contact_email' => 'required|string|email',
             'description' => 'required|max:255',
             'website' => 'nullable|url:http,https',
-            'logo' => 'nullable|image',
+            'logo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
+
+        if ($request->hasFile('logo')) {
+            $logo = $request->file('logo');
+            $filename = time() . '_org_' . uniqid() . '.' . $logo->getClientOriginalExtension();
+            $fields['logo'] = $logo->storeAs('orgs', $filename, 'public');
+        }
+
         $organization = Organization::create($fields);
 
         $user_id = $request->user()->id;
@@ -68,8 +79,9 @@ class OrgController extends Controller implements HasMiddleware
     public function show(Organization $org)
     {
         // 
-        // $organization = Organization::where('org_id', '=', $id)->first();
-
+        // $orgData = $org->toArray();
+        // $orgData['logo'] = $org->logo ? url(Storage::url($org->logo)) : null;
+        $org->logo = $org->logo ? url(Storage::url($org->logo)) : null;
         return [
             "data" => $org,
         ];
@@ -87,8 +99,15 @@ class OrgController extends Controller implements HasMiddleware
             'contact_email' => 'string|email',
             'description' => 'max:255',
             'website' => 'nullable|url:http,https',
-            'logo' => 'nullable|image',
+            'logo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
+
+        if ($request->hasFile('logo')) {
+            $logo = $request->file('logo');
+            $filename = time() . '_org_' . uniqid() . '.' . $logo->getClientOriginalExtension();
+            $fields['logo'] = $logo->storeAs('orgs', $filename, 'public');
+        }
+
 
         $org->update($fields);
 
@@ -110,6 +129,10 @@ class OrgController extends Controller implements HasMiddleware
 
         Moderator::where('org_id', $org->id)->delete();
 
+        if (Storage::disk('public')->exists($org->logo)) {
+            Storage::disk('public')->delete($org->logo);
+        }
+
         $org->delete();
 
         return [
@@ -120,10 +143,10 @@ class OrgController extends Controller implements HasMiddleware
     public function isOwn(Request $request, Organization $org)
     {
         $mod = OrgPolicyHelper::getMod($org, $request->user());
-        if (!$mod){
+        if (!$mod) {
             return ['role' => 'UNAUTHORIZE'];
         }
 
-        return ['role' =>$mod->role];
+        return ['role' => $mod->role];
     }
 }

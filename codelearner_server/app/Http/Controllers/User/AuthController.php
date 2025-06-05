@@ -47,6 +47,28 @@ class AuthController extends Controller
         ];
 
     }
+
+    public function validateToken(Request $request){
+        $token = $request->bearerToken();
+
+        if (!$token) {
+            return response()->json([
+                'message' => 'Token not provided.'
+            ], 400);
+        }
+
+        try {
+            $user = $request->user();
+            return [
+                'message' => 'Token is valid.',
+            ];
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Invalid token.'
+            ], 401);
+        }
+    }
+
     public function logout(Request $request){
         $request->user()->tokens()->delete();
         return [

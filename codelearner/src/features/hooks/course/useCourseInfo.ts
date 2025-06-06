@@ -9,6 +9,7 @@ type useOrgInfoCred = {
   token?: string;
   is_belong?: boolean;
   enrollCheck?: boolean;
+  role_check?: boolean;
 };
 
 export const useCourseInfo = ({

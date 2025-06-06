@@ -10,8 +10,10 @@ export const courseOwnerLoader = async ({ params }: LoaderFunctionArgs) => {
 
   const { role } = await isOwnerCourse(token, course_id);
 
+  console.log(role);
   if (role === "UNAUTHORIZE") {
     return redirect("/not-authorized");
   }
+
   return { role };
 };

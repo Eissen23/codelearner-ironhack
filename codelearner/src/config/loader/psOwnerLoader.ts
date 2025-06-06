@@ -8,11 +8,14 @@ export const psOwnerLoader = async ({ params }: LoaderFunctionArgs) => {
 
   if (!problemSetId || !token) throw new Error("Missing problemSetId or token");
 
-  const { role } = await isOwnerProblemSet(token, problemSetId);
-
-  if (role === "UNAUTHORIZE") {
+  try {
+    const { role } = await isOwnerProblemSet(token, problemSetId);
+    if (role === "UNAUTHORIZE") {
+      return redirect("/not-authorized");
+    }
+    return { role };
+  } catch (error) {
+    console.error("ProblemSet owner check failed:", error);
     return redirect("/not-authorized");
   }
-
-  return { role };
 };

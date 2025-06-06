@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Form, Button, Row, Col, InputGroup } from "react-bootstrap";
 import { Organization } from "../../types/user.type";
-import { Course } from "../../types/org/course.type";
+import { CourseFormData } from "../../types/org/course.type";
 import { addCourse } from "../../service/api/cours-manage/addCourse";
 import { useAuth } from "../../context/auth/AuthContext";
 import { toast, ToastContainer } from "react-toastify";
@@ -11,22 +11,22 @@ const CreateCourseForm: React.FC<{ orgs: Organization[] }> = ({ orgs }) => {
   const { token } = useAuth();
   const navigate = useNavigate();
   const [Loading, setLoading] = useState(false);
-  const [formData, setFormData] = useState<Omit<Course, "id" | "created_at">>({
+  const [formData, setFormData] = useState<CourseFormData>({
     name: "",
     description: "",
     short_description: "",
     fee: 0.0,
     currency: "",
     duration: 0,
-    logo: null,
+    logo: undefined,
     org_id: 0,
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
+    const { name, value, type, files } = e.target;
     setFormData((prev) => ({
       ...prev,
-      [name]: value,
+      [name]: type === "file" ? files?.[0] : value,
     }));
   };
 
@@ -59,7 +59,7 @@ const CreateCourseForm: React.FC<{ orgs: Organization[] }> = ({ orgs }) => {
   return (
     <div className="container-fluid align-items-center justify-content-center bg-light">
       <ToastContainer />
-      <Form onSubmit={handleSubmit} className="d-block p-3">
+      <Form onSubmit={handleSubmit} className="d-block p-3" encType="">
         <div className="d-flex justify-content-between mb-3">
           <h2 className="text-center mb-0">Create Course</h2>
           <Button className="d-block" variant="primary" type="submit" size="sm">
@@ -135,12 +135,28 @@ const CreateCourseForm: React.FC<{ orgs: Organization[] }> = ({ orgs }) => {
             </Form.Group>
 
             <Form.Group className="mb-3">
-              <Form.Label htmlFor="logo">Logo</Form.Label>
+              <Form.Label htmlFor="logo" className="d-block">
+                Select logo
+              </Form.Label>
+
+              {formData.logo && (
+                <div
+                  className="bg-white p-3 rounded-2 mb-2"
+                  style={{ height: "6rem", width: "6rem" }}
+                >
+                  <div className=" ratio ratio-1x1">
+                    <img
+                      className="img-fluid"
+                      alt="logo"
+                      src={URL.createObjectURL(new Blob([formData.logo]))}
+                    ></img>
+                  </div>
+                </div>
+              )}
               <Form.Control
                 type="file"
                 id="logo"
                 name="logo"
-                value={formData.logo || ""}
                 onChange={handleChange}
               />
             </Form.Group>

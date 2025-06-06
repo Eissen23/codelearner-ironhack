@@ -97,6 +97,11 @@ const OrgInfo = ({ id }: { id: string }) => {
       <Card className="OrgInfo">
         <Card.Header as={"h5"}>{data.name || ""}</Card.Header>
         <Card.Body className="org-details">
+          {data.logo && (
+            <div className="ratio-4x3">
+              <img alt={data.name} src={data.logo}></img>
+            </div>
+          )}
           <Card.Text>{data.description}</Card.Text>
           <Card.Text>
             <strong>Email:</strong> {data.contact_email}

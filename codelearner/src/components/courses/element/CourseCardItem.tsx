@@ -9,6 +9,7 @@ const CourseCardItem: React.FC<{ course: Course; setting?: boolean }> = ({
   return (
     <Card className="h-100 shadow-sm">
       <Card.Body>
+        <Card.Img alt={course.name} src={course.logo!}></Card.Img>
         <Card.Title>
           <Link
             to={

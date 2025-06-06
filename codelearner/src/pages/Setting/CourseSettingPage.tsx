@@ -25,6 +25,7 @@ const CourseSettingPage: React.FC = () => {
     );
   }
 
+  console.log(role);
   return (
     <LayoutHome>
       <section className="course_info_form mb-5">

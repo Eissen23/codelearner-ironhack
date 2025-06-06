@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Casts\ImageUrl;
 use App\Models\Organization;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -23,11 +24,13 @@ class Course extends Model
         'duration',
         'org_id',
         'fee',
+        'logo',
     ];
 
     protected $casts = [
         'created_at'=> 'datetime',
         'fee' => 'float',
+        'logo' => ImageUrl::class
     ];
     public function organization(){
         return $this->belongsTo(Organization::class, 'org_id');

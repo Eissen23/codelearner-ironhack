@@ -17,10 +17,14 @@ const OrgListItem: React.FC<{ org: Org; setting?: boolean }> = ({
           <Col xs={1} className="text-center">
             {org.logo ? (
               <img
-                src={org.logo}
+                src={
+                  typeof org.logo === "string"
+                    ? org.logo
+                    : URL.createObjectURL(org.logo)
+                }
                 alt={org.name}
                 className="img-fluid rounded"
-                style={{ maxHeight: "4rem", objectFit: "contain" }}
+                style={{ maxHeight: "1.5rem", objectFit: "contain" }}
               />
             ) : (
               <div className="bg-light rounded">

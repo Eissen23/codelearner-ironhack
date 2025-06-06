@@ -2,15 +2,13 @@ import { useState } from "react";
 import { useNavigate } from "react-router";
 import { createOrg } from "../../../service/api/org-manage/createOrg";
 import { useAuth } from "../../../context/auth/AuthContext";
-import { Org } from "../../../types/org/org.type";
+import { OrgFormData } from "../../../types/org/org.type";
 import { toast } from "react-toastify";
 
 export const useOrgCreate = () => {
   const { isAuthenticated, token } = useAuth();
   const navigate = useNavigate();
-  const [formData, setFormData] = useState<
-    Omit<Org, "id" | "created_at" | "updated_at">
-  >({
+  const [formData, setFormData] = useState<OrgFormData>({
     name: "",
     contact_email: "",
     description: "",

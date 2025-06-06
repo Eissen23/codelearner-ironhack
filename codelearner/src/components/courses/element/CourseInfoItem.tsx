@@ -12,7 +12,7 @@ const CourseInfoItem: React.FC<{
   course: Course | null;
   org?: Org | null;
   user_role?: "HEAD" | "MOD" | "UNAUTHORIZE";
-}> = ({ course, org, user_role = "UNAUTHORIZE" }) => {
+}> = ({ course, org, user_role }) => {
   if (!course) {
     return <div>Loading...</div>;
   }
@@ -153,16 +153,33 @@ const CourseInfoItem: React.FC<{
             </Form.Group>
 
             <Form.Group className="mb-3">
-              <Form.Label htmlFor="logo">Logo</Form.Label>
+              <Form.Label htmlFor="logo" className="d-block">
+                Logo
+              </Form.Label>
+
+              {formData.logo && (
+                <div
+                  className="bg-white p-3 rounded-2 mb-2"
+                  style={{ height: "6rem", width: "6rem" }}
+                >
+                  <div className=" ratio ratio-1x1">
+                    <img
+                      className="img-fluid"
+                      alt="logo"
+                      src={formData.logo}
+                    ></img>
+                  </div>
+                </div>
+              )}
               <Form.Control
                 type="file"
                 id="logo"
                 name="logo"
-                value={formData.logo || ""}
                 onChange={handleChange}
                 disabled={!isEditing}
               />
             </Form.Group>
+
             <Form.Group className="mb-3">
               <Form.Label htmlFor="duration">Duration</Form.Label>
               <Form.Control

@@ -86,7 +86,25 @@ const CreateOrganizationForm: React.FC = () => {
             </Form.Group>
 
             <Form.Group className="mb-3">
-              <Form.Label htmlFor="logo">Logo URL</Form.Label>
+              <Form.Label htmlFor="logo" className="d-block">
+                Select logo
+              </Form.Label>
+
+              {formData.logo && (
+                <div
+                  className="bg-white p-3 rounded-2 mb-2"
+                  style={{ height: "6rem", width: "6rem" }}
+                >
+                  <div className="ratio ratio-1x1">
+                    <img
+                      className="img-fluid"
+                      alt="logo"
+                      src={URL.createObjectURL(formData.logo as File)}
+                    ></img>
+                  </div>
+                </div>
+              )}
+
               <Form.Control
                 type="file"
                 id="logo"

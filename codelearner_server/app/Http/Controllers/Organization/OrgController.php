@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Organization;
 
+use App\Http\ControllerHelper\UtilitiesHelper;
 use App\Http\Controllers\Controller;
 
 use App\Models\Organization;
@@ -99,6 +100,11 @@ class OrgController extends Controller implements HasMiddleware
         ]);
 
         if ($request->hasFile('logo')) {
+            $logoPath = $org->getRawOriginal('logo');
+            if ($logoPath && Storage::disk('public')->exists($logoPath)) {
+                Storage::disk('public')->delete($logoPath);
+            }
+
             $logo = $request->file('logo');
             $filename = time() . '_org_' . uniqid() . '.' . $logo->getClientOriginalExtension();
             $fields['logo'] = $logo->storeAs('orgs', $filename, 'public');
@@ -123,11 +129,12 @@ class OrgController extends Controller implements HasMiddleware
 
         Gate::authorize('orgHead', $org);
 
-        Moderator::where('org_id', $org->id)->delete();
-
-        if (Storage::disk('public')->exists($org->logo)) {
-            Storage::disk('public')->delete($org->logo);
+        $logoPath = $org->getRawOriginal('logo');
+        if ($org->logo && Storage::disk('public')->exists($logoPath)) {
+            Storage::disk('public')->delete($logoPath);
         }
+
+        Moderator::where('org_id', $org->id)->delete();
 
         $org->delete();
 

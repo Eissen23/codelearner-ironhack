@@ -136,8 +136,6 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
     error,
   };
 
-  console.log("isAuthenticated ", isAuthenticated);
-
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
 

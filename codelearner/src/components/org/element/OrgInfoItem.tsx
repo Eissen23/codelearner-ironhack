@@ -48,7 +48,7 @@ const OrgInfoItem: React.FC<{ org: Org; role?: string }> = ({
       await deleteOrg(formData.id.toString(), token || "");
       toast.success("Delete Success");
       setTimeout(() => {
-        navigate(-1);
+        navigate(`/dashboard/org-manage`);
       }, 5000);
     } catch (error) {
       console.log("error while delete", error);

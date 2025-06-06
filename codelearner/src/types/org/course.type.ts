@@ -15,6 +15,18 @@ export type Course = {
   org_id: number;
   pivot?: Enrolled;
 };
+
+export type CourseFormData = {
+  name: string;
+  description?: string;
+  short_description: string;
+  fee: number | 0.0;
+  duration: number | 0;
+  currency?: string;
+  logo?: File;
+  org_id: number;
+};
+
 export type CourseInfoResponse = {
   data: Course;
   belong_to: Org;

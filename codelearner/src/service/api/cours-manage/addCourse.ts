@@ -1,5 +1,6 @@
 import { CODELEARNER_API } from "../clients/codelearner";
-import { Course } from "../../../types/org/course.type";
+import { Course, CourseFormData } from "../../../types/org/course.type";
+import { createFormData } from "../../../utils/createFormData";
 
 type Response = {
   course: Course;
@@ -7,12 +8,14 @@ type Response = {
 
 export const addCourse = async (
   token: string | null,
-  course: Omit<Course, "id" | "created_at">
+  course: CourseFormData
 ): Promise<Response> => {
+  const course_formData = createFormData(course);
+
   try {
     const response = await CODELEARNER_API.post<Response>(
       `/orgs/${course.org_id}/add-course`,
-      course,
+      course_formData,
       {
         headers: {
           Authorization: `Bearer ${token}`,

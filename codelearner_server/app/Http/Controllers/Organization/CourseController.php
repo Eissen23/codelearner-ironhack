@@ -14,13 +14,15 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Storage;
 
 class CourseController extends Controller implements HasMiddleware
-{   
-    public static function middleware(){
+{
+    public static function middleware()
+    {
         return [
             new Middleware('auth:sanctum', except: ['index', 'show'])
-        ] ;
+        ];
     }
 
     /**
@@ -29,13 +31,13 @@ class CourseController extends Controller implements HasMiddleware
     public function index(?Organization $org = null)
     {
         //
-        $courses = AssetHelper::getOrgCoursePaginator(request(),  $org);
+        $courses = AssetHelper::getOrgCoursePaginator(request(), $org);
 
         return [
             'courses_page' => $courses,
         ];
     }
-    
+
     /**
      * Store a newly created resource in storage.
      */
@@ -44,14 +46,20 @@ class CourseController extends Controller implements HasMiddleware
         //
         Gate::authorize('OrgHead', $org);
         $fields = $request->validate([
-            'name'=> 'required|string',
+            'name' => 'required|string',
             'description' => 'required',
-            'short_description'=> 'required|string',
+            'short_description' => 'required|string',
             'duration' => 'integer',
             'fee' => 'numeric|nullable',
             'currency' => 'string|nullable',
-            'logo' =>'url|nullable',
+            'logo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
+
+        if ($request->hasFile('logo')) {
+            $logo = $request->file('logo');
+            $filename = time() . '_course_' . uniqid() . '.' . $logo->getClientOriginalExtension();
+            $fields['logo'] = $logo->storeAs('courses', $filename, 'public');
+        }
 
         $fields['org_id'] = $org->id;
 
@@ -66,11 +74,11 @@ class CourseController extends Controller implements HasMiddleware
      * Display the specified resource.
      */
     public function show(Course $course)
-    {   
+    {
         $belong = request()->input('is_belong', false);
         //
-        $org = $belong==='true' ? $course->organization()->first() : null;
-        
+        $org = $belong === 'true' ? $course->organization()->first() : null;
+
         return [
             "data" => $course,
             "belong_to" => $org
@@ -87,18 +95,31 @@ class CourseController extends Controller implements HasMiddleware
 
         Gate::authorize('orgHead', $org);
 
-        $field = $request->validate([
+        $fields = $request->validate([
             'name' => 'string',
             'short_description' => 'string',
-            'description'=> 'nullable',
-            'duration' => 'integer'
+            'description' => 'nullable',
+            'duration' => 'integer',
+            'logo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
         ]);
 
-        $course->update( $field);
+        if ($request->hasFile('logo')) {
+
+            $logoPath = $course->getRawOriginal('logo');
+            if ($logoPath && Storage::disk('public')->exists($logoPath)) {
+                Storage::disk('public')->delete($logoPath);
+            }
+
+            $logo = $request->file('logo');
+            $filename = time() . '_course_' . uniqid() . '.' . $logo->getClientOriginalExtension();
+            $fields['logo'] = $logo->storeAs('courses', $filename, 'public');
+        }
+
+        $course->update($fields);
 
         return [
             'message' => 'Course updated',
-            'course'=> $course,
+            'course' => $course,
         ];
 
     }
@@ -112,6 +133,11 @@ class CourseController extends Controller implements HasMiddleware
         $org = $course->organization()->first();
         Gate::authorize('orgHead', $org);
 
+        $logoPath = $course->getRawOriginal('logo');
+        if ($logoPath && Storage::disk('public')->exists($logoPath)) {
+            Storage::disk('public')->delete($logoPath);
+        }
+
         $course->delete();
 
         return [
@@ -119,8 +145,9 @@ class CourseController extends Controller implements HasMiddleware
         ];
     }
 
-    public function isOwn (Request $request, Course $course) {
-        $user =  $request->user();
-        return ['role' =>OrgPolicyHelper::userOwn($user, $course)];
+    public function isOwn(Request $request, Course $course)
+    {
+        $user = $request->user();
+        return ['role' => OrgPolicyHelper::userOwn($user, $course)];
     }
 }

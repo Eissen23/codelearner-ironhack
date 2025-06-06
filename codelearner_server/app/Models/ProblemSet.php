@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Casts\ImageUrl;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use MongoDB\Laravel\Eloquent\HybridRelations;
@@ -23,6 +24,13 @@ class ProblemSet extends Model
         'description',
         'expired_at',
         'org_id',
+        'logo',
+    ];
+
+    protected $cast = [
+        'created_at' => 'datetime',
+        'expired_at' => 'datetime',
+        'logo' => ImageUrl::class
     ];
 
     public function organization(){

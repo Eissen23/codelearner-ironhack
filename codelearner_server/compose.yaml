@@ -27,7 +27,7 @@ services:
       - DB_PASSWORD=''
       - MONGODB_HOST=mongodb
       - MONGODB_PORT=27017
-      - MONGODB_DATABASE=codelearner_problem
+      - MONGODB_DATABASE=codelearner
       - MONGODB_USERNAME=
       - MONGODB_PASSWORD=
     networks:

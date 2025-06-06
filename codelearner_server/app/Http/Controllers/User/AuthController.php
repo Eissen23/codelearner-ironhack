@@ -91,7 +91,7 @@ class AuthController extends Controller
     }
 
     public function getInfoDetail(Request $request)
-    {
+    {   
         $user = $request->user()->load('organizations', 'courses');
 
         $user->submissions = $user->userSubmissions()->get();

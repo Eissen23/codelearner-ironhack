@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Casts\ImageUrl;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Scopes\SortAndFilterScope;
@@ -27,6 +28,7 @@ class Organization extends Model
     protected $casts = [
         "created_at" => "datetime",
         "updated_at" => "datetime",
+        "logo" => ImageUrl::class
     ];
 
     public function getImageUrlAttribute()

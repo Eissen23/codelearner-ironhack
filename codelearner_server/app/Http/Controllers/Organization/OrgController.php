@@ -28,10 +28,7 @@ class OrgController extends Controller implements HasMiddleware
     public function index()
     {
         //
-        $orgs = Organization::all()->map(function ($org) {
-           $org->logo = $org->logo ? url(Storage::url($org->logo)) : null;
-            return $org;
-        });
+        $orgs = Organization::all();
         return [
             "org" => $orgs
         ];
@@ -81,7 +78,6 @@ class OrgController extends Controller implements HasMiddleware
         // 
         // $orgData = $org->toArray();
         // $orgData['logo'] = $org->logo ? url(Storage::url($org->logo)) : null;
-        $org->logo = $org->logo ? url(Storage::url($org->logo)) : null;
         return [
             "data" => $org,
         ];

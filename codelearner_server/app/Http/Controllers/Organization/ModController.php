@@ -18,8 +18,9 @@ use Illuminate\Support\Facades\Gate;
 use App\Http\ControllerHelper;
 
 class ModController extends Controller implements HasMiddleware
-{   
-    public static function middleware(){
+{
+    public static function middleware()
+    {
         return [
             new Middleware('auth:sanctum'),
         ];
@@ -29,48 +30,52 @@ class ModController extends Controller implements HasMiddleware
      * Display a listing of moderator from choosen org.
      */
     public function showModInOrg(Request $request, Organization $org)
-    {   
+    {
         //show the moderator in user chosen organization
         // Log::info('OrgPolicy modify method called', ['org'=>$org, 'user' => $request->user()]);
         Gate::authorize("moderator", $org);
-        
+
         $users = AssetHelper::getOrgModeratorPaginator($request, $org);
-        
+
         return [
-            "moderators" => $users,
+            "moderators" => $users['moderators'],
+            "pending" => $users['pending'],
         ];
     }
 
 
-    public function joinOrg(Request $request, Organization $org){
+    public function joinOrg(Request $request, Organization $org)
+    {
         Gate::authorize('join', $org);
         $user = $request->user();
-        if (!$user || !$org){
-            return response()->json( [
+        if (!$user || !$org) {
+            return response()->json([
                 'message' => 'Fail to register user.id or org.id'
             ], 400);
         }
 
-        $mod = Moderator::create(['user_id' =>$user->id, 'org_id' => $org->id,'role' => 'Pending']);
+        $mod = Moderator::create(['user_id' => $user->id, 'org_id' => $org->id, 'role' => 'Pending']);
         return [
             'message' => 'Your submission is pending',
-            'submission' => $mod 
+            'submission' => $mod
         ];
     }
 
 
-    public function showMod(Request $request, Organization $org, String $id){
+    public function showMod(Request $request, Organization $org, string $id)
+    {
         Gate::authorize("moderator", $org);
 
         $mod = ModeratorHelper::getModerator($org->id, $id);
         $user = $mod->user()->select('full_name', 'account_name', 'email')->get();
         return [
             'moderator' => $mod,
-            'user'=> $user,
+            'user' => $user,
         ];
     }
 
-    public function changeMod(Request $request, Organization $org, String $id){
+    public function changeMod(Request $request, Organization $org, string $id)
+    {
         Gate::authorize('orgHead', $org);
         $mod = ModeratorHelper::getModerator($org->id, $id);
 
@@ -82,21 +87,22 @@ class ModController extends Controller implements HasMiddleware
                 break;
             case 'Moderator':
                 break;
-            default:{
+            default: {
                 $mod->delete();
                 return [
-                    'message'=> 'Denied the mod request'
-                ];      
+                    'message' => 'Denied the mod request'
+                ];
             }
         }
 
         $mod->update($status);
         return [
-            'message'=> 'Update success',
-            'role'=> $mod->role,
+            'message' => 'Update success',
+            'role' => $mod->role,
         ];
     }
-    public function leaveOrg(Request $request, Organization $org) {
+    public function leaveOrg(Request $request, Organization $org)
+    {
         Gate::authorize('moderator', $org);
         $user = $request->user();
 
@@ -104,8 +110,8 @@ class ModController extends Controller implements HasMiddleware
         $mod->delete();
 
         return [
-            'message' => 'Leave successfull'  
+            'message' => 'Leave successfull'
         ];
-    } 
+    }
 
 }

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Casts\ImageUrl;
 use App\Traits\ModelTrait\ManageDeviceToken;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -28,7 +29,8 @@ class User extends Authenticatable
         'account_name',
         'email',
         'password',
-        'about'
+        'about',
+        'image_avatar',
     ];
 
     /**
@@ -39,7 +41,8 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
-        'is_super_admin'
+        'is_super_admin',
+        
     ];
 
     protected $connection = 'mysql';
@@ -55,7 +58,8 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'created_at' => 'datetime',
             'password' => 'hashed',
-            'is_super_admin' => 'boolean'
+            'is_super_admin' => 'boolean',
+            'image_avatar' => ImageUrl::class
         ];
     }
 

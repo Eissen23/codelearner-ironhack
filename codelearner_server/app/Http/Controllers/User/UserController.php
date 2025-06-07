@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
+use Illuminate\Support\Facades\Gate;
 
 class UserController extends Controller implements HasMiddleware
 {
@@ -69,7 +70,10 @@ class UserController extends Controller implements HasMiddleware
      * Remove the specified resource from storage.
      */
     public function destroy(User $user)
-    {
+    {   
+        Gate::authorize('admin', $user);
+
+        $user->delete();
         //
     }
 }

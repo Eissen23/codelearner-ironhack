@@ -7,7 +7,11 @@ use App\Models\Organization;
 use App\Models\ProblemSet;
 use Illuminate\Http\Request;
 
-class AssetHelper {
+class AssetHelper
+{
+
+    const MODERATOR_ROLE = ['Moderator', 'OrgHead'];
+    const UNAUTHORIZED_ROLE = ['Pending', 'Rejected'];
 
     /**
      * Get the Course for the organization.
@@ -16,7 +20,8 @@ class AssetHelper {
      * @param Organization|null $org
      *
      */
-    public static function getOrgCoursePaginator(Request $request, ?Organization $org = null) {
+    public static function getOrgCoursePaginator(Request $request, ?Organization $org = null)
+    {
         $perpage = $request->input('per_page', 10);
         $assets_data = $org ? $org->courses()->paginate($perpage) : Course::paginate($perpage);
 
@@ -30,7 +35,8 @@ class AssetHelper {
      * @param Course|null $course
      *
      */
-    public static function getOrgProblemSetPaginator(Request $request, ?Organization $org = null) {
+    public static function getOrgProblemSetPaginator(Request $request, ?Organization $org = null)
+    {
         $perpage = $request->input('per_page', 10);
         $assets_data = $org ? $org->problemSets()->paginate($perpage) : ProblemSet::paginate($perpage);
 
@@ -44,7 +50,8 @@ class AssetHelper {
      * @param Organization|null $org
      *
      */
-    public static function getOrgModeratorPaginator(Request $request, ?Organization $org = null) {
+    public static function getOrgModeratorPaginator(Request $request, ?Organization $org = null)
+    {
         $perPage = $request->input('per_page', 10);
 
         $users = $org->users()
@@ -55,9 +62,28 @@ class AssetHelper {
                 'users.account_name',
                 'moderators.created_at as joined_at',
             )
-            ->paginate($perPage);
+            ->get()
+            ->groupBy('role');
+        // Group authorized moderators
+        $authorized = collect();
+        foreach (self::MODERATOR_ROLE as $role) {
+            if ($users->has($role)) {
+                $authorized = $authorized->concat($users->get($role));
+            }
+        }
+        // Group unauthorized moderators
+        $unauthorized = collect();
+        foreach (self::UNAUTHORIZED_ROLE as $role) {
+            if ($users->has($role)) {
+                $unauthorized = $unauthorized->concat($users->get($role));
+            }
+        }
 
-        return $users;
+
+        return [
+            'moderators' => $authorized->paginate($perPage),
+            'pending' => $unauthorized->paginate($perPage)
+        ];
     }
 
 }

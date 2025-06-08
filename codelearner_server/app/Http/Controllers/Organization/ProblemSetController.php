@@ -72,8 +72,8 @@ class ProblemSetController extends Controller implements HasMiddleware
 
         if ($request->hasFile('logo')) {
             $logo = $request->file('logo');
-            $filename = time() . '_course_' . uniqid() . '.' . $logo->getClientOriginalExtension();
-            $fields['logo'] = $logo->storeAs('courses', $filename, 'public');
+            $filename = time() . '_problem_set_' . uniqid() . '.' . $logo->getClientOriginalExtension();
+            $fields['logo'] = $logo->storeAs('problemSets', $filename, 'public');
         }
 
         $fields['org_id'] = $org->id;
@@ -98,8 +98,10 @@ class ProblemSetController extends Controller implements HasMiddleware
             'name' => 'string',
             'short_description' => 'string',
             'description' => 'nullable',
-            'expired_at' => 'date|after:created_at'
+            'expired_at' => 'date|after:created_at',
+            'logo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
+
 
         if ($request->hasFile('logo')) {
             $logoPath = $problemSet->getRawOriginal('logo');
@@ -144,6 +146,8 @@ class ProblemSetController extends Controller implements HasMiddleware
     public function isOwn(Request $request, ProblemSet $problemSet)
     {
         $user = $request->user();
-        return OrgPolicyHelper::userOwn($user, $problemSet);
+        return [
+            'role' => OrgPolicyHelper::userOwn($user, $problemSet)
+        ];
     }
 }

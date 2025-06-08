@@ -19,7 +19,6 @@
                         <tr class="bg-gray-800 text-white">
                             <th class="p-4">Method</th>
                             <th class="p-4">URI</th>
-                            <th class="p-4">Name</th>
                             <th class="p-4">Action</th>
                         </tr>
                     </thead>
@@ -28,7 +27,6 @@
                             <tr class="border-b hover:bg-gray-50">
                                 <td class="p-4 text-gray-700">{{ $route['method'] ?? 'N/A' }}</td>
                                 <td class="p-4 text-gray-700">{{ $route['uri'] ?? 'N/A' }}</td>
-                                <td class="p-4 text-gray-700">{{ $route['name'] ?? 'N/A' }}</td>
                                 <td class="p-4 text-gray-700">{{ $route['action'] ?? 'N/A' }}</td>
                             </tr>
                         @endforeach

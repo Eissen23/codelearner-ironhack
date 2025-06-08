@@ -1,6 +1,7 @@
 <?php
 use App\Http\Controllers\User\AuthController;
 use App\Http\Controllers\User\OwnerController;
+use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\User\UserModeratorController;
 use Illuminate\Support\Facades\Route;
 
@@ -8,6 +9,10 @@ use Illuminate\Support\Facades\Route;
 Route::controller(AuthController::class)->group(function () {
     Route::post('/register', 'register');
     Route::post('/login', 'login');
+});
+
+Route::prefix('user')->controller(UserController::class)->middleware('auth:sanctum')->group(function () {
+    Route::put('/update', 'update');
 });
 
 Route::controller(AuthController::class)->middleware('auth:sanctum')->group(function () {

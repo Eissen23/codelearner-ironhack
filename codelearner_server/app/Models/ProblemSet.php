@@ -6,7 +6,6 @@ use App\Casts\ImageUrl;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use MongoDB\Laravel\Eloquent\HybridRelations;
-
 use App\Models\Scopes\SortAndFilterScope;
 use Illuminate\Database\Eloquent\Attributes\ScopedBy;
 
@@ -27,7 +26,7 @@ class ProblemSet extends Model
         'logo',
     ];
 
-    protected $cast = [
+    protected $casts = [
         'created_at' => 'datetime',
         'expired_at' => 'datetime',
         'logo' => ImageUrl::class

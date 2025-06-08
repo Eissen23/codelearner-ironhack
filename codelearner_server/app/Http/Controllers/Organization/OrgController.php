@@ -100,6 +100,7 @@ class OrgController extends Controller implements HasMiddleware
         ]);
 
         if ($request->hasFile('logo')) {
+
             $logoPath = $org->getRawOriginal('logo');
             if ($logoPath && Storage::disk('public')->exists($logoPath)) {
                 Storage::disk('public')->delete($logoPath);

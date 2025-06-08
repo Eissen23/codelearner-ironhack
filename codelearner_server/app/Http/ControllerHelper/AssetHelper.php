@@ -54,35 +54,29 @@ class AssetHelper
     {
         $perPage = $request->input('per_page', 10);
 
-        $users = $org->users()
+        
+        $baseQuery = $org->users()
             ->select(
                 'users.id',
                 'users.full_name',
                 'users.email',
                 'users.account_name',
-                'moderators.created_at as joined_at',
-            )
-            ->get()
-            ->groupBy('role');
+                'moderators.created_at as created_at',
+                'moderators.role'
+            );
         // Group authorized moderators
-        $authorized = collect();
-        foreach (self::MODERATOR_ROLE as $role) {
-            if ($users->has($role)) {
-                $authorized = $authorized->concat($users->get($role));
-            }
-        }
-        // Group unauthorized moderators
-        $unauthorized = collect();
-        foreach (self::UNAUTHORIZED_ROLE as $role) {
-            if ($users->has($role)) {
-                $unauthorized = $unauthorized->concat($users->get($role));
-            }
-        }
+        $moderators = $baseQuery->clone()
+            ->whereIn('moderators.role', self::MODERATOR_ROLE)
+            ->paginate($perPage);
+
+        $pending = $baseQuery->clone()
+            ->whereIn('moderators.role', self::UNAUTHORIZED_ROLE)
+            ->paginate($perPage);
 
 
         return [
-            'moderators' => $authorized->paginate($perPage),
-            'pending' => $unauthorized->paginate($perPage)
+            'moderators' => $moderators,
+            'pending' => $pending
         ];
     }
 

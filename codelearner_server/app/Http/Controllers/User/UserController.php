@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller implements HasMiddleware
 {
@@ -58,12 +59,42 @@ class UserController extends Controller implements HasMiddleware
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, ?User $user): void
-    {
-        //
-        // $updated_user =$user ? $user:$request->user();
-        // $fields = $request->validate([
-        // ]);
+    public function update(Request $request)
+    {  
+        
+        $user = $request->user();
+        if (!$user) {
+            return response('Error user is null', 400);
+        }
+
+       $fields = $request->validate([
+            'account_name' => 'string',
+            'full_name' => 'string',
+            'email' => 'email|unique:users',
+            'password' => 'string|confirmed',
+            'about' => 'string',
+            'image_avatar' =>  'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', 
+        ]);
+
+        if ($request->hasFile('logo')) {
+
+            $logoPath = $user->getRawOriginal('logo');
+            if ($logoPath && Storage::disk('public')->exists($logoPath)) {
+                Storage::disk('public')->delete($logoPath);
+            }
+
+            $logo = $request->file('logo');
+            $filename = time() . '_user_avatar_' . uniqid() . '.' . $logo->getClientOriginalExtension();
+            $fields['logo'] = $logo->storeAs('users_ava', $filename, 'public');
+        }
+
+        $user->update($fields);
+
+        return [
+            'message' => 'Update successfully',
+            'data' => $user,
+        ];
+
     }
 
     /**

@@ -53,6 +53,7 @@ class AssetHelper
     public static function getOrgModeratorPaginator(Request $request, ?Organization $org = null)
     {
         $perPage = $request->input('per_page', 10);
+        $one_self_id = $request->user()->id;
 
         
         $baseQuery = $org->users()
@@ -61,11 +62,17 @@ class AssetHelper
                 'users.full_name',
                 'users.email',
                 'users.account_name',
+                'users.image_avatar',
+                'users.about',
                 'moderators.created_at as created_at',
                 'moderators.role'
             );
+
+        $one_self = $baseQuery->clone()->where('users.id', '=',$one_self_id  )->first();
+
         // Group authorized moderators
         $moderators = $baseQuery->clone()
+            ->where('users.id', '!=', $one_self_id)
             ->whereIn('moderators.role', self::MODERATOR_ROLE)
             ->paginate($perPage);
 
@@ -75,6 +82,7 @@ class AssetHelper
 
 
         return [
+            'you' => $one_self,
             'moderators' => $moderators,
             'pending' => $pending
         ];

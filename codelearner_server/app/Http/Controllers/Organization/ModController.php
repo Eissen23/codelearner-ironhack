@@ -38,6 +38,7 @@ class ModController extends Controller implements HasMiddleware
         $users = AssetHelper::getOrgModeratorPaginator($request, $org);
 
         return [
+            "you" => $users['you'],
             "moderators" => $users['moderators'],
             "pending" => $users['pending'],
         ];

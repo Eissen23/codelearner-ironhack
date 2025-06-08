@@ -13,7 +13,7 @@ const NotAuthorize = () => {
             <div className="mb-0">
               Please contact your administrator for access.
               <button
-                onClick={() => navigate(-2)}
+                onClick={() => navigate(-3)}
                 className="btn btn-link d-block mx-auto"
               >
                 Back

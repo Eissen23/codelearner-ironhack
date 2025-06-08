@@ -18,7 +18,7 @@ interface AuthState {
   token: string | null;
   isLoading: boolean;
   login: (email: string, password: string) => Promise<void>;
-  logout: () => void;
+  logout: () => Promise<void>;
   register: (
     email: string,
     password: string,
@@ -57,9 +57,12 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
       localStorage.setItem("auth_token", response.token);
       token.current = response.token;
       setIsAuthenticated(true);
-    } catch (error) {
-      console.error("Login failed:", error);
-      throw error;
+    } catch (err: unknown) {
+      console.error("Login failed:", err);
+      if (err instanceof AxiosError && err.response?.data?.message) {
+        setError(err.response?.data?.message);
+      }
+      throw err;
     } finally {
       setIsLoading(false);
     }
@@ -95,11 +98,13 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   };
 
   const logout = async () => {
-    if (token.current) {
-      const response = await logoutService({ token: token.current });
-      console.log(response);
+    if (!token.current) {
+      return;
     }
+
+    await logoutService({ token: token.current });
     localStorage.removeItem("auth_token");
+    localStorage.removeItem("userProfileMini");
     token.current = null;
 
     setIsAuthenticated(false);

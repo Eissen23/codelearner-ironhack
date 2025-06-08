@@ -2,6 +2,7 @@ import { Alert, Button, Modal } from "react-bootstrap";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/auth/AuthContext";
+import { toast } from "react-toastify";
 function Logout() {
   const navigate = useNavigate();
   const [show, setShow] = useState(false);
@@ -10,9 +11,19 @@ function Logout() {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  const handleLogout = () => {
-    logout();
-    navigate("/");
+  const handleLogout = async () => {
+    const response = logout();
+
+    toast.promise(response, {
+      pending: "Logging out...",
+      success: `You have been logged out successfully!`,
+      error: "Logout failed. Please try again.",
+    });
+
+    await response;
+    setTimeout(() => {
+      navigate("/");
+    }, 5000);
   };
 
   return (
@@ -20,7 +31,7 @@ function Logout() {
       <Button
         variant="link"
         size="sm"
-        className="w-100 text-start text-decoration-none text-dark"
+        className="w-100 text-start text-decoration-none text-dark fs-6 p-0"
         onClick={handleShow}
       >
         Logout

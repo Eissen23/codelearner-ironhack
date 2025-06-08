@@ -39,10 +39,8 @@ const ProfileMini = () => {
       }
     };
 
-    if (!userInfo) {
-      fetchUserInfo();
-    }
-  }, [token, userInfo]);
+    fetchUserInfo();
+  }, [token]);
 
   if (!userInfo) {
     return <FaUserCircle style={{ marginBottom: "25%" }} />;
@@ -50,7 +48,7 @@ const ProfileMini = () => {
 
   return (
     <div className="profile-mini d-flex align-items-center">
-      <div className="profile-name me-2">
+      <div className="profile-name me-1">
         <p className="mb-0" style={{ fontSize: "0.875rem" }}>
           {userInfo.account_name}
         </p>
@@ -59,13 +57,20 @@ const ProfileMini = () => {
         </p>
       </div>
 
-      <div className="profile-image ms-3">
-        <img
-          src={userInfo.image_avatar}
-          alt={userInfo.account_name}
-          className="rounded-circle"
-          style={{ width: "30px", height: "30px" }}
-        />
+      <div className="profile-image ms-1">
+        {userInfo.image_avatar ? (
+          <img
+            src={userInfo.image_avatar}
+            alt={userInfo.account_name}
+            className="rounded-circle"
+            style={{ width: "30px", height: "30px" }}
+          />
+        ) : (
+          <FaUserCircle
+            className="rounded-circle"
+            style={{ width: "30px", height: "30px" }}
+          />
+        )}
       </div>
     </div>
   );

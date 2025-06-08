@@ -24,11 +24,9 @@ const OrgSetting = () => {
 
   if (loading)
     return (
-      <Spinner
-        animation="border"
-        role="status"
-        className="d-block mx-auto my-5"
-      />
+      <div className="d-flex justify-content-center align-items-center vh-100">
+        <Spinner animation="border" />
+      </div>
     );
 
   if (role_owner === "UNAUTHORIZE" || role_owner === "Pending") {

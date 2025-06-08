@@ -28,24 +28,32 @@ const ModeratorOrg: React.FC<ModOrgCred> = ({
         <Tabs defaultActiveKey="in-org">
           <Tab title="Currently Active" eventKey="in-org">
             <div className="moderator_list mt-3">
-              {mods?.map((mod, index) => (
-                <ModeratorItem
-                  mod={mod}
-                  key={index}
-                  settings={role === "OrgHead"}
-                />
-              ))}
+              {mods?.length === 0 ? (
+                <p className="text-bg-primary p-3">No available data</p>
+              ) : (
+                mods?.map((mod, index) => (
+                  <ModeratorItem
+                    mod={mod}
+                    key={index}
+                    settings={role === "OrgHead"}
+                  />
+                ))
+              )}
             </div>
           </Tab>
           <Tab title="Awaiting Request" eventKey="awaiting">
             <div className="moderator_list mt-3">
-              {pendings?.map((mod, index) => (
-                <ModeratorItem
-                  mod={mod}
-                  key={index}
-                  settings={role === "OrgHead"}
-                />
-              ))}
+              {pendings?.length === 0 ? (
+                <p className="text-bg-primary p-3">No pending requests</p>
+              ) : (
+                pendings?.map((mod, index) => (
+                  <ModeratorItem
+                    mod={mod}
+                    key={index}
+                    settings={role === "OrgHead"}
+                  />
+                ))
+              )}
             </div>
           </Tab>
         </Tabs>

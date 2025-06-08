@@ -1,5 +1,5 @@
 import React from "react";
-import { Card, Tabs, Tab, Badge } from "react-bootstrap";
+import { Tabs, Tab, Badge, Spinner } from "react-bootstrap";
 import { Organization } from "../../../types/user.type";
 import { useOutletContext } from "react-router-dom";
 import CreateCourseForm from "../../form/CreateCourseForm";
@@ -18,9 +18,12 @@ const DashBoardCourse: React.FC = () => {
         <h2 style={{ lineHeight: 1 }}>
           Courses <Badge bg="success">Head</Badge>
         </h2>
-        <Card className="shadow-sm">
-          <Card.Body>Loading...</Card.Body>
-        </Card>
+        <div
+          className="w-100 d-flex justify-content-center align-items-center"
+          style={{ height: "50vh" }}
+        >
+          <Spinner animation="border" role="status"></Spinner>
+        </div>
       </>
     );
   }

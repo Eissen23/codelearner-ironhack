@@ -16,9 +16,15 @@ const CourseInOrg: React.FC<{ isMod?: boolean }> = ({ isMod }) => {
     <div className="moderator-org">
       <h4 className="mb-3">Course In Org</h4>
       {courses.length ? (
-        <Row>
+        <Row className="mx-0">
           {courses.map((course) => (
-            <Col key={`crs-${course.id}`} md={4} xs={12} className="mb-3">
+            <Col
+              key={`crs-${course.id}`}
+              lg={3}
+              md={4}
+              xs={12}
+              className="mb-3"
+            >
               <CourseCardItem course={course} setting={isMod} />
             </Col>
           ))}

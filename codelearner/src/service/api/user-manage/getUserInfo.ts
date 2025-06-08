@@ -1,4 +1,4 @@
-import { User } from "../../../types/auth.types";
+import { UserDetail } from "../../../types/user.type";
 import { CODELEARNER_API } from "../clients/codelearner";
 import axios from "axios";
 
@@ -9,9 +9,9 @@ interface getUserCredential {
 
 export const getUserInfo = async (
   credentials: getUserCredential
-): Promise<User> => {
+): Promise<UserDetail> => {
   try {
-    const response = await CODELEARNER_API.get<User>(`/user`, {
+    const response = await CODELEARNER_API.get<UserDetail>(`/user`, {
       headers: {
         Authorization: `Bearer ${credentials.token}`,
       },

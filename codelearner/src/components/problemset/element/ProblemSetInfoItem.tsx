@@ -96,7 +96,7 @@ const ProblemSetInfoItem: React.FC<{
 
   return (
     <>
-      <div className="container-fluid align-items-center justify-content-center bg-light">
+      <div className="container-fluid align-items-center justify-content-center bg-light mt-3">
         <ToastContainer />
         <Form onSubmit={handleSubmit} className="d-block p-3">
           <div className="d-flex justify-content-between mb-4 mt-3">
@@ -130,17 +130,6 @@ const ProblemSetInfoItem: React.FC<{
                   value={formData.name}
                   onChange={handleChange}
                   required
-                  disabled={!isEditing}
-                />
-              </Form.Group>
-
-              <Form.Group className="mb-3">
-                <Form.Label htmlFor="logo">Logo</Form.Label>
-                <Form.Control
-                  type="file"
-                  id="logo"
-                  name="logo"
-                  onChange={handleChange}
                   disabled={!isEditing}
                 />
               </Form.Group>

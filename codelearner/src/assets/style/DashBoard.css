@@ -9,12 +9,26 @@
   background-color: var(--bs-body-color);
   color: var(--bs-light);
   padding: 1rem;
+  overflow-y: scroll;
+  height: 100vh;
 }
 .dashboard_layout > .dashboard_content {
-  flex: 3 1 82%;
-  padding-left: 1rem;
-  padding-top: 2rem;
-  padding-bottom: 2rem;
+  flex: 1 1 82%;
+  padding: 2rem 1rem;
+  overflow-y: scroll;
+  height: 100vh;
+  max-width: 100%;
+}
+
+.dashboard_content > div {
+  max-width: 100%;
+  width: 100%;
+}
+
+.dashboard_content section {
+  max-width: 100%;
+  width: 100%;
+  overflow-x: auto;
 }
 
 /* End */

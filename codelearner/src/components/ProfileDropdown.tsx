@@ -1,7 +1,7 @@
 import React from "react";
 import { Dropdown, DropdownButton } from "react-bootstrap";
-import { FaUserCircle } from "react-icons/fa";
 import Logout from "./auth/Logout";
+import ProfileMini from "./ProfileMini";
 
 const ProfileDropdown: React.FC = () => {
   // handle logout
@@ -12,7 +12,7 @@ const ProfileDropdown: React.FC = () => {
         align="end"
         id="dropdown-basic"
         className="text-white rounded-pill no-after"
-        title={<FaUserCircle style={{ marginBottom: "25%" }} />}
+        title={<ProfileMini />}
       >
         <Dropdown.Item href="/dashboard/profile">View Profile</Dropdown.Item>
         <Dropdown.Item href="/dashboard/your-submission">

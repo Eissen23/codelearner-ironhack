@@ -22,9 +22,9 @@ const ProblemSetInOrg: React.FC<{ org_id: string; isMod?: boolean }> = ({
     <div className="moderator-org">
       <h4>Problem Sets In Organization</h4>
       {problemSets.length ? (
-        <Row>
+        <Row className="mx-0">
           {problemSets.map((problemSet) => (
-            <Col md={6} lg={4} key={problemSet.id} className="mb-3">
+            <Col xs={12} md={6} lg={3} key={problemSet.id} className="mb-3">
               <ProblemSetCard problemSet={problemSet} setting={isMod} />
             </Col>
           ))}

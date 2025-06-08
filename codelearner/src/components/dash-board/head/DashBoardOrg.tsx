@@ -1,5 +1,5 @@
 import React from "react";
-import { Card, Tabs, Tab, Accordion } from "react-bootstrap";
+import { Tabs, Tab, Accordion, Spinner } from "react-bootstrap";
 import { useOutletContext } from "react-router-dom";
 import CreateOrganizationForm from "../../form/CreateOrganizationForm";
 import { useUserOrgs } from "../../../features/hooks/orgs/useUserOrg";
@@ -13,9 +13,12 @@ const DashBoardOrg: React.FC = () => {
     return (
       <>
         <h4 style={{ lineHeight: 1 }}>Organizations</h4>
-        <Card className="shadow-sm">
-          <Card.Body>Loading...</Card.Body>
-        </Card>
+        <div
+          className="w-100 d-flex justify-content-center align-items-center"
+          style={{ height: "50vh" }}
+        >
+          <Spinner animation="border" role="status"></Spinner>
+        </div>
       </>
     );
   }

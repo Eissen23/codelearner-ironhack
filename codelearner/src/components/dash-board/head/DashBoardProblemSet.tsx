@@ -1,7 +1,7 @@
 import React from "react";
 import { useOutletContext } from "react-router";
 import { Organization } from "../../../types/user.type";
-import { Badge, Card, Tab, Tabs } from "react-bootstrap";
+import { Badge, Spinner, Tab, Tabs } from "react-bootstrap";
 import ProblemSetHead from "../../problemset/ProblemSetHead";
 import CreateProblemSet from "../../form/CreateProblemSet";
 import { useUserOrgs } from "../../../features/hooks/orgs/useUserOrg";
@@ -19,9 +19,12 @@ const DashBoardProblemSet: React.FC = () => {
         <h2 style={{ lineHeight: 1 }}>
           Problem Set <Badge bg="success">Head</Badge>
         </h2>
-        <Card className="shadow-sm">
-          <Card.Body>Loading...</Card.Body>
-        </Card>
+        <div
+          className="w-100 d-flex justify-content-center align-items-center"
+          style={{ height: "50vh" }}
+        >
+          <Spinner animation="border" role="status"></Spinner>
+        </div>
       </>
     );
   }

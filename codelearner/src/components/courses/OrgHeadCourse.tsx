@@ -35,7 +35,7 @@ const OrgHeadCourse = () => {
       {courses.length ? (
         <Row>
           {courses.map((course) => (
-            <Col key={`crs-${course.id}`} md={4} xs={12} className="mb-3">
+            <Col key={`crs-${course.id}`} md={3} xs={12} className="mb-3">
               <CourseCardItem setting course={course} />
             </Col>
           ))}

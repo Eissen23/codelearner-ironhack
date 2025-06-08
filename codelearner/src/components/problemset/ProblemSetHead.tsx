@@ -36,7 +36,7 @@ const ProblemSetHead = () => {
       {problemSets.length ? (
         <Row>
           {problemSets.map((problemSet) => (
-            <Col key={`pbs-${problemSet.id}`} md={4} xs={12} className="mb-3">
+            <Col key={`pbs-${problemSet.id}`} md={3} xs={12} className="mb-3">
               <ProblemSetCard problemSet={problemSet} setting />
             </Col>
           ))}

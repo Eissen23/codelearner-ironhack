@@ -11869,4 +11869,12 @@ textarea.form-control-lg {
   transition: transform 0.2s ease;
 }
 
+.row > div[class*=col-]:first-child {
+  padding-left: 0;
+}
+
+.row > div[class*=col-]:last-child {
+  padding-right: 0;
+}
+
 /*# sourceMappingURL=variable.css.map */

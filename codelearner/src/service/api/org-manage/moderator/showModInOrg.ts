@@ -1,7 +1,8 @@
-import { ModList } from "../../../../types/user.type";
+import { ModList, UserModerator } from "../../../../types/user.type";
 import { CODELEARNER_API } from "../../clients/codelearner";
 
 type Response = {
+  you: UserModerator;
   moderators: ModList;
   pending: ModList;
 };

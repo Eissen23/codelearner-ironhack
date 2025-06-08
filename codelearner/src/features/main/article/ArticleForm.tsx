@@ -1,6 +1,5 @@
 import React from "react";
 import { Container, Row, Col, Form, Button, Spinner } from "react-bootstrap";
-import "bootstrap/dist/css/bootstrap.min.css";
 import RichTextEditor from "../tiptap/RichTextEditor";
 import { useArticleForm } from "../../hooks/articles/useArticleFormReturn";
 import { Article } from "../../../types/content/article.type";

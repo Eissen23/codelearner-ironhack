@@ -2,7 +2,6 @@ import React, { useCallback } from "react";
 import { Container, Row, Col, Form, Button, Spinner } from "react-bootstrap";
 import RichTextEditor from "../tiptap/RichTextEditor";
 import { useProblemForm } from "../../hooks/problems/useProblemsForm";
-import "bootstrap/dist/css/bootstrap.min.css";
 import { ToastContainer } from "react-toastify";
 import { ProblemData } from "../../../types/content/problem.type";
 import KeyValueForm from "../../mislancenous/KeyValue";

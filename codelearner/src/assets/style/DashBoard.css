@@ -10,13 +10,13 @@
   color: var(--bs-light);
   padding: 1rem;
   overflow-y: scroll;
-  height: 100vh;
+  height: 750px;
 }
 .dashboard_layout > .dashboard_content {
   flex: 1 1 82%;
   padding: 2rem 1rem;
   overflow-y: scroll;
-  height: 100vh;
+  height: 750px;
   max-width: 100%;
 }
 
@@ -82,7 +82,7 @@
 }
 
 .moderator-item > *:nth-child(1) {
-  flex: 1 1 5%;
+  flex: 1 1 1%;
   text-align: center;
 }
 

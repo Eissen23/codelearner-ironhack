@@ -11,6 +11,7 @@ import {
 import { Form, useOutletContext } from "react-router";
 import { useUserDetail } from "../../features/hooks/users/useUserDetail";
 import ImageSelector from "../../features/main/ImageSelector";
+import { imageAvatar } from "../../service/helper/image_update/imageAvatar";
 
 const DashBoardRight: React.FC = () => {
   const token = useOutletContext() as string | null;
@@ -85,10 +86,19 @@ const DashBoardRight: React.FC = () => {
           </Form>
 
           <div className="user_info_noEdit p-3">
-            <span>
-              <strong>Joined: </strong>
-              {new Date(userDetail.created_at).toUTCString()}
-            </span>
+            <p>
+              <span>
+                <strong>Joined: </strong>
+                {new Date(userDetail.created_at).toLocaleDateString()}
+              </span>
+            </p>
+
+            <p>
+              <span>
+                <strong>Last update: </strong>
+                {new Date(userDetail.updated_at).toLocaleDateString()}
+              </span>
+            </p>
           </div>
         </Col>
 
@@ -98,6 +108,7 @@ const DashBoardRight: React.FC = () => {
             defaultImage={userDetail.image_avatar}
             owner_id={userDetail.id.toString()}
             token={token!}
+            updateFunc={imageAvatar}
           />
         </Col>
       </Row>

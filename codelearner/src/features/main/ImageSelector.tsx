@@ -88,7 +88,7 @@ const ImageSelector: React.FC<ImageSelectorProps> = ({
     <div className="image-selector">
       {preview ? (
         <div
-          className="bg-white p-3 rounded-2 mb-2 shadow-sm"
+          className="bg-white p-1 rounded-2 mb-2 shadow-sm"
           style={{ height: "6rem", width: "6rem" }}
         >
           <div className="ratio ratio-1x1">
@@ -106,7 +106,7 @@ const ImageSelector: React.FC<ImageSelectorProps> = ({
         </div>
       ) : (
         <div
-          className="bg-white p-3 rounded-2 mb-2 shadow-sm"
+          className="bg-white p-1 rounded-2 mb-2 shadow-sm"
           style={{ height: "6rem", width: "6rem" }}
         >
           <div className="ratio ratio-1x1">

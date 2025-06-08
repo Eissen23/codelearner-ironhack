@@ -1,3 +1,23 @@
+/* Dashboard Layout */
+.dashboard_layout {
+  display: flex;
+  flex-direction: row;
+}
+
+.dashboard_layout > .dashboard_nav {
+  flex: 1 1 18%;
+  background-color: var(--bs-body-color);
+  color: var(--bs-light);
+  padding: 1rem;
+}
+.dashboard_layout > .dashboard_content {
+  flex: 3 1 82%;
+  padding-left: 1rem;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+}
+
+/* End */
 .list-item .card-body {
   padding: 0.5rem 0.5rem;
 }

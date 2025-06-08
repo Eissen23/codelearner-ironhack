@@ -4,14 +4,16 @@ import { showModInOrg } from "../../../service/api/org-manage/moderator/showModI
 
 export const useModList = (org_id: string, token?: string) => {
   const [mods, setMods] = useState<UserModerator[]>();
+  const [pendings, setPendings] = useState<UserModerator[]>();
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetchModList = async () => {
       try {
         setLoading(true);
-        const { moderators } = await showModInOrg(org_id, token!);
+        const { moderators, pending } = await showModInOrg(org_id, token!);
         setMods(moderators.data);
+        setPendings(pending.data);
       } catch (error) {
         console.log("Error fetching moderator list:", error);
       } finally {
@@ -22,5 +24,5 @@ export const useModList = (org_id: string, token?: string) => {
     fetchModList();
   }, [org_id, token]);
 
-  return { mods, loading };
+  return { mods, pendings, loading };
 };

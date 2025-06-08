@@ -3,6 +3,7 @@ import { CODELEARNER_API } from "../../clients/codelearner";
 
 type Response = {
   moderators: ModList;
+  pending: ModList;
 };
 
 export const showModInOrg = async (

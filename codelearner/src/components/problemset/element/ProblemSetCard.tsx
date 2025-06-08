@@ -10,6 +10,15 @@ const ProblemSetCard: React.FC<{
   return (
     <Card className="h-100 shadow-sm">
       <Card.Body>
+        <Card.Img
+          style={{
+            height: "200px",
+            objectFit: "contain",
+            padding: "1rem",
+          }}
+          alt={problemSet.name}
+          src={problemSet.logo}
+        ></Card.Img>
         <Card.Title>
           <Link
             to={

@@ -38,7 +38,7 @@ const ModeratorItem: React.FC<{ mod: UserModerator; settings?: boolean }> = ({
         <small> {new Date(mod.created_at).toLocaleDateString()}</small>
       </div>
       <div className="role">
-        <Badge bg={getBadgeVariant2(mod.pivot.role)}>{mod.pivot.role}</Badge>
+        <Badge bg={getBadgeVariant2(mod.role)}>{mod.role}</Badge>
       </div>
       {settings && (
         <div className="d-flex justify-content-center gap-2">

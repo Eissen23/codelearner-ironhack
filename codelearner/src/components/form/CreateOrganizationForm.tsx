@@ -92,7 +92,7 @@ const CreateOrganizationForm: React.FC = () => {
 
               {formData.logo && (
                 <div
-                  className="bg-white p-3 rounded-2 mb-2"
+                  className="bg-white p-3 rounded-2 mb-2 shadow"
                   style={{ height: "6rem", width: "6rem" }}
                 >
                   <div className="ratio ratio-1x1">

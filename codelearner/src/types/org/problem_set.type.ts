@@ -12,6 +12,15 @@ export type ProblemSet = {
   org_id: number;
 };
 
+export type ProblemSetFormData = {
+  name: string;
+  description?: string;
+  short_description: string;
+  expired_at?: Date;
+  logo?: File;
+  org_id: number;
+};
+
 export type ProblemSetInfoResponse = {
   data: ProblemSet;
   belong_to: Org;

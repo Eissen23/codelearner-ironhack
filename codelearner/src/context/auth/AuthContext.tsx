@@ -4,6 +4,7 @@ import React, {
   useState,
   ReactNode,
   useEffect,
+  useRef,
 } from "react";
 import { loginService } from "../../service/user-service/login.ts";
 import { logoutService } from "../../service/user-service/logout.ts";
@@ -33,9 +34,7 @@ const AuthContext = createContext<AuthState | undefined>(undefined);
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
-  const [token, setToken] = useState<string | null>(
-    localStorage.getItem("auth_token")
-  );
+  const token = useRef(localStorage.getItem("auth_token"));
   const [isAuthenticated, setIsAuthenticated] = useState(
     !!localStorage.getItem("auth_token")
   );
@@ -48,7 +47,6 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
     if (!storedToken) {
       return;
     }
-
     verifyTokenUser(storedToken);
   }, [token]);
 
@@ -57,7 +55,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
       setIsLoading(true);
       const response = await loginService({ email, password });
       localStorage.setItem("auth_token", response.token);
-      setToken(response.token);
+      token.current = response.token;
       setIsAuthenticated(true);
     } catch (error) {
       console.error("Login failed:", error);
@@ -84,7 +82,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
       });
 
       localStorage.setItem("auth_token", response.token);
-      setToken(response.token);
+      token.current = response.token;
       setIsAuthenticated(true);
       return response;
     } catch (err: unknown) {
@@ -97,27 +95,27 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   };
 
   const logout = async () => {
-    const token = localStorage.getItem("auth_token");
-    if (token) {
-      const response = await logoutService({ token });
+    if (token.current) {
+      const response = await logoutService({ token: token.current });
       console.log(response);
     }
     localStorage.removeItem("auth_token");
-    setToken(null);
+    token.current = null;
+
     setIsAuthenticated(false);
   };
 
-  const verifyTokenUser = async (token: string) => {
+  const verifyTokenUser = async (unverify_token: string) => {
     try {
-      const response = await verifyToken(token);
+      const response = await verifyToken(unverify_token);
 
       if (response.status !== 200) {
         localStorage.removeItem("auth_token");
-        setToken(null);
+
         setIsAuthenticated(false);
       }
 
-      setToken(token);
+      token.current = unverify_token;
       setIsAuthenticated(true);
       return true;
     } catch (error) {
@@ -128,7 +126,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
 
   const value = {
     isAuthenticated,
-    token,
+    token: token.current,
     isLoading,
     login,
     logout,

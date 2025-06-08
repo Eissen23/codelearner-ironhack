@@ -52,7 +52,7 @@ const DashBoardLeft: React.FC<DashBoardLeftProps> = ({
   };
   return (
     <>
-      <h3 className="fs-6 text-secondary">{title}</h3>
+      <h3 className="fs-6">{title}</h3>
       <Nav className="flex-column">
         {menuItems.map((item, index) => (
           <Nav.Item key={index}>
@@ -60,7 +60,7 @@ const DashBoardLeft: React.FC<DashBoardLeftProps> = ({
               as={Link}
               to={`${item.path}`}
               className={`d-flex align-items-center gap-2 ${
-                isActive(item.path) ? "active text-primary" : "text-dark"
+                isActive(item.path) ? "active text-bg-secondary" : "text-white"
               }`}
             >
               {item.icon && <i className={item.icon}></i>}

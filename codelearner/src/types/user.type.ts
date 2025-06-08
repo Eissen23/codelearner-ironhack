@@ -47,6 +47,7 @@ export type UserDetail = {
   created_at: Date;
   updated_at: Date;
   about: string;
+  image_avatar: string;
   submissions: UserSubmission[];
   organizations: Organization[];
   courses: UserCourse[];
@@ -61,7 +62,7 @@ export type UserModerator = {
   created_at: Date;
   updated_at: Date;
   about: string;
-  pivot: Moderator;
+  role: string;
 };
 
 export type ModList = {

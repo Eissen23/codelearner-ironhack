@@ -14,7 +14,7 @@ const ModeratorOrg: React.FC<ModOrgCred> = ({
   token,
   role = "UNAUTHORIZE",
 }) => {
-  const { mods, loading } = useModList(org_id, token);
+  const { mods, pendings, loading } = useModList(org_id, token);
 
   return (
     <div className="moderator-org">
@@ -39,7 +39,7 @@ const ModeratorOrg: React.FC<ModOrgCred> = ({
           </Tab>
           <Tab title="Awaiting Request" eventKey="awaiting">
             <div className="moderator_list mt-3">
-              {mods?.map((mod, index) => (
+              {pendings?.map((mod, index) => (
                 <ModeratorItem
                   mod={mod}
                   key={index}

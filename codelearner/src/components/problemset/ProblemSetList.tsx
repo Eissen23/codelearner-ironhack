@@ -25,7 +25,7 @@ const ProblemSetList = () => {
     <Container className="py-4">
       <Row xs={1} md={2} lg={3} className="g-4">
         {problemSets.map((problemSet) => (
-          <Col md={6} lg={4} key={problemSet.id} className="mb-3">
+          <Col md={6} lg={3} key={problemSet.id} className="mb-3">
             <ProblemSetCard problemSet={problemSet} />
           </Col>
         ))}

@@ -1,5 +1,4 @@
 import React from "react";
-import { Container, Row, Col } from "react-bootstrap";
 import LayoutHome from "../layout/LayoutHome";
 import DashBoardLeft from "../components/dash-board/DashBoardLeft";
 import { useAuth } from "../context/auth/AuthContext";
@@ -41,24 +40,22 @@ const DashBoard: React.FC = () => {
   const { token } = useAuth();
 
   return (
-    <LayoutHome>
-      <Container fluid>
-        <Row className="my-3">
-          <Col md={3} className="border-end border-1">
-            <DashBoardLeft title="User's section" />
-            <hr />
-            <DashBoardLeft
-              title="Organization's head section"
-              menuItems={orgHead}
-            />
-            <hr />
-            <DashBoardLeft title="Moderator's section" menuItems={moderator} />
-          </Col>
-          <Col md={9}>
-            <Outlet context={token} />
-          </Col>
-        </Row>
-      </Container>
+    <LayoutHome noGutter>
+      <div className="dashboard_layout">
+        <div className="dashboard_nav border-end border-1">
+          <DashBoardLeft title="User's section" />
+          <hr />
+          <DashBoardLeft
+            title="Organization's head section"
+            menuItems={orgHead}
+          />
+          <hr />
+          <DashBoardLeft title="Moderator's section" menuItems={moderator} />
+        </div>
+        <div className="dashboard_content">
+          <Outlet context={token} />
+        </div>
+      </div>
     </LayoutHome>
   );
 };

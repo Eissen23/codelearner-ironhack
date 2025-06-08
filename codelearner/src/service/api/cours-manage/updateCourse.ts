@@ -8,7 +8,7 @@ type Response = {
 
 export const updateCourse = async (
   token: string | null,
-  course: Omit<Course, "created_at">
+  course: Omit<Course, "created_at" | "logo">
 ): Promise<Response> => {
   try {
     const response = await CODELEARNER_API.put<Response>(

@@ -12,6 +12,8 @@ import { updateOrg } from "../../../service/api/org-manage/updateOrg";
 import { useAuth } from "../../../context/auth/AuthContext";
 import { toast, ToastContainer } from "react-toastify";
 import { deleteOrg } from "../../../service/api/org-manage/deleteOrg";
+import ImageSelector from "../../../features/main/ImageSelector";
+import { imageOrg } from "../../../service/helper/image_update/imageOrg";
 
 const OrgInfoItem: React.FC<{ org: Org; role?: string }> = ({
   org,
@@ -74,92 +76,102 @@ const OrgInfoItem: React.FC<{ org: Org; role?: string }> = ({
   };
 
   return (
-    <div className="container">
-      <ToastContainer></ToastContainer>
-      <Form className="mt-3" onSubmit={handleSubmit}>
-        <FormGroup className="mb-3">
-          <FormLabel>Name:</FormLabel>
-          <FormControl
-            type="text"
-            name="name"
-            value={formData.name}
-            onChange={handleChange}
-            disabled={!isEditing}
-          />
-        </FormGroup>
-        <FormGroup className="mb-3">
-          <FormLabel>Contact email:</FormLabel>
-          <FormControl
-            type="email"
-            name="contact_email"
-            value={formData.contact_email}
-            onChange={handleChange}
-            disabled={!isEditing}
-          />
-        </FormGroup>
-        <FormGroup className="mb-3">
-          <FormLabel>Website:</FormLabel>
-          <FormControl
-            type="text"
-            name="website"
-            value={formData.website || ""}
-            onChange={handleChange}
-            disabled={!isEditing}
-          />
-        </FormGroup>
-        <FormGroup className="mb-3">
-          <FormLabel>Description:</FormLabel>
-          <FormControl
-            as="textarea"
-            name="description"
-            value={formData.description}
-            onChange={handleChange}
-            disabled={!isEditing}
-          />
-        </FormGroup>
-        <FormGroup className="mb-3">
-          <FormLabel>Created Date:</FormLabel>
-          <FormText> {new Date(org.created_at).toDateString()}</FormText>
-        </FormGroup>
+    <>
+      <div className="container">
+        <ToastContainer></ToastContainer>
+        <Form className="mt-3" onSubmit={handleSubmit}>
+          <FormGroup className="mb-3">
+            <FormLabel>Name:</FormLabel>
+            <FormControl
+              type="text"
+              name="name"
+              value={formData.name}
+              onChange={handleChange}
+              disabled={!isEditing}
+            />
+          </FormGroup>
+          <FormGroup className="mb-3">
+            <FormLabel>Contact email:</FormLabel>
+            <FormControl
+              type="email"
+              name="contact_email"
+              value={formData.contact_email}
+              onChange={handleChange}
+              disabled={!isEditing}
+            />
+          </FormGroup>
+          <FormGroup className="mb-3">
+            <FormLabel>Website:</FormLabel>
+            <FormControl
+              type="text"
+              name="website"
+              value={formData.website || ""}
+              onChange={handleChange}
+              disabled={!isEditing}
+            />
+          </FormGroup>
+          <FormGroup className="mb-3">
+            <FormLabel>Description:</FormLabel>
+            <FormControl
+              as="textarea"
+              name="description"
+              value={formData.description}
+              onChange={handleChange}
+              disabled={!isEditing}
+            />
+          </FormGroup>
+          <FormGroup className="mb-3">
+            <FormLabel>Created Date:</FormLabel>
+            <FormText> {new Date(org.created_at).toDateString()}</FormText>
+          </FormGroup>
 
-        {role === "OrgHead" && (
-          <div className="d-flex gap-2 justify-content-between">
-            <button
-              type="button"
-              className="btn btn-danger"
-              onClick={handleDelete}
-            >
-              {loading && (
-                <span>
-                  <Spinner animation="border" size="sm"></Spinner>
-                </span>
-              )}
-              Delete
-            </button>
-
-            <div className="d-flex gap-2">
+          {role === "OrgHead" && (
+            <div className="d-flex gap-2 justify-content-between">
               <button
                 type="button"
-                className="btn btn-secondary"
-                onClick={() => setIsEditing(!isEditing)}
+                className="btn btn-danger"
+                onClick={handleDelete}
               >
-                {isEditing ? "Cancel" : "Edit"}
+                {loading && (
+                  <span>
+                    <Spinner animation="border" size="sm"></Spinner>
+                  </span>
+                )}
+                Delete
               </button>
-              {isEditing && (
-                <button type="submit" className="btn btn-primary">
-                  {loading && (
-                    <span>
-                      <Spinner animation="border" size="sm"></Spinner>
-                    </span>
-                  )}
-                  Save Changes
+
+              <div className="d-flex gap-2">
+                <button
+                  type="button"
+                  className="btn btn-secondary"
+                  onClick={() => setIsEditing(!isEditing)}
+                >
+                  {isEditing ? "Cancel" : "Edit"}
                 </button>
-              )}
+                {isEditing && (
+                  <button type="submit" className="btn btn-primary">
+                    {loading && (
+                      <span>
+                        <Spinner animation="border" size="sm"></Spinner>
+                      </span>
+                    )}
+                    Save Changes
+                  </button>
+                )}
+              </div>
             </div>
-          </div>
-        )}
-      </Form>
-    </div>
+          )}
+        </Form>
+      </div>
+      <div className="mt-3 ">
+        <ImageSelector
+          defaultImage={org.logo}
+          updateFunc={imageOrg}
+          owner_id={org.id.toString()}
+          token={token!}
+        />
+      </div>
+    </>
   );
 };
 export default OrgInfoItem;

@@ -157,10 +157,7 @@ const ProblemOutput: React.FC<OutputProps> = ({
           Submit
         </button>
       </Stack>
-      {/* TODO: Tách rieng thành 1 element riêng, truyền submission vào, chỉ hiện thị accepted khi tất cả đều accept, nếu có 1 test case 0 dat
-            hiển thị tab đấy màu đỏ, với UserSubmission, trạng thái là Wrong answer khi 1 trong các element sai, (tham khảo ở hàm wait trong code
-            sevice)
-          */}
+
       <Tabs defaultActiveKey={"result"}>
         <Tab className="bg-black" eventKey={`result`} title={`Output`} key={0}>
           <ResultTab data={valuation} />

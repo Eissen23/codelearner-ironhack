@@ -3,7 +3,7 @@ import { useAuth } from "../../../context/auth/AuthContext";
 import { getUserSubmssn } from "../../../service/api/user-submission/getUserSubmss";
 import { UserSubmission } from "../../../types/content/submission.type";
 
-const UseSubmissions = () => {
+export const useSubmissions = () => {
   const { token } = useAuth();
   const [submissions, setSubmissions] = useState<UserSubmission[]>();
   const [loading, setLoading] = useState(false);
@@ -26,5 +26,3 @@ const UseSubmissions = () => {
 
   return { loading, submissions };
 };
-
-export default UseSubmissions;

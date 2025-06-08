@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Form, Button, Container, Row, Col } from "react-bootstrap";
-import { ProblemSet } from "../../types/org/problem_set.type";
+import { ProblemSetFormData } from "../../types/org/problem_set.type";
 import { Organization } from "../../types/user.type";
 import { useAuth } from "../../context/auth/AuthContext";
 import { addProblemSet } from "../../service/api/problem-set-manage/addProblemSet";
@@ -11,21 +11,19 @@ const CreateProblemSet: React.FC<{ orgs: Organization[] }> = ({ orgs }) => {
   const { token } = useAuth();
   const navigate = useNavigate();
   const [Loading, setLoading] = useState(false);
-  const [formData, setFormData] = useState<
-    Omit<ProblemSet, "id" | "created_at">
-  >({
+  const [formData, setFormData] = useState<ProblemSetFormData>({
     name: "",
     description: "",
     short_description: "",
-    logo: "",
+    logo: undefined,
     org_id: 0,
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
+    const { name, value, type, files } = e.target;
     setFormData((prev) => ({
       ...prev,
-      [name]: value,
+      [name]: type === "file" ? files?.[0] : value,
     }));
   };
 
@@ -112,11 +110,26 @@ const CreateProblemSet: React.FC<{ orgs: Organization[] }> = ({ orgs }) => {
 
             <Form.Group className="mb-3">
               <Form.Label htmlFor="logo">Logo</Form.Label>
+
+              {formData.logo && (
+                <div
+                  className="bg-white p-3 rounded-2 mb-2"
+                  style={{ height: "6rem", width: "6rem" }}
+                >
+                  <div className=" ratio ratio-1x1">
+                    <img
+                      className="img-fluid"
+                      alt="logo"
+                      src={URL.createObjectURL(new Blob([formData.logo]))}
+                    ></img>
+                  </div>
+                </div>
+              )}
+
               <Form.Control
                 type="file"
                 id="logo"
                 name="logo"
-                value={formData.logo || ""}
                 onChange={handleChange}
               />
             </Form.Group>

@@ -1,14 +1,14 @@
 import React from "react";
 
-import ProblemForm from "../features/main/problems/ProblemsForm";
 import LayoutAdmin from "../layout/LayoutAdmin";
+import ImageSelector from "../features/main/ImageSelector";
 // import CreateOrganizationForm from "../components/form/CreateOrganizationForm";
 // import CreateCourseForm from "../components/form/CreateCourseForm";
 
 const TestView: React.FC = () => {
   return (
     <LayoutAdmin>
-      <ProblemForm />
+      <ImageSelector onChange={() => {}} />
     </LayoutAdmin>
   );
 };

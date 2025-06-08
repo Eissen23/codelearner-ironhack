@@ -1,11 +1,10 @@
 import { Alert, Button, ListGroup, Spinner } from "react-bootstrap";
 import SubmissionItem from "../../submission/SubmissionItem";
 import { Link } from "react-router-dom";
-import UseSubmissions from "../../../features/hooks/submissions/useSubmissions";
+import { useSubmissions } from "../../../features/hooks/submissions/useSubmissions";
 
-// TODO: this request is way too slugish and undeserving
 const YourSubmission: React.FC = () => {
-  const { submissions, loading } = UseSubmissions();
+  const { submissions, loading } = useSubmissions();
 
   return (
     <div>

@@ -68,24 +68,23 @@ class UserController extends Controller implements HasMiddleware
         }
 
        $fields = $request->validate([
-            'account_name' => 'string',
-            'full_name' => 'string',
-            'email' => 'email|unique:users',
-            'password' => 'string|confirmed',
+            'account_name' => 'sometimes|string|unique:users',
+            'full_name' => 'sometimes|string|unique:users',
+            'email' => 'sometimes|email|unique:users',
             'about' => 'string',
             'image_avatar' =>  'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', 
         ]);
 
-        if ($request->hasFile('logo')) {
+        if ($request->hasFile('image_avatar')) {
 
-            $logoPath = $user->getRawOriginal('logo');
+            $logoPath = $user->getRawOriginal('image_avatar');
             if ($logoPath && Storage::disk('public')->exists($logoPath)) {
                 Storage::disk('public')->delete($logoPath);
             }
 
-            $logo = $request->file('logo');
+            $logo = $request->file('image_avatar');
             $filename = time() . '_user_avatar_' . uniqid() . '.' . $logo->getClientOriginalExtension();
-            $fields['logo'] = $logo->storeAs('users_ava', $filename, 'public');
+            $fields['image_avatar'] = $logo->storeAs('users_ava', $filename, 'public');
         }
 
         $user->update($fields);

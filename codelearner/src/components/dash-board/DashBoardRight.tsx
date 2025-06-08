@@ -12,10 +12,14 @@ import { Form, useOutletContext } from "react-router";
 import { useUserDetail } from "../../features/hooks/users/useUserDetail";
 import ImageSelector from "../../features/main/ImageSelector";
 import { imageAvatar } from "../../service/helper/image_update/imageAvatar";
+import { useUserForm } from "../../features/hooks/users/useUserForm";
+import { ToastContainer } from "react-toastify";
 
 const DashBoardRight: React.FC = () => {
   const token = useOutletContext() as string | null;
-  const userDetail = useUserDetail(token);
+  const { userDetail } = useUserDetail(token);
+
+  const { loading, handleSubmit } = useUserForm(token);
 
   if (!userDetail) {
     return (
@@ -33,17 +37,29 @@ const DashBoardRight: React.FC = () => {
 
   return (
     <>
+      <ToastContainer />
       <h4 className="mb-4">User Information</h4>
 
       <Row>
         <Col lg={9} md={6} xs={12}>
-          <Form className="p-3 bg-white rounded border-1 border shadow-sm">
+          <Form
+            className="p-3 bg-white rounded border-1 border shadow-sm"
+            onSubmit={handleSubmit}
+          >
             <FormGroup as={Row} className="mb-3 h5" controlId="update">
               <FormLabel column sm={10}>
                 Edit info
               </FormLabel>
               <Col sm={2} className="text-end align-content-center">
-                <Button size="sm" type="submit" variant="primary">
+                <Button
+                  size="sm"
+                  type="submit"
+                  variant="primary"
+                  disabled={loading}
+                >
+                  {loading && (
+                    <Spinner animation="border" size="sm" className="me-2" />
+                  )}
                   Save Changes
                 </Button>
               </Col>
@@ -53,7 +69,10 @@ const DashBoardRight: React.FC = () => {
                 <strong>Name:</strong>
               </FormLabel>
               <Col sm={10}>
-                <FormControl defaultValue={userDetail.full_name} />
+                <FormControl
+                  name="full_name"
+                  defaultValue={userDetail.full_name}
+                />
               </Col>
             </FormGroup>
             <FormGroup as={Row} className="mb-3">
@@ -61,7 +80,7 @@ const DashBoardRight: React.FC = () => {
                 <strong>Email:</strong>
               </FormLabel>
               <Col sm={10}>
-                <FormControl readOnly defaultValue={userDetail.email} />
+                <FormControl name="email" defaultValue={userDetail.email} />
               </Col>
             </FormGroup>
             <FormGroup as={Row} className="mb-3">
@@ -69,7 +88,10 @@ const DashBoardRight: React.FC = () => {
                 <strong>Account Name:</strong>
               </FormLabel>
               <Col sm={10}>
-                <FormControl defaultValue={userDetail.account_name} />
+                <FormControl
+                  name="account_name"
+                  defaultValue={userDetail.account_name}
+                />
               </Col>
             </FormGroup>
 
@@ -80,6 +102,7 @@ const DashBoardRight: React.FC = () => {
               <FormControl
                 as="textarea"
                 rows={3}
+                name="about"
                 defaultValue={userDetail.about}
               />
             </FormGroup>

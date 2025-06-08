@@ -25,5 +25,5 @@ export const useUserDetail = (token: string | null) => {
     fetchUserDetail();
   }, [token]);
 
-  return userDetail;
+  return { userDetail, requestInProgress };
 };

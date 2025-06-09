@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:1
 
 # Stage 1: Install Composer dependencies
-FROM composer:lts as deps
+FROM composer:lts AS deps
 
 WORKDIR /app
 
@@ -14,6 +14,8 @@ RUN apk add --no-cache --update \
     make \
     gcc \
     musl-dev \
+    mongo-c-driver-dev \
+    libbson-dev \
     && pecl install mongodb-1.21.0 \
     && echo "extension=mongodb.so" > /usr/local/etc/php/conf.d/mongodb.ini
 
@@ -25,7 +27,7 @@ RUN --mount=type=cache,target=/tmp/cache \
     composer install --no-dev --no-interaction --optimize-autoloader --no-scripts
 
 # Stage 2: Build PHP-FPM runtime
-FROM php:8.4-fpm as php
+FROM php:8.4-fpm AS php
 
 # Install dependencies and PHP extensions
 RUN apt-get update && apt-get install -y \
@@ -33,10 +35,16 @@ RUN apt-get update && apt-get install -y \
     unzip \
     libssl-dev \
     pkg-config \
+    libmongoc-dev \
+    libbson-dev \
     && rm -rf /var/lib/apt/lists/* \
-    && pecl install mongodb-1.21.0 \
     && docker-php-ext-enable mongodb \
     && docker-php-ext-install -j$(nproc) pdo_mysql zip bcmath pcntl
+
+
+# Copy MongoDB extension from deps stage
+COPY --from=deps /usr/local/lib/php/extensions /usr/local/lib/php/extensions
+COPY --from=deps /usr/local/etc/php/conf.d/mongodb.ini /usr/local/etc/php/conf.d/mongodb.ini
 
 # Use production PHP configuration
 RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"

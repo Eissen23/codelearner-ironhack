@@ -9,7 +9,17 @@ const CourseCardItem: React.FC<{ course: Course; setting?: boolean }> = ({
   return (
     <Card className="h-100 shadow-sm">
       <Card.Body>
-        <Card.Img alt={course.name} src={course.logo!}></Card.Img>
+        <Card.Img
+          style={{
+            height: "200px",
+            objectFit: "cover",
+            padding: "1rem",
+          }}
+          alt={course.name}
+          src={
+            course.logo ?? `https://placehold.co/200x200?text=${course.name}`
+          }
+        ></Card.Img>
         <Card.Title>
           <Link
             to={

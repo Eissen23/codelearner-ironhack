@@ -6,18 +6,19 @@ const OrgCardItem: React.FC<{ organizations: Org }> = ({ organizations }) => {
   return (
     <Col key={organizations.id}>
       <Card className="h-100 shadow-sm hover-shadow">
-        {organizations.logo && (
-          <Card.Img
-            variant="top"
-            src={organizations.logo}
-            alt={`${organizations.name} logo`}
-            style={{
-              height: "200px",
-              objectFit: "contain",
-              padding: "1rem",
-            }}
-          />
-        )}
+        <Card.Img
+          variant="top"
+          src={
+            organizations.logo ??
+            `https://placehold.co/200x200?text=${organizations.name}`
+          }
+          alt={`${organizations.name} logo`}
+          style={{
+            height: "200px",
+            objectFit: "cover",
+            padding: "1rem",
+          }}
+        />
         <Card.Body>
           <Card.Title>
             <a

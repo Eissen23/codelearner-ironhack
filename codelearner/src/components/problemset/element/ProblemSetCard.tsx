@@ -13,11 +13,14 @@ const ProblemSetCard: React.FC<{
         <Card.Img
           style={{
             height: "200px",
-            objectFit: "contain",
+            objectFit: "cover",
             padding: "1rem",
           }}
           alt={problemSet.name}
-          src={problemSet.logo}
+          src={
+            problemSet.logo ??
+            `https://placehold.co/200x200?text=${problemSet.name}`
+          }
         ></Card.Img>
         <Card.Title>
           <Link

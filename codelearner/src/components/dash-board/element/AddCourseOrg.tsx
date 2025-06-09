@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Form, Button, Row, Col, InputGroup } from "react-bootstrap";
-import { Course } from "../../../types/org/course.type";
+import { Course, CourseFormData } from "../../../types/org/course.type";
 import { addCourse } from "../../../service/api/cours-manage/addCourse";
 import { useAuth } from "../../../context/auth/AuthContext";
 import { toast, ToastContainer } from "react-toastify";
@@ -12,22 +12,22 @@ const AddCourseOrg: React.FC<{ orgs: Org }> = ({ orgs }) => {
   const navigate = useNavigate();
 
   const [Loading, setLoading] = useState(false);
-  const [formData, setFormData] = useState<Omit<Course, "id" | "created_at">>({
+  const [formData, setFormData] = useState<CourseFormData>({
     name: "",
     description: "",
     short_description: "",
     fee: 0.0,
     currency: "",
     duration: 0,
-    logo: null,
+    logo: undefined,
     org_id: orgs.id,
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
+    const { name, value, type, files } = e.target;
     setFormData((prev) => ({
       ...prev,
-      [name]: value,
+      [name]: type === "file" ? files?.[0] : value,
     }));
   };
 
@@ -45,8 +45,8 @@ const AddCourseOrg: React.FC<{ orgs: Org }> = ({ orgs }) => {
     try {
       setLoading(true);
       await addCourse(token, formData);
-      toast("Successfully added course");
-      navigate(`/dashboard/mod/org-manage/${orgs.id}`);
+      toast.success("Successfully added course");
+      navigate(`/dashboard/org-manage/${orgs.id}`);
     } catch (error) {
       toast.error("Failed to add course");
       throw error;
@@ -129,12 +129,28 @@ const AddCourseOrg: React.FC<{ orgs: Org }> = ({ orgs }) => {
             </Form.Group>
 
             <Form.Group className="mb-3">
-              <Form.Label htmlFor="logo">Logo</Form.Label>
+              <Form.Label htmlFor="logo" className="d-block">
+                Select logo
+              </Form.Label>
+
+              {formData.logo && (
+                <div
+                  className="bg-white p-3 rounded-2 mb-2"
+                  style={{ height: "6rem", width: "6rem" }}
+                >
+                  <div className=" ratio ratio-1x1">
+                    <img
+                      className="img-fluid"
+                      alt="logo"
+                      src={URL.createObjectURL(new Blob([formData.logo]))}
+                    ></img>
+                  </div>
+                </div>
+              )}
               <Form.Control
                 type="file"
                 id="logo"
                 name="logo"
-                value={formData.logo || ""}
                 onChange={handleChange}
               />
             </Form.Group>

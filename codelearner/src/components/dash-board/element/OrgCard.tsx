@@ -18,18 +18,16 @@ const OrgCard: React.FC<{ org: Organization }> = ({ org }) => {
 
   return (
     <Card className="h-100 shadow-sm hover-shadow">
-      {org.logo && (
-        <Card.Img
-          variant="top"
-          src={org.logo}
-          alt={`${org.name} logo`}
-          style={{
-            height: "200px",
-            objectFit: "contain",
-            padding: "1rem",
-          }}
-        />
-      )}
+      <Card.Img
+        variant="top"
+        src={org.logo ?? `https://placehold.co/200x200?text=${org.name}`}
+        alt={`${org.name} logo`}
+        style={{
+          height: "200px",
+          objectFit: "cover",
+          padding: "1rem",
+        }}
+      />
       <Card.Body>
         <Card.Title>
           <Link to={`${org.id}`} className="text-decoration-none text-dark">

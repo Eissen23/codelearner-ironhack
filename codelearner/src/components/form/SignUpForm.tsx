@@ -39,7 +39,7 @@ const SignUpForm: React.FC<SignUpProps> = ({ onSwitchToLogin }) => {
 
       // Redirect or show success message
       setTimeout(() => {
-        navigate(`/`);
+        navigate(`/dashboard/profile`);
       }, 5000);
     } catch (er) {
       console.log("handleSubmit signup", er);

@@ -33,7 +33,7 @@ const LoginForm: React.FC<LoginProps> = ({ onSwitchToSignUp }) => {
       });
       await response;
       setTimeout(() => {
-        navigate("/dashboard/profile");
+        navigate("/");
       }, 5000);
     } catch (err) {
       throw err;

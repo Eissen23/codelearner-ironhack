@@ -9,7 +9,11 @@ const AddProblemSetPage = () => {
   const { data, loading } = useOrgDetail(org_id || "");
 
   if (loading) {
-    return <Spinner animation="border"></Spinner>;
+    return (
+      <div className="w-100 d-flex align-items-center h-100 justify-content-center">
+        <Spinner animation="border"></Spinner>;
+      </div>
+    );
   }
 
   if (!data) {

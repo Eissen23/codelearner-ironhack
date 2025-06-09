@@ -54,6 +54,11 @@ COPY ./ /var/www/html
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache \
     && chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
 
+# Configure PHP-FPM to listen on all interfaces
+RUN echo "listen = /var/run/php-fpm.sock" >> /usr/local/etc/php-fpm.d/zz-docker.conf \
+    && echo "listen.owner = www-data" >> /usr/local/etc/php-fpm.d/zz-docker.conf \
+    && echo "listen.group = www-data" >> /usr/local/etc/php-fpm.d/zz-docker.conf \
+    && echo "listen.mode = 0660" >> /usr/local/etc/php-fpm.d/zz-docker.conf
 # Switch to non-privileged user
 USER www-data
 

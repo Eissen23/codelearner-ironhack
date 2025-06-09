@@ -17,6 +17,12 @@ services:
     depends_on:
       - mysql
       - mongodb
+    healthcheck:
+      test: ["CMD-SHELL", "nc -z localhost 9000 || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
     environment:
       - APP_ENV=production
       - APP_KEY=${APP_KEY}
@@ -37,14 +43,26 @@ services:
     build: 
       context: .
       target: nginx
+    command: >
+      sh -c "
+      echo 'Waiting for PHP-FPM...'
+      until nc -z php 9000; do
+        sleep 2
+      done
+      echo 'PHP-FPM is ready!'
+      nginx -g 'daemon off;'
+      "
     ports:
       - "9000:80"
     depends_on:
-      - php
+      php:
+        condition: service_healthy
     volumes:
       - .:/var/www/html
+      - php-socket:/var/run
     networks:
       - app-network
+    
 
   mysql:
     image: mysql:8.0
@@ -89,6 +107,7 @@ volumes:
     driver: local
   mongo-data:
     driver: local
+  
 
 networks:
   app-network:

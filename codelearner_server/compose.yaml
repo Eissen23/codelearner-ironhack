@@ -18,18 +18,18 @@ services:
       - mysql
       - mongodb
     environment:
-      - APP_ENV=development
-      - APP_KEY=base64:Yl1BBYcgWiZQxK0LzNrabcSN7x4Zo2F5eLit9PtzFvQ=
+      - APP_ENV=production
+      - APP_KEY=${APP_KEY}
       - DB_CONNECTION=mysql
       - DB_HOST=mysql
-      - DB_DATABASE=codelearner
-      - DB_USERNAME=root
-      - DB_PASSWORD=''
+      - DB_DATABASE=${DB_DATABASE}
+      - DB_USERNAME=${DB_USERNAME}
+      - DB_PASSWORD=${DB_PASSWORD}
       - MONGODB_HOST=mongodb
       - MONGODB_PORT=27017
-      - MONGODB_DATABASE=codelearner
-      - MONGODB_USERNAME=
-      - MONGODB_PASSWORD=
+      - MONGODB_DATABASE=${DB_DATABASE_MONGO}
+      - MONGODB_USERNAME=${DB_USERNAME_MONGO}
+      - MONGODB_PASSWORD=${DB_PASSWORD_MONGO}
     networks:
       - app-network
   
@@ -49,8 +49,10 @@ services:
   mysql:
     image: mysql:8.0
     environment:
-      - MYSQL_DATABASE=codelearner
-      - MYSQL_ALLOW_EMPTY_PASSWORD=true
+      - MYSQL_DATABASE=${DB_DATABASE}
+      - MYSQL_USER=${DB_USERNAME}
+      - MYSQL_PASSWORD=${DB_PASSWORD}
+      - MYSQL_ROOT_PASSWORD=${DB_ROOT_PASSWORD}
     volumes:
       - mysql-data:/var/lib/mysql
     healthcheck:
@@ -66,7 +68,9 @@ services:
   mongodb:
     image: mongodb/mongodb-community-server:8.0-ubi9
     environment:
-      MONGO_INITDB_DATABASE: codelearner
+      MONGODB_INITDB_ROOT_USERNAME: ${MONGODB_INITDB_ROOT_USERNAME}
+      MONGODB_INITDB_ROOT_PASSWORD: ${MONGODB_INITDB_ROOT_PASSWORD}
+      MONGODB_INITDB_DATABASE: ${DB_DATABASE_MONGO}
     volumes:
       - mongo-data:/data/db
     healthcheck:
@@ -82,7 +86,9 @@ services:
 
 volumes:
   mysql-data:
+    driver: local
   mongo-data:
+    driver: local
 
 networks:
   app-network:

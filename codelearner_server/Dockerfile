@@ -30,15 +30,15 @@ RUN --mount=type=cache,target=/tmp/cache \
 FROM php:8.4-fpm-alpine AS php
 
 # Install dependencies and PHP extensions
-RUN apt-get update && apt-get install -y \
-    libzip-dev \
-    unzip \
-    libssl-dev \
-    pkg-config \
-    libmongoc-dev \
-    libbson-dev \
-    && rm -rf /var/lib/apt/lists/* \
-    && docker-php-ext-install -j$(nproc) pdo_mysql zip bcmath pcntl
+RUN apk update && apk upgrade --no-cache \
+    && apk add --no-cache \
+        libzip-dev \
+        openssl-dev \
+        pkgconf \
+        mongo-c-driver-dev \
+        libbson-dev \
+        mariadb-dev \
+    && docker-php-ext-install -j$(nproc) pdo_mysql zip bcmath pcntl || { echo "PHP extension install failed"; exit 1; }
 
 
 # Copy MongoDB extension from deps stage
@@ -62,7 +62,7 @@ RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cac
 USER www-data
 
 # Stage 3: Set up Nginx
-FROM nginx:alpine as nginx
+FROM nginx:alpine AS nginx
 
 # Copy Nginx configuration
 COPY ./docker/nginx.conf /etc/nginx/conf.d/default.conf

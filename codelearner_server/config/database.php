@@ -117,8 +117,8 @@ return [
             'host' => env('DB_HOST_MONGO', '127.0.0.1'),
             'port' => env('DB_PORT_MONGO', 27017),
             'database' => env('DB_DATABASE_MONGO', 'forge'),
-            'username' => env('DB_USERNAME_MONGO', 'forge'),
-            'password' => env('DB_PASSWORD_MONGO', ''),
+            'username' => env('MONGODB_INITDB_ROOT_USERNAME', 'forge'),
+            'password' => env('MONGODB_INITDB_ROOT_PASSWORD', ''),
             'options' => [
                 'database' => 'admin', // Default authentication database
                 'connectTimeoutMS' => 30000, // 30 seconds for connection

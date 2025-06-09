@@ -18,7 +18,7 @@ import CustomSpinner from "../../components/CustomSpinner";
 const ProblemDetail: React.FC = () => {
   const editorRef = useRef<any>(null);
   const [language, setLanguage] = useState("javascript");
-
+  const [activeTab, setActiveTab] = useState("description");
   const { problemData } = useProblemDetail();
   // const handleSubmit = () => {
   //   // Handle submission logic here
@@ -29,21 +29,31 @@ const ProblemDetail: React.FC = () => {
       <LayoutHome noGutter>
         <Split className="split">
           <div>
-            <Tabs defaultActiveKey="description" className="bg-black">
-              <Tab title="ProblemDescription" eventKey="description">
-                <ProblemDescription problem={problemData} />
+            <Tabs
+              activeKey={activeTab}
+              onSelect={(key) => setActiveTab(key || "description")}
+              className="bg-black"
+              
+            >
+              <Tab title="Problem Description" eventKey="description">
+                <ProblemDescription problem={problemData}/>
               </Tab>
-              <Tab title="Solution" eventKey="solution">
-                <section className="solution_article mb-3">
-                  <Suspense fallback={CustomSpinner}>
-                    <SolutionArticleList />
-                  </Suspense>
-                </section>
-                <section className="solution_article mb-3">
-                  <Suspense fallback={CustomSpinner}>
-                    <UserSolPublic />
-                  </Suspense>
-                </section>
+              <Tab title="Solution" eventKey="solution" > 
+                {activeTab === "solution" && (
+                  <div className="px-3">
+                    <section className="solution_article mb-3">
+                      <Suspense fallback={CustomSpinner}>
+                        <SolutionArticleList />
+                      </Suspense>
+                    </section>
+
+                    <section className="solution_article mb-3">
+                      <Suspense fallback={CustomSpinner}>
+                        <UserSolPublic />
+                      </Suspense>
+                    </section>
+                  </div>
+                )}
               </Tab>
             </Tabs>
           </div>
@@ -65,7 +75,7 @@ const ProblemDetail: React.FC = () => {
             <ProblemOutput
               editorRef={editorRef}
               language={language}
-              testCase={problemData?.test_cases}
+              problemData={problemData}
             />
           </Split>
         </Split>

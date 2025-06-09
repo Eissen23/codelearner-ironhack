@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Form, Button, Row, Col, InputGroup } from "react-bootstrap";
-import { Course, CourseFormData } from "../../../types/org/course.type";
+import { CourseFormData } from "../../../types/org/course.type";
 import { addCourse } from "../../../service/api/cours-manage/addCourse";
 import { useAuth } from "../../../context/auth/AuthContext";
 import { toast, ToastContainer } from "react-toastify";

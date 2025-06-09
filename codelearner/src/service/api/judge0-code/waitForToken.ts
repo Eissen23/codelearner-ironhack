@@ -18,7 +18,6 @@ export const waitForProcessing = async (tokens: BatchToken[]) => {
     });
 
     if (allDone.every((done) => done)) {
-      console.log("All submissions are done processing", tokens);
       return tokens;
     }
 

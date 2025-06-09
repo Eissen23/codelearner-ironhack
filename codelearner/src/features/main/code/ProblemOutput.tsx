@@ -3,7 +3,7 @@ import { Stack, Tab, Tabs } from "react-bootstrap";
 import { FaCirclePlay } from "react-icons/fa6";
 import { IoSend } from "react-icons/io5";
 import { LANGUAGE_MAPPING } from "../../../data/LanguageMapping";
-import { TestCase } from "../../../types/content/problem.type";
+import { ProblemData } from "../../../types/content/problem.type";
 import { createBatchSubmission } from "../../../utils/code/createBatchSub";
 import { runTestCase } from "../../../service/api/judge0-code/RunTestCase";
 import {
@@ -17,18 +17,19 @@ import { submitAnswer } from "../../../service/user-service/submission/submitAns
 import { getAuthToken } from "../../../config/loader/getLocalItem";
 import OutputTab from "./element/OutputTab";
 import ResultTab from "./element/ResultTab";
+import PopupAIEval from "./ai-element/PopupAIEval";
 
 interface OutputProps {
   editorRef: React.RefObject<any>;
   language: string;
-  testCase?: TestCase;
+  problemData?: ProblemData;
   onSubmit?: () => void;
 }
 
 const ProblemOutput: React.FC<OutputProps> = ({
   editorRef,
   language,
-  testCase,
+  problemData,
 }) => {
   const { problem_id } = useParams();
   const token = getAuthToken();
@@ -37,6 +38,10 @@ const ProblemOutput: React.FC<OutputProps> = ({
   const [isRunning, setIsRunning] = React.useState(false);
   const [results, setResults] = React.useState<SubmissionResponse[]>();
   const [valuation, setValuation] = React.useState<ResultData>();
+  const testCase = problemData?.test_cases;
+  
+
+  
 
   const runCode = async () => {
     if (!editorRef.current) {
@@ -161,6 +166,7 @@ const ProblemOutput: React.FC<OutputProps> = ({
       <Tabs defaultActiveKey={"result"}>
         <Tab className="bg-black" eventKey={`result`} title={`Output`} key={0}>
           <ResultTab data={valuation} />
+          <PopupAIEval data={valuation} problemData={problemData}/>
         </Tab>
         {results?.map((result, index) => (
           <Tab

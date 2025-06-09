@@ -52,3 +52,20 @@
   border: none;
   color: white;
 }
+
+.popup_ai_eval {
+	position: fixed;
+	bottom  : 20%;
+	right: -12px;
+	background-color: var(--bs-blue);
+	z-index: 1000;
+	border: 1px solid var(--bs-blue);
+	border-radius: 5rem;
+	padding: 0.4rem 1.5rem;
+  transition: transform 0.3s ease-in-out;
+}
+
+.popup_ai_eval.none {
+  transform: translateX(100%);
+}
+

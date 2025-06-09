@@ -28,7 +28,7 @@ const ProblemDescription: React.FC<{ problem?: ProblemData }> = ({
     );
   }
   return (
-    <div className="problem-description p-4 bg-gray-50 rounded-lg shadow-sm overflow-scroll">
+    <div className="problem-description p-4 bg-gray-50 rounded-lg shadow-sm overflow-scroll" style={{height:"100vh"}}>
       <ArticleModal handleHide={handleHide} tags={tag} show={show} />
       <h2 className="h2 fw-bold">{problem.name}</h2>
       <div className="badge_problemtype mb-4">

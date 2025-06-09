@@ -45,7 +45,7 @@ export const ollamaService = {
       // Convert the response to match OllamaGenerateResponse type
       return {
         ...response,
-        created_at: response.created_at.toISOString(),
+        created_at: new Date(response.created_at).toDateString(),
       };
     } catch (error) {
       console.error('Ollama generate error:', error);

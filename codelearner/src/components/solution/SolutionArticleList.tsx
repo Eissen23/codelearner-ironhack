@@ -2,7 +2,10 @@ import { Link, useParams } from "react-router";
 import { useSArticleList } from "../../features/hooks/solution/useSArticleList";
 import { Alert, Button, ListGroup, Spinner } from "react-bootstrap";
 import { getVersionName } from "../../data/LanguageVersion";
-const SolutionArticleList = () => {
+import { getLanguageKey } from "../../data/LanguageMapping";
+const SolutionArticleList: React.FC<{ editable?: boolean }> = ({
+  editable = false,
+}) => {
   const { problem_id } = useParams();
   const { loading, solutionArticle } = useSArticleList(problem_id || "");
   return (
@@ -19,7 +22,8 @@ const SolutionArticleList = () => {
               <ListGroup.Item key={index}>
                 <div className="d-flex justify-content-between">
                   <h6>
-                    {solution.name || `${solution.language} solution #${index}`}
+                    {solution.name ||
+                      `${getLanguageKey(solution.language)} solution #${index+1}`}
                   </h6>
                   <div>{getVersionName(solution.language)}</div>
                   <Link to={`/setting/solution-article/${solution.id}`}>
@@ -33,14 +37,15 @@ const SolutionArticleList = () => {
       ) : (
         <Alert variant="info">No solution article published</Alert>
       )}
-
+      {editable && (
       <div className="add_solution">
         <Button variant="primary" size="sm">
           <Link className="text-decoration-none text-white" to={`add-solution`}>
             Add solution article
-          </Link>
-        </Button>
-      </div>
+            </Link>
+          </Button>
+        </div>
+      )}
     </>
   );
 };

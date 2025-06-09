@@ -14,6 +14,7 @@ services:
       target: php
     volumes:
       - .:/var/www/html
+      - php-socket:/var/run
     depends_on:
       - mysql
       - mongodb
@@ -106,6 +107,8 @@ volumes:
   mysql-data:
     driver: local
   mongo-data:
+    driver: local
+  php-socket:  # Add this volume for socket sharing
     driver: local
   
 

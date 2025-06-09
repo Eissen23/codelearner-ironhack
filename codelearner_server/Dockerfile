@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:1
 
 # Stage 1: Install Composer dependenciesAdd commentMore actions
-FROM composer:lts as deps
+FROM composer:2.8.9 AS deps
 
 WORKDIR /app
 
@@ -25,18 +25,21 @@ RUN --mount=type=cache,target=/tmp/cache \
     composer install --no-dev --no-interaction --optimize-autoloader --no-scripts
 
 # Stage 2: Build PHP-FPM runtime
-FROM php:8.4-fpm as php
+FROM php:8.4-fpm-alpine3.20 AS php
 
 # Install dependencies and PHP extensions
-RUN apt-get update && apt-get install -y \
+RUN apk add --no-cache \
     libzip-dev \
     unzip \
-    libssl-dev \
-    pkg-config \
-    && rm -rf /var/lib/apt/lists/* \
+    openssl-dev \
+    pkgconfig \
+    autoconf \
+    g++ \
+    make \
     && pecl install mongodb-1.21.0 \
     && docker-php-ext-enable mongodb \
-    && docker-php-ext-install -j$(nproc) pdo_mysql zip bcmath pcntl
+    && docker-php-ext-install -j$(nproc) pdo_mysql zip bcmath pcntl \
+    && apk del autoconf g++ make
 
 # Use production PHP configuration
 RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
@@ -55,7 +58,7 @@ RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cac
 USER www-data
 
 # Stage 3: Set up Nginx
-FROM nginx:alpine as nginx
+FROM nginx:alpine AS nginx
 
 # Copy Nginx configuration
 COPY ./docker/nginx.conf /etc/nginx/conf.d/default.conf

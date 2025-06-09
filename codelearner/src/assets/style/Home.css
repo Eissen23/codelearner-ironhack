@@ -1,3 +1,9 @@
 .home .swiper-slide img {
-	height: 5rem;
+  height: 5rem;
+}
+
+.card_img_logo {
+  height: 200px;
+  object-fit: contain;
+  padding: 1rem;
 }

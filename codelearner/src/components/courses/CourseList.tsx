@@ -16,9 +16,9 @@ const CourseList = () => {
 
   return (
     <Container className="py-4">
-      <Row xs={1} md={2} lg={3} className="g-4">
+      <Row className="g-4">
         {courses.map((course) => (
-          <Col key={`crs-${course.id}`} md={4} xs={12} className="mb-3">
+          <Col key={`crs-${course.id}`} md={3} xs={12} className="mb-3">
             <CourseCardItem course={course} />
           </Col>
         ))}

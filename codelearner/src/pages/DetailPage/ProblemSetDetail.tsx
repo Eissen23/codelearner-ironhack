@@ -13,7 +13,7 @@ const ProblemSetDetail = () => {
 
   return (
     <LayoutHome>
-      <div className="problemset_detail">
+      <div className="problemset_detail my-3">
         <Row>
           <Col xs={12} md={4}>
             <ProblemSetInfo problem_set_id={problem_set} />

@@ -18,7 +18,9 @@ const SolutionArticleList = () => {
             {solutionArticle?.map((solution, index) => (
               <ListGroup.Item key={index}>
                 <div className="d-flex justify-content-between">
-                  <h6>{solution.name}</h6>
+                  <h6>
+                    {solution.name || `${solution.language} solution #${index}`}
+                  </h6>
                   <div>{getVersionName(solution.language)}</div>
                   <Link to={`/setting/solution-article/${solution.id}`}>
                     To solution

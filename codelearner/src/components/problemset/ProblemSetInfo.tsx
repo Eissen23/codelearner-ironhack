@@ -1,5 +1,5 @@
 import React from "react";
-import { Card, Alert } from "react-bootstrap";
+import { Card, Alert, CardImg } from "react-bootstrap";
 import { useProblemSetsInfo } from "../../features/hooks/problemsets/useProblemSetInfo";
 
 const ProblemSetInfo: React.FC<{ problem_set_id: string }> = ({
@@ -17,6 +17,15 @@ const ProblemSetInfo: React.FC<{ problem_set_id: string }> = ({
 
   return (
     <Card className="shadow-sm">
+      <CardImg
+        src={problemSet.logo}
+        alt={problemSet.name}
+        style={{
+          height: "200px",
+          objectFit: "contain",
+          padding: "1rem",
+        }}
+      ></CardImg>
       <Card.Header as="h5">{problemSet.name}</Card.Header>
       <Card.Body>
         <Card.Title>Details</Card.Title>

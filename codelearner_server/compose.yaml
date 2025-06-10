@@ -48,7 +48,7 @@ services:
     command: >
       sh -c "
       echo 'Waiting for PHP-FPM to be ready...'
-      sleep 10
+      until test -S /var/run/php-fpm/php-fpm.sock; do
       until nc -z php 9000; do
         echo 'PHP-FPM not ready, waiting...'
         sleep 2

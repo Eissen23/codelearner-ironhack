@@ -50,9 +50,8 @@ COPY --from=deps /app/vendor /var/www/html/vendor
 # Copy Laravel application
 COPY ./ /var/www/html
 
-RUN mkdir -p /var/run/php-fpm && \
-    chown www-data:www-data /var/run/php-fpm && \
-    echo "listen = /var/run/php-fpm/php-fpm.sock" >> /usr/local/etc/php-fpm.d/zz-docker.conf && \
+RUN mkdir -p /var/run && \
+    echo "listen = /var/run/php-fpm.sock" >> /usr/local/etc/php-fpm.d/zz-docker.conf && \
     echo "listen.owner = www-data" >> /usr/local/etc/php-fpm.d/zz-docker.conf && \
     echo "listen.group = www-data" >> /usr/local/etc/php-fpm.d/zz-docker.conf && \
     echo "listen.mode = 0660" >> /usr/local/etc/php-fpm.d/zz-docker.conf
@@ -60,7 +59,7 @@ RUN mkdir -p /var/run/php-fpm && \
 
 # Set permissions
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache \
-    && chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
+    && chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache /var/run
 
 
 # Switch to non-privileged user

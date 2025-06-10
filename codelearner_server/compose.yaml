@@ -14,18 +14,10 @@ services:
       target: php
     volumes:
       - .:/var/www/html
-      - php-socket:/var/run
     depends_on:
       - mysql
       - mongodb
-    healthcheck:
-      test: ["CMD-SHELL", "nc -z localhost 9000 || exit 1"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-      start_period: 30s
     environment:
-      - APP_URL=${APP_URL}
       - APP_ENV=production
       - APP_KEY=${APP_KEY}
       - DB_CONNECTION=mysql
@@ -38,6 +30,7 @@ services:
       - MONGODB_DATABASE=${DB_DATABASE_MONGO}
       - MONGODB_USERNAME=${DB_USERNAME_MONGO}
       - MONGODB_PASSWORD=${DB_PASSWORD_MONGO}
+      - FRONT_END_URL=${FRONT_END_URL}
     networks:
       - app-network
   
@@ -45,27 +38,14 @@ services:
     build: 
       context: .
       target: nginx
-    command: >
-      sh -c "
-      echo 'Waiting for PHP-FPM to be ready...'
-      until test -S /var/run/php-fpm/php-fpm.sock; do
-      until nc -z php 9000; do
-        echo 'PHP-FPM not ready, waiting...'
-        sleep 2
-      done
-      echo 'PHP-FPM is ready! Starting nginx...'
-      nginx -g 'daemon off;'
-      " 
     ports:
       - "9000:80"
     depends_on:
       - php
     volumes:
       - .:/var/www/html
-      - php-socket:/var/run
     networks:
       - app-network
-    
 
   mysql:
     image: mysql:8.0
@@ -110,9 +90,6 @@ volumes:
     driver: local
   mongo-data:
     driver: local
-  php-socket:  # Add this volume for socket sharing
-    driver: local
-  
 
 networks:
   app-network:

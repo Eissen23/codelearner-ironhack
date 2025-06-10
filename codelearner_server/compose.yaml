@@ -47,18 +47,19 @@ services:
       target: nginx
     command: >
       sh -c "
-      echo 'Waiting for PHP-FPM...'
+      echo 'Waiting for PHP-FPM to be ready...'
+      sleep 10
       until nc -z php 9000; do
+        echo 'PHP-FPM not ready, waiting...'
         sleep 2
       done
-      echo 'PHP-FPM is ready!'
+      echo 'PHP-FPM is ready! Starting nginx...'
       nginx -g 'daemon off;'
-      "
+      " 
     ports:
       - "9000:80"
     depends_on:
-      php:
-        condition: service_healthy
+      - php
     volumes:
       - .:/var/www/html
       - php-socket:/var/run

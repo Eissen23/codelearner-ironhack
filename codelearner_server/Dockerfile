@@ -65,6 +65,7 @@ USER www-data
 # Stage 3: Set up Nginx
 FROM nginx:alpine AS nginx
 
+RUN apk add --no-cache netcat-openbsd
 # Copy Nginx configuration
 COPY ./docker/nginx.conf /etc/nginx/conf.d/default.conf
 

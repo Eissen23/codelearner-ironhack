@@ -72,5 +72,12 @@ COPY ./docker/nginx.conf /etc/nginx/conf.d/default.conf
 # Copy Laravel public directory
 COPY --from=php /var/www/html/public /var/www/html/public
 
+RUN mkdir -p /var/run/php-fpm && \
+    chown www-data:www-data /var/run/php-fpm && \
+    echo "listen = /var/run/php-fpm/php-fpm.sock" >> /usr/local/etc/php-fpm.d/zz-docker.conf && \
+    echo "listen.owner = www-data" >> /usr/local/etc/php-fpm.d/zz-docker.conf && \
+    echo "listen.group = www-data" >> /usr/local/etc/php-fpm.d/zz-docker.conf && \
+    echo "listen.mode = 0660" >> /usr/local/etc/php-fpm.d/zz-docker.conf
+
 # Expose port 80
 EXPOSE 80

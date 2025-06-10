@@ -36,6 +36,7 @@ RUN apk add --no-cache \
     autoconf \
     g++ \
     make \
+    nginx\
     && pecl install mongodb-1.21.0 \
     && docker-php-ext-enable mongodb \
     && docker-php-ext-install -j$(nproc) pdo_mysql zip bcmath pcntl \
@@ -51,11 +52,12 @@ COPY --from=deps /app/vendor /var/www/html/vendor
 COPY ./ /var/www/html
 
 RUN mkdir -p /var/run && \
-    echo "listen = /var/run/php-fpm.sock" >> /usr/local/etc/php-fpm.d/zz-docker.conf && \
+    echo "listen = 127.0.0.1:9000" >> /usr/local/etc/php-fpm.d/zz-docker.conf && \
     echo "listen.owner = www-data" >> /usr/local/etc/php-fpm.d/zz-docker.conf && \
     echo "listen.group = www-data" >> /usr/local/etc/php-fpm.d/zz-docker.conf && \
     echo "listen.mode = 0660" >> /usr/local/etc/php-fpm.d/zz-docker.conf
 
+RUN mkdir -p /var/run/php-fpm && chown nginx:nginx /var/run/php-fpm
 
 # Set permissions
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache \
@@ -79,6 +81,8 @@ COPY ./docker/nginx.conf /etc/nginx/conf.d/default.conf
 
 # Copy Laravel public directory
 COPY --from=php /var/www/html/public /var/www/html/public
+
+CMD ["sh", "-c", "php-fpm -F & nginx -g 'daemon off;'"]
 
 # Expose port 80
 EXPOSE 80

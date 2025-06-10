@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # Set PHP-FPM path
-PHP_FPM=/usr/local/sbin/php-fpm
+PHP_FPM=/usr/sbin/php-fpm
 
 # Create log directory
 mkdir -p /tmp/logs

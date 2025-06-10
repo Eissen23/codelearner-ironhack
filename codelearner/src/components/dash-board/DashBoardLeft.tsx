@@ -60,7 +60,9 @@ const DashBoardLeft: React.FC<DashBoardLeftProps> = ({
               as={Link}
               to={`${item.path}`}
               className={`d-flex align-items-center gap-2 ${
-                isActive(item.path) ? "active text-bg-secondary" : "text-white"
+                isActive(item.path)
+                  ? "active text-bg-secondary roundeda"
+                  : "text-white"
               }`}
             >
               {item.icon && <i className={item.icon}></i>}

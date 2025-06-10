@@ -80,7 +80,7 @@ class UserSolutionController extends Controller implements HasMiddleware
 
         $fields = request()->validate([
             'name' => 'required|string|max:255',
-            'description' => 'required|string   ',
+            'description' => 'required|string',
             'content' => 'required',
         ]);
         $fields['submission_id'] = $userSubmission->id;

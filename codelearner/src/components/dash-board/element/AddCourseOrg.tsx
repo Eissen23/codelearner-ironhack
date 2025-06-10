@@ -46,7 +46,9 @@ const AddCourseOrg: React.FC<{ orgs: Org }> = ({ orgs }) => {
       setLoading(true);
       await addCourse(token, formData);
       toast.success("Successfully added course");
-      navigate(`/dashboard/org-manage/${orgs.id}`);
+      setTimeout(() => {
+        navigate(`/dashboard/org-manage/${orgs.id}`);
+      }, 5000);
     } catch (error) {
       toast.error("Failed to add course");
       throw error;
@@ -149,6 +151,7 @@ const AddCourseOrg: React.FC<{ orgs: Org }> = ({ orgs }) => {
               )}
               <Form.Control
                 type="file"
+                accept="image/*"
                 id="logo"
                 name="logo"
                 onChange={handleChange}

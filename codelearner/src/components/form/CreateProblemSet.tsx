@@ -128,6 +128,7 @@ const CreateProblemSet: React.FC<{ orgs: Organization[] }> = ({ orgs }) => {
 
               <Form.Control
                 type="file"
+                accept="image/*"
                 id="logo"
                 name="logo"
                 onChange={handleChange}

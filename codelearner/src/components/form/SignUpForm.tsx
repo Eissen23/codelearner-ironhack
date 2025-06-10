@@ -36,7 +36,7 @@ const SignUpForm: React.FC<SignUpProps> = ({ onSwitchToLogin }) => {
         success: "Signup success",
         error: `${error}`,
       });
-
+      await response;
       // Redirect or show success message
       setTimeout(() => {
         navigate(`/dashboard/profile`);

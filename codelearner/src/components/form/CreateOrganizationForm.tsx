@@ -107,6 +107,7 @@ const CreateOrganizationForm: React.FC = () => {
 
               <Form.Control
                 type="file"
+                accept="image/*"
                 id="logo"
                 name="logo"
                 onChange={handleChange}

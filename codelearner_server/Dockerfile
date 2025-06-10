@@ -50,6 +50,14 @@ COPY --from=deps /app/vendor /var/www/html/vendor
 # Copy Laravel application
 COPY ./ /var/www/html
 
+RUN mkdir -p /var/run/php-fpm && \
+    chown www-data:www-data /var/run/php-fpm && \
+    echo "listen = /var/run/php-fpm/php-fpm.sock" >> /usr/local/etc/php-fpm.d/zz-docker.conf && \
+    echo "listen.owner = www-data" >> /usr/local/etc/php-fpm.d/zz-docker.conf && \
+    echo "listen.group = www-data" >> /usr/local/etc/php-fpm.d/zz-docker.conf && \
+    echo "listen.mode = 0660" >> /usr/local/etc/php-fpm.d/zz-docker.conf
+
+
 # Set permissions
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache \
     && chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
@@ -59,25 +67,26 @@ RUN echo "listen = /var/run/php-fpm.sock" >> /usr/local/etc/php-fpm.d/zz-docker.
     && echo "listen.owner = www-data" >> /usr/local/etc/php-fpm.d/zz-docker.conf \
     && echo "listen.group = www-data" >> /usr/local/etc/php-fpm.d/zz-docker.conf \
     && echo "listen.mode = 0660" >> /usr/local/etc/php-fpm.d/zz-docker.conf
-# Switch to non-privileged user
+
+
+
+    # Switch to non-privileged user
 USER www-data
 
 # Stage 3: Set up Nginx
 FROM nginx:alpine AS nginx
 
 RUN apk add --no-cache netcat-openbsd
+
+# Create directory for PHP-FPM socket
+RUN mkdir -p /var/run/php-fpm && \
+    chown nginx:nginx /var/run/php-fpm
+
 # Copy Nginx configuration
 COPY ./docker/nginx.conf /etc/nginx/conf.d/default.conf
 
 # Copy Laravel public directory
 COPY --from=php /var/www/html/public /var/www/html/public
-
-RUN mkdir -p /var/run/php-fpm && \
-    chown www-data:www-data /var/run/php-fpm && \
-    echo "listen = /var/run/php-fpm/php-fpm.sock" >> /usr/local/etc/php-fpm.d/zz-docker.conf && \
-    echo "listen.owner = www-data" >> /usr/local/etc/php-fpm.d/zz-docker.conf && \
-    echo "listen.group = www-data" >> /usr/local/etc/php-fpm.d/zz-docker.conf && \
-    echo "listen.mode = 0660" >> /usr/local/etc/php-fpm.d/zz-docker.conf
 
 # Expose port 80
 EXPOSE 80

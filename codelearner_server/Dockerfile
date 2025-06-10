@@ -82,7 +82,9 @@ COPY ./docker/nginx.conf /etc/nginx/conf.d/default.conf
 # Copy Laravel public directory
 COPY --from=php /var/www/html/public /var/www/html/public
 
-CMD ["sh", "-c", "php-fpm -F & nginx -g 'daemon off;'"]
 
+COPY start.sh /start.sh
+RUN chmod +x /start.sh
+CMD /start.sh
 # Expose port 80
 EXPOSE 80

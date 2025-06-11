@@ -21,9 +21,15 @@ RUN apk update && apk add --no-cache \
     unzip \
     pkgconf \
     openssl-dev \
+    php82-dev \
+    autoconf \
+    g++ \
+    make \
+    libbson-dev \
     && pecl install mongodb-1.21.0 \
     && docker-php-ext-enable mongodb \
     && docker-php-ext-install -j$(nproc) bcmath pcntl \
+    && apk del php82-dev autoconf g++ make libbson-dev \
     && rm -rf /var/cache/apk/*
-
+    
 CMD ["/start.sh"]

@@ -82,6 +82,10 @@ RUN sed -i 's/fastcgi_pass php:9000/fastcgi_pass 127.0.0.1:9000/g' /etc/nginx/co
 # Create startup script
 RUN echo '#!/bin/sh\nphp-fpm -D\nnginx -g "daemon off;"' > /start.sh && chmod +x /start.sh
 
+# Create a start sh
+COPY start.sh /start.sh
+RUN chmod +x /start.sh
+
 # Expose port 80
 EXPOSE 80
 

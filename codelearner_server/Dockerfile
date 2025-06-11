@@ -57,11 +57,32 @@ USER www-data
 # Stage 3: Set up Nginx
 FROM nginx:alpine as nginx
 
-# Copy Nginx configuration
-COPY ./docker/nginx.conf /etc/nginx/conf.d/default.conf
+# Install PHP-FPM and required extensions
+RUN apk add --no-cache \
+    php84-fpm \
+    php84-mongodb \
+    php84-pdo_mysql \
+    php84-zip \
+    php84-bcmath \
+    php84-pcntl
+
+# Copy PHP-FPM configuration
+COPY --from=php /usr/local/etc/php /usr/local/etc/php
+COPY --from=php /var/www/html /var/www/html
 
 # Copy Laravel public directory
 COPY --from=php /var/www/html/public /var/www/html/public
 
+# Copy Nginx configuration
+COPY ./docker/nginx.conf /etc/nginx/conf.d/default.conf
+
+# Modify nginx.conf to use localhost instead of php service
+RUN sed -i 's/fastcgi_pass php:9000/fastcgi_pass 127.0.0.1:9000/g' /etc/nginx/conf.d/default.conf
+
+# Create startup script
+RUN echo '#!/bin/sh\nphp-fpm -D\nnginx -g "daemon off;"' > /start.sh && chmod +x /start.sh
+
 # Expose port 80
 EXPOSE 80
+
+CMD ["/start.sh"]

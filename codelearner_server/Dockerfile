@@ -1,108 +1,29 @@
-# syntax=docker/dockerfile:1
+FROM richarvey/nginx-php-fpm:3.1.6
 
-# Stage 1: Install Composer dependenciesAdd commentMore actions
-FROM composer:lts as deps
+COPY . .
 
-WORKDIR /app
+# Image config
+ENV SKIP_COMPOSER 1
+ENV WEBROOT /var/www/html/public
+ENV PHP_ERRORS_STDERR 1
+ENV RUN_SCRIPTS 1
+ENV REAL_IP_HEADER 1
 
-# Install system dependencies for ext-mongodb (Alpine-based)
-RUN apk add --no-cache --update \
-    openssl-dev \
-    pkgconf \
-    php84-dev \
-    autoconf \
-    make \
-    gcc \
-    musl-dev \
-    && pecl install mongodb-1.21.0 \
-    && echo "extension=mongodb.so" > /usr/local/etc/php/conf.d/mongodb.ini
+# Laravel config
+ENV APP_ENV production
+ENV APP_DEBUG false
+ENV LOG_CHANNEL stderr
 
-# Copy composer files
-COPY composer.json composer.lock ./
+# Allow composer to run as root
+ENV COMPOSER_ALLOW_SUPERUSER 1
 
-# Install dependencies without running scripts
-RUN --mount=type=cache,target=/tmp/cache \
-    composer install --no-dev --no-interaction --optimize-autoloader --no-scripts
-
-# Stage 2: Build PHP-FPM runtime
-FROM php:8.4-fpm as php
-
-# Install dependencies and PHP extensions
-RUN apt-get update && apt-get install -y \
-    libzip-dev \
+RUN apk update && apk add --no-cache \
     unzip \
-    libssl-dev \
-    pkg-config \
-    && rm -rf /var/lib/apt/lists/* \
+    pkgconf \
+    openssl-dev \
     && pecl install mongodb-1.21.0 \
     && docker-php-ext-enable mongodb \
-    && docker-php-ext-install -j$(nproc) pdo_mysql zip bcmath pcntl
-
-# Use production PHP configuration
-RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
-
-# Copy Composer dependencies
-COPY --from=deps /app/vendor /var/www/html/vendor
-
-# Copy Laravel application
-COPY ./ /var/www/html
-
-# Set permissions
-RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache \
-    && chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
-
-# Switch to non-privileged user
-USER www-data
-
-# Stage 3: Set up Nginx
-FROM nginx:alpine as nginx
-
-# Install PHP-FPM and required extensions
-RUN apk add --no-cache \
-    php84-fpm \
-    php84-mongodb \
-    php84-pdo_mysql \
-    php84-zip \
-    php84-bcmath \
-    php84-pcntl
-
-# Copy PHP-FPM configuration
-COPY --from=php /usr/local/etc/php /usr/local/etc/php
-COPY --from=php /var/www/html /var/www/html
-
-# Copy Laravel public directory
-COPY --from=php /var/www/html/public /var/www/html/public
-
-# Copy Nginx configuration
-COPY ./docker/nginx.conf /etc/nginx/conf.d/default.conf
-
-# Modify nginx.conf to use localhost instead of php service
-RUN sed -i 's/fastcgi_pass php:9000/fastcgi_pass 127.0.0.1:9000/g' /etc/nginx/conf.d/default.conf
-
-# Create PHP-FPM configuration
-RUN echo '[global]\n\
-daemonize = no\n\
-\n\
-[www]\n\
-listen = 0.0.0.0:9000\n\
-listen.owner = www-data\n\
-listen.group = www-data\n\
-listen.mode = 0660\n\
-pm = dynamic\n\
-pm.max_children = 5\n\
-pm.start_servers = 2\n\
-pm.min_spare_servers = 1\n\
-pm.max_spare_servers = 3\n\
-' > /usr/local/etc/php-fpm.d/www.conf
-
-# Create startup script
-RUN echo '#!/bin/sh\nphp-fpm -D\nnginx -g "daemon off;"' > /start.sh && chmod +x /start.sh
-
-# Create a start sh
-COPY start.sh /start.sh
-RUN chmod +x /start.sh
-
-# Expose port 10000
-EXPOSE 10000
+    && docker-php-ext-install -j$(nproc) bcmath pcntl \
+    && rm -rf /var/cache/apk/*
 
 CMD ["/start.sh"]

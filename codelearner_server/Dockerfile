@@ -65,5 +65,3 @@ COPY --from=php /var/www/html/public /var/www/html/public
 
 # Expose port 80
 EXPOSE 80
-
-CMD [ "php-fpm" ]

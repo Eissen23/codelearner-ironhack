@@ -79,6 +79,22 @@ COPY ./docker/nginx.conf /etc/nginx/conf.d/default.conf
 # Modify nginx.conf to use localhost instead of php service
 RUN sed -i 's/fastcgi_pass php:9000/fastcgi_pass 127.0.0.1:9000/g' /etc/nginx/conf.d/default.conf
 
+# Create PHP-FPM configuration
+RUN echo '[global]\n\
+daemonize = no\n\
+\n\
+[www]\n\
+listen = 0.0.0.0:9000\n\
+listen.owner = www-data\n\
+listen.group = www-data\n\
+listen.mode = 0660\n\
+pm = dynamic\n\
+pm.max_children = 5\n\
+pm.start_servers = 2\n\
+pm.min_spare_servers = 1\n\
+pm.max_spare_servers = 3\n\
+' > /usr/local/etc/php-fpm.d/www.conf
+
 # Create startup script
 RUN echo '#!/bin/sh\nphp-fpm -D\nnginx -g "daemon off;"' > /start.sh && chmod +x /start.sh
 
@@ -86,7 +102,7 @@ RUN echo '#!/bin/sh\nphp-fpm -D\nnginx -g "daemon off;"' > /start.sh && chmod +x
 COPY start.sh /start.sh
 RUN chmod +x /start.sh
 
-# Expose port 80
-EXPOSE 80
+# Expose port 10000
+EXPOSE 10000
 
 CMD ["/start.sh"]

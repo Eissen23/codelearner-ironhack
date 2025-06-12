@@ -9,7 +9,13 @@ use App\Models\UserCourse;
 
 Route::apiResource('/',CourseController::class)
     ->parameter('','course')
-    ->except('store');
+    ->except('store')
+    ->names([
+        'index' => 'courses.index',
+        'show' => 'courses.show',
+        'update' => 'courses.update',
+        'destroy' => 'courses.destroy'
+    ]);
 
 Route::controller(CourseController::class)->group(function () {
     Route::get('/{course}/is-own', 'isOwn');

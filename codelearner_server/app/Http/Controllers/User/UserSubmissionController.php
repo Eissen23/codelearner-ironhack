@@ -54,7 +54,6 @@ class UserSubmissionController extends Controller implements HasMiddleware
     
     public function store(Request $request, Problem $problem)
     {   
-        Gate::authorize('modify', $problem);
         // validate the request
         $fields = $request->validate([
             'source_code' => 'required|string',

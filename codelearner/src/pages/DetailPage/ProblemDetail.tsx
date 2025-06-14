@@ -33,12 +33,11 @@ const ProblemDetail: React.FC = () => {
               activeKey={activeTab}
               onSelect={(key) => setActiveTab(key || "description")}
               className="bg-black"
-              
             >
               <Tab title="Problem Description" eventKey="description">
-                <ProblemDescription problem={problemData}/>
+                <ProblemDescription problem={problemData} />
               </Tab>
-              <Tab title="Solution" eventKey="solution" > 
+              <Tab title="Solution" eventKey="solution">
                 {activeTab === "solution" && (
                   <div className="px-3">
                     <section className="solution_article mb-3">

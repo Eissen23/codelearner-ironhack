@@ -12,7 +12,7 @@ class UserSolutionPolicy
 {
     public function view(User $user, UserSolution $user_solution)
     {
-        if ($user_solution->status === 'Published') {
+        if ($user_solution->status === 'published') {
             return Response::allow();
         }
 

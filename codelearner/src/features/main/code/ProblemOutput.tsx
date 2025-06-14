@@ -39,9 +39,6 @@ const ProblemOutput: React.FC<OutputProps> = ({
   const [results, setResults] = React.useState<SubmissionResponse[]>();
   const [valuation, setValuation] = React.useState<ResultData>();
   const testCase = problemData?.test_cases;
-  
-
-  
 
   const runCode = async () => {
     if (!editorRef.current) {
@@ -134,7 +131,7 @@ const ProblemOutput: React.FC<OutputProps> = ({
       <ToastContainer />
       <Stack
         direction="horizontal"
-        className="mb-2 bg-gradient border-bottom border-dark-subtle border-4 px-3 py-2"
+        className="mb-2 bg-dark border-bottom border-dark-subtle border-4 px-3 py-2"
         gap={3}
       >
         <button
@@ -166,7 +163,7 @@ const ProblemOutput: React.FC<OutputProps> = ({
       <Tabs defaultActiveKey={"result"}>
         <Tab className="bg-black" eventKey={`result`} title={`Output`} key={0}>
           <ResultTab data={valuation} />
-          <PopupAIEval data={valuation} problemData={problemData}/>
+          <PopupAIEval data={valuation} problemData={problemData} />
         </Tab>
         {results?.map((result, index) => (
           <Tab

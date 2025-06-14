@@ -78,7 +78,7 @@ const CheckOutput: React.FC<OutputProps> = ({
   };
 
   return (
-    <div className="Output">
+    <div className="Output pt-3 border-top border-1">
       <div className="d-flex justify-content-center">
         <button
           className="text-white btn btn-success"

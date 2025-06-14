@@ -4,6 +4,7 @@ import { useCallback, useEffect, useState } from "react";
 import { generateCodeEvaluation } from "../../../../service/ai-service/generateEvaluation";
 import { getLanguageKey } from "../../../../data/LanguageMapping";
 import { ProblemData } from "../../../../types/content/problem.type";
+import Markdown from "react-markdown";
 
 const PopupAIEval: React.FC<{
   data?: ResultData;
@@ -62,12 +63,12 @@ const PopupAIEval: React.FC<{
         onClick={handleShowPopup}
       >
         <div className="popup_ai_eval_content button">
-          {!isLoading ? (
-            <i className="bi bi-info-circle-fill me-2"></i>
-          ) : (
-            <Spinner animation="grow" size="sm" className="me-2" />
-          )}
           <span>Evaluation</span>
+          {!isLoading ? (
+            <i className="bi bi-info-circle-fill ms-2"></i>
+          ) : (
+            <Spinner animation="grow" size="sm" className="ms-2" />
+          )}
         </div>
       </Button>
 
@@ -84,7 +85,7 @@ const PopupAIEval: React.FC<{
             <div className="evaluation-content">
               {evaluation ? (
                 <p>
-                  <pre style={{ textWrap: "balance" }}>{evaluation}</pre>
+                  <Markdown>{evaluation}</Markdown>
                 </p>
               ) : (
                 <p>No evaluation available</p>

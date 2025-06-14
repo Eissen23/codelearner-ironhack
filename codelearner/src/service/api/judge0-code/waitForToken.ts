@@ -3,7 +3,7 @@ import { BatchToken } from "../../../types/code/judge0.type";
 
 export const waitForProcessing = async (tokens: BatchToken[]) => {
   const maxRetries = 20; // Adjust as needed
-  const retryDelay = 500; // 500ms between checks, adjust as needed
+  const retryDelay = 1000; // 500ms between checks, adjust as needed
   let retries = 0;
 
   while (retries < maxRetries) {

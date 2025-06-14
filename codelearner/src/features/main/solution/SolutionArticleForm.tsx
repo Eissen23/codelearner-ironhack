@@ -180,7 +180,7 @@ const SolutionArticleForm: React.FC<SolutionArticleFormProps> = ({
           />
         </Form.Group>
 
-        <Form.Group className="mb-3 solution-editor" controlId="solution">
+        <Form.Group className="solution-editor mb-0" controlId="solution">
           <Form.Label>Solution Code</Form.Label>
           <CodeEditor
             value={formData.solution}

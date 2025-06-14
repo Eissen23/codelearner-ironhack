@@ -20,7 +20,7 @@ const ResultTab: React.FC<{ data?: ResultData }> = ({ data }) => {
           </p>
           <p
             className={
-              data.result === "Accepted" ? "text-primary" : "text-danger"
+              data.result === "Accepted" ? "text-success" : "text-danger"
             }
           >
             {data.result}

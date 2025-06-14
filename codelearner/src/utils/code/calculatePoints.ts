@@ -49,7 +49,7 @@ export function calculatePoints(
 
   // Run attempt penalty - encourage solving with fewer attempts
   // The more attempts, the smaller the bonus
-  const runMultiplier = Math.max(0.7, 1 - (runNumber - 1) * 0.05);
+  const runMultiplier = Math.max(0.6, 1 - (runNumber - 1) * 0.05);
 
   // Calculate final points
   const finalPoints = Math.min(

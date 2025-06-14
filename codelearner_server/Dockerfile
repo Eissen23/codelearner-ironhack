@@ -1,62 +1,54 @@
 # syntax=docker/dockerfile:1
 
-# Stage 1: Install Composer dependenciesAdd commentMore actions
-FROM composer:lts as deps
-
-WORKDIR /app
-
-# Install system dependencies for ext-mongodb (Alpine-based)
-RUN apk add --no-cache --update \
-    openssl-dev \
-    pkgconf \
-    php84-dev \
-    autoconf \
-    make \
-    gcc \
-    musl-dev \
-    && pecl install mongodb-1.21.0 \
-    && echo "extension=mongodb.so" > /usr/local/etc/php/conf.d/mongodb.ini
-
-# Copy composer files
-COPY composer.json composer.lock ./
-
-# Install dependencies without running scripts
-RUN --mount=type=cache,target=/tmp/cache \
-    composer install --no-dev --no-interaction --optimize-autoloader --no-scripts
-
-# Stage 2: Build PHP-FPM runtime
+# Stage 1: Build PHP-FPM runtime with dependencies
 FROM php:8.4-fpm as php
 
-# Install dependencies and PHP extensions
+# Install system dependencies
 RUN apt-get update && apt-get install -y \
     libzip-dev \
     unzip \
     libssl-dev \
     pkg-config \
-    && rm -rf /var/lib/apt/lists/* \
-    && pecl install mongodb-1.21.0 \
+    git \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install PHP extensions
+RUN pecl install mongodb-1.21.0 \
     && docker-php-ext-enable mongodb \
     && docker-php-ext-install -j$(nproc) pdo_mysql zip bcmath pcntl
+
+# Install Composer
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 # Use production PHP configuration
 RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
 
-# Copy Composer dependencies
-COPY --from=deps /app/vendor /var/www/html/vendor
+# Set working directory
+WORKDIR /var/www/html
+
+# Copy composer files first (for better caching)
+COPY composer.json composer.lock ./
+
+# Install Composer dependencies
+RUN --mount=type=cache,target=/root/.composer/cache \
+    composer install --no-dev --no-interaction --optimize-autoloader --no-scripts
 
 # Copy Laravel application
-COPY ./ /var/www/html
+COPY ./ ./
+
+# Run Laravel setup commands
+RUN composer dump-autoload --optimize
 
 # Set permissions
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache \
     && chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache \
     && chmod -R 755 /var/www/html/vendor
 
-
 # Switch to non-privileged user
 USER www-data
 
-# Stage 3: Set up Nginx
+# Stage 2: Set up Nginx
 FROM nginx:alpine as nginx
 
 # Copy Nginx configuration

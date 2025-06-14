@@ -18,14 +18,14 @@ RUN pecl install mongodb-1.21.0 \
     && docker-php-ext-enable mongodb \
     && docker-php-ext-install -j$(nproc) pdo_mysql zip bcmath pcntl
 
-# Install Composer
-COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
-
 # Use production PHP configuration
 RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
 
 # Set working directory
 WORKDIR /var/www/html
+
+# Install Composer
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 # Copy composer files first (for better caching)
 COPY composer.json composer.lock ./
@@ -35,7 +35,7 @@ RUN --mount=type=cache,target=/root/.composer/cache \
     composer install --no-dev --no-interaction --optimize-autoloader --no-scripts
 
 # Copy Laravel application
-COPY ./ ./
+COPY . .
 
 # Run Laravel setup commands
 RUN composer dump-autoload --optimize

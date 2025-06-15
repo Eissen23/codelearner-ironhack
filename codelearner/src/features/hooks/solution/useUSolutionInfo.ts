@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { UserSolution } from "../../../types/content/solution.type";
 import { getUserSolution } from "../../../service/api/solution-article/getUserSolution";
-import { useParams } from "react-router";
 import { useAuth } from "../../../context/auth/AuthContext";
 
 export const useUSolutionInfo = (user_solution_id: string) => {

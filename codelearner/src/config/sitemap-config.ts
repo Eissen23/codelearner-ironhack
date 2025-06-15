@@ -25,7 +25,6 @@ const ProblemSetDetail = lazy(
 );
 const ProblemsPage = lazy(() => import("../pages/ListPage/ProblemsPage"));
 const ProblemDetail = lazy(() => import("../pages/DetailPage/ProblemDetail"));
-const TestView = lazy(() => import("../components/TestView"));
 const Code = lazy(() => import("../pages/Code"));
 const DashBoard = lazy(() => import("../pages/DashBoard"));
 const DashBoardRight = lazy(
@@ -79,7 +78,6 @@ const ArticleSettingPage = lazy(
 const ProblemSettingPage = lazy(
   () => import("../pages/Setting/ProblemSettingPage")
 );
-const PublicSArticle = lazy(() => import("../pages/public/PublicSArticle"));
 
 const routes_map: RouteObject[] = [
   { path: "/", Component: Home },
@@ -121,11 +119,6 @@ const routes_map: RouteObject[] = [
       { index: true, Component: ProblemsPage },
       { path: "/problems/:problem_id", Component: ProblemDetail },
     ],
-  },
-
-  {
-    path: "/test-view",
-    Component: TestView,
   },
   {
     path: "/user/submissions/:user_sub_id",

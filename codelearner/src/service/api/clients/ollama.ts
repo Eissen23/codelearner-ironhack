@@ -1,8 +1,13 @@
-import { Ollama } from 'ollama';
+import axios from 'axios';
 
-// Create Ollama client instance
-const ollama = new Ollama({
-  host: import.meta.env.VITE_OLLAMA_API_URL || 'http://localhost:11434',
+const OLLAMA_API_URL = import.meta.env.VITE_OLLAMA_API_URL || 'http://localhost:11434';
+
+// Create axios instance
+const ollamaAxios = axios.create({
+  baseURL: OLLAMA_API_URL,
+  headers: {
+    'Content-Type': 'application/json',
+  },
 });
 
 // Type definitions for Ollama responses
@@ -34,7 +39,7 @@ export const ollamaService = {
   // Generate text completion
   generate: async (options: OllamaGenerateOptions): Promise<OllamaGenerateResponse> => {
     try {
-      const response = await ollama.generate({
+      const { data } = await ollamaAxios.post('/api/generate', {
         model: options.model || 'llama2',
         prompt: options.prompt,
         system: options.system,
@@ -42,10 +47,10 @@ export const ollamaService = {
         context: options.context,
         options: options.options,
       });
-      // Convert the response to match OllamaGenerateResponse type
+      
       return {
-        ...response,
-        created_at: new Date(response.created_at).toDateString(),
+        ...data,
+        created_at: new Date(data.created_at).toDateString(),
       };
     } catch (error) {
       console.error('Ollama generate error:', error);
@@ -56,8 +61,8 @@ export const ollamaService = {
   // List available models
   listModels: async () => {
     try {
-      const models = await ollama.list();
-      return models;
+      const { data } = await ollamaAxios.get('/api/tags');
+      return data;
     } catch (error) {
       console.error('Ollama list models error:', error);
       throw error;
@@ -67,8 +72,8 @@ export const ollamaService = {
   // Pull a model
   pullModel: async (model: string) => {
     try {
-      const response = await ollama.pull({ model });
-      return response;
+      const { data } = await ollamaAxios.post('/api/pull', { model });
+      return data;
     } catch (error) {
       console.error('Ollama pull model error:', error);
       throw error;
@@ -78,11 +83,8 @@ export const ollamaService = {
   // Create embeddings
   createEmbeddings: async (model: string, prompt: string) => {
     try {
-      const response = await ollama.embeddings({
-        model,
-        prompt,
-      });
-      return response;
+      const { data } = await ollamaAxios.post('/api/embeddings', { model, prompt });
+      return data;
     } catch (error) {
       console.error('Ollama embeddings error:', error);
       throw error;

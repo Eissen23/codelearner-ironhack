@@ -1,0 +1,31 @@
+.ArticleDetail {
+    display: flex;
+    flex-direction: row;
+    gap: 1.5rem;
+    margin-left: 18rem;
+    min-width: 35rem;
+    padding-top: 5.1rem;
+
+}
+
+.LeftSide {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 18rem;
+    height: 100vh;
+    padding-top: 5.1rem;
+
+    background: #f6f6f6;
+    overflow-y:scroll ;
+}
+
+.MiddleContent {
+    flex: 3 1 70%;
+    padding: 0 1.5rem;
+}
+
+.RightSide {
+    flex: 1 1 10%;
+
+}

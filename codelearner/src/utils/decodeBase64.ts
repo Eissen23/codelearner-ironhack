@@ -1,4 +1,3 @@
-import * as buffer from "node:buffer";
 
 export const decodeBase64 = (base64String: string): string => {
   try {

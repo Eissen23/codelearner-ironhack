@@ -17,4 +17,18 @@ export default defineConfig({
   build: {
     sourcemap: true,
   },
+  optimizeDeps: {
+    exclude: ['ollama']
+  },
+  resolve: {
+    alias: {
+      'ollama': 'ollama/dist/index.mjs'
+    }
+  },
+  ssr: {
+    noExternal: ['ollama']
+  },
+  define: {
+    'process.env.NODE_DEBUG': 'false'
+  }
 });

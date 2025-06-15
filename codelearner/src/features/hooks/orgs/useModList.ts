@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { UserModerator } from "../../../types/user.type";
 import { showModInOrg } from "../../../service/api/org-manage/moderator/showModInOrg";
 

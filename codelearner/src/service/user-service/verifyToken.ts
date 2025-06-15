@@ -2,6 +2,7 @@ import { CODELEARNER_API } from "../api/clients/codelearner";
 
 type response = {
   message: string;
+  status: number;
 };
 
 export const verifyToken = async (token: string) => {
@@ -13,7 +14,7 @@ export const verifyToken = async (token: string) => {
         headers: {
           Authorization: `Bearer ${token}`,
         },
-        validateStatus: (status) => true,
+        validateStatus: () => true,
       }
     );
     return response;

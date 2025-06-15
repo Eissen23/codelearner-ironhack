@@ -1,22 +1,16 @@
 import React, { ReactNode } from "react";
 import { Col, Container, Row } from "react-bootstrap";
-import HeadNav from "../components/HeadNav";
-import Footer from "../components/Footer";
 import AdminSidebar from "../components/AdminSidebar";
 import "../assets/style/Layout.css";
 
 interface LayoutAdminProps {
-  header?: ReactNode;
   children: ReactNode;
-  footer?: ReactNode;
   noGutter?: boolean;
   className?: string;
 }
 
 const LayoutAdmin: React.FC<LayoutAdminProps> = ({
   children,
-  header,
-  footer,
   noGutter,
   className,
 }) => {

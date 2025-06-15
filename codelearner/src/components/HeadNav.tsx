@@ -6,27 +6,17 @@ import { useAuth } from "../context/auth/AuthContext";
 import MenuNav from "../features/main/nav-tab/MenuNav";
 import { Link } from "react-router-dom";
 import ProfileDropdown from "./ProfileDropdown";
-const menuItems = [
-  { label: "Home", link: "/" },
-  { label: "About", link: "/about" },
-  { label: "Contact", link: "/contact" },
-  { label: "Courses", link: "/courses" },
-  { label: "Problem Sets", link: "/problem-sets" },
-  { label: "Org", link: "/orgs" },
-];
+import { userItems, menuItems } from "../data/MenuData";
 
-const userItems = [
-  { label: "Home", link: "/" },
-  { label: "Problem", link: "/problems" },
-  { label: "Courses", link: "/courses" },
-  { label: "Problem Sets", link: "/problem-sets" },
-  { label: "Org", link: "/orgs" },
-];
+interface HeadNavProps {
+  fixed?: boolean
+}
 
-function HeadNav() {
+
+const HeadNav:React.FC<HeadNavProps> = ({fixed}) => {
   const { isAuthenticated } = useAuth();
   return (
-    <div className="bg-dark py-2">
+    <div className={`z-3 bg-dark py-2 w-100 ${fixed && "position-fixed"}`}>
       <Container>
         <div className="d-flex justify-content-between align-items-center">
           <div className="logo-img d-flex">

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { ProblemResponse } from "../../types/content/problem.type";
-import { ListGroup, Button, Spinner, Badge } from "react-bootstrap";
+import { ListGroup, Spinner, Badge } from "react-bootstrap";
 import { parseEscapeSequences } from "../../utils/parseEscapeSequence";
 import { Link } from "react-router-dom";
 import { Link as page } from "../../types/paginator.type";

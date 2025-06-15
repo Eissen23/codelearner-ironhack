@@ -1,55 +1,46 @@
 import React from "react";
 import { SolutionArticle } from "../../../types/content/solution.type";
-import { getVersionName } from "../../../data/LanguageVersion";
+import { getSyntax, getVersionName } from "../../../data/LanguageVersion";
+import { Spinner } from "react-bootstrap";
+import SourceView from "../../monaco/SourceView";
 
 interface SolArticleViewProps {
   solution: SolutionArticle;
 }
 
 const SolArticleView: React.FC<SolArticleViewProps> = ({ solution }) => {
+  if (!solution) {
+    return <Spinner animation="border" />;
+  }
+
   return (
-    <article className="solution-article-view">
+    <article className="solution-article-view p-3">
       <header className="mb-4">
         <div className="d-flex gap-3 align-items-center mb-3">
-          <span className="text-muted">
+          <span className="text-muted me-3">
             Language: {getVersionName(solution.language)}
           </span>
-        </div>
-        <div className="text-muted small">
-          Created: {new Date(solution.created_at).toLocaleString()}
-          {solution.updated_at !== solution.created_at && (
-            <> • Updated: {new Date(solution.updated_at).toLocaleString()}</>
-          )}
+        <span className="text-muted small">
+        <i className="bi bi-clock-fill me-1"></i>
+        {new Date(solution.created_at).toLocaleString()}
+        </span>
         </div>
       </header>
 
       {solution.description && (
         <div
-          className="description mb-4 rich-text-content"
+          className="description mb-4 rich-text-content bg-light p-3 rounded"
           dangerouslySetInnerHTML={{ __html: solution.description }}
         />
       )}
 
       <div className="solution-code mb-4">
-        <h2 className="fs-4 mb-3">Solution Code</h2>
-        <pre className="bg-light p-3 rounded">
-          <code>{solution.solution}</code>
-        </pre>
+        <h6 className="fs-6 p-3 text-bg-dark mb-0">Solution Code</h6>
+        <SourceView
+          source={solution.solution}
+          lang={getSyntax(solution.language)}
+        />
       </div>
-
-      {solution.problem && (
-        <div className="problem-info mt-4 p-3 bg-light rounded">
-          <h3 className="fs-5 mb-3">Problem Information</h3>
-          <p className="mb-2">
-            <strong>Problem:</strong> {solution.problem.name}
-          </p>
-          {solution.problem.description && (
-            <p className="mb-0">
-              <strong>Description:</strong> {solution.problem.description}
-            </p>
-          )}
-        </div>
-      )}
     </article>
   );
 };

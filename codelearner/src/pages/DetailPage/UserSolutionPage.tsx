@@ -3,9 +3,11 @@ import { useUSolutionInfo } from "../../features/hooks/solution/useUSolutionInfo
 import { Spinner } from "react-bootstrap";
 import UserSolutionForm from "../../features/main/solution/UserSolutionForm";
 import LayoutHome from "../../layout/LayoutHome";
+import { useParams } from "react-router";
 
 const UserSolutionPage: React.FC = () => {
-  const { loading, user_solution } = useUSolutionInfo();
+    const { user_solution_id } = useParams();
+  const { loading, user_solution } = useUSolutionInfo(user_solution_id!);
   return (
     <LayoutHome>
       {loading ? (

@@ -25,3 +25,7 @@ export const LANGUAGE_VERSION: { [key: string]: language_version } = {
 export const getVersionName = (code: number) => {
   return LANGUAGE_VERSION[getLanguageKey(code)].name || "unknown";
 };
+
+export const getSyntax = (code: number) => {
+  return LANGUAGE_VERSION[getLanguageKey(code)].syntax || "unknown";
+};

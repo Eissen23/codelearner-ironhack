@@ -4,8 +4,8 @@ import { getUserSolution } from "../../../service/api/solution-article/getUserSo
 import { useParams } from "react-router";
 import { useAuth } from "../../../context/auth/AuthContext";
 
-export const useUSolutionInfo = () => {
-  const { user_solution_id } = useParams();
+export const useUSolutionInfo = (user_solution_id: string) => {
+  
   const [loading, setLoading] = useState(false);
   const { token } = useAuth();
   const [user_solution, setUserSolution] = useState<UserSolution>();

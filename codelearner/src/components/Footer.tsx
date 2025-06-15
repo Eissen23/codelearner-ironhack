@@ -26,7 +26,7 @@ const menuLinks3 = [
 const Footer: React.FC = () => {
   return (
     <Container className="py-4 text-white">
-      <Row>
+      <Row className="g-0">
         <Col md={4}>
           <Logo size="sm" imageUrl="/assets/logo/codelearner.svg" />
           {addresses.map((line, index) => (

@@ -79,7 +79,6 @@ const ArticleSettingPage = lazy(
 const ProblemSettingPage = lazy(
   () => import("../pages/Setting/ProblemSettingPage")
 );
-const PublicSArticle = lazy(() => import("../pages/public/PublicSArticle"));
 
 const routes_map: RouteObject[] = [
   { path: "/", Component: Home },

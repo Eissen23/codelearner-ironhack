@@ -1,11 +1,10 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router";
 import { useAuth } from "../../../context/auth/AuthContext";
 import { SolutionArticle } from "../../../types/content/solution.type";
 import { getSArticleInfo } from "../../../service/api/solution-article/getSArticleInfo";
 
-export const useSArticleInfo = () => {
-  const { sol_atricle_id } = useParams();
+export const useSArticleInfo = (sol_atricle_id: string) => {
+
   const [loading, setLoading] = useState(false);
   const { token } = useAuth();
   const [solution_article, setSolutionArticle] = useState<SolutionArticle>();

@@ -4,7 +4,9 @@ import { ListGroup, Spinner, Badge, Alert } from "react-bootstrap";
 import { useUSPublic } from "../../features/hooks/solution/useUSPublic";
 import { ToastContainer } from "react-toastify";
 
-const UserSolPublic: React.FC = () => {
+const UserSolPublic: React.FC<{ editable?: boolean }> = ({
+  editable = false,
+}) => {
   const { problem_id } = useParams();
 
   const { published, loading } = useUSPublic(problem_id || "");
@@ -37,12 +39,23 @@ const UserSolPublic: React.FC = () => {
               <div className="d-flex justify-content-between align-items-start">
                 <div>
                   <h6 className="mb-1">
-                    <Link
-                      to={`/setting/user-solution/${solution.id}`}
-                      className="text-decoration-none"
-                    >
-                      {solution.name || "Anonymous"}
-                    </Link>
+                    {editable ? (
+                      <Link
+                        to={`/setting/user-solution/${solution.id}`}
+                        className="text-decoration-none"
+                      >
+                        {solution.name || "Anonymous"}
+                      </Link>
+                    ) : (
+                      <Link
+                        to={{
+                          search:`?user-sol=${solution.id}`
+                        }}
+                        className="text-decoration-none"
+                      >
+                        {solution.name || "Anonymous"}
+                      </Link>
+                    )}
                   </h6>
                 </div>
                 <Badge bg={getBadgeVariant(solution.status)}>

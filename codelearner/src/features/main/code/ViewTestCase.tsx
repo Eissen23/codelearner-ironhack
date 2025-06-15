@@ -42,7 +42,6 @@ const ViewTestCase: React.FC<{
 
                 <h6>Output:</h6>
                 <pre className="bg-black text-light px-3 py-2">
-                  {ip}
                   {testCase.output[index]}
                 </pre>
               </Tab>

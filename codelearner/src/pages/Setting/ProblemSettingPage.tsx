@@ -49,12 +49,12 @@ const ProblemSettingPage = () => {
 
                   <section className="solution_article mb-3">
                     <Suspense fallback={CustomSpinner}>
-                      <SolutionArticleList />
+                      <SolutionArticleList editable/>
                     </Suspense>
                   </section>
                   <section className="solution_article mb-3">
                     <Suspense fallback={CustomSpinner}>
-                      <UserSolPublic />
+                      <UserSolPublic editable/>
                     </Suspense>
                   </section>
                 </>

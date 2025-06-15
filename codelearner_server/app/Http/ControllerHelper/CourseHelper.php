@@ -18,7 +18,7 @@ class CourseHelper{
     public static function getArticlePagination(Request $request, ?Course $course = null) 
     {
         $perPage = $request->input('per_page', 10);
-        $articles = $course ? $course->articles() : Article::all();
+        $articles = $course ? $course->articles() : Article::query();
         return $articles->with('subArticles')->paginate($perPage);
     }
 

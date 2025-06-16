@@ -30,5 +30,10 @@ export default defineConfig({
   },
   define: {
     'process.env.NODE_DEBUG': 'false'
+  },
+  preview: {
+    host: true,
+    port: 5000,
+    allowedHosts: ['codelearner-ironhack.onrender.com']
   }
 });

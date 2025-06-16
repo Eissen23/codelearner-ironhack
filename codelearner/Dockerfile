@@ -7,6 +7,10 @@
 # Want to help us make this template better? Share your feedback here: https://forms.gle/ybq9Krt8jtBL3iCk7
 
 ARG NODE_VERSION=22.11.0
+ARG VITE_BACKEND
+ARG VITE_JUDGE0_API_HOST
+ARG VITE_JUDGE_API_KEY
+ARG VITE_OLLAMA
 
 ################################################################################
 # Use node image for base image for all stages.
@@ -61,6 +65,8 @@ COPY package.json .
 COPY --from=deps /usr/src/app/node_modules ./node_modules
 COPY --from=build /usr/src/app/./ ././
 
+# Copy the local .env file into the container
+
 # Set proper permissions for the node user
 RUN chown -R node:node /usr/src/app
 
@@ -72,3 +78,9 @@ EXPOSE 5000
 
 # Run the application.
 CMD ["yarn", "preview", "--host", "0.0.0.0"]
+
+# In final stage
+ENV VITE_BACKEND=${VITE_BACKEND}
+ENV VITE_JUDGE0_API_HOST=${VITE_JUDGE0_API_HOST}
+ENV VITE_JUDGE_API_KEY=${VITE_JUDGE_API_KEY}
+ENV VITE_OLLAMA=${VITE_OLLAMA}

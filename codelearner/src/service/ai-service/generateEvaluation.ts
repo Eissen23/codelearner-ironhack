@@ -24,14 +24,15 @@ ${sourceCode}
 Please evaluate the code on the following aspects, keep in mind this is an acceptable answer:
 1. Efficiency - How efficient is the solution in terms of time and space complexity?
 2. Code Style - How well is the code written and formatted?
-3. Suggestions - What improvements could be made?
+3. Vulnerabilities - Is there a vulnerabilities in the code that will cause error?.
+4. Suggestions - What improvements could be made?
 
-Provide a detailed evaluation and a score out of 100.
+Provide a mardown format response.
 `;
 
   try {
     const response = await ollamaService.generate({
-      model: 'llama3.2:latest', // Using CodeLlama model for better code understanding
+      model: 'deepseek-coder:latest', // Using CodeLlama model for better code understanding
       prompt: prompt,
       options: {
         temperature: 0.7,

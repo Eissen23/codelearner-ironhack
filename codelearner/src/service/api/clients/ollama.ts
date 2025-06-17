@@ -5,6 +5,7 @@ const ollamaAxios = axios.create({
   baseURL: import.meta.env.VITE_OLLAMA,
   headers: {
     "Content-Type": "application/json",
+    Authorization: `Bearer ${import.meta.env.VITE_OLLAMA_KEY}`,
   },
 });
 
@@ -46,6 +47,7 @@ export const ollamaService = {
         template: options.template,
         context: options.context,
         options: options.options,
+        "stream": false
       });
 
       return {

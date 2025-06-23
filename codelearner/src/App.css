@@ -26,3 +26,9 @@
   gap: 1rem;
   justify-content: center;
 }
+
+.hljs {
+  background: #f0f0f0 !important;
+  color: #333 !important;
+  /* ... */
+}

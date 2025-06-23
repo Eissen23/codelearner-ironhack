@@ -34,6 +34,6 @@ export default defineConfig({
   preview: {
     host: true,
     port: 5000,
-    allowedHosts: ['codelearner-ironhack.onrender.com']
+    allowedHosts: ['codelearner.it.com']
   }
 });

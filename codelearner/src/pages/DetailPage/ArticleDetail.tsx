@@ -7,7 +7,6 @@ import HeadNav from "../../components/HeadNav";
 
 const ArticleDetail = () => {
   const { course_id, article_id } = useParams();
-
   return (
     <LayoutHome noGutter header={<HeadNav fixed/>}>
        <div className={styles.LeftSide}>

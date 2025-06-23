@@ -1,0 +1,15 @@
+.codeBlock{
+    position: relative;
+}
+
+.codeBlock select{
+    position: absolute;
+    background-color: var(--bs-white);
+    right: 0.5rem;
+    top: 0.5rem;
+    padding: 0.1rem 1rem;
+    border-radius: 0.5rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+

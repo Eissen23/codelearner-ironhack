@@ -29,7 +29,6 @@ const ProblemDetail: React.FC = () => {
   const sol = solutionParams.get("solution");
   const user_sol = solutionParams.get("user-sol");
 
-  console.log("sol, usersol:", sol, user_sol);
 
   return (
     <div className="problem_detail">
@@ -45,21 +44,19 @@ const ProblemDetail: React.FC = () => {
                 <ProblemDescription problem={problemData} />
               </Tab>
               <Tab title="Solution" eventKey="solution">
-                {activeTab === "solution" && (
-                  <div className="px-3">
-                    <section className="solution_article mb-3">
-                      <Suspense fallback={CustomSpinner}>
-                        <SolutionArticleList />
-                      </Suspense>
-                    </section>
+                <div className="px-3" style={{ display: activeTab === "solution" ? "block" : "none" }}>
+                  <section className="solution_article mb-3">
+                    <Suspense fallback={CustomSpinner}>
+                      <SolutionArticleList />
+                    </Suspense>
+                  </section>
 
-                    <section className="solution_article mb-3">
-                      <Suspense fallback={CustomSpinner}>
-                        <UserSolPublic />
-                      </Suspense>
-                    </section>
-                  </div>
-                )}
+                  <section className="solution_article mb-3">
+                    <Suspense fallback={CustomSpinner}>
+                      <UserSolPublic />
+                    </Suspense>
+                  </section>
+                </div>
               </Tab>
               {sol && (
                 <Tab title="Detail Solution" eventKey="detail_solution">
@@ -70,11 +67,11 @@ const ProblemDetail: React.FC = () => {
                   >
                     <i className="bi bi-x-circle-fill"></i>
                   </Button>
-                  {activeTab === "detail_solution" && (
+                  <div style={{ display: activeTab === "detail_solution" ? "block" : "none" }}>
                     <Suspense fallback={CustomSpinner}>
                       <SolutionTab solution_id={sol} />
                     </Suspense>
-                  )}
+                  </div>
                 </Tab>
               )}
               {user_sol && (
@@ -87,11 +84,11 @@ const ProblemDetail: React.FC = () => {
                   >
                     <i className="bi bi-x-circle-fill"></i>
                   </Button>
-                  {activeTab === "detail_solution" && (
+                  <div style={{ display: activeTab === "detail_solution" ? "block" : "none" }}>
                     <Suspense fallback={CustomSpinner}>
                       <UserSolutionTab user_sol_id={user_sol} />
                     </Suspense>
-                  )}
+                  </div>
                 </Tab>
               )}
             </Tabs>

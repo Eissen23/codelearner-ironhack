@@ -22,11 +22,11 @@
 
 .MiddleContent {
     flex: 3 1 70%;
-    padding: 0 1.5rem;
+    padding: 0 0 0 1.5rem;  
 }
 
 
 .RightSide {
-    flex: 1 1 10%;
-
+    flex: 1 1 25%;
+    margin-right: 10px;
 }

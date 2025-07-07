@@ -99,7 +99,7 @@ const OrgInfo = ({ id }: { id: string }) => {
         <Card.Body className="org-details">
           {data.logo && (
             <div className="ratio-4x3">
-              <img alt={data.name} src={data.logo}></img>
+              <img className="img-fluid" alt={data.name} src={data.logo}></img>
             </div>
           )}
           <Card.Text>{data.description}</Card.Text>

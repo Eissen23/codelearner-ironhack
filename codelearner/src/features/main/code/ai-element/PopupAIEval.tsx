@@ -33,7 +33,7 @@ const PopupAIEval: React.FC<{
         }
       );
       setEval(evaluation);
-      console.log("True evaluation", evaluation);
+      // console.log("True evaluation", evaluation);
     } catch (error) {
       console.log("error fetchAIEvaluate", error);
     } finally {

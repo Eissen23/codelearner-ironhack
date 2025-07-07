@@ -5,8 +5,8 @@ import hljs from "highlight.js";
 import "highlight.js/styles/github.css";
 import { useEffect, useRef, useMemo } from "react";
 
-const ArticleInfo: React.FC<{ article_id: string }> = ({ article_id }) => {
-  const { articleData, loading } = useArticleInfo(article_id || "");
+const ArticleInfo: React.FC<{ article_id: string, fetchTags?: (tags: string[]) => void }> = ({ article_id, fetchTags }) => {
+  const { articleData, loading, authorData } = useArticleInfo(article_id || "");
   const contentRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -18,7 +18,14 @@ const ArticleInfo: React.FC<{ article_id: string }> = ({ article_id }) => {
         });
       }, 0);
     }
-  }, [articleData?.content]);
+
+    if (articleData?.tags && fetchTags) {
+      fetchTags(articleData.tags);
+    }
+
+  }, [articleData?.content, fetchTags]);
+
+  
 
   // Pre-process the HTML content with highlight.js
   const highlightedContent = useMemo(() => {
@@ -48,6 +55,21 @@ const ArticleInfo: React.FC<{ article_id: string }> = ({ article_id }) => {
   return (
     <article>
       <h1 className="mb-3">{articleData.name}</h1>
+
+      <div className="author">
+        {authorData && (  
+          <div className="d-flex align-items-center border-bottom pb-3">
+            <div className="ratio ratio-1x1 me-2" style={{ width: "40px", height: "40px" }}>
+              <img src={authorData.image_avatar} alt="avatar" className="rounded-circle img-fluid" />
+            </div>
+            <div className="ms-2">
+              <div className="fw-bold">{authorData.full_name}</div>
+              <div className="text-secondary">{authorData.email}</div>
+            </div>
+          </div>
+        )}
+      </div>
+
       <div className="mb-3">
         {articleData.tags?.map((tag) => (
           <Link to={`/problems?tagged=${tag}`} key={tag}>
@@ -57,7 +79,7 @@ const ArticleInfo: React.FC<{ article_id: string }> = ({ article_id }) => {
           </Link>
         ))}
       </div>
-
+      
       <div className="d-flex flex-wrap pb-3 border-bottom">
         {articleData.chapter && (
           <div className="me-3">

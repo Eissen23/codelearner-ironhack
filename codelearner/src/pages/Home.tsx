@@ -38,7 +38,7 @@ const options = {
 const Home = () => {
   return (
     <LayoutHome className="home" noGutter>
-      <Banner title="Lorem ifsum" variant="info">
+      <Banner title="" variant="info">
         <h1>Welcome to codelearner</h1>
       </Banner>
       <Container>

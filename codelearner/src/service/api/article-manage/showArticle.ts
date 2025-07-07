@@ -1,12 +1,11 @@
 import { CODELEARNER_API } from "../clients/codelearner";
-import { Article } from "../../../types/content/article.type";
+import { Article, Author } from "../../../types/content/article.type";
 import { Course } from "../../../types/org/course.type";
-import { User } from "../../../types/auth.types";
 
 type Response = {
   data: Article;
   belong_to: Course | "";
-  author: User | "";
+  author: Author ;
 };
 
 export const showArticle = async (

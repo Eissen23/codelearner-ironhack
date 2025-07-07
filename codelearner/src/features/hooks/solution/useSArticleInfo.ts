@@ -26,7 +26,7 @@ export const useSArticleInfo = (sol_atricle_id: string) => {
     };
 
     fetchSArticleInfo();
-  }, []);
+  }, [sol_atricle_id, token]);
 
   return { loading, solution_article };
 };

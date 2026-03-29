@@ -39,7 +39,8 @@ services:
       context: .
       target: nginx
     ports:
-      - "9000:80"
+      - "80:80"
+      - "443:443"
     depends_on:
       - php
     volumes:

@@ -20,7 +20,7 @@ const CourseInOrg: React.FC<{ isMod?: boolean }> = ({ isMod }) => {
           {courses.map((course) => (
             <Col
               key={`crs-${course.id}`}
-              lg={3}
+              lg={4}
               md={4}
               xs={12}
               className="mb-3"

@@ -3,9 +3,11 @@ import { useSArticleInfo } from "../../features/hooks/solution/useSArticleInfo";
 import { Container, Spinner } from "react-bootstrap";
 import SolutionArticleForm from "../../features/main/solution/SolutionArticleForm";
 import LayoutHome from "../../layout/LayoutHome";
+import { useParams } from "react-router";
 
 const SolArticle: React.FC = () => {
-  const { loading, solution_article } = useSArticleInfo();
+  const { sol_atricle_id } = useParams();
+  const { loading, solution_article } = useSArticleInfo(sol_atricle_id!);
   return (
     <LayoutHome noGutter>
       <div className="py-1 bg-gradient mb-3 text-center">

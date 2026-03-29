@@ -24,7 +24,7 @@ const ArticleSlimList: React.FC<{ course_id: string; editable?: boolean }> = ({
     <div className="article_list">
       <Accordion defaultActiveKey="0" flush>
         {articles?.map((article) => (
-          <ArticleSlimItem article={article} />
+          <ArticleSlimItem article={article} key={article.id}/>
         ))}
       </Accordion>
     </div>

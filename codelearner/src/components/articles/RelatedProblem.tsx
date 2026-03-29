@@ -1,13 +1,10 @@
 import React, { useState } from "react";
 import { ProblemResponse } from "../../types/content/problem.type";
 import { ListGroup, Spinner, Badge } from "react-bootstrap";
-import { parseEscapeSequences } from "../../utils/parseEscapeSequence";
 import { Link } from "react-router-dom";
-import { Link as page } from "../../types/paginator.type";
-import CustomPagination from "../../features/mislancenous/CustomPagination";
 import { getProblems } from "../../service/api/problem-manage/getProblems";
 
-const ProblemList: React.FC<{
+const RelatedProblem: React.FC<{
   page?: string;
   per_page?: string;
   name?: string;
@@ -17,7 +14,6 @@ const ProblemList: React.FC<{
   const [problems, setProblems] = useState<ProblemResponse | null>(null);
   const [selectedProblem, setSelectedProblem] = useState<number | null>(null);
   const [loading, isLoading] = useState(false);
-  const [paginations, setPaginations] = useState<page[]>();
 
   React.useEffect(() => {
     const fetchProblems = async () => {
@@ -31,7 +27,6 @@ const ProblemList: React.FC<{
           tagged: tags,
         });
         setProblems(response);
-        setPaginations(response.links);
       } catch (err) {
         console.log("An error has occured while fetching problem:", err);
       } finally {
@@ -50,13 +45,14 @@ const ProblemList: React.FC<{
     );
   }
 
-  if (!problems) {
-    return <div>No data ....</div>;
+  if (!problems?.data.length) {
+    return <div></div>;
   }
 
   return (
-    <div className="problem-list">
-      <ListGroup>
+    <div className="">
+      <h3 className="mb-3 fs-5 fw-bold">Related Problems</h3>
+      <ListGroup variant="flush">
         {problems.data.map((problem, index) => (
           <ListGroup.Item
             key={problem.id}
@@ -67,46 +63,38 @@ const ProblemList: React.FC<{
             className="mb-2"
           >
             <div className="d-flex flex-column">
-              <div className="d-flex justify-content-between align-items-center">
-                <h5 className="mb-1">{problem.name}</h5>
-                <Badge
-                  bg={
-                    problem.difficulty <= 3
-                      ? "success"
-                      : problem.difficulty <= 7
-                      ? "warning"
-                      : "danger"
-                  }
-                >
-                  Difficulty: {problem.difficulty}
-                </Badge>
-              </div>
-
-              {selectedProblem === index && (
-                <div className="mt-3">
-                  <div
-                    className="overflow-scroll bg-light p-3 mb-3"
-                    style={{ maxHeight: "240px" }}
+              <Link to={`/problems/${problem.id}`}>
+                <div className="d-flex justify-content-between align-items-center">
+                  <h5 className="mb-1 fs-6">
+                    {problem.name.length > 25
+                      ? problem.name.slice(0, 25) + "..."
+                      : problem.name}
+                  </h5>
+                  <Badge
+                    bg={
+                      problem.difficulty <= 3
+                        ? "success"
+                        : problem.difficulty <= 7
+                        ? "warning"
+                        : "danger"
+                    }
                   >
-                    <p style={{ whiteSpace: "pre-wrap" }}>
-                      {parseEscapeSequences(problem.description)}
-                    </p>
-                  </div>
-                  <Link
-                    className="text-white text-decoration-none btn btn-primary"
-                    to={`/problems/${problem.id}`}
-                  >
-                    Try problem
-                  </Link>
+                    Difficulty: {problem.difficulty}
+                  </Badge>
                 </div>
-              )}
+              </Link>
             </div>
           </ListGroup.Item>
         ))}
       </ListGroup>
-      {paginations && <CustomPagination links={paginations} />}
+
+      {tags && (
+        <Link to={`/problems?tags=${tags}`} className="d-block text-center">
+          View more
+        </Link>
+      )}
     </div>
   );
 };
 
-export default ProblemList;
+export default RelatedProblem;

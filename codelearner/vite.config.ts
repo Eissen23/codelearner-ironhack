@@ -17,4 +17,23 @@ export default defineConfig({
   build: {
     sourcemap: true,
   },
+  optimizeDeps: {
+    exclude: ['ollama']
+  },
+  resolve: {
+    alias: {
+      'ollama': 'ollama/dist/index.mjs'
+    }
+  },
+  ssr: {
+    noExternal: ['ollama']
+  },
+  define: {
+    'process.env.NODE_DEBUG': 'false'
+  },
+  preview: {
+    host: true,
+    port: 5000,
+    allowedHosts: ['codelearner.it.com']
+  }
 });

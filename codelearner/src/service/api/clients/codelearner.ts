@@ -3,7 +3,7 @@ import axios, { AxiosResponse, InternalAxiosRequestConfig } from "axios";
 export const pendingRequests = new Map<string, Promise<any>>();
 
 export const CODELEARNER_API = axios.create({
-  baseURL: import.meta.env.VITE_API_URL,
+  baseURL: import.meta.env.VITE_BACKEND,
   headers: {
     Accept: "application/json",
   },

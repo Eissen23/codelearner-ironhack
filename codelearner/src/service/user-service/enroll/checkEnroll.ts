@@ -9,9 +9,8 @@ export const checkEnroll = async (
   token: string
 ): Promise<Response> => {
   try {
-    const response = await CODELEARNER_API.post<Response>(
+    const response = await CODELEARNER_API.get<Response>(
       `courses/${course_id}/is-study`,
-      null,
       {
         headers: {
           Authorization: `Bearer ${token}`,

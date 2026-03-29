@@ -1,3 +1,7 @@
 footer {
-  width: 100vw;
+  z-index: 1;
+}
+
+header {
+  z-index: 2;
 }

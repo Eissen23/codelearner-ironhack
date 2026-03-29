@@ -34,6 +34,7 @@ const AuthContext = createContext<AuthState | undefined>(undefined);
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
+  // Not possible
   const token = useRef(localStorage.getItem("auth_token"));
   const [isAuthenticated, setIsAuthenticated] = useState(
     !!localStorage.getItem("auth_token")

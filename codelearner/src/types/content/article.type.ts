@@ -42,6 +42,19 @@ export type ArticlePaginator = {
   total: number;
 };
 
+export type Author = {
+  id: number;
+  full_name: string;
+  account_name: string;
+  email: string;
+  email_verified_at: Date | null;
+  created_at: Date;
+  updated_at: Date;
+  about: string;
+  image_avatar: string;
+};
+
+
 export type ArticleResponse = {
   articles: ArticlePaginator;
 };

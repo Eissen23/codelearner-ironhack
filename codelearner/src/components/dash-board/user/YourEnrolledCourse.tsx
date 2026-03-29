@@ -14,7 +14,9 @@ const YourCourse: React.FC = () => {
     return (
       <>
         <h4 className="fs-4 mb-3">Your Courses</h4>
-        <Spinner animation="border" className="align-items-center"></Spinner>
+        <div className="d-flex justify-content-center">
+          <Spinner animation="border" className="align-items-center"></Spinner>
+        </div>
       </>
     );
   }

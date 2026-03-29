@@ -9,6 +9,7 @@ interface LayoutHomeProps {
   footer?: ReactNode;
   noGutter?: boolean;
   className?: string;
+  
 }
 
 const LayoutHome: React.FC<LayoutHomeProps> = ({
@@ -38,12 +39,8 @@ const LayoutHome: React.FC<LayoutHomeProps> = ({
           </Row>
         )}
       </main>
-      <footer className="text-white bg-dark">
-        {/* <Row className="g-0"> */}
-        {/* <Col md={{ span: 10, offset: 1 }} lg={{ span: 10, offset: 1 }}> */}
+      <footer className="text-white bg-dark z-2 position-relative">
         {footer || <Footer></Footer>}
-        {/* </Col> */}
-        {/* </Row> */}
       </footer>
     </>
   );

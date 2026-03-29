@@ -23,12 +23,22 @@ const SolutionArticleList: React.FC<{ editable?: boolean }> = ({
                 <div className="d-flex justify-content-between">
                   <h6>
                     {solution.name ||
-                      `${getLanguageKey(solution.language)} solution #${index+1}`}
+                      `${getLanguageKey(solution.language)} solution #${
+                        index + 1
+                      }`}
                   </h6>
                   <div>{getVersionName(solution.language)}</div>
-                  <Link to={`/setting/solution-article/${solution.id}`}>
-                    To solution
-                  </Link>
+                  {editable ? (
+                    <Link to={`/setting/solution-article/${solution.id}`}>
+                      To solution
+                    </Link>
+                  ) : (
+                    <Link to={{
+                      search: `?solution=${solution.id}`
+                    }}>
+                      To solution
+                    </Link>
+                  )}
                 </div>
               </ListGroup.Item>
             ))}
@@ -38,10 +48,13 @@ const SolutionArticleList: React.FC<{ editable?: boolean }> = ({
         <Alert variant="info">No solution article published</Alert>
       )}
       {editable && (
-      <div className="add_solution">
-        <Button variant="primary" size="sm">
-          <Link className="text-decoration-none text-white" to={`add-solution`}>
-            Add solution article
+        <div className="add_solution">
+          <Button variant="primary" size="sm">
+            <Link
+              className="text-decoration-none text-white"
+              to={`add-solution`}
+            >
+              Add solution article
             </Link>
           </Button>
         </div>

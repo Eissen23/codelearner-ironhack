@@ -1,9 +1,43 @@
 import { Alert, Badge, Spinner } from "react-bootstrap";
 import { useArticleInfo } from "../../features/hooks/articles/useArticleInfo";
 import { Link } from "react-router";
+import hljs from "highlight.js";
+import "highlight.js/styles/github.css";
+import { useEffect, useRef, useMemo } from "react";
 
-const ArticleInfo: React.FC<{ article_id: string }> = ({ article_id }) => {
-  const { articleData, loading } = useArticleInfo(article_id || "");
+const ArticleInfo: React.FC<{ article_id: string, fetchTags?: (tags: string[]) => void }> = ({ article_id, fetchTags }) => {
+  const { articleData, loading, authorData } = useArticleInfo(article_id || "");
+  const contentRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    console.log("Highlighting code blocks");
+    if (contentRef.current) {
+      setTimeout(() => {
+        contentRef.current!.querySelectorAll("pre code[class^='language-']").forEach((block) => {
+          hljs.highlightElement(block as HTMLElement);
+        });
+      }, 0);
+    }
+
+    if (articleData?.tags && fetchTags) {
+      fetchTags(articleData.tags);
+    }
+
+  }, [articleData?.content, fetchTags]);
+
+  
+
+  // Pre-process the HTML content with highlight.js
+  const highlightedContent = useMemo(() => {
+    if (!articleData?.content) return "";
+    // Create a DOM parser to parse the HTML string
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(articleData.content, "text/html");
+    doc.querySelectorAll("pre code[class^='language-']").forEach((block) => {
+      hljs.highlightElement(block as HTMLElement);
+    });
+    return doc.body.innerHTML;
+  }, [articleData?.content]);
 
   if (loading) {
     return (
@@ -21,34 +55,53 @@ const ArticleInfo: React.FC<{ article_id: string }> = ({ article_id }) => {
   return (
     <article>
       <h1 className="mb-3">{articleData.name}</h1>
+
+      <div className="author">
+        {authorData && (  
+          <div className="d-flex align-items-center border-bottom pb-3">
+            <div className="ratio ratio-1x1 me-2" style={{ width: "40px", height: "40px" }}>
+              <img src={authorData.image_avatar} alt="avatar" className="rounded-circle img-fluid" />
+            </div>
+            <div className="ms-2">
+              <div className="fw-bold">{authorData.full_name}</div>
+              <div className="text-secondary">{authorData.email}</div>
+            </div>
+          </div>
+        )}
+      </div>
+
       <div className="mb-3">
-        <span>Tag: </span>
         {articleData.tags?.map((tag) => (
-          <Link to={`/problems?tagged=${tag}`}>
+          <Link to={`/problems?tagged=${tag}`} key={tag}>
             <Badge className="me-2" color="primary">
               {tag}
             </Badge>
           </Link>
         ))}
       </div>
-      <div className="mb-2 d-flex gap-4 flex-wrap">
+      
+      <div className="d-flex flex-wrap pb-3 border-bottom">
         {articleData.chapter && (
-          <div>
+          <div className="me-3">
             <strong>Chapter: </strong>
             {articleData.chapter}
           </div>
         )}
-      </div>
-      <div className="mb-2">
-        <strong>Posted At: </strong>
-        {articleData.created_at.toLocaleString()}
+        <div className="me-2">
+          <i className="bi bi-calendar-fill me-2"></i>
+          {new Date(articleData.created_at).toLocaleString()}
+        </div>
       </div>
 
-      <div className="mb-2">{articleData.description}</div>
+      <div className="mt-3 pb-3 border-bottom text-secondary fs-6">
+        {articleData.description}
+      </div>
+
       {articleData.content && (
         <div
+          ref={contentRef}
           className="rich-text-content mt-4"
-          dangerouslySetInnerHTML={{ __html: articleData.content }}
+          dangerouslySetInnerHTML={{ __html: highlightedContent }}
         />
       )}
     </article>

@@ -22,6 +22,7 @@ import {
   BsTypeStrikethrough,
   BsListUl,
   BsListOl,
+  BsCodeSlash 
 } from "react-icons/bs";
 import FontSelect from "./FontSelect";
 import HyperlinkSelect from "./HyperlinkSelect";
@@ -109,6 +110,11 @@ const MenuBar = ({ editor }: MenuBarProps) => {
       icon: <BsJustify />,
       onclick: () => editor.chain().focus(null).setTextAlign("justify").run(),
       pressed: editor.isActive({ textAlign: "justify" }),
+    },
+    {
+      icon: <BsCodeSlash />,
+      onclick: () => editor.chain().focus(null).toggleCodeBlock().run(),
+      pressed: editor.isActive('codeBlock'),
     },
   ];
 
